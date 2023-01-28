@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class RobotContainer
 
    private RobotComponent robotComponent;
 
-    private final ExampleSubsystem exampleSubsystem;
+    private final IntakeSubsystem intakeSubsystem;
     private final Map<Class<?>, CommandBase> commands;
 
     public final ControllerContainer controllerContainer;
@@ -41,9 +42,9 @@ public class RobotContainer
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
     
 @Inject
-    public RobotContainer(ExampleSubsystem exampleSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
+    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
     {
-        this.exampleSubsystem = exampleSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
         configureBindings();
@@ -62,12 +63,9 @@ public class RobotContainer
     private void configureBindings()
     {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(exampleSubsystem::exampleCondition)
-                .onTrue(new ExampleCommand(exampleSubsystem));
-        
+
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
-        controller.b().whileTrue(exampleSubsystem.exampleMethodCommand());
     }
     
     

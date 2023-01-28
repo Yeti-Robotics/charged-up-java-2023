@@ -34,5 +34,14 @@ public final class Constants
         public enum ControllerType {
             CUSTOM, XBOX
         }
+
+    }
+    public static final class IntakeConstants{
+        public static final int[] INTAKE_PISTON = {2, 3}; //placeholder value
+        public static final int INTAKE_SPARK_1 = 0; //placeholder
+        public static final int INTAKE_SPARK_2 = 1; //placeholder
+
+        public static final double INTAKE_SPEED = 0.75; //placeholder
+
     }
 }
