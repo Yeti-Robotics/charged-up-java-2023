@@ -20,7 +20,11 @@ public final class Constants
     public static final class DriveConstants {
 
         public static final int GYRO = 1; //placeholder value
+    }
 
+    public static final class ArmConstants{
+        public static final int MOTOR_1 = 0; // We don't know yet
+        public static final int MOTOR_2 = 0;
     }
 
     public static final class OIConstants {
