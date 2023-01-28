@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public final class Constants
 {
+
+    public static final int SPARK_PERIODMS = 250;
     public static final class DriveConstants {
 
         public static final int GYRO = 1; //placeholder value
@@ -41,7 +43,15 @@ public final class Constants
         public static final int INTAKE_SPARK_1 = 0; //placeholder
         public static final int INTAKE_SPARK_2 = 1; //placeholder
 
+
         public static final double INTAKE_SPEED = 0.75; //placeholder
+
+        public static final double INTAKE_VOLTAGE_COMP = 12.0;
+
+        public static final double INTAKE_P = 0.0; //placeholder
+        public static final double INTAKE_I = 0.0; //placeholder
+        public static final double INTAKE_D = 0.0; //placeholder
+        public static final double INTAKE_F = 0.0; //placeholder
 
     }
 }
