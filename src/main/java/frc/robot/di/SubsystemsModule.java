@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -20,7 +21,7 @@ public class SubsystemsModule {
             @Named("sideNeo") CANSparkMax sideNeo,
             @Named("piston") DoubleSolenoid piston,
             @Named("limitSwitch") DigitalInput limitSwitch,
-            @Named("beamBreak") DigitalInput beamBreak
+            @Named("beamBreak") SparkMaxLimitSwitch beamBreak
     ){
         return new CarriageSubsystem(sideNeo, piston, limitSwitch, beamBreak);
     }

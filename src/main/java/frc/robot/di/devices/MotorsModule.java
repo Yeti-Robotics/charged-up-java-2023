@@ -2,8 +2,10 @@ package frc.robot.di.devices;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxLimitSwitch;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.wpilibj.Relay;
 import frc.robot.Constants;
 
 import javax.inject.Named;
@@ -23,4 +25,9 @@ public class MotorsModule {
         sideNeo.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
         return sideNeo;
     }
+
+//    public SparkMaxLimitSwitch providesbeamBreak() {
+//        SparkMaxLimitSwitch beamBreak = new SparkMaxLimitSwitch(providesSideNeo(), SparkMaxLimitSwitch.Direction.kForward, SparkMaxLimitSwitch.Type.kNormallyOpen);
+//        return beamBreak;
+//    } PAIN
 }

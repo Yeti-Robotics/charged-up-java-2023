@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -20,13 +22,13 @@ public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax sideNeo;
     private final DoubleSolenoid piston;
     private final DigitalInput limitSwitch;
-    private final DigitalInput beamBreak;
+    private final SparkMaxLimitSwitch beamBreak;
     @Inject
     public CarriageSubsystem(
             @Named("sideNeo") CANSparkMax sideNeo,
             @Named("piston") DoubleSolenoid piston,
             @Named("limitSwitch") DigitalInput limitSwitch,
-            @Named("beamBreak") DigitalInput beamBreak
+            @Named("beamBreak") SparkMaxLimitSwitch beamBreak
     ) {
         this.sideNeo = sideNeo;
         this.piston = piston;
@@ -49,7 +51,7 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public boolean getBeamBreak(){
-       return beamBreak.get();
+       return beamBreak.isLimitSwitchEnabled();
     }
 
 
