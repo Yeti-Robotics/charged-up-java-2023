@@ -22,7 +22,14 @@ public final class Constants
         public static final int GYRO = 1; //placeholder value
 
     }
-
+    public static final class CarriageConstants {
+        public static final int CARRIAGE_NEO = 1;
+        public static final int[] CARRIAGE_PISTONS_SOLENOID = {2, 3};
+        public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
+        public static final double CARRIAGE_SPEED = 0.35;
+        public static final int CARRIAGE_BEAMBREAK = 0;
+        public static final int CARRIAGE_LIMITSWITCH = 0;
+    }
     public static final class OIConstants {
 
         public static final Map<Integer, ControllerType> CONTROLLERS = Map.of(
