@@ -1,5 +1,8 @@
 package frc.robot.di.devices;
 
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
@@ -13,5 +16,17 @@ public class DeviceModule {
     @Singleton
     public WPI_Pigeon2 providesGyro() {
         return new WPI_Pigeon2(Constants.DriveConstants.GYRO);
+    }
+
+    @Provides
+    @Singleton
+    public CANCoder providesAbsoluteEncoder(int id, double degreesOffset, boolean reversed) {
+        CANCoder absoluteEncoder = new CANCoder(id);
+        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+        absoluteEncoder.configMagnetOffset(degreesOffset);
+        absoluteEncoder.configSensorDirection(reversed);
+        absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
+        absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
+        return absoluteEncoder;
     }
 }

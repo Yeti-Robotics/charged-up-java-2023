@@ -5,6 +5,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 import java.util.Map;
 
 /**
@@ -20,8 +24,69 @@ public final class Constants
     public static final class DriveConstants {
 
         public static final int GYRO = 1; //placeholder value
+        public static final double DRIVE_MOTOR_P = 1.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_D = 0.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KS = 0.643; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KV = 2.178; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KA = 0.406; //placeholder from borealis
+
+        public static final double STEER_MOTOR_P = 12; //placeholder from borealis
+        public static final double STEER_MOTOR_I = 0.0; //placeholder from borealis
+        public static final double STEER_MOTOR_D = 0.01; //placeholder from borealis
+        public static final double STEER_MOTOR_KS = 0.75; //placeholder from borealis
+        public static final double STEER_MOTOR_KV = 0.7; //placeholder from borealis
+        public static final double STEER_MOTOR_KA = 0.0; //placeholder from borealis
+        public static final double DEGREES_TO_FALCON = 150 / 7.0 * 2048 / 360.0;
+        public static final double SWERVE_X_REDUCTION = (14.0/50.0) *(27.0 / 17.0) * ( 15.0/45.0); //MUST UPDATE
+        public static final double WHEEL_DIAMETER = 0.10033; //placeholder
+
+
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 3; //placeholder
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 2; //PLACEHOLDER
+
+        private static final double DRIVETRAIN_WHEELBASE_METERS = 3; //PLACEHOLDER
+        private static final double DRIVETRAIN_TRACKWIDTH_METERS = 1.2; //PLACEHOLDER
+        public static final SwerveDriveKinematics DRIVE_KINEMATICS =
+                new SwerveDriveKinematics(
+                        // Front left
+                        new Translation2d(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+                        // Front right
+                        new Translation2d(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                -DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+                        // Back left
+                        new Translation2d(-DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+                        // Back right
+                        new Translation2d(-DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                -DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
+                );
 
     }
+
+    public static final class AutoConstants {
+
+            /**
+             * Max velocity in meters per second
+             */
+            public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.75;
+            /**
+             * Max acceleration in meters per second squared
+             */
+            public static final double MAX_ACCEL = DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.75;
+
+            public static final double X_CONTROLLER_P = 2.1; //2.9, 2.15
+            public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
+            public static final double X_CONTROLLER_D = 0;
+            public static final double Y_CONTROLLER_D = 0;
+            public static final double THETA_CONTROLLER_P = 3; //3
+            public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONTRAINTS = //
+                    new TrapezoidProfile.Constraints(
+                            DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
+                            DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+            }
+
 
     public static final class OIConstants {
 
@@ -30,9 +95,10 @@ public final class Constants
         );
         public static final int XBOX_PORT = 0; //placeholder value
         public static final int CONTROLLER_COUNT = 1; //placeholder value
+        public static final double DEADBAND = 0.05;
 
         public enum ControllerType {
             CUSTOM, XBOX
-        }
+            }
     }
 }
