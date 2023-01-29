@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
 import java.util.Map;
 
@@ -39,14 +40,14 @@ public final class Constants
         public static final double STEER_MOTOR_KA = 0.0; //placeholder from borealis
         public static final double DEGREES_TO_FALCON = 150 / 7.0 * 2048 / 360.0;
         public static final double SWERVE_X_REDUCTION = (14.0/50.0) *(27.0 / 17.0) * ( 15.0/45.0); //MUST UPDATE
-        public static final double WHEEL_DIAMETER = 0.10033; //placeholder
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
 
 
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 3; //placeholder
-        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 2; //PLACEHOLDER
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380 / 60 * SWERVE_X_REDUCTION * WHEEL_DIAMETER * Math.PI; //placeholder
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2, DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2); //PLACEHOLDER
 
-        private static final double DRIVETRAIN_WHEELBASE_METERS = 3; //PLACEHOLDER
-        private static final double DRIVETRAIN_TRACKWIDTH_METERS = 1.2; //PLACEHOLDER
+        private static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(21.75); //PLACEHOLDER
+        private static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(27); //PLACEHOLDER
         public static final SwerveDriveKinematics DRIVE_KINEMATICS =
                 new SwerveDriveKinematics(
                         // Front left

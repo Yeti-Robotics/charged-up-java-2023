@@ -5,17 +5,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.util.Map;
 
 
@@ -31,8 +38,10 @@ public class RobotContainer
 
    private RobotComponent robotComponent;
 
-    private final ExampleSubsystem exampleSubsystem;
+    private final DrivetrainSubsystem drivetrainSubsystem;
     private final Map<Class<?>, CommandBase> commands;
+
+    private final ButtonHelper buttonHelper;
 
     public final ControllerContainer controllerContainer;
     
@@ -41,12 +50,19 @@ public class RobotContainer
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
     
 @Inject
-    public RobotContainer(ExampleSubsystem exampleSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
+    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
     {
-        this.exampleSubsystem = exampleSubsystem;
+        this.drivetrainSubsystem = drivetrainSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
-        configureBindings();
+
+        drivetrainSubsystem.setDefaultCommand(new FieldOrientedDrive(
+                drivetrainSubsystem, this::getLeftY, this::getLeftX, this::getRightX)
+        );
+
+        buttonHelper = new ButtonHelper(controllerContainer.getControllers());
+
+        configureButtonXboxBindings();
     }
     
     
@@ -59,15 +75,9 @@ public class RobotContainer
      * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
-    private void configureBindings()
+    private void configureButtonXboxBindings()
     {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(exampleSubsystem::exampleCondition)
-                .onTrue(new ExampleCommand(exampleSubsystem));
-        
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-        // cancelling on release.
-        controller.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+        buttonHelper.createAxisButton(0,0, commands.get(FieldOrientedDrive.class), MultiButton.RunCondition.WHILE_HELD); //NOT TOTALLY SURE HOW THIS WORKS
     }
     
     
@@ -80,4 +90,14 @@ public class RobotContainer
     {
         return new InstantCommand();
     }
+
+
+    public void setRobotComponent(RobotComponent robotComponent) {
+        this.robotComponent = robotComponent;
+    }
+
+    public RobotComponent getRobotComponent() {
+        return robotComponent;
+    }
+}
 }
