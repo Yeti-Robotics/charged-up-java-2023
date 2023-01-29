@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Singleton;
@@ -22,9 +23,9 @@ import java.util.Map;
 public class RobotModule {
     @Provides
     @Singleton
-    public RobotContainer providesRobotContainer(ExampleSubsystem exampleSubsystem,ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands) {
+    public RobotContainer providesRobotContainer(DrivetrainSubsystem drivetrainSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands) {
         return new RobotContainer(
-                exampleSubsystem, controllerContainer, commands
+                drivetrainSubsystem, controllerContainer, commands
         );
     }
 

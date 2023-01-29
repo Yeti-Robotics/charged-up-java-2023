@@ -38,13 +38,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             @Named("front left module") SwerveModule frontLeftModule,
             @Named("front right module") SwerveModule frontRightModule,
             @Named("back left module") SwerveModule backLeftModule,
-            @Named("back right module") SwerveModule backrightModule,
+            @Named("back right module") SwerveModule backRightModule,
             SwerveDriveOdometry odometer,
             WPI_Pigeon2 gyro, ControllerContainer controllerContainer){
         this.frontLeftModule = frontLeftModule;
         this.backLeftModule = backLeftModule;
         this.frontRightModule = frontRightModule;
-        this.backRightModule = backrightModule;
+        this.backRightModule = backRightModule;
         this.odometer = odometer;
         this.gyro = gyro;
         this.controllerContainer = controllerContainer;
