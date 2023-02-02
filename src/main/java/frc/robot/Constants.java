@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import javax.swing.text.Element;
 import java.util.Map;
 
 /**
@@ -21,6 +22,12 @@ public final class Constants
 
         public static final int GYRO = 1; //placeholder value
 
+    }
+
+    public static final class ElevatorConstants {
+
+        public static final int ELEVATOR_MOTOR = 1;
+        public static final double ELEVATOR_SPEED = .4;
     }
 
     public static final class OIConstants {
