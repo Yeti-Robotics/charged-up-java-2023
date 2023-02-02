@@ -18,9 +18,7 @@ public class DeviceModule {
         return new WPI_Pigeon2(Constants.DriveConstants.GYRO);
     }
 
-    @Provides
-    @Singleton
-    public CANCoder providesAbsoluteEncoder(int id, double degreesOffset, boolean reversed) {
+    public static CANCoder absoluteEncoderFactory(int id, double degreesOffset, boolean reversed) {
         CANCoder absoluteEncoder = new CANCoder(id);
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         absoluteEncoder.configMagnetOffset(degreesOffset);

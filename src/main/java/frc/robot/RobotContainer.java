@@ -17,10 +17,7 @@ import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.controllerUtils.ButtonHelper;
-import frc.robot.utils.controllerUtils.ControllerContainer;
-import frc.robot.utils.controllerUtils.MultiButton;
-
+import frc.robot.utils.controllerUtils.*;
 import javax.inject.Inject;
 import java.awt.*;
 import java.util.Map;
@@ -55,10 +52,6 @@ public class RobotContainer
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
-
-        drivetrainSubsystem.setDefaultCommand(new FieldOrientedDrive(
-                drivetrainSubsystem, this::getLeftY, this::getLeftX, this::getRightX)
-        );
 
         buttonHelper = new ButtonHelper(controllerContainer.getControllers());
 
@@ -100,4 +93,4 @@ public class RobotContainer
         return robotComponent;
     }
 }
-}
+

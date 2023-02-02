@@ -24,6 +24,34 @@ public final class Constants
 {
     public static final class DriveConstants {
 
+        public static final int FRONT_LEFT_DRIVE = 2;
+        public static final int FRONT_LEFT_STEER = 1;
+        public static final int FRONT_LEFT_CAN = 2;
+        public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
+        public static final double FRONT_LEFT_ENCODER_OFFSET = 0;
+        public static final boolean FRONT_LEFT_ENCODER_REVERSED = true;
+
+        public static final int FRONT_RIGHT_DRIVE = 4;
+        public static final int FRONT_RIGHT_STEER = 3;
+        public static final int FRONT_RIGHT_CAN = 1;
+        public static final boolean FRONT_RIGHT_DRIVE_REVERSED = true;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 0;
+        public static final boolean FRONT_RIGHT_ENCODER_REVERSED = true;
+
+        public static final int BACK_LEFT_DRIVE = 6;
+        public static final int BACK_LEFT_STEER = 5;
+        public static final int BACK_LEFT_CAN = 3;
+        public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
+        public static final double BACK_LEFT_ENCODER_OFFSET = 0;
+        public static final boolean BACK_LEFT_ENCODER_REVERSED = true;
+
+        public static final int BACK_RIGHT_DRIVE = 8;
+        public static final int BACK_RIGHT_STEER = 7;
+        public static final int BACK_RIGHT_CAN = 4;
+        public static final boolean BACK_RIGHT_DRIVE_REVERSED = true;
+        public static final double BACK_RIGHT_ENCODER_OFFSET = 0;
+        public static final boolean BACK_RIGHT_ENCODER_REVERSED = true;
+
         public static final int GYRO = 1; //placeholder value
         public static final double DRIVE_MOTOR_P = 1.0; //placeholder from borealis
         public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis

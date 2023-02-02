@@ -11,10 +11,8 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
-    @Provides
-    @Singleton
-    @Named("drive motor")
-    public WPI_TalonFX provideDriveMotor(int id, boolean driveInverted) {
+
+    public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {
         WPI_TalonFX driveMotor = new WPI_TalonFX(id);
         driveMotor.setNeutralMode(NeutralMode.Brake);
         driveMotor.setInverted(driveInverted);
@@ -26,10 +24,7 @@ public class MotorsModule {
         return driveMotor;
     }
 
-    @Provides
-    @Singleton
-    @Named("steer motor")
-    public WPI_TalonFX provideSteerMotor(int id) {
+    public static WPI_TalonFX steerMotorFactory(int id) {
         WPI_TalonFX steerMotor = new WPI_TalonFX(id);
         steerMotor.setNeutralMode(NeutralMode.Brake);
         steerMotor.setInverted(true);
