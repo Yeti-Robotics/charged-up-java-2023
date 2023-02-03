@@ -3,11 +3,6 @@ package frc.robot.di.devices;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import dagger.Module;
-import dagger.Provides;
-import frc.robot.Constants;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
@@ -24,7 +19,7 @@ public class MotorsModule {
         return driveMotor;
     }
 
-    public static WPI_TalonFX steerMotorFactory(int id) {
+    public static WPI_TalonFX azimuthMotorFactory(int id) {
         WPI_TalonFX steerMotor = new WPI_TalonFX(id);
         steerMotor.setNeutralMode(NeutralMode.Brake);
         steerMotor.setInverted(true);

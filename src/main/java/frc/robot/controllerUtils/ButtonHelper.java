@@ -12,8 +12,6 @@ import frc.robot.utils.controllerUtils.POVToButton;
 import javax.inject.Inject;
 import java.util.HashMap;
 
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
-
 public class ButtonHelper {
     private static final int maxAxis = 32;
     private static final int maxPOV = 16;
@@ -115,7 +113,6 @@ public class ButtonHelper {
         int layer,
         Command command,
         frc.robot.utils.controllerUtils.MultiButton.RunCondition runCondition) {
-        requireNonNullParam(direction, "direction", "createPOVButton");
 
         frc.robot.utils.controllerUtils.POVToButton povButton = new POVToButton(controller, povPort, direction);
 

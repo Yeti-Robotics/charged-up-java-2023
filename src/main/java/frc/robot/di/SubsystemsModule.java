@@ -2,7 +2,6 @@ package frc.robot.di;
 
 import javax.inject.Singleton;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
@@ -31,7 +30,7 @@ public class SubsystemsModule {
         ) {
         return new SwerveModule(
                 MotorsModule.driveMotorFactory(driveMotorID, driveInverted),
-                MotorsModule.steerMotorFactory(steerMotorID),
+                MotorsModule.azimuthMotorFactory(steerMotorID),
                 DeviceModule.absoluteEncoderFactory(CANcoderID, encoderOffset, encoderReversed)
                 );
     }
@@ -42,7 +41,7 @@ public class SubsystemsModule {
     public SwerveModule providesFrontLeftSwerveModule() {
         return swerveModuleFactory(
                 DriveConstants.FRONT_LEFT_DRIVE,
-                DriveConstants.FRONT_LEFT_STEER,
+                DriveConstants.FRONT_LEFT_AZIMUTH,
                 DriveConstants.FRONT_LEFT_CAN,
                 DriveConstants.FRONT_LEFT_DRIVE_REVERSED,
                 DriveConstants.FRONT_LEFT_ENCODER_OFFSET,
@@ -56,7 +55,7 @@ public class SubsystemsModule {
     public SwerveModule providesFrontRightSwerveModule() {
         return swerveModuleFactory(
                 DriveConstants.FRONT_RIGHT_DRIVE,
-                DriveConstants.FRONT_RIGHT_STEER,
+                DriveConstants.FRONT_RIGHT_AZIMUTH,
                 DriveConstants.FRONT_RIGHT_CAN,
                 DriveConstants.FRONT_RIGHT_DRIVE_REVERSED,
                 DriveConstants.FRONT_RIGHT_ENCODER_OFFSET,
@@ -70,7 +69,7 @@ public class SubsystemsModule {
     public SwerveModule providesBackLeftSwerveModule() {
         return swerveModuleFactory(
                 DriveConstants.BACK_LEFT_DRIVE,
-                DriveConstants.BACK_LEFT_STEER,
+                DriveConstants.BACK_LEFT_AZIMUTH,
                 DriveConstants.BACK_LEFT_CAN,
                 DriveConstants.BACK_LEFT_DRIVE_REVERSED,
                 DriveConstants.BACK_LEFT_ENCODER_OFFSET,
@@ -84,7 +83,7 @@ public class SubsystemsModule {
     public SwerveModule providesBackRightSwerveModule() {
         return swerveModuleFactory(
                 DriveConstants.BACK_RIGHT_DRIVE,
-                DriveConstants.BACK_RIGHT_STEER,
+                DriveConstants.BACK_RIGHT_AZIMUTH,
                 DriveConstants.BACK_RIGHT_CAN,
                 DriveConstants.BACK_RIGHT_DRIVE_REVERSED,
                 DriveConstants.BACK_RIGHT_ENCODER_OFFSET,

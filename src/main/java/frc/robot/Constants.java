@@ -25,28 +25,28 @@ public final class Constants
     public static final class DriveConstants {
 
         public static final int FRONT_LEFT_DRIVE = 2;
-        public static final int FRONT_LEFT_STEER = 1;
+        public static final int FRONT_LEFT_AZIMUTH = 1;
         public static final int FRONT_LEFT_CAN = 2;
         public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
         public static final double FRONT_LEFT_ENCODER_OFFSET = 0;
         public static final boolean FRONT_LEFT_ENCODER_REVERSED = true;
 
         public static final int FRONT_RIGHT_DRIVE = 4;
-        public static final int FRONT_RIGHT_STEER = 3;
+        public static final int FRONT_RIGHT_AZIMUTH = 3;
         public static final int FRONT_RIGHT_CAN = 1;
         public static final boolean FRONT_RIGHT_DRIVE_REVERSED = true;
         public static final double FRONT_RIGHT_ENCODER_OFFSET = 0;
         public static final boolean FRONT_RIGHT_ENCODER_REVERSED = true;
 
         public static final int BACK_LEFT_DRIVE = 6;
-        public static final int BACK_LEFT_STEER = 5;
+        public static final int BACK_LEFT_AZIMUTH = 5;
         public static final int BACK_LEFT_CAN = 3;
         public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
         public static final double BACK_LEFT_ENCODER_OFFSET = 0;
         public static final boolean BACK_LEFT_ENCODER_REVERSED = true;
 
         public static final int BACK_RIGHT_DRIVE = 8;
-        public static final int BACK_RIGHT_STEER = 7;
+        public static final int BACK_RIGHT_AZIMUTH = 7;
         public static final int BACK_RIGHT_CAN = 4;
         public static final boolean BACK_RIGHT_DRIVE_REVERSED = true;
         public static final double BACK_RIGHT_ENCODER_OFFSET = 0;
@@ -60,14 +60,14 @@ public final class Constants
         public static final double DRIVE_MOTOR_KV = 2.178; //placeholder from borealis
         public static final double DRIVE_MOTOR_KA = 0.406; //placeholder from borealis
 
-        public static final double STEER_MOTOR_P = 12; //placeholder from borealis
-        public static final double STEER_MOTOR_I = 0.0; //placeholder from borealis
-        public static final double STEER_MOTOR_D = 0.01; //placeholder from borealis
-        public static final double STEER_MOTOR_KS = 0.75; //placeholder from borealis
-        public static final double STEER_MOTOR_KV = 0.7; //placeholder from borealis
-        public static final double STEER_MOTOR_KA = 0.0; //placeholder from borealis
-        public static final double DEGREES_TO_FALCON = 150 / 7.0 * 2048 / 360.0;
-        public static final double SWERVE_X_REDUCTION = (14.0/50.0) *(27.0 / 17.0) * ( 15.0/45.0); //MUST UPDATE
+        public static final double AZIMUTH_MOTOR_P = 12; //placeholder from borealis
+        public static final double AZIMUTH_MOTOR_I = 0.0; //placeholder from borealis
+        public static final double AZIMUTH_MOTOR_D = 0.01; //placeholder from borealis
+        public static final double AZIMUTH_MOTOR_KS = 0.75; //placeholder from borealis
+        public static final double AZIMUTH_MOTOR_KV = 0.7; //placeholder from borealis
+        public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
+        public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
+        public static final double SWERVE_X_REDUCTION = (14.0/50.0) * (27.0 / 17.0) * ( 15.0/45.0); //MUST UPDATE
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
 
 
