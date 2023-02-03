@@ -28,6 +28,21 @@ public final class Constants
 
         public static final int ELEVATOR_MOTOR = 1;
         public static final double ELEVATOR_SPEED = .4;
+
+        public static final double ELEVATOR_GEAR_RATIO = 32/12;
+
+        public static final double ELEVATOR_TOLERANCE = .25;
+
+        public static final double ELEVATOR_P = 0.1;
+        public static final double ELEVATOR_I = 0.1;
+        public static final double ELEVATOR_D = 0.1;
+        public static final double ELEVATOR_F = 0.1;
+
+        public static final double ELEVATOR_MAX_VELOCITY = 58472.2;
+        public static final double ELEVATOR_CRUISING_VELOCITY = ELEVATOR_MAX_VELOCITY / 1.25;
+        public static final double ELEVATOR_CRUISING_ACCELERATION = ELEVATOR_MAX_VELOCITY / 1.25;
+
+
     }
 
     public static final class OIConstants {
