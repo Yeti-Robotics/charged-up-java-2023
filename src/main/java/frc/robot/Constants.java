@@ -42,6 +42,8 @@ public final class Constants
         public static final double ELEVATOR_CRUISING_VELOCITY = ELEVATOR_MAX_VELOCITY / 1.25;
         public static final double ELEVATOR_CRUISING_ACCELERATION = ELEVATOR_MAX_VELOCITY / 1.25;
 
+        public static final int BEAM_BREAK = 5;
+
 
     }
 

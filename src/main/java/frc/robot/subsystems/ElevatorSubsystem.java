@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -13,10 +14,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final WPI_TalonFX elevatorMotor;
     private double motionMagicTarget;
 
+    private DigitalInput beamBreak;
+
     @Inject
-    public ElevatorSubsystem(@Named("elevatorMotor") WPI_TalonFX elevatorMotor) {
+    public ElevatorSubsystem(@Named("elevatorMotor") WPI_TalonFX elevatorMotor, @Named("beamBreak") DigitalInput beamBreak) {
 
         this.elevatorMotor = elevatorMotor;
+        this.beamBreak = beamBreak;
     }
 
     public void elevatorUp() {
@@ -40,7 +44,17 @@ public class ElevatorSubsystem extends SubsystemBase {
         return Math.abs(elevatorMotor.getSelectedSensorPosition() - motionMagicTarget) <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
         }
 
+        public boolean getBeamBreak() {
+        return beamBreak.get();
+        }
+
+    @Override
+    public void periodic() {
+        if(getBeamBreak()){
+            elevatorMotor.set(0);
+        }
     }
+}
 
 
 

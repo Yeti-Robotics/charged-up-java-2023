@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 
@@ -17,8 +18,8 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     @Named("Elevator Subsystem")
-    public ElevatorSubsystem provideElevatorSubsystem(@Named("elevatorMotor")WPI_TalonFX elevatorMotor) {
-        return new ElevatorSubsystem(elevatorMotor);
+    public ElevatorSubsystem provideElevatorSubsystem(@Named("elevatorMotor")WPI_TalonFX elevatorMotor, @Named("beamBreak") DigitalInput beamBreak) {
+        return new ElevatorSubsystem(elevatorMotor, beamBreak);
     }
 
     @Provides
