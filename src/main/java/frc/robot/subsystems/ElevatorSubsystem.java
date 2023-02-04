@@ -52,7 +52,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (getBeamBreak()) {
-            elevatorMotor.set(0);
+            elevatorMotor.setSelectedSensorPosition(0);
         }
     }
 }
