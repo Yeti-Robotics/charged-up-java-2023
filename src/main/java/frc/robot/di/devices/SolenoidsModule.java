@@ -1,4 +1,4 @@
 package frc.robot.di.devices;
 
-public class SolenoidModule {
+public class SolenoidsModule {
 }
