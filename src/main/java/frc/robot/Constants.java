@@ -29,6 +29,8 @@ public final class Constants
         public static final double CARRIAGE_SPEED = 0.35;
         public static final int CARRIAGE_BEAMBREAK = 0;
         public static final int CARRIAGE_LIMITSWITCH = 0;
+
+        public static final int[] CARRIAGE_PISTON = {0,1};
     }
     public static final class OIConstants {
 

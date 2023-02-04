@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -20,28 +19,28 @@ import javax.inject.Named;
 
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax sideNeo;
-    private final DoubleSolenoid piston;
+    private final DoubleSolenoid carriagePiston;
     private final DigitalInput limitSwitch;
     private final SparkMaxLimitSwitch beamBreak;
     @Inject
     public CarriageSubsystem(
             @Named("sideNeo") CANSparkMax sideNeo,
-            @Named("piston") DoubleSolenoid piston,
+            @Named("carriage piston") DoubleSolenoid carriagePiston,
             @Named("limitSwitch") DigitalInput limitSwitch,
             @Named("beamBreak") SparkMaxLimitSwitch beamBreak
     ) {
         this.sideNeo = sideNeo;
-        this.piston = piston;
+        this.carriagePiston = carriagePiston;
         this.limitSwitch = limitSwitch;
         this.beamBreak = beamBreak;
 
 
     }
     public void carriageOpen(){
-        piston.set(DoubleSolenoid.Value.kReverse);
+        carriagePiston.set(DoubleSolenoid.Value.kReverse);
     }
     public void carriageClose(){
-        piston.set(DoubleSolenoid.Value.kForward);
+        carriagePiston.set(DoubleSolenoid.Value.kForward);
     }
     public void carriageOut(){
         sideNeo.set(Constants.CarriageConstants.CARRIAGE_SPEED);
