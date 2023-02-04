@@ -1,7 +1,6 @@
 package frc.robot.utils.controllerUtils;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.Arrays;
@@ -11,7 +10,7 @@ import java.util.function.BiConsumer;
 public class MultiButton {
     private static boolean isLayersSynced;
     private static int syncLayer;
-    private final Trigger button;
+    private final Trigger trigger;
     private final byte buttonID;
     private BiConsumer<Boolean, Boolean>[] buttonActions;
     private boolean pressed;
@@ -20,8 +19,8 @@ public class MultiButton {
     private int buttonLayer = 0;
 
     @SuppressWarnings("unchecked")
-    public MultiButton(Button button, byte buttonID, int layer, Command command, RunCondition runCondition) {
-        this.button = button;
+    public MultiButton(Trigger trigger, byte buttonID, int layer, Command command, RunCondition runCondition) {
+        this.trigger = trigger;
         this.buttonID = buttonID;
         this.layerCount = layer + 1;
         buttonActions = new BiConsumer[layerCount];
@@ -57,7 +56,7 @@ public class MultiButton {
         if (isLayersSynced) {
             setAllLayers();
         }
-        pressed = button.getAsBoolean();
+        pressed = trigger.getAsBoolean();
         buttonActions[buttonLayer].accept(pressed, pressedLast);
         pressedLast = pressed;
     }

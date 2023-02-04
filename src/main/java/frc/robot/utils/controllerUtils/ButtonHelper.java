@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.function.BooleanSupplier;
 
 
 public class ButtonHelper {
@@ -107,17 +108,23 @@ public class ButtonHelper {
 
     public void createPOVButton(
             int povPort,
-            POVToButton.Direction direction,
+            POVDirections direction,
             int layer,
             Command command,
             MultiButton.RunCondition runCondition) {
 
-        POVToButton povButton = new POVToButton(controller, povPort, direction);
+        int finalPovPort = povPort;
+        BooleanSupplier povSupplier = new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                return controller.getPOV(finalPovPort) == direction.value;
+            }
+        };
 
         povPort = (Math.max((direction.value / 90 * maxPOV - 1), 0)) + povPort;
 
         createButton(
-                povButton,
+                povSupplier,
                 getButtonID(ButtonType.POV, povPort),
                 layer,
                 command,
