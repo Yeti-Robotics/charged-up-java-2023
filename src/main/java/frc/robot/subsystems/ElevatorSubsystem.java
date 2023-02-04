@@ -40,17 +40,18 @@ public class ElevatorSubsystem extends SubsystemBase {
         motionMagicTarget = setpoint;
 
     }
+
     public boolean motionMagicOnTarget() {
         return Math.abs(elevatorMotor.getSelectedSensorPosition() - motionMagicTarget) <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
-        }
+    }
 
-        public boolean getBeamBreak() {
+    public boolean getBeamBreak() {
         return beamBreak.get();
-        }
+    }
 
     @Override
     public void periodic() {
-        if(getBeamBreak()){
+        if (getBeamBreak()) {
             elevatorMotor.set(0);
         }
     }
