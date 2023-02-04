@@ -7,10 +7,14 @@ package frc.robot;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.di.DaggerRobotComponent;
+import frc.robot.di.RobotComponent;
+import frc.robot.utils.rests.restUtils.RESTHandler;
 
 
 /**
@@ -24,6 +28,14 @@ public class Robot extends TimedRobot
     @Inject
     RobotContainer robotContainer;
     private Command autonomousCommand;
+    @Inject
+    Lazy<RESTHandler> restHandler;
+
+    public Robot() {
+        RobotComponent robotComponent = DaggerRobotComponent.builder().build();
+        robotComponent.inject(this);
+        robotContainer.setRobotComponent(robotComponent);
+    }
 
     
     /**
@@ -107,6 +119,9 @@ public class Robot extends TimedRobot
     {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
+        LiveWindow.setEnabled(false);
+        restHandler.get().init();
+        restHandler.get().fullTest();
 
     }
     

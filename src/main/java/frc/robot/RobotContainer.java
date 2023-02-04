@@ -80,4 +80,12 @@ public class RobotContainer
     {
         return new InstantCommand();
     }
+
+    public void setRobotComponent(RobotComponent robotComponent) {
+        this.robotComponent = robotComponent;
+    }
+
+    public RobotComponent getRobotComponent() {
+        return robotComponent;
+    }
 }
