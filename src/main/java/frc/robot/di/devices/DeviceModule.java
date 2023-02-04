@@ -17,7 +17,7 @@ public class DeviceModule {
     }
     @Provides
     @Singleton
-    public DigitalInput providesbeamBreal(){
+    public DigitalInput providesbeamBreak(){
         return new DigitalInput(Constants.ElevatorConstants.BEAM_BREAK);
     }
 }
