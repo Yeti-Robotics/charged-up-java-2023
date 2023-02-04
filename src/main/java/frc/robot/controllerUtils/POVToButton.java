@@ -8,7 +8,7 @@ public class POVToButton extends Button {
     private final GenericHID controller;
 
     @Override
-    public boolean get() {
+    public boolean getAsBoolean() {
         return controller.getPOV(port) == direction.value;
     }
 

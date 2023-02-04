@@ -23,7 +23,7 @@ public class AxisToButton extends Button {
     }
 
     @Override
-    public boolean get() {
+    public boolean getAsBoolean() {
         return isNegative ? controller.getRawAxis(port) <= -threshold : controller.getRawAxis(port) >= threshold;
     }
 }

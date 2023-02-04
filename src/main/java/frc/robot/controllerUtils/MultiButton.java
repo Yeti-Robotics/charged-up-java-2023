@@ -57,7 +57,7 @@ public class MultiButton {
         if (isLayersSynced) {
             setAllLayers();
         }
-        pressed = button.get();
+        pressed = button.getAsBoolean();
         buttonActions[buttonLayer].accept(pressed, pressedLast);
         pressedLast = pressed;
     }

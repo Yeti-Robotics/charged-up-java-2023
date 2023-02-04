@@ -10,6 +10,7 @@ import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
+import javax.inject.Named;
 import java.util.function.DoubleSupplier;
 
 @Module
@@ -18,14 +19,18 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(ExampleCommand.class)
-    static CommandBase provideExampleCommand(ExampleSubsystem exampleSubsystem){
+    static CommandBase provideExampleCommand(ExampleSubsystem exampleSubsystem) {
         return new ExampleCommand(exampleSubsystem);
     }
 
     @Provides
     @IntoMap
     @ClassKey(FieldOrientedDrive.class)
-    static CommandBase provideFieldOrientedDrive(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier){
+    static CommandBase provideFieldOrientedDrive(
+            DrivetrainSubsystem drivetrainSubsystem,
+            @Named("translationXSupplier") DoubleSupplier translationXSupplier,
+            @Named("translationYSupplier") DoubleSupplier translationYSupplier,
+            @Named("rotationSupplier") DoubleSupplier rotationSupplier) {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
     }
 
