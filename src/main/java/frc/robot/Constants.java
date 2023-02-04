@@ -5,6 +5,8 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.ElevatorSubsystem;
+
 import javax.swing.text.Element;
 import java.util.Map;
 
@@ -30,8 +32,13 @@ public final class Constants
         public static final double ELEVATOR_SPEED = .4;
 
         public static final double ELEVATOR_GEAR_RATIO = 32/12;
+        public static final double ELEVATOR_HEIGHT_RATIO = 32/12;
 
-        public static final double ELEVATOR_TOLERANCE = .25;
+        public static final double ELEVATOR_PULSES_PER_REVOLUTION = 2048;
+        public static final double SPROCKET_CIRCUMFERENCE = 1.5 * Math.PI;
+        public static final double ELEVATOR_DISTANCE_PER_PULSE = ELEVATOR_PULSES_PER_REVOLUTION / ELEVATOR_GEAR_RATIO;
+
+
 
         public static final double ELEVATOR_P = 0.1;
         public static final double ELEVATOR_I = 0.1;
@@ -43,6 +50,7 @@ public final class Constants
         public static final double ELEVATOR_CRUISING_ACCELERATION = ELEVATOR_MAX_VELOCITY / 1.25;
 
         public static final int BEAM_BREAK = 5;
+        public static final int ELEVATOR_TOLERANCE = (int) (0.25 / Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE);
 
 
     }

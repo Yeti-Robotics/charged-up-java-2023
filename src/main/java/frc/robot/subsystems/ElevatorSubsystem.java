@@ -49,6 +49,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         return beamBreak.get();
     }
 
+    public int convertInchesToCounts(double inches){
+        return (int) (inches / Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE);
+    }
+
     @Override
     public void periodic() {
         if (getBeamBreak()) {
