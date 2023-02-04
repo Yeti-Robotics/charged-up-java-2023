@@ -38,6 +38,8 @@ public final class Constants
         public static final double SPROCKET_CIRCUMFERENCE = 1.5 * Math.PI;
         public static final double ELEVATOR_DISTANCE_PER_PULSE = ELEVATOR_PULSES_PER_REVOLUTION / ELEVATOR_GEAR_RATIO;
 
+        public static final int[] ELEVATOR_PISTON = {0, 1};
+
 
 
         public static final double ELEVATOR_P = 0.1;
