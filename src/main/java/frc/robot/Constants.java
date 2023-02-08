@@ -23,6 +23,9 @@ public final class Constants
 
     }
 
+    public static final class VisionConstants{
+        public static final double STOPPING_DISTANCE = 1.58333;
+    }
     public static final class OIConstants {
 
         public static final Map<Integer, ControllerType> CONTROLLERS = Map.of(
