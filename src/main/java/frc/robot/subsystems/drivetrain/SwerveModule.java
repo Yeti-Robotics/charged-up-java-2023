@@ -72,9 +72,8 @@ public class SwerveModule {
     }
 
     public double getDriveVelocity() {
-        return driveMotor.getSelectedSensorVelocity() * 10 / 2048
-                * DriveConstants.SWERVE_X_REDUCTION *
-                DriveConstants.WHEEL_DIAMETER * Math.PI;
+        return driveMotor.getSelectedSensorVelocity() * 10 / 2048 *
+                (DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.SWERVE_X_REDUCTION;
     }
 
     public double getAzimuthVelocity() {

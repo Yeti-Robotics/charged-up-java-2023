@@ -67,7 +67,7 @@ public final class Constants
         public static final double AZIMUTH_MOTOR_KV = 0.7; //placeholder from borealis
         public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
         public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
-        public static final double SWERVE_X_REDUCTION = (14.0/50.0) * (27.0 / 17.0) * ( 15.0/45.0); //MUST UPDATE
+        public static final double SWERVE_X_REDUCTION = 6.75;
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
 
 
