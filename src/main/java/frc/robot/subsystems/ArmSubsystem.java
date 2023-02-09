@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import javax.inject.Named;
 
@@ -21,11 +22,15 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void moveUp() {
-        motor1.set(0.5);
+        motor1.set(Constants.ArmConstants.ARM_SPEED);
     }
 
     public void moveDown() {
-        motor1.set(-0.5);
+        motor1.set(-Constants.ArmConstants.ARM_SPEED);
+    }
+
+    public void move(double speed){
+        motor1.set(speed);
     }
 
     public void stopMove() {
