@@ -18,11 +18,11 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
-            @Named("sideNeo") CANSparkMax sideNeo,
+            @Named("carriageNeo") CANSparkMax carriageNeo,
             @Named("piston") DoubleSolenoid piston,
             @Named("limitSwitch") DigitalInput limitSwitch,
             @Named("beamBreak") SparkMaxLimitSwitch beamBreak
     ){
-        return new CarriageSubsystem(sideNeo, piston, limitSwitch, beamBreak);
+        return new CarriageSubsystem(carriageNeo, piston, limitSwitch, beamBreak);
     }
 }

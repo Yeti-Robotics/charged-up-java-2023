@@ -15,15 +15,15 @@ import javax.inject.Singleton;
 public class MotorsModule {
     @Provides
     @Singleton
-    @Named ("sideNeo")
-    public CANSparkMax providesSideNeo(){
-        CANSparkMax sideNeo = new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
-        sideNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1,250);
-        sideNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2,250);
-        sideNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3,250);
-        sideNeo.setSmartCurrentLimit(40);
-        sideNeo.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
-        return sideNeo;
+    @Named ("carriageNeo")
+    public CANSparkMax providesCarriageNeo(){
+        CANSparkMax carriageNeo = new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
+        carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1,250);
+        carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2,250);
+        carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3,250);
+        carriageNeo.setSmartCurrentLimit(40);
+        carriageNeo.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        return carriageNeo;
     }
 
 //    public SparkMaxLimitSwitch providesbeamBreak() {
