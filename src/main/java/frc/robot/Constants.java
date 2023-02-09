@@ -28,7 +28,7 @@ public final class Constants
 
     public static final class ElevatorConstants {
 
-        public static final int ELEVATOR_MOTOR = 1;
+        public static final int ELEVATOR_MOTOR = 11;
         public static final double ELEVATOR_SPEED = .4;
 
         public static final double ELEVATOR_GEAR_RATIO = 32/12;

@@ -16,6 +16,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     private DigitalInput beamBreak;
 
+    private int level;
+
     @Inject
     public ElevatorSubsystem(@Named("elevatorMotor") WPI_TalonFX elevatorMotor, @Named("beamBreak") DigitalInput beamBreak) {
 
@@ -51,6 +53,18 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public int convertInchesToCounts(double inches){
         return (int) (inches / Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE);
+    }
+
+    public int getLevel() { return level; }
+
+    public void incrementLevel() { level++;}
+
+    public void decrementLevel() {
+        level--;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     @Override
