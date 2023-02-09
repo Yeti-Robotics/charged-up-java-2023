@@ -10,6 +10,11 @@ import dagger.Provides;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.subsystems.CarriageSubsystem;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+import org.photonvision.PhotonCamera;
+
 
 import javax.inject.Named;
 
@@ -25,4 +30,8 @@ public class SubsystemsModule {
     ){
         return new CarriageSubsystem(carriageNeo, piston, limitSwitch, beamBreak);
     }
+
+    @Provides
+    @Singleton
+    public VisionSubsystem providesVisionSubsystem(@Named("table") NetworkTableInstance table) {return new VisionSubsystem(NetworkTableInstance.getDefault());}
 }

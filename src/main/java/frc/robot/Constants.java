@@ -22,6 +22,7 @@ public final class Constants
         public static final int GYRO = 1; //placeholder value
 
     }
+
     public static final class CarriageConstants {
         public static final int CARRIAGE_NEO = 1;
         public static final int[] CARRIAGE_PISTONS_SOLENOID = {2, 3};
@@ -31,6 +32,15 @@ public final class Constants
         public static final int CARRIAGE_LIMITSWITCH = 0;
 
         public static final int[] CARRIAGE_PISTON = {0,1};
+
+
+    public static final class VisionConstants{
+        public static final double STOPPING_DISTANCE = 1.58333;
+        public static final double LIMELIGHT_HEIGHT = 10; //placeholder
+
+        public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
+
+
     }
     public static final class OIConstants {
 
