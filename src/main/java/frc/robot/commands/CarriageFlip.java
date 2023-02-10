@@ -6,10 +6,10 @@ import frc.robot.subsystems.CarriageSubsystem;
 import javax.inject.Inject;
 
 
-public class CarriageOpenCommand extends CommandBase {
+public class CarriageFlip extends CommandBase {
     private final CarriageSubsystem carriageSubsystem;
     @Inject
-    public CarriageOpenCommand(CarriageSubsystem carriageSubsystem){
+    public CarriageFlip(CarriageSubsystem carriageSubsystem){
         this.carriageSubsystem = carriageSubsystem;
         addRequirements(carriageSubsystem);
     }
@@ -21,7 +21,7 @@ public class CarriageOpenCommand extends CommandBase {
 
     @Override
     public void execute() {
-        carriageSubsystem.carriageOpen();
+        carriageSubsystem.flipMechanism();
     }
 
     @Override

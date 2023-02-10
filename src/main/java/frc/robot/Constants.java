@@ -24,14 +24,13 @@ public final class Constants
     }
 
     public static final class CarriageConstants {
-        public static final int CARRIAGE_NEO = 1;
-        public static final int[] CARRIAGE_PISTONS_SOLENOID = {2, 3};
+        public static final int ROLLER_NEO = 1; //change ID later
+        public static final int FLIP_NEO = 2; //change ID later
         public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
         public static final double CARRIAGE_SPEED = 0.35;
         public static final int CARRIAGE_BEAMBREAK = 0;
-        public static final int CARRIAGE_LIMITSWITCH = 0;
-
-        public static final int[] CARRIAGE_PISTON = {0,1};
+        public static final double FLIP_SPEED = .5;
+    }
 
 
     public static final class VisionConstants{
