@@ -54,6 +54,11 @@ public final class Constants
         public static final int BEAM_BREAK = 5;
         public static final int ELEVATOR_TOLERANCE = (int) (0.25 / Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE);
 
+        public static final int ELEVATOR_CURRENT_LIMIT = 15;
+
+
+    }
+    public static final class TalonFXConstants {
 
     }
 
