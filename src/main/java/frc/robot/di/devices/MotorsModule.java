@@ -26,6 +26,10 @@ public class MotorsModule {
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        motor.config_kP(Constants.ArmConstants.MOTOR_1, Constants.ArmConstants.ARM_P);
+        motor.config_kI(Constants.ArmConstants.MOTOR_1, Constants.ArmConstants.ARM_I);
+        motor.config_kD(Constants.ArmConstants.MOTOR_1, Constants.ArmConstants.ARM_D);
+        motor.config_kF(Constants.ArmConstants.MOTOR_1, Constants.ArmConstants.ARM_F);
 
 
         return motor;
@@ -49,6 +53,11 @@ public class MotorsModule {
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        motor.config_kP(Constants.ArmConstants.MOTOR_2, Constants.ArmConstants.ARM_P);
+        motor.config_kI(Constants.ArmConstants.MOTOR_2, Constants.ArmConstants.ARM_I);
+        motor.config_kD(Constants.ArmConstants.MOTOR_2, Constants.ArmConstants.ARM_D);
+        motor.config_kF(Constants.ArmConstants.MOTOR_2, Constants.ArmConstants.ARM_F);
+
 
         return motor;
 
