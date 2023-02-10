@@ -6,23 +6,23 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import javax.inject.Inject;
 
 
-public class MoveElevatorUpCommand extends CommandBase {
+public class MoveElevatorDownCommand extends CommandBase {
 
     private final ElevatorSubsystem elevatorSubsystem;
+
     @Inject
-    public MoveElevatorUpCommand(ElevatorSubsystem elevatorSubsystem) {
+    public MoveElevatorDownCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
         addRequirements(elevatorSubsystem);
     }
 
     @Override
     public void initialize() {
+
     }
 
     @Override
-    public void execute() {
-        elevatorSubsystem.elevatorUp();
-    }
+    public void execute() { elevatorSubsystem.elevatorDown(); }
 
     @Override
     public boolean isFinished() {

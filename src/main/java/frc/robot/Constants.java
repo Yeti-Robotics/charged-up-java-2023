@@ -31,7 +31,7 @@ public final class Constants
         public static final int ELEVATOR_MOTOR = 11;
         public static final double ELEVATOR_SPEED = .4;
 
-        public static final double ELEVATOR_GEAR_RATIO = 32/12;
+        public static final double ELEVATOR_GEAR_RATIO = 7.75/12;
         public static final double ELEVATOR_HEIGHT_RATIO = 32/12;
 
         public static final double ELEVATOR_PULSES_PER_REVOLUTION = 2048;

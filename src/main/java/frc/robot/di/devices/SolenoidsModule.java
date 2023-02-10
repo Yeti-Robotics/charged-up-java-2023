@@ -17,6 +17,6 @@ public class SolenoidsModule {
         return new DoubleSolenoid(
                 PneumaticsModuleType.CTREPCM,
                 Constants.ElevatorConstants.ELEVATOR_PISTON[0],
-                Constants.ElevatorConstants.ELEVATOR_PISTON[0]);
+                Constants.ElevatorConstants.ELEVATOR_PISTON[1]);
     }
 }

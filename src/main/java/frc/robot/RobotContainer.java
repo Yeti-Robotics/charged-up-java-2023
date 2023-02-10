@@ -10,9 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.di.RobotComponent;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Inject;
@@ -31,7 +29,6 @@ public class RobotContainer
 
    private RobotComponent robotComponent;
 
-    private final ExampleSubsystem exampleSubsystem;
     private final Map<Class<?>, CommandBase> commands;
 
     public final ControllerContainer controllerContainer;
@@ -41,14 +38,13 @@ public class RobotContainer
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
     
 @Inject
-    public RobotContainer(ExampleSubsystem exampleSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
+    public RobotContainer(ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
     {
-        this.exampleSubsystem = exampleSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
-        configureBindings();
+        // configureBindings();
     }
-    
+
     
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -59,6 +55,10 @@ public class RobotContainer
      * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
+
+
+    //configure bindings
+    /*
     private void configureBindings()
     {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -69,7 +69,7 @@ public class RobotContainer
         // cancelling on release.
         controller.b().whileTrue(exampleSubsystem.exampleMethodCommand());
     }
-    
+    */
     
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
