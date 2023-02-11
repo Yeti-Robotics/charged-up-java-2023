@@ -99,16 +99,14 @@ public class SubsystemsModule {
             @Named("back left") SwerveModule backLeftModule,
             @Named("back right") SwerveModule backRightModule,
             SwerveDriveOdometry odometer,
-            WPI_Pigeon2 gyro,
-            ControllerContainer controllerContainer) {
+            WPI_Pigeon2 gyro) {
         return new DrivetrainSubsystem(
                 frontLeftModule,
                 frontRightModule,
                 backLeftModule,
                 backRightModule,
                 odometer,
-                gyro,
-                controllerContainer
+                gyro
         );
     }
 }

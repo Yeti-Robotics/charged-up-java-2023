@@ -24,12 +24,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             0.0, 0.0);
     private final SwerveDriveOdometry odometer;
 
-    private Boolean isSwerveLock;
+    private boolean isSwerveLock;
 
     private final WPI_Pigeon2 gyro;
-    private final ControllerContainer controllerContainer;
-    private final Controller controller;
-
 
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
@@ -40,16 +37,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
             @Named("back left module") SwerveModule backLeftModule,
             @Named("back right module") SwerveModule backRightModule,
             SwerveDriveOdometry odometer,
-            WPI_Pigeon2 gyro, ControllerContainer controllerContainer){
+            WPI_Pigeon2 gyro) {
         this.frontLeftModule = frontLeftModule;
         this.backLeftModule = backLeftModule;
         this.frontRightModule = frontRightModule;
         this.backRightModule = backRightModule;
         this.odometer = odometer;
         this.gyro = gyro;
-        this.controllerContainer = controllerContainer;
 
-        controller = controllerContainer.get(0);
         updateSwerveModulePositions();
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 

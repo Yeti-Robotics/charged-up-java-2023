@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
@@ -36,13 +37,8 @@ public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final Map<Class<?>, CommandBase> commands;
 
-    private final ButtonHelper buttonHelper;
-
     public final ControllerContainer controllerContainer;
-
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController controller =
-            new CommandXboxController(Constants.OIConstants.XBOX_PORT);
+    private final ButtonHelper buttonHelper;
 
     @Inject
     public RobotContainer(
@@ -55,8 +51,7 @@ public class RobotContainer {
         this.buttonHelper = buttonHelper;
         this.commands = commands;
 
-        buttonHelper = new ButtonHelper(controllerContainer.getControllers());
-
+        drivetrainSubsystem.setDefaultCommand(commands.get(FieldOrientedDrive.class));
     }
 
 

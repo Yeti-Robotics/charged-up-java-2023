@@ -109,14 +109,8 @@ public class SwerveModule {
                 azimuthPIDController.calculate(steerAngle, desiredState.angle.getRadians())
                         + azimuthFeedForward.calculate(azimuthPIDController.getSetpoint().velocity);
 
-//        driveMotor.setVoltage(desiredState.speedMetersPerSecond / DriveConstants.MAX_VELOCITY_METERS_PER_SECOND
-//            * DriveConstants.MAX_VOLTAGE);
         driveMotor.setVoltage(driveOutput);
-        // steerMotor.set(steeringPIDController.calculate(getSteerPosition(), desiredState.angle.getDegrees()));
-        // steerMotor.set(steeringPIDController.calculate(getSteerPosition(), 45));
         azimuthMotor.setVoltage(steerOutput);
-//
-//        steerMotor.set(ControlMode.Position, desiredState.angle.getDegrees() * DriveConstants.DEGREES_TO_FALCON);
     }
 
     public void stop() {
