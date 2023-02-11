@@ -7,7 +7,6 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.Constants.*;
-import frc.robot.di.devices.MotorsModule;
 import javax.inject.Singleton;
 
 @Module(includes = {MotorsModule.class})
