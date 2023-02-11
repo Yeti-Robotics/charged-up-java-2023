@@ -36,6 +36,24 @@ public final class Constants
 
     }
 
+    public static final class CarriageConstants {
+        public static final int ROLLER_NEO = 1; //change ID later
+        public static final int FLIP_NEO = 2; //change ID later
+        public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
+        public static final double CARRIAGE_SPEED = 0.35;
+        public static final int CARRIAGE_BEAMBREAK = 0;
+        public static final double FLIP_SPEED = .5;
+    }
+
+
+    public static final class VisionConstants{
+        public static final double STOPPING_DISTANCE = 1.58333;
+        public static final double LIMELIGHT_HEIGHT = 10; //placeholder
+
+        public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
+
+
+    }
     public static final class OIConstants {
 
         public static final Map<Integer, ControllerType> CONTROLLERS = Map.of(

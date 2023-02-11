@@ -1,11 +1,20 @@
 package frc.robot.di.devices;
 
+
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import dagger.Module;
 import dagger.Provides;
+=======
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxLimitSwitch;
+import dagger.Module;
+import dagger.Provides;
+import edu.wpi.first.wpilibj.Relay;
+
 import frc.robot.Constants;
 
 import javax.inject.Named;
@@ -15,6 +24,7 @@ import javax.inject.Singleton;
 public class MotorsModule {
     @Provides
     @Singleton
+
     @Named ("armMotor1")
     public WPI_TalonFX providesArmMotor1(){
         WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.MOTOR_1, "canivoreBus");
@@ -62,4 +72,21 @@ public class MotorsModule {
         return motor;
 
 }
+=======
+    @Named ("carriageNeo")
+    public CANSparkMax providesCarriageNeo(){
+        CANSparkMax carriageNeo = new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
+        carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1,250);
+        carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2,250);
+        carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3,250);
+        carriageNeo.setSmartCurrentLimit(40);
+        carriageNeo.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        return carriageNeo;
+    }
+
+//    public SparkMaxLimitSwitch providesbeamBreak() {
+//        SparkMaxLimitSwitch beamBreak = new SparkMaxLimitSwitch(providesSideNeo(), SparkMaxLimitSwitch.Direction.kForward, SparkMaxLimitSwitch.Type.kNormallyOpen);
+//        return beamBreak;
+//    } PAIN
+
 }
