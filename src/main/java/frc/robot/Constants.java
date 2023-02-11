@@ -25,6 +25,10 @@ public final class Constants
         public static final int GYRO = 1; //placeholder value
 
     }
+    public static final class TalonFXConstants {
+        public static final double TALON_PULSES_PER_REVOLUTION = 2048;
+
+    }
 
     public static final class ElevatorConstants {
 
@@ -34,9 +38,9 @@ public final class Constants
         public static final double ELEVATOR_GEAR_RATIO = 7.75/12;
         public static final double ELEVATOR_HEIGHT_RATIO = 32/12;
 
-        public static final double ELEVATOR_PULSES_PER_REVOLUTION = 2048;
+
         public static final double SPROCKET_CIRCUMFERENCE = 1.5 * Math.PI;
-        public static final double ELEVATOR_DISTANCE_PER_PULSE = ELEVATOR_PULSES_PER_REVOLUTION / ELEVATOR_GEAR_RATIO;
+        public static final double ELEVATOR_DISTANCE_PER_PULSE = TalonFXConstants.TALON_PULSES_PER_REVOLUTION / ELEVATOR_GEAR_RATIO;
 
         public static final int[] ELEVATOR_PISTON = {0, 1};
 
@@ -56,9 +60,9 @@ public final class Constants
 
         public static final int ELEVATOR_CURRENT_LIMIT = 15;
 
+        public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0;
+        public static final double ELEVATOR_FORWARD_SOFT_LIMIT = 59;
 
-    }
-    public static final class TalonFXConstants {
 
     }
 

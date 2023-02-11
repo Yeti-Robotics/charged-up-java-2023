@@ -40,7 +40,6 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setMotionMagic(double setpoint) {
         motionMagicTarget = setpoint;
-
     }
 
     public boolean motionMagicOnTarget() {

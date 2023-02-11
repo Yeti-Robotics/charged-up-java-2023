@@ -35,6 +35,11 @@ public class MotorsModule {
         motor.configPeakOutputForward(.6);
         motor.configSupplyCurrentLimit(elevatorCurrentConfig);
         motor.configClosedloopRamp(0.3);
+        motor.configReverseSoftLimitEnable(true);
+        motor.configReverseSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_REVERSE_SOFT_LIMIT); //Need to check convertInchesToCounts
+        motor.configForwardSoftLimitEnable(true);
+        motor.configReverseSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_FORWARD_SOFT_LIMIT); //Need to check convertInchesToCounts
+
 
 
 
