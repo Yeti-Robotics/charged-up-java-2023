@@ -17,7 +17,7 @@ public class MotorsModule {
     @Singleton
     @Named ("armMotor1")
     public WPI_TalonFX providesArmMotor1(){
-        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.MOTOR_1);
+        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.MOTOR_1, "canivoreBus");
         motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 70, 80, 0.1));
         motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 70, 80, 0.1));
         motor.configVoltageCompSaturation(Constants.ArmConstants.VOLTAGE_COMP);
@@ -42,7 +42,7 @@ public class MotorsModule {
     @Singleton
     @Named ("armMotor2")
     public WPI_TalonFX providesArmMotor2(@Named ("armMotor1")WPI_TalonFX motor1){
-        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.MOTOR_2);
+        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.MOTOR_2, "canivoreBus");
         motor.follow(motor1); //makes one motor follow whatever the other motor does//
         motor.setInverted(true); //make motor inverted compared to other motor //
         motor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 70, 80, 0.1));
