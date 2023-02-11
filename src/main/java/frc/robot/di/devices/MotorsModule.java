@@ -8,7 +8,7 @@ import dagger.Module;
 public class MotorsModule {
 
     public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {
-        WPI_TalonFX driveMotor = new WPI_TalonFX(id);
+        WPI_TalonFX driveMotor = new WPI_TalonFX(id, "canivoreBus");
         driveMotor.setNeutralMode(NeutralMode.Brake);
         driveMotor.setInverted(driveInverted);
         driveMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 60, 65, 0.1));
@@ -20,7 +20,7 @@ public class MotorsModule {
     }
 
     public static WPI_TalonFX azimuthMotorFactory(int id) {
-        WPI_TalonFX steerMotor = new WPI_TalonFX(id);
+        WPI_TalonFX steerMotor = new WPI_TalonFX(id, "canivoreBus");
         steerMotor.setNeutralMode(NeutralMode.Brake);
         steerMotor.setInverted(true);
         steerMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 60, 65, 0.1));
