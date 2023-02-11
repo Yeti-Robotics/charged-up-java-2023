@@ -4,8 +4,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.ZeroElevatorCommand;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,6 +20,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private DigitalInput beamBreak;
 
     private int level;
+
 
     @Inject
     public ElevatorSubsystem(@Named("elevatorMotor") WPI_TalonFX elevatorMotor, @Named("beamBreak") DigitalInput beamBreak) {
@@ -66,11 +70,21 @@ public class ElevatorSubsystem extends SubsystemBase {
         this.level = level;
     }
 
+    public void zero(){
+        elevatorMotor.setSelectedSensorPosition(0);
+    }
+
     @Override
     public void periodic() {
         if (getBeamBreak()) {
             elevatorMotor.setSelectedSensorPosition(0);
         }
+    }
+
+    @Override
+    public void setDefaultCommand(Command defaultCommand) {
+        super.setDefaultCommand(new ZeroElevatorCommand(this));
+
     }
 }
 
