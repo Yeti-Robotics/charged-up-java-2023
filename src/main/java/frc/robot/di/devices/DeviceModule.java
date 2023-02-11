@@ -13,7 +13,7 @@ public class DeviceModule {
     @Provides
     @Singleton
     public WPI_Pigeon2 providesGyro() {
-        return new WPI_Pigeon2(Constants.DriveConstants.GYRO);
+        return new WPI_Pigeon2(Constants.DriveConstants.GYRO, "canivoreBus");
     }
     @Provides
     @Singleton

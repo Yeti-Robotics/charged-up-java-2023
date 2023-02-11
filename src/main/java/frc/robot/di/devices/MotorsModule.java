@@ -22,7 +22,7 @@ public class MotorsModule {
     @Singleton
     @Named("elevatorMotor")
     public WPI_TalonFX elevatorMotor(SupplyCurrentLimitConfiguration elevatorCurrentConfig) {
-        WPI_TalonFX motor = new WPI_TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR);
+        WPI_TalonFX motor = new WPI_TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR, "canivoreBus");
 
         motor.config_kP(0, Constants.ElevatorConstants.ELEVATOR_P);
         motor.config_kI(0, Constants.ElevatorConstants.ELEVATOR_I);
