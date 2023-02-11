@@ -2,6 +2,7 @@ package frc.robot.di.devices;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.Constants;
@@ -24,7 +25,6 @@ public class MotorsModule {
 
         intakeSpark1.setSmartCurrentLimit(40);
         intakeSpark1.enableVoltageCompensation(Constants.IntakeConstants.INTAKE_VOLTAGE_COMP);
-
         return intakeSpark1;
     }
     @Provides
