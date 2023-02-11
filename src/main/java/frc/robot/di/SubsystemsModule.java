@@ -5,6 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import org.photonvision.PhotonCamera;
 
 import javax.inject.Named;
@@ -19,5 +20,5 @@ public class SubsystemsModule {
 
     @Provides
     @Singleton
-    public VisionSubsystem providesVisionSubsystem(@Named("camera") PhotonCamera camera) {return new VisionSubsystem(camera);}
+    public VisionSubsystem providesVisionSubsystem(@Named("table") NetworkTableInstance table) {return new VisionSubsystem(NetworkTableInstance.getDefault());}
 }

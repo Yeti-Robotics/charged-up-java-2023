@@ -2,8 +2,6 @@ package frc.robot.utils.controllerUtils;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import javax.inject.Inject;
@@ -29,7 +27,7 @@ public class ButtonHelper {
     }
 
     private void createButton(
-            Button button,
+            BooleanSupplier supplier,
             byte buttonID,
             int layer,
             Command command,
@@ -45,17 +43,13 @@ public class ButtonHelper {
         }
 
         MultiButton multiButton = new MultiButton(
-                button,
+                supplier,
                 buttonID,
                 layer,
                 command,
                 runCondition);
 
         buttonMap.get(controller).put(buttonID, multiButton);
-
-        CommandScheduler.getInstance().addButton(
-                multiButton::updateButton
-        );
     }
 
     public void createButton(
@@ -63,6 +57,7 @@ public class ButtonHelper {
             int layer,
             Command command,
             MultiButton.RunCondition runCondition) {
+
 
         createButton(
                 new JoystickButton(controller, buttonNumber),
@@ -77,30 +72,20 @@ public class ButtonHelper {
             int layer,
             Command command,
             MultiButton.RunCondition runCondition,
-            double threshold,
-            boolean isNegative) {
-
-        AxisToButton axisButton = new AxisToButton(controller, axisPort, threshold, isNegative);
-
-        createButton(
-                axisButton,
-                getButtonID(ButtonType.AXIS, isNegative ? maxAxis + axisPort : axisPort),
-                layer,
-                command,
-                runCondition);
-    }
-
-    public void createAxisButton(
-            int axisPort,
-            int layer,
-            Command command,
-            MultiButton.RunCondition runCondition) {
-
-        AxisToButton axisButton = new AxisToButton(controller, axisPort);
+            double threshold) {
+        BooleanSupplier axisSupplier = new BooleanSupplier() {
+            @Override
+            public boolean getAsBoolean() {
+                if (threshold < 0.0) {
+                    return controller.getRawAxis(axisPort) < threshold;
+                }
+                return controller.getRawAxis(axisPort) > threshold;
+            }
+        };
 
         createButton(
-                axisButton,
-                getButtonID(ButtonType.AXIS, axisPort),
+                axisSupplier,
+                getButtonID(ButtonType.AXIS, threshold < 0.0 ? maxAxis + axisPort : axisPort),
                 layer,
                 command,
                 runCondition);
@@ -112,20 +97,13 @@ public class ButtonHelper {
             int layer,
             Command command,
             MultiButton.RunCondition runCondition) {
+        BooleanSupplier povSupplier = () -> controller.getPOV(povPort) == direction.value;
 
-        int finalPovPort = povPort;
-        BooleanSupplier povSupplier = new BooleanSupplier() {
-            @Override
-            public boolean getAsBoolean() {
-                return controller.getPOV(finalPovPort) == direction.value;
-            }
-        };
-
-        povPort = (Math.max((direction.value / 90 * maxPOV - 1), 0)) + povPort;
+        int imaginaryPOVPort = (Math.max((direction.value / 90 * maxPOV - 1), 0)) + povPort;
 
         createButton(
                 povSupplier,
-                getButtonID(ButtonType.POV, povPort),
+                getButtonID(ButtonType.POV, imaginaryPOVPort),
                 layer,
                 command,
                 runCondition);
