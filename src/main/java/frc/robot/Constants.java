@@ -18,7 +18,10 @@ import java.util.Map;
 public final class Constants
 {
 
-    public static final int SPARK_PERIODMS = 250;
+    public static final class SparkConstants{
+        public static final int SPARK_PERIODMS = 250;
+        public static final int CURRENT_LIM = 40;
+    }
     public static final class DriveConstants {
 
         public static final int GYRO = 1; //placeholder value

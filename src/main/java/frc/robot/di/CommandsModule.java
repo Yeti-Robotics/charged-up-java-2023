@@ -6,7 +6,6 @@ import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 @Module
@@ -20,9 +19,9 @@ public class CommandsModule {
     }
     @Provides
     @IntoMap
-    @ClassKey(IntakeUnClampCommand.class)
+    @ClassKey(IntakeUnclampCommand.class)
     static CommandBase provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
-        return new IntakeUnClampCommand(intakeSubsystem);
+        return new IntakeUnclampCommand(intakeSubsystem);
     }
     @Provides
     @IntoMap
