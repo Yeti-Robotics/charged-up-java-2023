@@ -33,7 +33,7 @@ public class SubsystemsModule {
     @Singleton
     public ExampleSubsystem provideExampleSubsystem() {
         return new ExampleSubsystem();
-=======
+
     public CarriageSubsystem provideCarriageSubsystem(
             @Named("rollerMotor") CANSparkMax rollerMotor,
             @Named("flipMotor") CANSparkMax flipMotor,
