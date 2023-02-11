@@ -17,12 +17,13 @@ public class SolenoidsModule {
     @Provides
     @Singleton
     @Named("intake piston")
-    public DoubleSolenoid providesDoubleSolenoid(){
+    public DoubleSolenoid providesIntakePiston() {
 
-        return new DoubleSolenoid(
+        DoubleSolenoid intakePiston = new DoubleSolenoid(
                 PneumaticsModuleType.CTREPCM,
                 Constants.IntakeConstants.INTAKE_PISTON[0],
                 Constants.IntakeConstants.INTAKE_PISTON[1]);
-    }
+        return intakePiston;
 
+    }
 }

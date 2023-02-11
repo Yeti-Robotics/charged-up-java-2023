@@ -7,7 +7,7 @@ import frc.robot.Constants;
 import frc.robot.di.devices.MotorsModule;
 import javax.inject.Singleton;
 
-@Module(includes = {MotorsModule.class})
+@Module(includes = {MotorsModule.class, SolenoidsModule.class})
 public class DeviceModule {
     @Provides
     @Singleton

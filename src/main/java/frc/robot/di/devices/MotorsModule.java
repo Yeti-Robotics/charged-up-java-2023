@@ -16,7 +16,7 @@ public class MotorsModule {
     /****** IntakeMotors ******/
     @Provides
     @Singleton
-    @Named("intakeSpark1")
+    @Named("intake spark 1")
     public CANSparkMax providesIntakeSpark1(){
         CANSparkMax intakeSpark1 = new CANSparkMax(Constants.IntakeConstants.INTAKE_SPARK_1, CANSparkMaxLowLevel.MotorType.kBrushless);
         intakeSpark1.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 250);
@@ -29,8 +29,8 @@ public class MotorsModule {
     }
     @Provides
     @Singleton
-    @Named("intakeSpark2")
-    public CANSparkMax providesIntakeSpark2(CANSparkMax intakeSpark1){
+    @Named("intake spark 2")
+    public CANSparkMax providesIntakeSpark2(@Named ("intake spark 1") CANSparkMax intakeSpark1){
         CANSparkMax intakeSpark2= new CANSparkMax(Constants.IntakeConstants.INTAKE_SPARK_2, CANSparkMaxLowLevel.MotorType.kBrushless);
         intakeSpark2.follow(intakeSpark1, true);
         intakeSpark2.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SPARK_PERIODMS);
