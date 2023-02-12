@@ -1,19 +1,14 @@
 package frc.robot.di;
 
-import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Singleton;
-import java.awt.*;
 import java.util.Map;
 
 @Module

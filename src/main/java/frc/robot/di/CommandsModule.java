@@ -6,7 +6,6 @@ import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.*;
-import frc.robot.subsystems.CarriageSubsystem;
 
 @Module
 public class CommandsModule {
