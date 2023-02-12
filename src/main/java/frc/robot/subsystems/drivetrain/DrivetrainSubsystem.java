@@ -39,23 +39,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
             SwerveDriveOdometry odometer,
             WPI_Pigeon2 gyro) {
         this.frontLeftModule = frontLeftModule;
-        this.backLeftModule = backLeftModule;
         this.frontRightModule = frontRightModule;
+        this.backLeftModule = backLeftModule;
         this.backRightModule = backRightModule;
         this.odometer = odometer;
         this.gyro = gyro;
 
         updateSwerveModulePositions();
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-                zeroGyroscope();
-            } catch (Exception e) {
-                System.out.println("FAILED TO ZERO GYROSCOPE");
-            }
-        }).start();
     }
 
     public void zeroGyroscope() {
@@ -63,7 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getGyroscopeHeading() {
-        return Rotation2d.fromDegrees(gyro.getYaw());
+        return Rotation2d.fromDegrees((gyro.getYaw() % 360) - 180);
     }
 
     public Pose2d getPose() {
@@ -102,7 +93,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
         this.chassisSpeeds = chassisSpeeds;
 
-        setDesiredStates(Constants.DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds));
+        SwerveModuleState[] states = Constants.DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+        setDesiredStates(states);
+//        System.out.println(states[0]);
     }
 
     private void swerveLock() {

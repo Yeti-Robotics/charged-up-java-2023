@@ -11,10 +11,10 @@ import java.util.function.DoubleSupplier;
 
 public class FieldOrientedDrive extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
-    private static boolean targetLock = false;
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
+    private ChassisSpeeds chassisSpeeds;
 
     @Inject
     public FieldOrientedDrive(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
@@ -27,9 +27,6 @@ public class FieldOrientedDrive extends CommandBase {
         addRequirements(drivetrainSubsystem);
     }
 
-    public static void toggleTargetLock() {
-        FieldOrientedDrive.targetLock = !FieldOrientedDrive.targetLock;
-    }
 
     @Override
     public void execute() {
@@ -40,14 +37,16 @@ public class FieldOrientedDrive extends CommandBase {
         double thetaSpeed = modifyAxis(rotationSupplier.getAsDouble()) *
                 Constants.DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                xSpeed,
+                ySpeed,
+                thetaSpeed,
+                drivetrainSubsystem.getPose().getRotation());
         drivetrainSubsystem.drive(
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed,
-                        ySpeed,
-                        thetaSpeed,
-                        drivetrainSubsystem.getPose().getRotation())
+                chassisSpeeds
         );
-
+//        System.out.println(chassisSpeeds);
+//        System.out.printf("X: %f, Y: %f, T:%f\n", xSpeed, ySpeed, thetaSpeed);
     }
     private double modifyAxis(double value) {
         if (Math.abs(value) <= Constants.OIConstants.DEADBAND) {

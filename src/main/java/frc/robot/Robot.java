@@ -6,7 +6,9 @@
 package frc.robot;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Lazy;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.rests.restUtils.RESTHandler;
 
 
@@ -30,6 +33,8 @@ public class Robot extends TimedRobot
     private Command autonomousCommand;
     @Inject
     Lazy<RESTHandler> restHandler;
+    @Inject
+    DrivetrainSubsystem drivetrainSubsystem;
 
     public Robot() {
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
@@ -64,6 +69,7 @@ public class Robot extends TimedRobot
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        System.out.println(drivetrainSubsystem.getGyroscopeHeading().getDegrees());
     }
     
     

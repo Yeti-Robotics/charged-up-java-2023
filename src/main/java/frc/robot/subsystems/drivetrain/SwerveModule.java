@@ -73,7 +73,7 @@ public class SwerveModule {
 
     public double getDriveVelocity() {
         return driveMotor.getSelectedSensorVelocity() * 10 / 2048 *
-                (DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.SWERVE_X_REDUCTION;
+                (DriveConstants.WHEEL_DIAMETER * Math.PI) * DriveConstants.SWERVE_X_REDUCTION;
     }
 
     public double getAzimuthVelocity() {
@@ -108,6 +108,7 @@ public class SwerveModule {
         final double steerOutput =
                 azimuthPIDController.calculate(steerAngle, desiredState.angle.getRadians())
                         + azimuthFeedForward.calculate(azimuthPIDController.getSetpoint().velocity);
+        System.out.println(steerOutput);
 
         driveMotor.setVoltage(driveOutput);
         azimuthMotor.setVoltage(steerOutput);

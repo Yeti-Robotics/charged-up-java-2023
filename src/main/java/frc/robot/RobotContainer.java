@@ -65,9 +65,7 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new PrintCommand("Button button"), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), MultiButton.RunCondition.WHEN_PRESSED, 0.25);
-        buttonHelper.createPOVButton(0, POVDirections.UP, 0, new PrintCommand("POV button"), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 0, new InstantCommand(drivetrainSubsystem::toggleSwerveLock), MultiButton.RunCondition.WHEN_PRESSED);
     }
 
 
