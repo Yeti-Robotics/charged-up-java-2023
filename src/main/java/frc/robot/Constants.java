@@ -38,15 +38,15 @@ public final class Constants
         public static final double FRONT_RIGHT_ENCODER_OFFSET = 0;
         public static final boolean FRONT_RIGHT_ENCODER_REVERSED = true;
 
-        public static final int BACK_LEFT_DRIVE = 6;
-        public static final int BACK_LEFT_AZIMUTH = 5;
+        public static final int BACK_LEFT_DRIVE = 8;
+        public static final int BACK_LEFT_AZIMUTH = 7;
         public static final int BACK_LEFT_CAN = 3;
         public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
         public static final double BACK_LEFT_ENCODER_OFFSET = 0;
         public static final boolean BACK_LEFT_ENCODER_REVERSED = true;
 
-        public static final int BACK_RIGHT_DRIVE = 8;
-        public static final int BACK_RIGHT_AZIMUTH = 7;
+        public static final int BACK_RIGHT_DRIVE = 6;
+        public static final int BACK_RIGHT_AZIMUTH = 5;
         public static final int BACK_RIGHT_CAN = 4;
         public static final boolean BACK_RIGHT_DRIVE_REVERSED = true;
         public static final double BACK_RIGHT_ENCODER_OFFSET = 0;
