@@ -21,9 +21,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     private int level;
 
-
     @Inject
-    public ElevatorSubsystem(@Named("elevatorMotor") WPI_TalonFX elevatorMotor, @Named("beamBreak") DigitalInput beamBreak) {
+    public ElevatorSubsystem(@Named("elevatorMotor") WPI_TalonFX elevatorMotor, @Named("elevatorBeamBreak") DigitalInput beamBreak) {
 
         this.elevatorMotor = elevatorMotor;
         this.beamBreak = beamBreak;
@@ -70,8 +69,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         this.level = level;
     }
 
+    public void elevatorOff(){
+        elevatorMotor.set(0);
+    }
+
     public void zero(){
         elevatorMotor.setSelectedSensorPosition(0);
+    }
+
+    public double getElevatorEncoder() {
+        return elevatorMotor.getSelectedSensorPosition() * (Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE);
     }
 
     @Override

@@ -6,9 +6,11 @@ import dagger.Provides;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.di.devices.MotorsModule;
+
+import javax.inject.Named;
 import javax.inject.Singleton;
 
-@Module(includes = {MotorsModule.class})
+@Module(includes = {MotorsModule.class, SolenoidsModule.class})
 public class DeviceModule {
     @Provides
     @Singleton
@@ -16,7 +18,7 @@ public class DeviceModule {
         return new WPI_Pigeon2(Constants.DriveConstants.GYRO, "canivoreBus");
     }
     @Provides
-    @Singleton
+    @Named("elevatorBeamBreak")
     public DigitalInput providesbeamBreak(){
         return new DigitalInput(Constants.ElevatorConstants.BEAM_BREAK);
     }
