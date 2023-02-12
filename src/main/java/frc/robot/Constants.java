@@ -34,9 +34,9 @@ public final class Constants
         public static final int FRONT_RIGHT_DRIVE = 4;
         public static final int FRONT_RIGHT_AZIMUTH = 3;
         public static final int FRONT_RIGHT_CAN = 1;
-        public static final boolean FRONT_RIGHT_DRIVE_REVERSED = true;
+        public static final boolean FRONT_RIGHT_DRIVE_REVERSED = false;
         public static final double FRONT_RIGHT_ENCODER_OFFSET = 81.123;
-        public static final boolean FRONT_RIGHT_ENCODER_REVERSED = true;
+        public static final boolean FRONT_RIGHT_ENCODER_REVERSED = false;
 
         public static final int BACK_LEFT_DRIVE = 8;
         public static final int BACK_LEFT_AZIMUTH = 7;
@@ -48,9 +48,9 @@ public final class Constants
         public static final int BACK_RIGHT_DRIVE = 6;
         public static final int BACK_RIGHT_AZIMUTH = 5;
         public static final int BACK_RIGHT_CAN = 4;
-        public static final boolean BACK_RIGHT_DRIVE_REVERSED = true;
+        public static final boolean BACK_RIGHT_DRIVE_REVERSED = false;
         public static final double BACK_RIGHT_ENCODER_OFFSET = 27.158;
-        public static final boolean BACK_RIGHT_ENCODER_REVERSED = true;
+        public static final boolean BACK_RIGHT_ENCODER_REVERSED = false;
 
         public static final int GYRO = 1; //placeholder value
         public static final double DRIVE_MOTOR_P = 1.0; //placeholder from borealis
