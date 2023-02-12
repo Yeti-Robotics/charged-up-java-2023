@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 
 public class SolenoidsModule {
 
-    @Provides
+    /*@Provides
     @Singleton
     @Named("carriage piston")
     public DoubleSolenoid providesDoubleSolenoid() {
@@ -20,5 +20,5 @@ public class SolenoidsModule {
                 Constants.CarriageConstants.CARRIAGE_PISTON[0],
                 Constants.CarriageConstants.CARRIAGE_PISTON[1]);
 
-    }
+    }*/
 }

@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import dagger.Module;
 import dagger.Provides;
-=======
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxLimitSwitch;
@@ -32,7 +32,7 @@ public class MotorsModule {
         motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 70, 80, 0.1));
         motor.configVoltageCompSaturation(Constants.ArmConstants.VOLTAGE_COMP);
         motor.enableVoltageCompensation(true);
-        motor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
@@ -59,7 +59,7 @@ public class MotorsModule {
         motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 70, 80, 0.1));
         motor.configVoltageCompSaturation(Constants.ArmConstants.VOLTAGE_COMP);
         motor.enableVoltageCompensation(true);
-        motor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
@@ -72,9 +72,8 @@ public class MotorsModule {
         return motor;
 
 }
-=======
-    @Named ("carriageNeo")
-    public CANSparkMax providesCarriageNeo(){
+    //@Named ("carriageNeo")
+    /*public CANSparkMax providesCarriageNeo(){
         CANSparkMax carriageNeo = new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
         carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1,250);
         carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2,250);
@@ -82,7 +81,7 @@ public class MotorsModule {
         carriageNeo.setSmartCurrentLimit(40);
         carriageNeo.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
         return carriageNeo;
-    }
+    }*/
 
 //    public SparkMaxLimitSwitch providesbeamBreak() {
 //        SparkMaxLimitSwitch beamBreak = new SparkMaxLimitSwitch(providesSideNeo(), SparkMaxLimitSwitch.Direction.kForward, SparkMaxLimitSwitch.Type.kNormallyOpen);

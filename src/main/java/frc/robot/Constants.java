@@ -25,6 +25,8 @@ public final class Constants
     public static final class ArmConstants{
         public static final int MOTOR_1 = 10; // left arm
         public static final int MOTOR_2 = 11; //right arm
+
+        public static final int ARM_ENCODER = 5;
         public static final double ARM_SPEED = 0.5;
 
         public static final double VOLTAGE_COMP = 12.0;

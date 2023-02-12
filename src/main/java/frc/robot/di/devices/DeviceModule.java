@@ -1,5 +1,6 @@
 package frc.robot.di.devices;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
@@ -22,12 +23,9 @@ public class DeviceModule {
     public DigitalInput providesBeamBreak(){
         return new DigitalInput(Constants.CarriageConstants.CARRIAGE_BEAMBREAK);
     }
-    public DigitalInput providesLimitSwitch(){
-        return new DigitalInput(Constants.CarriageConstants.CARRIAGE_LIMITSWITCH);
 
-    @Provides
-    @Singleton
-    public PhotonCamera providesCamera(){
-        return new PhotonCamera("camera");
+    public CANCoder providesArmEncoder(){
+        return new CANCoder(Constants.ArmConstants.ARM_ENCODER);
     }
+
 }
