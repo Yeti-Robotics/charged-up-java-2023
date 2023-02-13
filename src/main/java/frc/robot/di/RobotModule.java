@@ -61,13 +61,13 @@ public class RobotModule {
     }
 
     @Provides
-    @Named("rotationSupplier")
+    @Named("thetaSupplier")
     public DoubleSupplier provideRotationSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getRightX();
     }
 
     @Provides
-    @Named("swerveModulePosition")
+    @Singleton
     public SwerveModulePosition[] providesSwerveModulePositions() {
         return new SwerveModulePosition[] {
             new SwerveModulePosition(),
@@ -79,7 +79,7 @@ public class RobotModule {
 
     @Provides
     @Singleton
-    public SwerveDriveOdometry providesSwerveDriveOdometry(WPI_Pigeon2 gyro, @Named("swerveModulePosition") SwerveModulePosition[] positions) {
+    public SwerveDriveOdometry providesSwerveDriveOdometry(WPI_Pigeon2 gyro, SwerveModulePosition[] positions) {
         return new SwerveDriveOdometry(Constants.DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions);
     }
 

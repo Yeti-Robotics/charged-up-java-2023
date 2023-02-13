@@ -30,7 +30,7 @@ public class CommandsModule {
             DrivetrainSubsystem drivetrainSubsystem,
             @Named("translationXSupplier") DoubleSupplier translationXSupplier,
             @Named("translationYSupplier") DoubleSupplier translationYSupplier,
-            @Named("rotationSupplier") DoubleSupplier rotationSupplier) {
+            @Named("thetaSupplier") DoubleSupplier rotationSupplier) {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
     }
 

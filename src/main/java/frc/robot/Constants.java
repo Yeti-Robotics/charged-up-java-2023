@@ -20,34 +20,33 @@ import java.util.Map;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
+public final class Constants {
     public static final class DriveConstants {
 
         public static final int FRONT_LEFT_DRIVE = 2;
         public static final int FRONT_LEFT_AZIMUTH = 1;
-        public static final int FRONT_LEFT_CAN = 2;
+        public static final int FRONT_LEFT_ENCODER = 2;
         public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
         public static final double FRONT_LEFT_ENCODER_OFFSET = 84.375;
         public static final boolean FRONT_LEFT_ENCODER_REVERSED = false;
 
         public static final int FRONT_RIGHT_DRIVE = 4;
         public static final int FRONT_RIGHT_AZIMUTH = 3;
-        public static final int FRONT_RIGHT_CAN = 1;
+        public static final int FRONT_RIGHT_ENCODER = 1;
         public static final boolean FRONT_RIGHT_DRIVE_REVERSED = false;
         public static final double FRONT_RIGHT_ENCODER_OFFSET = 81.123;
         public static final boolean FRONT_RIGHT_ENCODER_REVERSED = false;
 
         public static final int BACK_LEFT_DRIVE = 8;
         public static final int BACK_LEFT_AZIMUTH = 7;
-        public static final int BACK_LEFT_CAN = 3;
+        public static final int BACK_LEFT_ENCODER = 3;
         public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
         public static final double BACK_LEFT_ENCODER_OFFSET = -150.557;
         public static final boolean BACK_LEFT_ENCODER_REVERSED = false;
 
         public static final int BACK_RIGHT_DRIVE = 6;
         public static final int BACK_RIGHT_AZIMUTH = 5;
-        public static final int BACK_RIGHT_CAN = 4;
+        public static final int BACK_RIGHT_ENCODER = 4;
         public static final boolean BACK_RIGHT_DRIVE_REVERSED = false;
         public static final double BACK_RIGHT_ENCODER_OFFSET = 27.158;
         public static final boolean BACK_RIGHT_ENCODER_REVERSED = true;
@@ -69,12 +68,10 @@ public final class Constants
         public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
         public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
-
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SWERVE_X_REDUCTION * WHEEL_DIAMETER * Math.PI; //placeholder
         private static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(21.75); //PLACEHOLDER
         private static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(21.75); //PLACEHOLDER
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SWERVE_X_REDUCTION * WHEEL_DIAMETER * Math.PI; //placeholder
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2, DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2); //PLACEHOLDER
-
 
         public static final SwerveDriveKinematics DRIVE_KINEMATICS =
                 new SwerveDriveKinematics(
@@ -96,25 +93,25 @@ public final class Constants
 
     public static final class AutoConstants {
 
-            /**
-             * Max velocity in meters per second
-             */
-            public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.75;
-            /**
-             * Max acceleration in meters per second squared
-             */
-            public static final double MAX_ACCEL = DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.75;
+        /**
+         * Max velocity in meters per second
+         */
+        public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.75;
+        /**
+         * Max acceleration in meters per second squared
+         */
+        public static final double MAX_ACCEL = DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.75;
 
-            public static final double X_CONTROLLER_P = 2.1; //2.9, 2.15
-            public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
-            public static final double X_CONTROLLER_D = 0;
-            public static final double Y_CONTROLLER_D = 0;
-            public static final double THETA_CONTROLLER_P = 3; //3
-            public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONTRAINTS = //
-                    new TrapezoidProfile.Constraints(
-                            DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                            DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-            }
+        public static final double X_CONTROLLER_P = 2.1; //2.9, 2.15
+        public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
+        public static final double X_CONTROLLER_D = 0;
+        public static final double Y_CONTROLLER_D = 0;
+        public static final double THETA_CONTROLLER_P = 3; //3
+        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONTRAINTS = //
+                new TrapezoidProfile.Constraints(
+                        DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
+                        DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+    }
 
 
     public static final class OIConstants {
@@ -128,6 +125,6 @@ public final class Constants
 
         public enum ControllerType {
             CUSTOM, XBOX
-            }
+        }
     }
 }

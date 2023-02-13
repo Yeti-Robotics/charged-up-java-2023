@@ -1,9 +1,6 @@
 package frc.robot.di.devices;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix.sensors.*;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.Constants.*;
@@ -17,8 +14,8 @@ public class DeviceModule {
         return new WPI_Pigeon2(DriveConstants.GYRO, "canivoreBus");
     }
 
-    public static CANCoder absoluteEncoderFactory(int id, double degreesOffset, boolean reversed) {
-        CANCoder absoluteEncoder = new CANCoder(id, "canivoreBus");
+    public static WPI_CANCoder absoluteEncoderFactory(int id, double degreesOffset, boolean reversed) {
+        WPI_CANCoder absoluteEncoder = new WPI_CANCoder(id, "canivoreBus");
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         absoluteEncoder.configMagnetOffset(degreesOffset);
         absoluteEncoder.configSensorDirection(reversed);

@@ -12,7 +12,6 @@ import frc.robot.di.devices.MotorsModule;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
-import frc.robot.utils.controllerUtils.ControllerContainer;
 
 
 import javax.inject.Named;
@@ -42,7 +41,7 @@ public class SubsystemsModule {
         return swerveModuleFactory(
                 DriveConstants.FRONT_LEFT_DRIVE,
                 DriveConstants.FRONT_LEFT_AZIMUTH,
-                DriveConstants.FRONT_LEFT_CAN,
+                DriveConstants.FRONT_LEFT_ENCODER,
                 DriveConstants.FRONT_LEFT_DRIVE_REVERSED,
                 DriveConstants.FRONT_LEFT_ENCODER_OFFSET,
                 DriveConstants.FRONT_LEFT_ENCODER_REVERSED
@@ -56,7 +55,7 @@ public class SubsystemsModule {
         return swerveModuleFactory(
                 DriveConstants.FRONT_RIGHT_DRIVE,
                 DriveConstants.FRONT_RIGHT_AZIMUTH,
-                DriveConstants.FRONT_RIGHT_CAN,
+                DriveConstants.FRONT_RIGHT_ENCODER,
                 DriveConstants.FRONT_RIGHT_DRIVE_REVERSED,
                 DriveConstants.FRONT_RIGHT_ENCODER_OFFSET,
                 DriveConstants.FRONT_RIGHT_ENCODER_REVERSED
@@ -70,7 +69,7 @@ public class SubsystemsModule {
         return swerveModuleFactory(
                 DriveConstants.BACK_LEFT_DRIVE,
                 DriveConstants.BACK_LEFT_AZIMUTH,
-                DriveConstants.BACK_LEFT_CAN,
+                DriveConstants.BACK_LEFT_ENCODER,
                 DriveConstants.BACK_LEFT_DRIVE_REVERSED,
                 DriveConstants.BACK_LEFT_ENCODER_OFFSET,
                 DriveConstants.BACK_LEFT_ENCODER_REVERSED
@@ -84,11 +83,12 @@ public class SubsystemsModule {
         return swerveModuleFactory(
                 DriveConstants.BACK_RIGHT_DRIVE,
                 DriveConstants.BACK_RIGHT_AZIMUTH,
-                DriveConstants.BACK_RIGHT_CAN,
+                DriveConstants.BACK_RIGHT_ENCODER,
                 DriveConstants.BACK_RIGHT_DRIVE_REVERSED,
                 DriveConstants.BACK_RIGHT_ENCODER_OFFSET,
                 DriveConstants.BACK_RIGHT_ENCODER_REVERSED
-        );    }
+        );
+    }
 
 
     @Provides

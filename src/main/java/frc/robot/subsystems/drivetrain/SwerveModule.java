@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -18,7 +19,7 @@ public class SwerveModule {
     private final WPI_TalonFX driveMotor;
     private final WPI_TalonFX azimuthMotor;
 
-    private final CANCoder absoluteEncoder;
+    private final WPI_CANCoder absoluteEncoder;
     private final PIDController drivePIDController = new PIDController(
             DriveConstants.DRIVE_MOTOR_P,
             DriveConstants.DRIVE_MOTOR_I,
@@ -39,9 +40,9 @@ public class SwerveModule {
 
     @Inject
     public SwerveModule(
-            @Named("drive motor") WPI_TalonFX driveMotor,
-            @Named("azimuth motor") WPI_TalonFX azimuthMotor,
-            @Named("absolute encoder") CANCoder absoluteEncoder) {
+            WPI_TalonFX driveMotor,
+            WPI_TalonFX azimuthMotor,
+            WPI_CANCoder absoluteEncoder) {
 
         this.driveMotor = driveMotor;
         this.azimuthMotor = azimuthMotor;
