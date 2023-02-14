@@ -8,8 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.utils.controllerUtils.Controller;
-import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,18 +15,15 @@ import javax.inject.Named;
 public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
 
-    private final SwerveModulePosition[] positions = new SwerveModulePosition[4];
+    private final SwerveModulePosition[] positions;
     private final PIDController yController = new PIDController(Constants.AutoConstants.Y_CONTROLLER_P, 0.0, Constants.AutoConstants.X_CONTROLLER_D);
     private final PIDController xController = new PIDController(Constants.AutoConstants.X_CONTROLLER_P, 0.0, Constants.AutoConstants.Y_CONTROLLER_D);
     private final PIDController thetaController = new PIDController(Constants.AutoConstants.THETA_CONTROLLER_P,
             0.0, 0.0);
     private final SwerveDriveOdometry odometer;
-
-    private boolean isSwerveLock;
-
     private final WPI_Pigeon2 gyro;
-
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
+    private boolean isSwerveLock;
 
     @Inject
     public DrivetrainSubsystem(
@@ -36,17 +31,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
             @Named("front right") SwerveModule frontRightModule,
             @Named("back left") SwerveModule backLeftModule,
             @Named("back right") SwerveModule backRightModule,
+            SwerveModulePosition[] swerveModulePosition,
             SwerveDriveOdometry odometer,
             WPI_Pigeon2 gyro) {
         this.frontLeftModule = frontLeftModule;
         this.frontRightModule = frontRightModule;
         this.backLeftModule = backLeftModule;
         this.backRightModule = backRightModule;
+        this.positions = swerveModulePosition;
         this.odometer = odometer;
         this.gyro = gyro;
 
         updateSwerveModulePositions();
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        zeroGyroscope();
     }
 
     public void zeroGyroscope() {
@@ -95,7 +94,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         SwerveModuleState[] states = Constants.DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
         setDesiredStates(states);
-//        System.out.println(states[0]);
     }
 
     private void swerveLock() {

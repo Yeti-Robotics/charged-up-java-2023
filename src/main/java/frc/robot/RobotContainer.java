@@ -8,7 +8,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.FieldOrientedDrive;
@@ -17,7 +16,6 @@ import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton;
-import frc.robot.utils.controllerUtils.POVDirections;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -32,13 +30,11 @@ import java.util.Map;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
-    private RobotComponent robotComponent;
-
+    public final ControllerContainer controllerContainer;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final Map<Class<?>, CommandBase> commands;
-
-    public final ControllerContainer controllerContainer;
     private final ButtonHelper buttonHelper;
+    private RobotComponent robotComponent;
 
     @Inject
     public RobotContainer(
@@ -52,6 +48,8 @@ public class RobotContainer {
         this.commands = commands;
 
         drivetrainSubsystem.setDefaultCommand(commands.get(FieldOrientedDrive.class));
+
+        configureBindings();
     }
 
 
@@ -78,12 +76,12 @@ public class RobotContainer {
         return new InstantCommand();
     }
 
-    public void setRobotComponent(RobotComponent robotComponent) {
-        this.robotComponent = robotComponent;
-    }
-
     public RobotComponent getRobotComponent() {
         return robotComponent;
+    }
+
+    public void setRobotComponent(RobotComponent robotComponent) {
+        this.robotComponent = robotComponent;
     }
 }
 

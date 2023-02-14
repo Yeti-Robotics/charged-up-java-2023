@@ -1,37 +1,36 @@
 package frc.robot.di;
 
-import javax.inject.Singleton;
-
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import frc.robot.Constants.*;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
 
-
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 @Module
 public class SubsystemsModule {
-    @Provides
-    @Singleton
-    public ExampleSubsystem provideExampleSubsystem() {
-        return new ExampleSubsystem();
-    }
-
-    private static SwerveModule swerveModuleFactory (
-        int driveMotorID, int steerMotorID, int CANcoderID, boolean driveInverted, double encoderOffset, boolean encoderReversed
-        ) {
+    private static SwerveModule swerveModuleFactory(
+            int driveMotorID, int steerMotorID, int CANcoderID, boolean driveInverted, double encoderOffset, boolean encoderReversed
+    ) {
         return new SwerveModule(
                 MotorsModule.driveMotorFactory(driveMotorID, driveInverted),
                 MotorsModule.azimuthMotorFactory(steerMotorID),
                 DeviceModule.absoluteEncoderFactory(CANcoderID, encoderOffset, encoderReversed)
-                );
+        );
+    }
+
+    @Provides
+    @Singleton
+    public ExampleSubsystem provideExampleSubsystem() {
+        return new ExampleSubsystem();
     }
 
     @Provides
@@ -90,7 +89,6 @@ public class SubsystemsModule {
         );
     }
 
-
     @Provides
     @Singleton
     public DrivetrainSubsystem provideDriveTrainSubsystem(
@@ -98,6 +96,7 @@ public class SubsystemsModule {
             @Named("front right") SwerveModule frontRightModule,
             @Named("back left") SwerveModule backLeftModule,
             @Named("back right") SwerveModule backRightModule,
+            SwerveModulePosition[] swerveModulePositions,
             SwerveDriveOdometry odometer,
             WPI_Pigeon2 gyro) {
         return new DrivetrainSubsystem(
@@ -105,6 +104,7 @@ public class SubsystemsModule {
                 frontRightModule,
                 backLeftModule,
                 backRightModule,
+                swerveModulePositions,
                 odometer,
                 gyro
         );

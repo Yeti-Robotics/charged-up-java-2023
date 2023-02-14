@@ -25,28 +25,28 @@ public final class Constants {
 
         public static final int FRONT_LEFT_DRIVE = 2;
         public static final int FRONT_LEFT_AZIMUTH = 1;
-        public static final int FRONT_LEFT_ENCODER = 2;
+        public static final int FRONT_LEFT_ENCODER = 1;
         public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
         public static final double FRONT_LEFT_ENCODER_OFFSET = 84.375;
         public static final boolean FRONT_LEFT_ENCODER_REVERSED = false;
 
         public static final int FRONT_RIGHT_DRIVE = 4;
         public static final int FRONT_RIGHT_AZIMUTH = 3;
-        public static final int FRONT_RIGHT_ENCODER = 1;
+        public static final int FRONT_RIGHT_ENCODER = 2;
         public static final boolean FRONT_RIGHT_DRIVE_REVERSED = false;
         public static final double FRONT_RIGHT_ENCODER_OFFSET = 81.123;
         public static final boolean FRONT_RIGHT_ENCODER_REVERSED = false;
 
         public static final int BACK_LEFT_DRIVE = 8;
         public static final int BACK_LEFT_AZIMUTH = 7;
-        public static final int BACK_LEFT_ENCODER = 3;
+        public static final int BACK_LEFT_ENCODER = 4;
         public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
         public static final double BACK_LEFT_ENCODER_OFFSET = -150.557;
         public static final boolean BACK_LEFT_ENCODER_REVERSED = false;
 
         public static final int BACK_RIGHT_DRIVE = 6;
         public static final int BACK_RIGHT_AZIMUTH = 5;
-        public static final int BACK_RIGHT_ENCODER = 4;
+        public static final int BACK_RIGHT_ENCODER = 3;
         public static final boolean BACK_RIGHT_DRIVE_REVERSED = false;
         public static final double BACK_RIGHT_ENCODER_OFFSET = 27.158;
         public static final boolean BACK_RIGHT_ENCODER_REVERSED = true;
@@ -59,11 +59,11 @@ public final class Constants {
         public static final double DRIVE_MOTOR_KV = 2.178; //placeholder from borealis
         public static final double DRIVE_MOTOR_KA = 0.406; //placeholder from borealis
 
-        public static final double AZIMUTH_MOTOR_P = 1.0; //placeholder from borealis 3
+        public static final double AZIMUTH_MOTOR_P = 8.0; //placeholder from borealis 3
         public static final double AZIMUTH_MOTOR_I = 0.0; //placeholder from borealis
         public static final double AZIMUTH_MOTOR_D = 0.00; //placeholder from borealis 0.01
-        public static final double AZIMUTH_MOTOR_KS = 0.3; //placeholder from borealis 0.75
-        public static final double AZIMUTH_MOTOR_KV = 0.1; //placeholder from borealis 0.7
+        public static final double AZIMUTH_MOTOR_KS = 0.75; //placeholder from borealis 0.75
+        public static final double AZIMUTH_MOTOR_KV = 0.7; //placeholder from borealis 0.7
         public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
         public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
         public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;
@@ -115,12 +115,13 @@ public final class Constants {
 
 
     public static final class OIConstants {
-
+        /*
+            Map of controllers using the port number as the key to the ControllerType
+         */
         public static final Map<Integer, ControllerType> CONTROLLERS = Map.of(
                 0, ControllerType.CUSTOM
         );
-        public static final int XBOX_PORT = 0; //placeholder value
-        public static final int CONTROLLER_COUNT = 1; //placeholder value
+        public static final int CONTROLLER_COUNT = CONTROLLERS.size(); //placeholder value
         public static final double DEADBAND = 0.05;
 
         public enum ControllerType {
