@@ -7,6 +7,7 @@ import dagger.multibindings.IntoMap;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
@@ -34,4 +35,10 @@ public class CommandsModule {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
     }
 
+    @Provides
+    @IntoMap
+    @ClassKey(SwerveLockCommand.class)
+    static CommandBase provideSwerveLockCommand(DrivetrainSubsystem drivetrainSubsystem) {
+        return new SwerveLockCommand(drivetrainSubsystem);
+    }
 }

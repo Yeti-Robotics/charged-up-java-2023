@@ -2,7 +2,8 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 import javax.inject.Inject;
@@ -14,7 +15,6 @@ public class FieldOrientedDrive extends CommandBase {
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
-    private ChassisSpeeds chassisSpeeds;
 
     @Inject
     public FieldOrientedDrive(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
@@ -22,6 +22,7 @@ public class FieldOrientedDrive extends CommandBase {
         this.translationXSupplier = translationXSupplier;
         this.translationYSupplier = translationYSupplier;
         this.rotationSupplier = rotationSupplier;
+
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(drivetrainSubsystem);
@@ -31,25 +32,24 @@ public class FieldOrientedDrive extends CommandBase {
     @Override
     public void execute() {
         double xSpeed = modifyAxis(translationXSupplier.getAsDouble()) *
-                Constants.DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
+                DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
         double ySpeed = modifyAxis(translationYSupplier.getAsDouble()) *
-                Constants.DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
+                DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
         double thetaSpeed = modifyAxis(rotationSupplier.getAsDouble()) *
-                Constants.DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+                DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                xSpeed,
-                ySpeed,
-                thetaSpeed,
-                drivetrainSubsystem.getPose().getRotation());
         drivetrainSubsystem.drive(
-                chassisSpeeds
+                DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                        ChassisSpeeds.fromFieldRelativeSpeeds(
+                                xSpeed,
+                                ySpeed,
+                                thetaSpeed,
+                                drivetrainSubsystem.getPose().getRotation()))
         );
-//        System.out.println(chassisSpeeds);
-//        System.out.printf("X: %f, Y: %f, T:%f\n", xSpeed, ySpeed, thetaSpeed);
     }
+
     private double modifyAxis(double value) {
-        if (Math.abs(value) <= Constants.OIConstants.DEADBAND) {
+        if (Math.abs(value) <= OIConstants.DEADBAND) {
             return 0.0;
         }
 
@@ -58,6 +58,6 @@ public class FieldOrientedDrive extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
+        drivetrainSubsystem.stop();
     }
-    }
+}

@@ -34,6 +34,7 @@ public class SwerveModule {
     private final SimpleMotorFeedforward azimuthFeedForward = new SimpleMotorFeedforward(
             DriveConstants.AZIMUTH_MOTOR_KS, DriveConstants.AZIMUTH_MOTOR_KV, DriveConstants.AZIMUTH_MOTOR_KA
     );
+    private final SwerveModuleState state = new SwerveModuleState();
     private final SwerveModulePosition position = new SwerveModulePosition();
 
     @Inject
@@ -63,23 +64,23 @@ public class SwerveModule {
                 DriveConstants.WHEEL_DIAMETER * Math.PI;
     }
 
-    public double getAzimuthPosition() {
-        return Math.toRadians(absoluteEncoder.getAbsolutePosition());
-    }
-
     public double getDriveVelocity() {
         return driveMotor.getSelectedSensorVelocity() * 10 / 2048 *
                 (DriveConstants.WHEEL_DIAMETER * Math.PI) * DriveConstants.SWERVE_X_REDUCTION;
     }
-
-    public SwerveModulePosition getPosition() {
-        updateModulePosition();
-        return this.position;
+    public double getAzimuthPosition() {
+        return Math.toRadians(absoluteEncoder.getAbsolutePosition());
     }
 
-    public void updateModulePosition() {
+    public SwerveModuleState getState() {
+        state.speedMetersPerSecond = getDriveVelocity();
+        state.angle = new Rotation2d(getAzimuthPosition());
+        return state;
+    }
+    public SwerveModulePosition getPosition() {
         position.distanceMeters = getDrivePosition();
         position.angle = new Rotation2d(getAzimuthPosition());
+        return position;
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {

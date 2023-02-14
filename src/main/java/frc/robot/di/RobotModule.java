@@ -3,7 +3,6 @@ package frc.robot.di;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -80,11 +79,5 @@ public class RobotModule {
     @Singleton
     public SwerveDriveOdometry providesSwerveDriveOdometry(WPI_Pigeon2 gyro, SwerveModulePosition[] positions) {
         return new SwerveDriveOdometry(Constants.DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions);
-    }
-
-    @Provides
-    @Singleton
-    public ChassisSpeeds providesChassisSpeeds() {
-        return new ChassisSpeeds();
     }
 }

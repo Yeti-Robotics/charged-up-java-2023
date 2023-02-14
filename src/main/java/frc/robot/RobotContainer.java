@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
+import frc.robot.utils.controllerUtils.ButtonHelper.ButtonType;
 import frc.robot.utils.controllerUtils.ControllerContainer;
-import frc.robot.utils.controllerUtils.MultiButton;
+import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -63,7 +65,14 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new InstantCommand(drivetrainSubsystem::toggleSwerveLock), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 0, new InstantCommand(() -> {
+            commands.get(SwerveLockCommand.class).schedule();
+            buttonHelper.setButtonLayer(0, ButtonType.BUTTON, 1, 1);
+        }), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 1, new InstantCommand(() -> {
+            commands.get(SwerveLockCommand.class).cancel();
+            buttonHelper.setButtonLayer(0, ButtonType.BUTTON, 1, 0);
+        }), RunCondition.WHEN_PRESSED);
     }
 
 
