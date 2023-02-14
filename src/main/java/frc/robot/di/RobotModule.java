@@ -11,7 +11,6 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
-import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Named;
@@ -44,8 +43,8 @@ public class RobotModule {
 
     @Provides
     @Singleton
-    public Controller[] providesControllers(ControllerContainer controllerContainer) {
-        return controllerContainer.getControllers();
+    public ButtonHelper providesButtonHelper(ControllerContainer controllerContainer) {
+        return new ButtonHelper(controllerContainer.getControllers());
     }
 
     @Provides
@@ -69,11 +68,11 @@ public class RobotModule {
     @Provides
     @Singleton
     public SwerveModulePosition[] providesSwerveModulePositions() {
-        return new SwerveModulePosition[] {
-            new SwerveModulePosition(),
-            new SwerveModulePosition(),
-            new SwerveModulePosition(),
-            new SwerveModulePosition()
+        return new SwerveModulePosition[]{
+                new SwerveModulePosition(),
+                new SwerveModulePosition(),
+                new SwerveModulePosition(),
+                new SwerveModulePosition()
         };
     }
 
@@ -88,5 +87,4 @@ public class RobotModule {
     public ChassisSpeeds providesChassisSpeeds() {
         return new ChassisSpeeds();
     }
-
 }
