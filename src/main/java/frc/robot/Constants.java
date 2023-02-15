@@ -69,8 +69,8 @@ public final class Constants {
         public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
         public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SWERVE_X_REDUCTION * WHEEL_DIAMETER * Math.PI; //placeholder
-        private static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(21.75); //PLACEHOLDER
-        private static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(21.75); //PLACEHOLDER
+        private static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(22.25); //PLACEHOLDER
+        private static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(22.25); //PLACEHOLDER
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2, DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2); //PLACEHOLDER
 
         public static final SwerveDriveKinematics DRIVE_KINEMATICS =
