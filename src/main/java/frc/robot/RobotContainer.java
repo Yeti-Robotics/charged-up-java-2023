@@ -66,14 +66,7 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new InstantCommand(() -> {
-            commands.get(SwerveLockCommand.class).schedule();
-            buttonHelper.setButtonLayer(0, ButtonType.BUTTON, 1, 1);
-        }), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(1, 1, new InstantCommand(() -> {
-            commands.get(SwerveLockCommand.class).cancel();
-            buttonHelper.setButtonLayer(0, ButtonType.BUTTON, 1, 0);
-        }), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(2, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
