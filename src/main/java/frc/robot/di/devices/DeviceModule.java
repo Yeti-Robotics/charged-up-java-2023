@@ -1,13 +1,12 @@
 package frc.robot.di.devices;
 
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.di.devices.MotorsModule;
-import org.photonvision.PhotonCamera;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -20,12 +19,10 @@ public class DeviceModule {
         return new WPI_Pigeon2(Constants.DriveConstants.GYRO, "canivoreBus");
     }
 
-    public DigitalInput providesBeamBreak(){
-        return new DigitalInput(Constants.CarriageConstants.CARRIAGE_BEAMBREAK);
+    @Provides
+    @Singleton
+    @Named("armEncoder")
+    public WPI_CANCoder providesArmEncoder() {
+        return new WPI_CANCoder(Constants.ArmConstants.ARM_ENCODER);
     }
-
-    public CANCoder providesArmEncoder(){
-        return new CANCoder(Constants.ArmConstants.ARM_ENCODER);
-    }
-
 }
