@@ -3,6 +3,7 @@ package frc.robot.di;
 import javax.inject.Singleton;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.subsystems.ArmSubsystem;
@@ -16,9 +17,11 @@ public class SubsystemsModule {
     @Singleton
 
     public ArmSubsystem providesArmSubsystem (
-            @Named("armMotor1") WPI_TalonFX motor1, @Named("armMotor2")WPI_TalonFX motor2
-    ){
-       return new ArmSubsystem(motor1, motor2);
+            @Named("armMotor1") WPI_TalonFX motor1,
+            @Named("armMotor2") WPI_TalonFX motor2,
+            @Named("armEncoder") WPI_CANCoder encoder
+    ) {
+       return new ArmSubsystem(motor1, motor2, encoder);
     }
     @Provides
     @Singleton
