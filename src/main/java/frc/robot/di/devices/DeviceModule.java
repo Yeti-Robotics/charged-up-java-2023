@@ -11,7 +11,10 @@ public class DeviceModule {
     @Provides
     @Singleton
     public WPI_Pigeon2 providesGyro() {
-        return new WPI_Pigeon2(DriveConstants.GYRO, "canivoreBus");
+        WPI_Pigeon2 gyro = new WPI_Pigeon2(DriveConstants.GYRO, "canivoreBus");
+
+        gyro.configMountPose(180.0, 0, 0);
+        return gyro;
     }
 
     public static WPI_CANCoder absoluteEncoderFactory(int id, double degreesOffset, boolean reversed) {

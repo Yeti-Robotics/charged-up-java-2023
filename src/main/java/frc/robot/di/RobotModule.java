@@ -46,16 +46,23 @@ public class RobotModule {
         return new ButtonHelper(controllerContainer.getControllers());
     }
 
+    /*
+     * The X axis is forward and backward
+     */
+
     @Provides
     @Named("translationXSupplier")
     public DoubleSupplier provideTranslationXSupplier(ControllerContainer controllerContainer) {
-        return () -> controllerContainer.get(0).getLeftX();
+        return () -> controllerContainer.get(0).getLeftY();
     }
 
+    /*
+     * The Y is side to side
+     */
     @Provides
     @Named("translationYSupplier")
     public DoubleSupplier provideTranslationYSupplier(ControllerContainer controllerContainer) {
-        return () -> controllerContainer.get(0).getLeftY();
+        return () -> controllerContainer.get(0).getLeftX();
     }
 
     @Provides
