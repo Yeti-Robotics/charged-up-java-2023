@@ -15,9 +15,14 @@ import java.util.Map;
 public class RobotModule {
     @Provides
     @Singleton
-    public RobotContainer providesRobotContainer(ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands) {
+    public RobotContainer providesRobotContainer(
+            ArmSubsystem armSubsystem,
+            ControllerContainer controllerContainer,
+            Map<Class<?>, CommandBase> commands) {
         return new RobotContainer(
-                armSubsystem, controllerContainer, commands
+                armSubsystem,
+                controllerContainer,
+                commands
         );
     }
 

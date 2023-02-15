@@ -9,16 +9,13 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 public class SolenoidsModule {
-
-    /*@Provides
+    @Provides
     @Singleton
-    @Named("carriage piston")
-    public DoubleSolenoid providesDoubleSolenoid() {
-
+    @Named("airBrake")
+    public DoubleSolenoid providesAirBrake() {
         return new DoubleSolenoid(
                 PneumaticsModuleType.CTREPCM,
-                Constants.CarriageConstants.CARRIAGE_PISTON[0],
-                Constants.CarriageConstants.CARRIAGE_PISTON[1]);
-
-    }*/
+                Constants.ArmConstants.AIR_BRAKE_PORTS[0],
+                Constants.ArmConstants.AIR_BRAKE_PORTS[1]);
+    }
 }
