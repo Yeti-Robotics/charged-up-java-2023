@@ -21,6 +21,11 @@ public class MotorsModule {
         motor.configSupplyCurrentLimit(Constants.ArmConstants.SUPPLY_CURRENT_LIMIT);
         motor.configStatorCurrentLimit(Constants.ArmConstants.STATOR_CURRENT_LIMIT);
 
+        motor.configForwardSoftLimitThreshold(Constants.ArmConstants.UPPER_LIMIT);
+        motor.configForwardSoftLimitEnable(true);
+        motor.configReverseSoftLimitThreshold(Constants.ArmConstants.LOWER_LIMIT);
+        motor.configReverseSoftLimitEnable(true);
+
         motor.configRemoteFeedbackFilter(armEncoder, 0, 10);
         motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
 
@@ -31,6 +36,9 @@ public class MotorsModule {
         motor.config_kI(0, Constants.ArmConstants.ARM_I);
         motor.config_kD(0, Constants.ArmConstants.ARM_D);
         motor.config_kF(0, Constants.ArmConstants.ARM_F);
+        motor.configMotionCruiseVelocity(Constants.ArmConstants.MAX_VELOCITY);
+        motor.configMotionAcceleration(Constants.ArmConstants.MAX_ACCELERATION);
+        motor.configMotionSCurveStrength(Constants.ArmConstants.MOTION_SMOOTHING);
 
         return motor;
     }

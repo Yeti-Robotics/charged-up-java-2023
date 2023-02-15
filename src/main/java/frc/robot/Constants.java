@@ -8,6 +8,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
+import java.security.PublicKey;
 import java.util.Map;
 
 /**
@@ -41,11 +42,34 @@ public final class Constants
         public static final double ENCODER_OFFSET = 0.0;
         public static final boolean ARM_ENCODER_REVERSE = false;
 
-        public static final double ARM_P = 1;
-        public static final double ARM_I = 0;
-        public static final double ARM_D = 0;
-        public static final double ARM_F = 0;
+        /*
+         * The reduction from the encoder to the arm
+         * Multiply the encoder value; divide the output
+         */
+        public static final double GEAR_RATIO = 1 / (32.0 / 12.0); // ~2.6667
 
+        // (real world output) / (gear ratio) = (encoder limit)
+        public static final double UPPER_LIMIT = 120.0 / GEAR_RATIO;
+        public static final double LOWER_LIMIT = 0.0 / GEAR_RATIO;
+
+        public static final double ARM_P = 1.0;
+        public static final double ARM_I = 0.0;
+        public static final double ARM_D = 0.0;
+        public static final double ARM_F = 0.0;
+        public static final double GRAVITY_FEEDFORWARD = 0.7;
+        public static final double MAX_VELOCITY = 50.0;
+        public static final double MAX_ACCELERATION = MAX_VELOCITY / 2.0;
+        // [0, 8]
+        public static final int MOTION_SMOOTHING = 0;
+
+        public enum ArmPositions {
+            DOWN(0 / GEAR_RATIO),
+            UP(80 / GEAR_RATIO),
+            HANDOFF(120 / GEAR_RATIO);
+
+            public final double angle;
+            ArmPositions(double angle) { this.angle = angle;}
+        }
     }
 
     public static final class TalonFXConstants {
