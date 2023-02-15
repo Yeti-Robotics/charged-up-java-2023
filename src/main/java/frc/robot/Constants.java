@@ -52,18 +52,18 @@ public final class Constants {
         public static final boolean BACK_RIGHT_ENCODER_REVERSED = false;
 
         public static final int GYRO = 1; //placeholder value
-        public static final double DRIVE_MOTOR_P = 1.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_P = 2.0; //placeholder from borealis
         public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis
         public static final double DRIVE_MOTOR_D = 0.0; //placeholder from borealis
-        public static final double DRIVE_MOTOR_KS = 0.643; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KS = 0.743; //placeholder from borealis
         public static final double DRIVE_MOTOR_KV = 2.178; //placeholder from borealis
         public static final double DRIVE_MOTOR_KA = 0.406; //placeholder from borealis
 
-        public static final double AZIMUTH_MOTOR_P = 8.0; //placeholder from borealis 3
+        public static final double AZIMUTH_MOTOR_P = 5.0; //placeholder from borealis 3
         public static final double AZIMUTH_MOTOR_I = 0.0; //placeholder from borealis
         public static final double AZIMUTH_MOTOR_D = 0.00; //placeholder from borealis 0.01
-        public static final double AZIMUTH_MOTOR_KS = 0.75; //placeholder from borealis 0.75
-        public static final double AZIMUTH_MOTOR_KV = 0.7; //placeholder from borealis 0.7
+        public static final double AZIMUTH_MOTOR_KS = 0.50; //placeholder from borealis 0.75
+        public static final double AZIMUTH_MOTOR_KV = 0.35; //placeholder from borealis 0.7
         public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
         public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
         public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;

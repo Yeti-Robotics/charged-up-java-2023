@@ -45,7 +45,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         updateSwerveModulePositions();
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        zeroGyroscope();
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                zeroGyroscope();
+            } catch (Exception e) {
+                System.out.println("FAILED TO ZERO GYROSCOPE");
+            }
+        }).start();
     }
 
     public void zeroGyroscope() {

@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -72,6 +73,10 @@ public class RobotContainer {
         buttonHelper.createButton(1, 1, new InstantCommand(() -> {
             commands.get(SwerveLockCommand.class).cancel();
             buttonHelper.setButtonLayer(0, ButtonType.BUTTON, 1, 0);
+        }), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(2, 0, new InstantCommand(() -> {
+            drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
     }
 
