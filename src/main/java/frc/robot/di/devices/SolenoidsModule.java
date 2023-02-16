@@ -10,14 +10,4 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 @Module
 public class SolenoidsModule {
-    @Provides
-    @Singleton
-    @Named("elevator piston")
-    public DoubleSolenoid providesDoubleSolenoid() {
-
-        return new DoubleSolenoid(
-                PneumaticsModuleType.CTREPCM,
-                Constants.ElevatorConstants.ELEVATOR_PISTON[0],
-                Constants.ElevatorConstants.ELEVATOR_PISTON[1]);
-    }
 }
