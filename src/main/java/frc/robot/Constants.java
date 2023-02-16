@@ -111,6 +111,12 @@ public final class Constants {
                 new TrapezoidProfile.Constraints(
                         DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
                         DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+
+        public static final double PITCH_SET_POINT = 0.0;
+        public static final double PITCH_P = 0.04;
+        public static final double PITCH_I = 0.0005;
+        public static final double PITCH_D = 0.000000000000001;
+        public static final double PITCH_F = 0.000000000000001;
     }
 
 

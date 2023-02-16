@@ -5,8 +5,12 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
@@ -63,6 +67,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(gyro.getYaw());
     }
 
+    public Rotation2d getPitch() {
+        return Rotation2d.fromDegrees(gyro.getPitch());
+    }
+
     public Pose2d getPose() {
         return odometer.getPoseMeters();
     }
@@ -90,6 +98,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         frontRightModule.setDesiredState(desiredStates[1]);
         backLeftModule.setDesiredState(desiredStates[2]);
         backRightModule.setDesiredState(desiredStates[3]);
+    }
+
+    public void drive(Translation2d translation2d, double rotation){
+        SwerveModuleState[] swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                        translation2d.getX(), translation2d.getY(), rotation, getGyroscopeHeading()
+                )
+        );
     }
 
     public ChassisSpeeds getChassisSpeeds() {
