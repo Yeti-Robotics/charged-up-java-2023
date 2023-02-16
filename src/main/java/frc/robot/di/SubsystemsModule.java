@@ -3,6 +3,7 @@ package frc.robot.di;
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
+import frc.robot.Constants;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -20,5 +21,5 @@ public class SubsystemsModule {
 
     @Provides
     @Singleton
-    public VisionSubsystem providesVisionSubsystem(@Named("table") NetworkTableInstance table) {return new VisionSubsystem(NetworkTableInstance.getDefault());}
+    public VisionSubsystem providesVisionSubsystem(@Named(Constants.VisionConstants.TABLE_NAME) NetworkTableInstance table) {return new VisionSubsystem(NetworkTableInstance.getDefault());}
 }

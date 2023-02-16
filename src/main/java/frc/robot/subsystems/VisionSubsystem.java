@@ -20,7 +20,7 @@ public class VisionSubsystem extends SubsystemBase {
     public double xFinal;
     public double yFinal;
 
-    public VisionSubsystem(@Named("table") NetworkTableInstance table) {
+    public VisionSubsystem(@Named(Constants.VisionConstants.TABLE_NAME) NetworkTableInstance table) {
         this.table = table;
     }
 
