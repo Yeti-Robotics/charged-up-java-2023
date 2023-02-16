@@ -32,6 +32,6 @@ public class MoveElevatorUpCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        elevatorSubsystem.elevatorStop();
     }
 }

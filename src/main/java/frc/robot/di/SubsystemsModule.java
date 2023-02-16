@@ -15,12 +15,11 @@ import javax.inject.Singleton;
 public class SubsystemsModule {
     @Provides
     @Singleton
-    @Named("Elevator Subsystem")
     public ElevatorSubsystem provideElevatorSubsystem(
             @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
-            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorBeamBreak) {
+            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorMagSwitch) {
         return new ElevatorSubsystem(
                 elevatorMotor,
-                elevatorBeamBreak);
+                elevatorMagSwitch);
     }
 }

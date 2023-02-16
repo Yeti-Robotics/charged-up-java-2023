@@ -18,13 +18,13 @@ import java.util.Map;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
+public final class Constants {
     public static final class DriveConstants {
 
         public static final int GYRO = 1; //placeholder value
 
     }
+
     public static final class TalonFXConstants {
         public static final double COUNTS_PER_REV = 2048;
 
@@ -85,9 +85,10 @@ public final class Constants
 
             public final double distance;
             public final double sensorUnits;
+
             ElevatorPositions(double distance) {
                 this.distance = distance;
-                this.sensorUnits = distance / STAGES / ELEVATOR_DISTANCE_PER_PULSE;
+                this.sensorUnits = (distance / STAGES) / ELEVATOR_DISTANCE_PER_PULSE;
             }
         }
     }

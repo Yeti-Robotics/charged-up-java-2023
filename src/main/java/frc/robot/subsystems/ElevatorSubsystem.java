@@ -16,7 +16,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final WPI_TalonFX elevatorMotor;
     private ElevatorPositions distanceSetpoint;
 
-    private DigitalInput magSwitch;
+    private final DigitalInput magSwitch;
 
     @Inject
     public ElevatorSubsystem(
@@ -51,7 +51,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         return magSwitch.get();
     }
 
-    public double convertInchesToCounts(double inches){
+    public double convertInchesToCounts(double inches) {
         return inches / Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE;
     }
 

@@ -8,17 +8,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.MoveElevatorDownCommand;
+import frc.robot.commands.MoveElevatorUpCommand;
 import frc.robot.di.RobotComponent;
-
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
-
 import frc.robot.utils.controllerUtils.ControllerContainer;
-import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
-import frc.robot.utils.controllerUtils.POVDirections;
+import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -31,8 +30,9 @@ import java.util.Map;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-
     private RobotComponent robotComponent;
+
+    private final ElevatorSubsystem elevatorSubsystem;
 
     private final Map<Class<?>, CommandBase> commands;
 
@@ -44,19 +44,20 @@ public class RobotContainer {
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
 
 
-    
-@Inject
-    public RobotContainer(ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
-    {
-
+    @Inject
+    public RobotContainer(
+            ElevatorSubsystem elevatorSubsystem,
+            ControllerContainer controllerContainer,
+            Map<Class<?>, CommandBase> commands,
+            ButtonHelper buttonHelper) {
+        this.elevatorSubsystem = elevatorSubsystem;
         this.controllerContainer = controllerContainer;
         this.buttonHelper = buttonHelper;
         this.commands = commands;
-        // configureBindings();
+
+        configureBindings();
     }
 
-
-    
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -69,9 +70,18 @@ public class RobotContainer {
      */
 
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new PrintCommand("Button button"), RunCondition.WHEN_PRESSED);
-        buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), RunCondition.WHEN_PRESSED, 0.25);
-        buttonHelper.createPOVButton(0, POVDirections.UP, 0, new PrintCommand("POV button"), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 0, commands.get(MoveElevatorDownCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(2, 0, commands.get(MoveElevatorUpCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3, 0, new InstantCommand(elevatorSubsystem::elevatorStop), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(6, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.DOWN)), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.CONE)), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.LEVEL_TWO)), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.UP)), RunCondition.WHEN_PRESSED);
     }
 
 

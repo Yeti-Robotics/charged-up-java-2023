@@ -16,7 +16,9 @@ public class MotorsModule {
     @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR)
     public WPI_TalonFX elevatorMotor() {
         WPI_TalonFX motor = new WPI_TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_ID, "canivoreBus");
-        motor.configReverseSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_FORWARD_SOFT_LIMIT); //Need to check convertInchesToCounts
+        motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+
+        motor.configForwardSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_FORWARD_SOFT_LIMIT); //Need to check convertInchesToCounts
         motor.configForwardSoftLimitEnable(true);
         motor.configReverseSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_REVERSE_SOFT_LIMIT); //Need to check convertInchesToCounts
         motor.configReverseSoftLimitEnable(true);
