@@ -12,7 +12,7 @@ public class ArmUpCommand extends CommandBase {
 
     public ArmUpCommand(ArmSubsystem armSubsystem) {
         this.armSubsystem = armSubsystem;
-        addRequirements();
+        addRequirements(armSubsystem);
     }
 
     @Override

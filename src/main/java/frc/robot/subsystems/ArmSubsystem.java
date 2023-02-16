@@ -15,19 +15,19 @@ import javax.inject.Named;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    private final WPI_TalonFX motor1, motor2;
+    private final WPI_TalonFX armMotor;
     private final WPI_CANCoder encoder;
 
     private final DoubleSolenoid airBrake;
 
+    private ArmPositions armPosition;
+
     public ArmSubsystem(
-            @Named("armMotor1") WPI_TalonFX motor1,
-            @Named("armMotor2") WPI_TalonFX motor2,
-            @Named("armEncoder") WPI_CANCoder encoder,
-            @Named("airBrake") DoubleSolenoid airBrake
+            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor,
+            @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
+            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake
             ) {
-        this.motor1 = motor1;
-        this.motor2 = motor2;
+        this.armMotor = armMotor;
         this.encoder = encoder;
         this.airBrake = airBrake;
 
@@ -36,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        System.out.println(encoder.getPosition() + " : " + encoder.getAbsolutePosition() + " : " + armMotor.getSelectedSensorPosition() + " : " + getAngle());
     }
 
     public void setPosition(ArmPositions position) {
@@ -43,16 +44,25 @@ public class ArmSubsystem extends SubsystemBase {
             stop();
             return;
         }
+        armPosition = position;
         motorsBrake();
 
-        double radians = Math.toRadians(encoder.getAbsolutePosition() * Constants.ArmConstants.GEAR_RATIO);
+        double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
 
-        motor1.set(ControlMode.MotionMagic, position.angle, DemandType.ArbitraryFeedForward, Constants.ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
+        armMotor.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
     }
 
-    public double getPosition() {
-        return encoder.getAbsolutePosition() * Constants.ArmConstants.GEAR_RATIO;
+    public double getAngle() {
+        return armMotor.getSelectedSensorPosition() / Constants.CANCoderConstants.COUNTS_PER_DEG * Constants.ArmConstants.GEAR_RATIO;
+    }
+
+    public ArmPositions getArmPosition() {
+        return armPosition;
+    }
+
+    public boolean isMotionFinished() {
+        return Math.abs(getAngle() - armPosition.angle) < Constants.ArmConstants.ANGLE_TOLERANCE;
     }
 
     public void moveUp(double speed) {
@@ -62,7 +72,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
         motorsBrake();
 
-        motor1.set(ControlMode.PercentOutput, Math.abs(speed));
+        armMotor.set(ControlMode.PercentOutput, Math.abs(speed));
     }
 
     public void moveDown(double speed) {
@@ -72,7 +82,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
         motorsBrake();
 
-        motor1.set(ControlMode.PercentOutput, -Math.abs(speed));
+        armMotor.set(ControlMode.PercentOutput, -Math.abs(speed));
     }
 
     public void engageBrake() {
@@ -99,18 +109,15 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     private void motorsBrake() {
-        motor1.setNeutralMode(NeutralMode.Brake);
-        motor2.setNeutralMode(NeutralMode.Brake);
+        armMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void motorsCoast() {
-        motor1.setNeutralMode(NeutralMode.Coast);
-        motor2.setNeutralMode(NeutralMode.Coast);
+        armMotor.setNeutralMode(NeutralMode.Coast);
     }
 
     public void stop() {
-        motor1.set(0);
-        motor2.set(0);
+        armMotor.set(0);
     }
 }
 

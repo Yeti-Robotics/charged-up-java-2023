@@ -18,21 +18,21 @@ import java.util.Map;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
+public final class Constants {
     public static final class DriveConstants {
 
         public static final int GYRO = 1; //placeholder value
     }
 
     public static final class ArmConstants {
-        public static final int MOTOR_1 = 10; // Left arm
-        public static final int MOTOR_2 = 11; // Right arm
+        public static final String ARM_MOTOR = "armMotor";
+        public static final int ARM_MOTOR_ID = 11; // Right arm
+        public static final double ARM_SPEED = 0.3;
 
-        public static final double ARM_SPEED = 0.1;
+        public static final String ARM_ENCODER = "armEncoder";
+        public static final int ARM_ENCODER_ID = 5;
 
-        public static final int ARM_ENCODER = 5;
-
+        public static final String AIR_BRAKE = "airBrake";
         public static final int[] AIR_BRAKE_PORTS = {2, 3};
 
         public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT =
@@ -40,41 +40,53 @@ public final class Constants
         public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT =
                 new StatorCurrentLimitConfiguration(true, 55, 65, 0.1);
 
-        public static final double ENCODER_OFFSET = 0.0;
-        public static final boolean ARM_ENCODER_REVERSE = false;
+        public static final double ENCODER_OFFSET = -170.0;
+        public static final boolean ARM_ENCODER_REVERSE = true;
 
         /*
          * The reduction from the encoder to the arm
          * Multiply the encoder value; divide the output
          */
-        public static final double GEAR_RATIO = 1 / (32.0 / 12.0); // ~2.6667
+        public static final double GEAR_RATIO = 1.0 / (32.0 / 12.0); // ~2.6667
 
-        // (real world output) / (gear ratio) = (encoder limit)
-        public static final double UPPER_LIMIT = 120.0 / GEAR_RATIO;
-        public static final double LOWER_LIMIT = 0.0 / GEAR_RATIO;
+        // (real world output) / (gear ratio) * (CANCoder raw units) = (encoder limit in raw units)
+        public static final double UPPER_LIMIT = 80.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+        public static final double LOWER_LIMIT = -5.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
 
-        public static final double ARM_P = 1.0;
+        public static final double ANGLE_TOLERANCE = 2.0;
+
+        public static final double ARM_P = 0.1;
         public static final double ARM_I = 0.0;
-        public static final double ARM_D = 0.0;
+        public static final double ARM_D = 1.0;
         public static final double ARM_F = 0.0;
-        public static final double GRAVITY_FEEDFORWARD = 0.7;
-        public static final double MAX_VELOCITY = 50.0;
+        public static final double GRAVITY_FEEDFORWARD = 0.2;
+        public static final double MAX_VELOCITY = 80.0;
         public static final double MAX_ACCELERATION = MAX_VELOCITY / 2.0;
         // [0, 8]
         public static final int MOTION_SMOOTHING = 0;
 
         public enum ArmPositions {
-            DOWN(0 / GEAR_RATIO),
-            UP(80 / GEAR_RATIO),
-            HANDOFF(120 / GEAR_RATIO);
+            DOWN(0.0),
+            UP(60.0),
+            HANDOFF(80.0);
 
             public final double angle;
-            ArmPositions(double angle) { this.angle = angle;}
+            public final double sensorUnits;
+
+            ArmPositions(double angle) {
+                this.angle = angle;
+                this.sensorUnits = angle / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+            }
         }
     }
 
     public static final class TalonFXConstants {
         public static final int COUNTS_PER_REV = 2048;
+    }
+
+    public static final class CANCoderConstants {
+        public static final int COUNTS_PER_REV = 4096;
+        public static final double COUNTS_PER_DEG = COUNTS_PER_REV / 360.0;
     }
 
     public static final class OIConstants {

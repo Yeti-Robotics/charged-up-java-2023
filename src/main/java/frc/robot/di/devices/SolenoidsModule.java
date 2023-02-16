@@ -11,9 +11,10 @@ import javax.inject.Singleton;
 
 @Module
 public class SolenoidsModule {
+
     @Provides
     @Singleton
-    @Named("airBrake")
+    @Named(Constants.ArmConstants.AIR_BRAKE)
     public DoubleSolenoid providesAirBrake() {
         return new DoubleSolenoid(
                 PneumaticsModuleType.CTREPCM,

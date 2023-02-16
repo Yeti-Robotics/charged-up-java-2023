@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.WPI_CANCoder;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
 import javax.inject.Named;
@@ -16,14 +17,12 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public ArmSubsystem providesArmSubsystem (
-            @Named("armMotor1") WPI_TalonFX motor1,
-            @Named("armMotor2") WPI_TalonFX motor2,
-            @Named("armEncoder") WPI_CANCoder encoder,
-            @Named("airBrake") DoubleSolenoid airBrake
+            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor,
+            @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
+            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake
             ) {
        return new ArmSubsystem(
-               motor1,
-               motor2,
+               armMotor,
                encoder,
                airBrake);
     }
