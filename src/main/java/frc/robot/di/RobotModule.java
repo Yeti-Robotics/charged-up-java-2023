@@ -4,19 +4,21 @@ import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
+
 import javax.inject.Singleton;
+import java.awt.*;
 import java.util.Map;
 
 @Module
 public class RobotModule {
     @Provides
     @Singleton
-    public RobotContainer providesRobotContainer(ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands) {
-        return new RobotContainer(
-                controllerContainer, commands
-        );
+
+    public RobotContainer providesRobotContainer(ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+        return new RobotContainer(controllerContainer, commands, buttonHelper);
     }
 
     @Provides
@@ -25,4 +27,9 @@ public class RobotModule {
         return new ControllerContainer();
     }
 
+    @Provides
+    @Singleton
+    public ButtonHelper providesButtonHelper(ControllerContainer controllerContainer) {
+        return new ButtonHelper(controllerContainer.getControllers());
+    }
 }

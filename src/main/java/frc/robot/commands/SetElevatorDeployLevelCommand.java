@@ -26,7 +26,7 @@ public class SetElevatorDeployLevelCommand extends CommandBase {
     }
 
     @Override
-    public void execute() { elevatorSubsystem.setLevel(elevatorLevel); }
+    public void execute() {  }
 
     @Override
     public boolean isFinished() {

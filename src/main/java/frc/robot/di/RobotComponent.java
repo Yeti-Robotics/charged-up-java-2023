@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 
 @Singleton
 @Component(modules =
-        {RobotModule.class, SubsystemsModule.class, CommandsModule.class, DeviceModule.class})
+        {RobotModule.class, SubsystemsModule.class, CommandsModule.class, DeviceModule.class, RESTModule.class})
 public interface RobotComponent {
     @Component.Builder
     interface Builder {

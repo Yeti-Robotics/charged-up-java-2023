@@ -36,7 +36,7 @@ public final class Constants
         public static final double ELEVATOR_SPEED = .4;
 
         public static final double ELEVATOR_GEAR_RATIO = 7.75/12;
-        public static final double ELEVATOR_HEIGHT_RATIO = 32/12;
+
 
 
         public static final double SPROCKET_CIRCUMFERENCE = 1.5 * Math.PI;
@@ -62,6 +62,17 @@ public final class Constants
 
         public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0;
         public static final double ELEVATOR_FORWARD_SOFT_LIMIT = 59;
+
+        public static final double GRAVITY_FEEDFORWARD = 0.07; //experimental value
+        public static final int ELEVATOR_ENCODER = 0;
+
+        /*public enum ElevatorPositions {
+            DOWN(0 / GEAR_RATIO),
+            UP;
+
+            public final double distance;
+            ElevatorPositions(double distance) { this.distance = distance;}
+        }*/
 
 
     }
