@@ -15,8 +15,8 @@ public class CarriageSubsystem extends SubsystemBase {
     private final SparkMaxLimitSwitch reverseCarriageBeamBreak;
     @Inject
     public CarriageSubsystem(
-            @Named("rollerMotor") CANSparkMax rollerMotor,
-            @Named("flipMotor") CANSparkMax flipMotor
+            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor
     ) {
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;

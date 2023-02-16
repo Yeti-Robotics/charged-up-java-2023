@@ -34,7 +34,7 @@ public class DeviceModule {
     }
 
     @Provides
-    @Named("carriageNeo")
+    @Named(Constants.CarriageConstants.CARRIAGE_NEO_NAME)
     public CANSparkMax providesCarriageNeo() {
         return new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
     }

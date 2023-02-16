@@ -12,7 +12,7 @@ import javax.inject.Named;
 public class MotorsModule {
 
     @Provides
-    @Named("rollerMotor")
+    @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME)
     public CANSparkMax rollerMotor() {
         CANSparkMax rollerMotor = new CANSparkMax(Constants.CarriageConstants.ROLLER_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
 
@@ -26,7 +26,7 @@ public class MotorsModule {
     }
 
     @Provides
-    @Named("flipMotor")
+    @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME)
     public CANSparkMax flipMotor() {
         CANSparkMax flipMotor = new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
         flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 250);
@@ -41,7 +41,7 @@ public class MotorsModule {
     }
 
     @Provides
-    @Named("carriageNeo")
+    @Named(Constants.CarriageConstants.CARRIAGE_NEO_NAME)
     public CANSparkMax carriageNeo() {
         CANSparkMax carriageNeo = new CANSparkMax(Constants.CarriageConstants.CARRIAGE_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
         carriageNeo.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 250);

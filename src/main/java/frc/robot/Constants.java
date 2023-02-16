@@ -35,6 +35,10 @@ public final class Constants
 
         public static final int[] CARRIAGE_PISTON = {1, 2}; //placeholder
         public static final int CARRIAGE_NEO = 1; //placeholder
+        public static final String FLIP_MOTOR_NAME = "flipMotor";
+        public static final String ROLLER_MOTOR_NAME = "rollerMotor";
+        public static final String CARRIAGE_NEO_NAME = "carriageNeo";
+        public static final String CARRIAGE_PISTON_NAME = "carriage piston";
     }
 
 
@@ -45,6 +49,7 @@ public final class Constants
         public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
 
 
+        public static final String TABLE_NAME = "table";
     }
     public static final class OIConstants {
 

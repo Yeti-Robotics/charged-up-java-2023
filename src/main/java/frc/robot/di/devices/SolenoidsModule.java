@@ -14,7 +14,7 @@ public class SolenoidsModule {
 
     @Provides
     @Singleton
-    @Named("carriage piston")
+    @Named(Constants.CarriageConstants.CARRIAGE_PISTON_NAME)
     public DoubleSolenoid providesDoubleSolenoid() {
 
         return new DoubleSolenoid(
