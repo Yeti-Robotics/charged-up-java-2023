@@ -30,6 +30,11 @@ public final class Constants
         public static final double CARRIAGE_SPEED = 0.35;
         public static final int CARRIAGE_BEAMBREAK = 0;
         public static final double FLIP_SPEED = .5;
+
+        public static final int CARRIAGE_LIMITSWITCH = 1; //placeholder
+
+        public static final int[] CARRIAGE_PISTON = {1, 2}; //placeholder
+        public static final int CARRIAGE_NEO = 1; //placeholder
     }
 
 

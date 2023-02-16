@@ -1,7 +1,6 @@
 package frc.robot.di;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -17,10 +16,9 @@ public class SubsystemsModule {
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
             @Named("rollerMotor") CANSparkMax rollerMotor,
-            @Named("flipMotor") CANSparkMax flipMotor,
-            @Named("beamBreak") SparkMaxLimitSwitch beamBreak
+            @Named("flipMotor") CANSparkMax flipMotor
     ) {
-        return new CarriageSubsystem(rollerMotor, flipMotor, beamBreak);
+        return new CarriageSubsystem(rollerMotor, flipMotor);
     }
 
     @Provides

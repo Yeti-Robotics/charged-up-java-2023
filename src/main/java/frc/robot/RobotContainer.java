@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton;
@@ -35,7 +34,6 @@ public class RobotContainer {
 
     private RobotComponent robotComponent;
 
-    private final CarriageSubsystem carriageSubsystem;
     private final Map<Class<?>, CommandBase> commands;
 
     public final ControllerContainer controllerContainer;
@@ -44,19 +42,12 @@ public class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController controller =
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
-    
-@Inject
-    public RobotContainer(CarriageSubsystem carriageSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
-    {
-        this.carriageSubsystem = carriageSubsystem;
 
     @Inject
     public RobotContainer(
-            ExampleSubsystem exampleSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             Map<Class<?>, CommandBase> commands) {
-        this.exampleSubsystem = exampleSubsystem;
         this.controllerContainer = controllerContainer;
         this.buttonHelper = buttonHelper;
         this.commands = commands;
@@ -73,16 +64,7 @@ public class RobotContainer {
      * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
-     
-    private void configureBindings()
-    {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-//        new Trigger(exampleSubsystem::exampleCondition)
-//                .onTrue(new ExampleCommand(exampleSubsystem));
-//
-//        // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-//        // cancelling on release.
-//        controller.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+
     private void configureBindings() {
         buttonHelper.createButton(1, 0, new PrintCommand("Button button"), RunCondition.WHEN_PRESSED);
         buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), RunCondition.WHEN_PRESSED, 0.25);

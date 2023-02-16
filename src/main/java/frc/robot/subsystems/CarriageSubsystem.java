@@ -11,16 +11,17 @@ import javax.inject.Named;
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax rollerMotor;
     private final CANSparkMax flipMotor;
-    private final SparkMaxLimitSwitch beamBreak;
+    private final SparkMaxLimitSwitch forwardCarriageBeamBreak;
+    private final SparkMaxLimitSwitch reverseCarriageBeamBreak;
     @Inject
     public CarriageSubsystem(
             @Named("rollerMotor") CANSparkMax rollerMotor,
-            @Named("flipMotor") CANSparkMax flipMotor,
-            @Named("beamBreak") SparkMaxLimitSwitch beamBreak
+            @Named("flipMotor") CANSparkMax flipMotor
     ) {
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
-        this.beamBreak = beamBreak;
+        this.forwardCarriageBeamBreak = rollerMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+        this.reverseCarriageBeamBreak = rollerMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
 
     public void carriageOut(){
@@ -35,7 +36,7 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public boolean getBeamBreak(){
-       return beamBreak.isPressed();
+       return forwardCarriageBeamBreak.isPressed();
     }
 
     public void flipMechanism(){

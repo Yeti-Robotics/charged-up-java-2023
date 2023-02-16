@@ -1,39 +1,25 @@
 package frc.robot.di;
 
-import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Singleton;
-import java.awt.*;
 import java.util.Map;
 
 @Module
 public class RobotModule {
     @Provides
     @Singleton
-    public RobotContainer providesRobotContainer(CarriageSubsystem carriageSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands) {
+    public RobotContainer providesRobotContainer(ControllerContainer controllerContainer,
+                                                 Map<Class<?>,
+                                                 CommandBase> commands,
+                                                 ButtonHelper buttonHelper) {
         return new RobotContainer(
-                carriageSubsystem, controllerContainer, commands
-                
-    public RobotContainer providesRobotContainer(
-            ExampleSubsystem exampleSubsystem,
-            ControllerContainer controllerContainer,
-            ButtonHelper buttonHelper,
-            Map<Class<?>, CommandBase> commands) {
-        return new RobotContainer(
-                exampleSubsystem,
-                controllerContainer,
-                buttonHelper,
-                commands
+                 controllerContainer, buttonHelper, commands
         );
     }
 
