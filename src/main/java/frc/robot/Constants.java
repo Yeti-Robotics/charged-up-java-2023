@@ -55,6 +55,7 @@ public final class Constants
         public static final String INTAKE_SPARK_1_NAME = "intake spark 1";
         public static final String INTAKE_SPARK_2_NAME = "intake spark 2";
         public static final String INTAKE_PISTON_NAME = "intake piston";
+        public static final String INTAKE_BEAM_BREAK_NAME = "intake beam break";
 
 
 

@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.*;
 
 import javax.inject.Named;
@@ -16,7 +14,9 @@ public class IntakeSubsystem extends SubsystemBase {
     private  final CANSparkMax intakeSpark2;
     private final DoubleSolenoid intakePiston;
 
+    private SparkMaxLimitSwitch intakeBeamBreak;
     private final SparkMaxPIDController intakePID;
+
 
 
 
@@ -33,6 +33,10 @@ public class IntakeSubsystem extends SubsystemBase {
        intakePID = intakeSpark1.getPIDController();
        intakePID.setP(IntakeConstants.INTAKE_P);
        intakePID.setD(IntakeConstants.INTAKE_D);
+       intakePID.setFF(IntakeConstants.INTAKE_F);
+
+       intakeBeamBreak = intakeSpark1.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+
 
     }
 
@@ -65,9 +69,34 @@ public class IntakeSubsystem extends SubsystemBase {
     public double getAverageEncoder() {
         return ((intakeSpark1.getEncoder().getVelocity()) + (intakeSpark2.getEncoder().getVelocity())) / 2;
     }
+    public boolean isClamped() {
+        boolean actuated = false;
+        if (intakePiston.get() == DoubleSolenoid.Value.kReverse) {
+            actuated = true;
+        }
+        else {
+            actuated = false;
+        }
+        return actuated;
+    }
+
+        public boolean getBeamBreak() {
+            return intakeBeamBreak.isPressed();
+        }
+
+
     public double getRPM() {
         return (getAverageEncoder() * IntakeConstants.INTAKE_RATIO * (SparkConstants.SPARK_PERIODMS / SparkConstants.SPARK_RESOLUTION));
     }
 
 
+    @Override
+    public void periodic() {
+        if (getBeamBreak()){
+            intakeClamp();
+        } else if (!getBeamBreak() && !isClamped()){
+            intakeUnClamp();
+        }
+
+    }
 }
