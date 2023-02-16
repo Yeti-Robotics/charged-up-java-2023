@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 
-public class intakeRollInCommand extends CommandBase {
+public class IntakeRollOutCommand extends CommandBase {
 
-    private final IntakeSubsystem intakeSubsystem;
-    public intakeRollInCommand(IntakeSubsystem intakeSubsystem) {
+    public final IntakeSubsystem intakeSubsystem;
+    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }
@@ -19,11 +19,12 @@ public class intakeRollInCommand extends CommandBase {
 
     @Override
     public void execute() {
-        intakeSubsystem.rollIn();
+        intakeSubsystem.rollOut();
     }
 
     @Override
     public boolean isFinished() {
+        // TODO: Make this return true when this Command no longer needs to run execute()
         return false;
     }
 

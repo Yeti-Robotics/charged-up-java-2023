@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.*;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,6 +42,8 @@ public class RobotContainer
     private final IntakeSubsystem intakeSubsystem;
     private final Map<Class<?>, CommandBase> commands;
 
+    private final ButtonHelper buttonHelper;
+
     public final ControllerContainer controllerContainer;
     
     // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -48,11 +52,12 @@ public class RobotContainer
     
 @Inject
 
-    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
+    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
     {
         this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
+        this.buttonHelper = buttonHelper;
         configureBindings();
     }
     
@@ -69,10 +74,11 @@ public class RobotContainer
     private void configureBindings()
     {
         /* change joystick button values*/
-        new JoystickButton(controllerContainer.get(0), 1).onTrue(new InstantCommand(intakeSubsystem::intakeUnclamp));
-        new JoystickButton(controllerContainer.get(0), 2).onTrue(new InstantCommand(intakeSubsystem::intakeClamp));
-        new JoystickButton(controllerContainer.get(0), 3).onTrue(new InstantCommand(intakeSubsystem::rollIn));
-        new JoystickButton(controllerContainer.get(0), 4).onTrue(new InstantCommand(intakeSubsystem::rollOut));
+        buttonHelper.createButton(3, 0, commands.get(IntakeClampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, commands.get(IntakeUnclampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 0, commands.get(IntakeRollInCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(7, 0, commands.get(IntakeRollOutCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(5, 0, commands.get(IntakeShootCommand.class), MultiButton.RunCondition.WHILE_HELD);
 
     }
     

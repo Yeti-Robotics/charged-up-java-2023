@@ -19,7 +19,7 @@ public class IntakeUnclampCommand extends CommandBase {
 
     @Override
     public void execute() {
-        intakeSubsystem.intakeUnclamp();
+        intakeSubsystem.intakeUnClamp();
     }
 
     @Override

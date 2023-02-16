@@ -5,6 +5,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
 import java.util.Map;
 
 /**
@@ -21,6 +23,10 @@ public final class Constants
     public static final class SparkConstants{
         public static final int SPARK_PERIODMS = 250;
         public static final int CURRENT_LIM = 40;
+
+        public static final int SPARK_RESOLUTION = 4096;
+
+
     }
     public static final class DriveConstants {
 
@@ -55,6 +61,16 @@ public final class Constants
         public static final double INTAKE_I = 0.0; //placeholder
         public static final double INTAKE_D = 0.0; //placeholder
         public static final double INTAKE_F = 0.0; //placeholder
+
+        public static final double WHEEL_DIAMETER = 4; //PLACEHOLDER
+
+        public static final double INTAKE_RATIO = 6; //PLACEHOLDER
+
+        public static final double INTAKE_KS = 0.5;
+        public static final double INTAKE_KV = 0.5;
+        public static final double INTAKE_KA = 0.5;
+
+        public static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(INTAKE_KS, INTAKE_KV, INTAKE_KA); //we can use once characterized
 
     }
 }

@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
        intakePID = intakeSpark1.getPIDController();
        intakePID.setP(IntakeConstants.INTAKE_P);
        intakePID.setD(IntakeConstants.INTAKE_D);
-       intakePID.setFF(IntakeConstants.INTAKE_F);
+
     }
 
     public void rollIn(){
@@ -55,5 +55,18 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeUnClamp(){
         intakePiston.set(DoubleSolenoid.Value.kReverse); //check Forward/Reverse values
     }
+
+    public void intakeShoot(double setpoint){
+        intakePID.setReference(setpoint, CANSparkMax.ControlType.kVelocity);
+    }
+
+
+    public double getAverageEncoder() {
+        return ((intakeSpark1.getEncoder().getVelocity()) + (intakeSpark2.getEncoder().getVelocity())) / 2;
+    }
+    public double getRPM() {
+        return (getAverageEncoder() * IntakeConstants.INTAKE_RATIO * (SparkConstants.SPARK_PERIODMS / SparkConstants.SPARK_RESOLUTION));
+    }
+
 
 }
