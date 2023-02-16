@@ -31,10 +31,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Inject
     public DrivetrainSubsystem(
-            @Named("front left") SwerveModule frontLeftModule,
-            @Named("front right") SwerveModule frontRightModule,
-            @Named("back left") SwerveModule backLeftModule,
-            @Named("back right") SwerveModule backRightModule,
+            @Named(DriveConstants.FRONT_LEFT_MODULE_NAME) SwerveModule frontLeftModule,
+            @Named(DriveConstants.FRONT_RIGHT_MODULE_NAME) SwerveModule frontRightModule,
+            @Named(DriveConstants.BACK_LEFT_MODULE_NAME) SwerveModule backLeftModule,
+            @Named(DriveConstants.BACK_RIGHT_MODULE_NAME) SwerveModule backRightModule,
             SwerveModulePosition[] swerveModulePosition,
             SwerveDriveOdometry odometer,
             WPI_Pigeon2 gyro) {

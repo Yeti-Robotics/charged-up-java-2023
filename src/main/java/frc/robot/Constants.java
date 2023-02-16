@@ -51,6 +51,11 @@ public final class Constants {
         public static final double BACK_RIGHT_ENCODER_OFFSET = -23.730;
         public static final boolean BACK_RIGHT_ENCODER_REVERSED = false;
 
+        public static final String FRONT_LEFT_MODULE_NAME = "front left";
+        public static final String FRONT_RIGHT_MODULE_NAME = "front right";
+        public static final String BACK_LEFT_MODULE_NAME = "back left";
+        public static final String BACK_RIGHT_MODULE_NAME = "back right";
+
         public static final int GYRO = 1; //placeholder value
         public static final double DRIVE_MOTOR_P = 2.0; //placeholder from borealis
         public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis
