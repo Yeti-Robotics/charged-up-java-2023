@@ -10,9 +10,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.arm.ArmDownCommand;
+import frc.robot.commands.arm.ArmUpCommand;
+import frc.robot.commands.arm.SetPositionCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -34,17 +39,19 @@ public class RobotContainer
     private final Map<Class<?>, CommandBase> commands;
 
     public final ControllerContainer controllerContainer;
+    private final ButtonHelper buttonHelper;
     
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController controller =
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
     
 @Inject
-    public RobotContainer(ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
+    public RobotContainer(ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
     {
         this.armSubsystem = armSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
+        this.buttonHelper = buttonHelper;
         configureBindings();
     }
     
@@ -59,7 +66,10 @@ public class RobotContainer
      * joysticks}.
      */
     private void configureBindings() {
-
+        buttonHelper.createButton(3, 0, commands.get(SetPositionCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, commands.get(ArmDownCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(7, 0, commands.get(ArmUpCommand.class), MultiButton.RunCondition.WHILE_HELD);
     }
     
     

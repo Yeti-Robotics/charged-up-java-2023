@@ -51,6 +51,10 @@ public class ArmSubsystem extends SubsystemBase {
         motor1.set(ControlMode.MotionMagic, position.angle, DemandType.ArbitraryFeedForward, Constants.ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
     }
 
+    public double getPosition() {
+        return encoder.getAbsolutePosition() * Constants.ArmConstants.GEAR_RATIO;
+    }
+
     public void moveUp(double speed) {
         if (isBrakeEngaged()) {
             stop();
@@ -73,12 +77,12 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void engageBrake() {
         stop();
-        airBrake.set(DoubleSolenoid.Value.kForward);
+        airBrake.set(DoubleSolenoid.Value.kReverse);
         motorsCoast();
     }
 
     public void disengageBrake() {
-        airBrake.set(DoubleSolenoid.Value.kReverse);
+        airBrake.set(DoubleSolenoid.Value.kForward);
         motorsBrake();
     }
 
@@ -91,7 +95,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public boolean isBrakeEngaged() {
-        return airBrake.get() == DoubleSolenoid.Value.kForward;
+        return airBrake.get() == DoubleSolenoid.Value.kReverse;
     }
 
     private void motorsBrake() {

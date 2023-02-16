@@ -12,9 +12,7 @@ public class MoveArmCommand extends CommandBase {
     @Inject
     public MoveArmCommand(ArmSubsystem armSubsystem) {
         this.armSubsystem = armSubsystem;
-        // each subsystem used by the command must be passed into the
-        // addRequirements() method (which takes a vararg of Subsystem)
-        addRequirements(this.armSubsystem);
+        addRequirements(armSubsystem);
     }
 
     /**

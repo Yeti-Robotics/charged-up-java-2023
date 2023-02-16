@@ -18,11 +18,12 @@ public class RobotModule {
     public RobotContainer providesRobotContainer(
             ArmSubsystem armSubsystem,
             ControllerContainer controllerContainer,
-            Map<Class<?>, CommandBase> commands) {
+            Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
         return new RobotContainer(
                 armSubsystem,
                 controllerContainer,
-                commands
+                commands,
+                buttonHelper
         );
     }
 

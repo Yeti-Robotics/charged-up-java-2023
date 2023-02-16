@@ -8,7 +8,6 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
-import java.security.PublicKey;
 import java.util.Map;
 
 /**
@@ -30,9 +29,11 @@ public final class Constants
         public static final int MOTOR_1 = 10; // Left arm
         public static final int MOTOR_2 = 11; // Right arm
 
+        public static final double ARM_SPEED = 0.1;
+
         public static final int ARM_ENCODER = 5;
 
-        public static final int[] AIR_BRAKE_PORTS = {4, 5};
+        public static final int[] AIR_BRAKE_PORTS = {2, 3};
 
         public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT =
                 new SupplyCurrentLimitConfiguration(true, 55, 65, 0.1);
