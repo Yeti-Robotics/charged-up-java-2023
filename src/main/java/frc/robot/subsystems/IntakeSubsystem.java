@@ -6,6 +6,7 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.*;
 
 import javax.inject.Named;
@@ -20,9 +21,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
     public IntakeSubsystem(
-            @Named("intake spark 1") CANSparkMax intakeSpark1,
-            @Named ("intake spark 2") CANSparkMax intakeSpark2,
-            @Named ("intake piston") DoubleSolenoid intakePiston){
+            @Named(IntakeConstants.INTAKE_SPARK_1_NAME) CANSparkMax intakeSpark1,
+            @Named (IntakeConstants.INTAKE_SPARK_2_NAME) CANSparkMax intakeSpark2,
+            @Named (IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston){
 
         this.intakePiston = intakePiston;
         this.intakeSpark1 = intakeSpark1;

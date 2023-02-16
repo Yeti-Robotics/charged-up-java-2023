@@ -52,6 +52,11 @@ public final class Constants
         public static final int INTAKE_SPARK_1 = 0; //placeholder
         public static final int INTAKE_SPARK_2 = 1; //placeholder
 
+        public static final String INTAKE_SPARK_1_NAME = "intake spark 1";
+        public static final String INTAKE_SPARK_2_NAME = "intake spark 2";
+        public static final String INTAKE_PISTON_NAME = "intake piston";
+
+
 
         public static final double INTAKE_SPEED = 0.75; //placeholder
 
