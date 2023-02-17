@@ -48,10 +48,6 @@ public class IntakeSubsystem extends SubsystemBase {
         leftSpark.set(IntakeConstants.INTAKE_SPEED);
     }
 
-    public void roll(double speed) {
-        leftSpark.set(speed);
-    }
-
     public void rollOut() {
         leftSpark.set(-IntakeConstants.INTAKE_SPEED);
     }
@@ -65,23 +61,16 @@ public class IntakeSubsystem extends SubsystemBase {
         intakePiston.set(DoubleSolenoid.Value.kReverse); //check Forward/Reverse values
     }
 
-    public void intakeShoot(double setpoint) {
-        intakePID.setReference(setpoint, CANSparkMax.ControlType.kVelocity);
+    public void toggleClamp() {
+        intakePiston.toggle();
     }
 
-
     public double getAverageEncoder() {
-        return ((leftSpark.getEncoder().getVelocity()) + (rightSpark.getEncoder().getVelocity())) / 2;
+        return (leftSpark.getEncoder().getVelocity() + rightSpark.getEncoder().getVelocity()) / 2;
     }
 
     public boolean isClamped() {
-        boolean actuated = false;
-        if (intakePiston.get() == DoubleSolenoid.Value.kReverse) {
-            actuated = true;
-        } else {
-            actuated = false;
-        }
-        return actuated;
+        return intakePiston.get() == DoubleSolenoid.Value.kReverse;
     }
 
     public boolean getBeamBreak() {
@@ -90,12 +79,5 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public double getRPM() {
         return encoder.getVelocity();
-    }
-
-    @Override
-    public void periodic() {
-        if (getBeamBreak()) {
-            intakeClamp();
-        }
     }
 }
