@@ -24,6 +24,10 @@ public class ElevatorSubsystem extends SubsystemBase {
             @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput magSwitch) {
         this.elevatorMotor = elevatorMotor;
         this.magSwitch = magSwitch;
+
+        if (getMagSwitch()) {
+            zeroEncoder();
+        }
     }
 
     public void elevatorUp() {
@@ -65,7 +69,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (getMagSwitch()) {
+        if (getMagSwitch() && distanceSetpoint == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
     }
