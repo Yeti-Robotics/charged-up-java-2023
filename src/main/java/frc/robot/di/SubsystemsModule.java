@@ -1,6 +1,7 @@
 package frc.robot.di;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -18,9 +19,10 @@ public class SubsystemsModule {
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
             @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor
-    ) {
-        return new CarriageSubsystem(rollerMotor, flipMotor);
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController
+            ) {
+        return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
     }
 
     @Provides

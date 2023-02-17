@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -11,53 +12,42 @@ import javax.inject.Named;
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax rollerMotor;
     private final CANSparkMax flipMotor;
-    private final SparkMaxLimitSwitch forwardCarriageBeamBreak;
-    private final SparkMaxLimitSwitch reverseCarriageBeamBreak;
+    private final SparkMaxPIDController flipPIDController;
+
     @Inject
     public CarriageSubsystem(
             @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor
-    ) {
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME)SparkMaxPIDController flipPIDController
+            ) {
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
-        this.forwardCarriageBeamBreak = rollerMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-        this.reverseCarriageBeamBreak = flipMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+        this.flipPIDController = flipPIDController;
     }
 
     public void carriageOut(){
         rollerMotor.set(Constants.CarriageConstants.CARRIAGE_SPEED);
     }
+
     public void carriageIn(){
         rollerMotor.set(-Constants.CarriageConstants.CARRIAGE_SPEED);
+    }
+
+    public double getRollerVoltage() {
+        /* according to https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136/5 */
+        return rollerMotor.getBusVoltage() * rollerMotor.getAppliedOutput();
     }
 
     public void carriageStop(){
         rollerMotor.set(0);
     }
 
-    public boolean getCubeBeamBreak(){
-       return forwardCarriageBeamBreak.isPressed();
-    }
-    public boolean getConeBeamBreak() {
-       return reverseCarriageBeamBreak.isPressed();
-    }
-
     public void flipMechanism(){
-        flipMotor.set(Constants.CarriageConstants.FLIP_SPEED);
+        flipPIDController.setReference(Constants.CarriageConstants.FLIP_POSITION, CANSparkMax.ControlType.kPosition);
     }
+
     public void reverseFlipMechanism(){
-        flipMotor.set(-Constants.CarriageConstants.FLIP_SPEED);
+        flipPIDController.setReference(Constants.CarriageConstants.DEFAULT_POSITION, CANSparkMax.ControlType.kPosition);
     }
-
-    @Override
-    public void periodic() {
-        if (!getCubeBeamBreak()) {
-            rollerMotor.set(0);}
-        else if (!getConeBeamBreak()) {
-            flipMotor.set(0);
-        }
-    }
-
-
 }
 
