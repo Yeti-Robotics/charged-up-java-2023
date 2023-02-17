@@ -58,30 +58,19 @@ public class RobotContainer {
         configureBindings();
     }
 
-
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
-     */
-
     private void configureBindings() {
         buttonHelper.createButton(1, 0, commands.get(MoveElevatorDownCommand.class), RunCondition.WHILE_HELD);
         buttonHelper.createButton(2, 0, commands.get(MoveElevatorUpCommand.class), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3, 0, new InstantCommand(elevatorSubsystem::elevatorStop), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new InstantCommand(elevatorSubsystem::elevatorStop, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(6, 0, new InstantCommand(() ->
-                elevatorSubsystem.setMotionMagic(ElevatorPositions.DOWN)), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 0, new InstantCommand(() ->
-                elevatorSubsystem.setMotionMagic(ElevatorPositions.CONE)), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 0, new InstantCommand(() ->
-                elevatorSubsystem.setMotionMagic(ElevatorPositions.LEVEL_TWO)), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 0, new InstantCommand(() ->
-                elevatorSubsystem.setMotionMagic(ElevatorPositions.UP)), RunCondition.WHEN_PRESSED);
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.DOWN), elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.CONE), elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.LEVEL_TWO), elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 0, new InstantCommand(() ->
+                elevatorSubsystem.setMotionMagic(ElevatorPositions.UP), elevatorSubsystem), RunCondition.WHEN_PRESSED);
     }
 
 
