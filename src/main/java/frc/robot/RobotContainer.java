@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.*;
 import frc.robot.di.RobotComponent;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
@@ -66,7 +67,12 @@ public class RobotContainer {
      */
 
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new PrintCommand("Button button"), RunCondition.WHEN_PRESSED);
+        /* change joystick button values*/
+        buttonHelper.createButton(1, 0, commands.get(CarriageFlip.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, commands.get(CarriageInCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, commands.get(CarriageOutCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 0, commands.get(CarriageReverseFlip.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5, 0, commands.get(CarriageStop.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), RunCondition.WHEN_PRESSED, 0.25);
         buttonHelper.createPOVButton(0, POVDirections.UP, 0, new PrintCommand("POV button"), RunCondition.WHEN_PRESSED);
         //**CHECK THIS LINE** buttonHelper.createButton(2,0, new CarriageFlip());
