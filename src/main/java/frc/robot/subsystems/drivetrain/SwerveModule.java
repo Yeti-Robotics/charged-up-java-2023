@@ -1,7 +1,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -12,13 +12,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants.DriveConstants;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 public class SwerveModule {
     private final WPI_TalonFX driveMotor;
     private final WPI_TalonFX azimuthMotor;
 
-    private final CANCoder absoluteEncoder;
+    private final WPI_CANCoder absoluteEncoder;
     private final PIDController drivePIDController = new PIDController(
             DriveConstants.DRIVE_MOTOR_P,
             DriveConstants.DRIVE_MOTOR_I,
@@ -35,13 +34,14 @@ public class SwerveModule {
     private final SimpleMotorFeedforward azimuthFeedForward = new SimpleMotorFeedforward(
             DriveConstants.AZIMUTH_MOTOR_KS, DriveConstants.AZIMUTH_MOTOR_KV, DriveConstants.AZIMUTH_MOTOR_KA
     );
+    private final SwerveModuleState state = new SwerveModuleState();
     private final SwerveModulePosition position = new SwerveModulePosition();
 
     @Inject
     public SwerveModule(
-            @Named("drive motor") WPI_TalonFX driveMotor,
-            @Named("azimuth motor") WPI_TalonFX azimuthMotor,
-            @Named("absolute encoder") CANCoder absoluteEncoder) {
+            WPI_TalonFX driveMotor,
+            WPI_TalonFX azimuthMotor,
+            WPI_CANCoder absoluteEncoder) {
 
         this.driveMotor = driveMotor;
         this.azimuthMotor = azimuthMotor;
@@ -50,13 +50,11 @@ public class SwerveModule {
 
         azimuthPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
-        // resetEncoders();
+        resetEncoders();
     }
 
     public void resetEncoders() {
         driveMotor.setSelectedSensorPosition(0);
-
-        double absolutePosition = absoluteEncoder.getAbsolutePosition() * DriveConstants.DEGREES_TO_FALCON;
         azimuthMotor.setSelectedSensorPosition(0);
     }
 
@@ -66,58 +64,47 @@ public class SwerveModule {
                 DriveConstants.WHEEL_DIAMETER * Math.PI;
     }
 
+    public double getDriveVelocity() {
+        return driveMotor.getSelectedSensorVelocity() * 10 / 2048 *
+                (DriveConstants.WHEEL_DIAMETER * Math.PI) * DriveConstants.SWERVE_X_REDUCTION;
+    }
     public double getAzimuthPosition() {
         return Math.toRadians(absoluteEncoder.getAbsolutePosition());
-        // return steerMotor.getSelectedSensorPosition() / DriveConstants.DEGREES_TO_FALCON;
     }
 
-    public double getDriveVelocity() {
-        return driveMotor.getSelectedSensorVelocity() * 10 / 2048
-                * DriveConstants.SWERVE_X_REDUCTION *
-                DriveConstants.WHEEL_DIAMETER * Math.PI;
+    public SwerveModuleState getState() {
+        state.speedMetersPerSecond = getDriveVelocity();
+        state.angle = new Rotation2d(getAzimuthPosition());
+        return state;
     }
-
-    public double getAzimuthVelocity() {
-        return azimuthMotor.getSelectedSensorVelocity() * 10;
-    }
-
     public SwerveModulePosition getPosition() {
-        updateState();
-        return this.position;
-    }
-
-    public void updateState() {
         position.distanceMeters = getDrivePosition();
         position.angle = new Rotation2d(getAzimuthPosition());
+        return position;
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
         double driveVelocity = getDriveVelocity();
-        double steerAngle = getAzimuthPosition();
+        double azimuthPosition = getAzimuthPosition();
 
+        desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(azimuthPosition));
         if (Math.abs(desiredState.speedMetersPerSecond) < 0.01
-                && Math.abs(desiredState.angle.getRadians() - steerAngle) < 0.05) {
+                && Math.abs(desiredState.angle.getRadians() - azimuthPosition) < 0.05) {
             stop();
             return;
         }
-        desiredState = SwerveModuleState.optimize(desiredState, new Rotation2d(steerAngle));
 
         final double driveOutput =
                 drivePIDController.calculate(driveVelocity, desiredState.speedMetersPerSecond)
                         + driveFeedforward.calculate(desiredState.speedMetersPerSecond);
 
-        final double steerOutput =
-                azimuthPIDController.calculate(steerAngle, desiredState.angle.getRadians())
+        final double azimuthOutput =
+                azimuthPIDController.calculate(azimuthPosition, desiredState.angle.getRadians())
                         + azimuthFeedForward.calculate(azimuthPIDController.getSetpoint().velocity);
+//        System.out.println(azimuthOutput);
 
-//        driveMotor.setVoltage(desiredState.speedMetersPerSecond / DriveConstants.MAX_VELOCITY_METERS_PER_SECOND
-//            * DriveConstants.MAX_VOLTAGE);
         driveMotor.setVoltage(driveOutput);
-        // steerMotor.set(steeringPIDController.calculate(getSteerPosition(), desiredState.angle.getDegrees()));
-        // steerMotor.set(steeringPIDController.calculate(getSteerPosition(), 45));
-        azimuthMotor.setVoltage(steerOutput);
-//
-//        steerMotor.set(ControlMode.Position, desiredState.angle.getDegrees() * DriveConstants.DEGREES_TO_FALCON);
+        azimuthMotor.setVoltage(azimuthOutput);
     }
 
     public void stop() {

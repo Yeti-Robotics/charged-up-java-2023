@@ -3,7 +3,6 @@ package frc.robot.di;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -11,7 +10,6 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
-import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Named;
@@ -44,49 +42,49 @@ public class RobotModule {
 
     @Provides
     @Singleton
-    public Controller[] providesControllers(ControllerContainer controllerContainer) {
-        return controllerContainer.getControllers();
+    public ButtonHelper providesButtonHelper(ControllerContainer controllerContainer) {
+        return new ButtonHelper(controllerContainer.getControllers());
     }
+
+    /*
+     * The X axis is forward and backward
+     */
 
     @Provides
     @Named("translationXSupplier")
     public DoubleSupplier provideTranslationXSupplier(ControllerContainer controllerContainer) {
+        return () -> controllerContainer.get(0).getLeftY();
+    }
+
+    /*
+     * The Y is side to side
+     */
+    @Provides
+    @Named("translationYSupplier")
+    public DoubleSupplier provideTranslationYSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getLeftX();
     }
 
     @Provides
-    @Named("translationYSupplier")
-    public DoubleSupplier provideTranslationYSupplier(ControllerContainer controllerContainer) {
-        return () -> controllerContainer.get(0).getLeftY();
-    }
-
-    @Provides
-    @Named("rotationSupplier")
+    @Named("thetaSupplier")
     public DoubleSupplier provideRotationSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getRightX();
     }
 
     @Provides
-    @Named("swerveModulePosition")
+    @Singleton
     public SwerveModulePosition[] providesSwerveModulePositions() {
-        return new SwerveModulePosition[] {
-            new SwerveModulePosition(),
-            new SwerveModulePosition(),
-            new SwerveModulePosition(),
-            new SwerveModulePosition()
+        return new SwerveModulePosition[]{
+                new SwerveModulePosition(),
+                new SwerveModulePosition(),
+                new SwerveModulePosition(),
+                new SwerveModulePosition()
         };
     }
 
     @Provides
     @Singleton
-    public SwerveDriveOdometry providesSwerveDriveOdometry(WPI_Pigeon2 gyro, @Named("swerveModulePosition") SwerveModulePosition[] positions) {
+    public SwerveDriveOdometry providesSwerveDriveOdometry(WPI_Pigeon2 gyro, SwerveModulePosition[] positions) {
         return new SwerveDriveOdometry(Constants.DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions);
     }
-
-    @Provides
-    @Singleton
-    public ChassisSpeeds providesChassisSpeeds() {
-        return new ChassisSpeeds();
-    }
-
 }

@@ -5,11 +5,14 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.utils.controllerUtils.Controller;
-import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,39 +20,32 @@ import javax.inject.Named;
 public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
 
-    private final SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    private final PIDController yController = new PIDController(Constants.AutoConstants.Y_CONTROLLER_P, 0.0, Constants.AutoConstants.X_CONTROLLER_D);
-    private final PIDController xController = new PIDController(Constants.AutoConstants.X_CONTROLLER_P, 0.0, Constants.AutoConstants.Y_CONTROLLER_D);
-    private final PIDController thetaController = new PIDController(Constants.AutoConstants.THETA_CONTROLLER_P,
+    private final SwerveModulePosition[] positions;
+    private final PIDController yController = new PIDController(AutoConstants.Y_CONTROLLER_P, 0.0, AutoConstants.X_CONTROLLER_D);
+    private final PIDController xController = new PIDController(AutoConstants.X_CONTROLLER_P, 0.0, AutoConstants.Y_CONTROLLER_D);
+    private final PIDController thetaController = new PIDController(AutoConstants.THETA_CONTROLLER_P,
             0.0, 0.0);
     private final SwerveDriveOdometry odometer;
-
-    private Boolean isSwerveLock;
-
     private final WPI_Pigeon2 gyro;
-    private final ControllerContainer controllerContainer;
-    private final Controller controller;
-
-
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
     @Inject
     public DrivetrainSubsystem(
-            @Named("front left module") SwerveModule frontLeftModule,
-            @Named("front right module") SwerveModule frontRightModule,
-            @Named("back left module") SwerveModule backLeftModule,
-            @Named("back right module") SwerveModule backRightModule,
+            @Named(DriveConstants.FRONT_LEFT_MODULE_NAME) SwerveModule frontLeftModule,
+            @Named(DriveConstants.FRONT_RIGHT_MODULE_NAME) SwerveModule frontRightModule,
+            @Named(DriveConstants.BACK_LEFT_MODULE_NAME) SwerveModule backLeftModule,
+            @Named(DriveConstants.BACK_RIGHT_MODULE_NAME) SwerveModule backRightModule,
+            SwerveModulePosition[] swerveModulePosition,
             SwerveDriveOdometry odometer,
-            WPI_Pigeon2 gyro, ControllerContainer controllerContainer){
+            WPI_Pigeon2 gyro) {
         this.frontLeftModule = frontLeftModule;
-        this.backLeftModule = backLeftModule;
         this.frontRightModule = frontRightModule;
+        this.backLeftModule = backLeftModule;
         this.backRightModule = backRightModule;
+        this.positions = swerveModulePosition;
         this.odometer = odometer;
         this.gyro = gyro;
-        this.controllerContainer = controllerContainer;
 
-        controller = controllerContainer.get(0);
         updateSwerveModulePositions();
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -69,6 +65,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public Rotation2d getGyroscopeHeading() {
         return Rotation2d.fromDegrees(gyro.getYaw());
+    }
+
+    public Rotation2d getPitch() {
+        return Rotation2d.fromDegrees(gyro.getPitch());
     }
 
     public Pose2d getPose() {
@@ -92,44 +92,35 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return thetaController;
     }
 
-    public void setDesiredStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.DriveConstants.MAX_VELOCITY_METERS_PER_SECOND);
+    public void drive(SwerveModuleState... desiredStates) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.MAX_VELOCITY_METERS_PER_SECOND);
         frontLeftModule.setDesiredState(desiredStates[0]);
         frontRightModule.setDesiredState(desiredStates[1]);
         backLeftModule.setDesiredState(desiredStates[2]);
         backRightModule.setDesiredState(desiredStates[3]);
     }
 
-    public void drive(ChassisSpeeds chassisSpeeds) {
-        if (isSwerveLock) {
-            swerveLock();
-            return;
-        }
-        this.chassisSpeeds = chassisSpeeds;
-
-        setDesiredStates(Constants.DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds));
-    }
-
-    private void swerveLock() {
-        if (chassisSpeeds.vxMetersPerSecond > 0.5 && chassisSpeeds.vyMetersPerSecond > 0.5) {
-            isSwerveLock = false;
-            return;
-        }
-
-        SwerveModuleState[] desiredStates = new SwerveModuleState[4];
-        desiredStates[0] = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
-        desiredStates[1] = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
-        desiredStates[2] = new SwerveModuleState(0, Rotation2d.fromDegrees(-45));
-        desiredStates[3] = new SwerveModuleState(0, Rotation2d.fromDegrees(45));
-        setDesiredStates(desiredStates);
-    }
-
-    public void toggleSwerveLock() {
-        isSwerveLock = !isSwerveLock;
+    public void drive(Translation2d translation2d, double rotation){
+        SwerveModuleState[] swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                        translation2d.getX(), translation2d.getY(), rotation, getGyroscopeHeading()
+                )
+        );
     }
 
     public ChassisSpeeds getChassisSpeeds() {
-        return chassisSpeeds;
+        return chassisSpeeds = DriveConstants.DRIVE_KINEMATICS.toChassisSpeeds(
+                frontLeftModule.getState(),
+                frontRightModule.getState(),
+                backLeftModule.getState(),
+                backRightModule.getState()
+        );
+    }
+
+    public void stop() {
+        drive(
+                DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds())
+        );
     }
 
     public void updateSwerveModulePositions() {
