@@ -3,10 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
+import javax.inject.Inject;
+
 
 public class IntakeRollInCommand extends CommandBase {
 
+
     private final IntakeSubsystem intakeSubsystem;
+    @Inject
     public IntakeRollInCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

@@ -3,11 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
+import javax.inject.Inject;
+
 
 public class IntakeShootCommand extends CommandBase {
 
     private final IntakeSubsystem intakeSubsystem;
     private double setpoint;
+    @Inject
     public IntakeShootCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
@@ -19,7 +22,7 @@ public class IntakeShootCommand extends CommandBase {
     @Override
     public void initialize() {
 
-        setpoint = 10; //PLACEHOLDER MUST DO MATH CALCULATIONS WITH POSE HERE
+        setpoint = 3000; //PLACEHOLDER MUST DO MATH CALCULATIONS WITH POSE HERE
 
     }
 

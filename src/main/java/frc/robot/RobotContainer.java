@@ -33,11 +33,10 @@ import java.util.Map;
  */
 @Singleton
 
-public class RobotContainer
-{
+public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
-   private RobotComponent robotComponent;
+    private RobotComponent robotComponent;
 
     private final IntakeSubsystem intakeSubsystem;
     private final Map<Class<?>, CommandBase> commands;
@@ -45,23 +44,22 @@ public class RobotContainer
     private final ButtonHelper buttonHelper;
 
     public final ControllerContainer controllerContainer;
-    
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController controller =
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
-    
-@Inject
 
-    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
-    {
+    @Inject
+
+    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
         this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
         this.buttonHelper = buttonHelper;
         configureBindings();
     }
-    
-    
+
+
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -71,25 +69,33 @@ public class RobotContainer
      * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
-    private void configureBindings()
-    {
+    private void configureBindings() {
         /* change joystick button values*/
-        buttonHelper.createButton(3, 0, commands.get(IntakeClampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 0, commands.get(IntakeUnclampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(4, 0, commands.get(IntakeRollInCommand.class), MultiButton.RunCondition.WHILE_HELD);
-        buttonHelper.createButton(7, 0, commands.get(IntakeRollOutCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, commands.get(IntakeRollInCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(4, 0, commands.get(IntakeRollOutCommand.class), MultiButton.RunCondition.WHILE_HELD);
         buttonHelper.createButton(5, 0, commands.get(IntakeShootCommand.class), MultiButton.RunCondition.WHILE_HELD);
 
     }
-    
-    
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand()
-    {
+    public Command getAutonomousCommand() {
         return new InstantCommand();
     }
+
+
+    public void setRobotComponent(RobotComponent robotComponent) {
+        this.robotComponent = robotComponent;
+    }
+
+    public RobotComponent getRobotComponent() {
+        return robotComponent;
+    }
+
 }

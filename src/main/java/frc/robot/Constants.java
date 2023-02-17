@@ -48,9 +48,9 @@ public final class Constants
 
     }
     public static final class IntakeConstants{
-        public static final int[] INTAKE_PISTON = {2, 3}; //placeholder value
-        public static final int INTAKE_SPARK_1 = 0; //placeholder
-        public static final int INTAKE_SPARK_2 = 1; //placeholder
+        public static final int[] INTAKE_PISTON = {4, 5};
+        public static final int INTAKE_SPARK_1 = 1;
+        public static final int INTAKE_SPARK_2 = 2;
 
         public static final String INTAKE_SPARK_1_NAME = "intake spark 1";
         public static final String INTAKE_SPARK_2_NAME = "intake spark 2";
@@ -59,14 +59,14 @@ public final class Constants
 
 
 
-        public static final double INTAKE_SPEED = 0.75; //placeholder
+        public static final double INTAKE_SPEED = 0.35; //placeholder
 
         public static final double INTAKE_VOLTAGE_COMP = 12.0;
 
-        public static final double INTAKE_P = 0.0; //placeholder
+        public static final double INTAKE_P = 0.5; //placeholder
         public static final double INTAKE_I = 0.0; //placeholder
         public static final double INTAKE_D = 0.0; //placeholder
-        public static final double INTAKE_F = 0.0; //placeholder
+        public static final double INTAKE_F = 0.1; //placeholder
 
         public static final double WHEEL_DIAMETER = 4; //PLACEHOLDER
 

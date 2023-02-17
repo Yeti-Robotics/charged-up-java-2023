@@ -10,7 +10,8 @@ import javax.inject.Inject;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.di.DaggerRobotComponent;
+import frc.robot.di.RobotComponent;
 
 
 /**
@@ -25,7 +26,11 @@ public class Robot extends TimedRobot
     RobotContainer robotContainer;
     private Command autonomousCommand;
 
-    
+    public Robot() {
+        RobotComponent robotComponent = DaggerRobotComponent.builder().build();
+        robotComponent.inject(this);
+        robotContainer.setRobotComponent(robotComponent);
+    }
     /**
      * This method is run when the robot is first started up and should be used for any
      * initialization code.

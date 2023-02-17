@@ -3,10 +3,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
+import javax.inject.Inject;
+
 
 public class IntakeUnclampCommand extends CommandBase {
 
     private final IntakeSubsystem intakeSubsystem;
+    @Inject
     public IntakeUnclampCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
