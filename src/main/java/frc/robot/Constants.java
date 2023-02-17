@@ -63,13 +63,13 @@ public final class Constants {
         public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(
                 true, 40, 50, 0.1);
 
-        public static final double ELEVATOR_P = 0.1;
+        public static final double ELEVATOR_P = 0.001;
         public static final double ELEVATOR_I = 0.0;
-        public static final double ELEVATOR_D = 0.1;
+        public static final double ELEVATOR_D = 0.0;
         public static final double ELEVATOR_F = 0.0;
-        public static final double GRAVITY_FEEDFORWARD = 0.07; //experimental value
+        public static final double GRAVITY_FEEDFORWARD = 0.02; //experimental value
 
-        public static final double MAX_VELOCITY = 3.0 * 10.0 / ELEVATOR_DISTANCE_PER_PULSE;
+        public static final double MAX_VELOCITY = 3.0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
         public static final double ELEVATOR_TOLERANCE = 0.25 / ELEVATOR_DISTANCE_PER_PULSE;
