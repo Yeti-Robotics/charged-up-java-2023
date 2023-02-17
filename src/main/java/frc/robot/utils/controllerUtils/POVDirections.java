@@ -2,13 +2,13 @@ package frc.robot.utils.controllerUtils;
 
 public enum POVDirections {
         UP(0),
-        DOWN(90),
-        LEFT(180),
-        RIGHT(270);
+        DOWN(180),
+        LEFT(270),
+        RIGHT(90);
 
         public final int value;
 
         POVDirections(int value) {
-            this.value = value;
+                this.value = value;
         }
 }
