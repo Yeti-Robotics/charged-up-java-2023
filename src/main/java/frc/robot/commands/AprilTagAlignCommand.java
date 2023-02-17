@@ -5,8 +5,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.utils.Limelight;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.Limelight;
 
 import javax.inject.Inject;
 
@@ -41,6 +41,7 @@ public class AprilTagAlignCommand extends CommandBase {
     @Override
     public void initialize() {
 
+
     }
 
     /**
@@ -50,9 +51,9 @@ public class AprilTagAlignCommand extends CommandBase {
     @Override
     public void execute() {
 
-        if (visionSubsystem.hasTargets()) {
-            double translationX = MathUtil.clamp(pidControllerX.calculate(visionSubsystem.getX()), -Constants.VisionConstants.CENTER_LIMIT, Constants.VisionConstants.CENTER_LIMIT);
-            double translationY = MathUtil.clamp(pidControllerX.calculate(visionSubsystem.getY()), -Constants.VisionConstants.CENTER_LIMIT, Constants.VisionConstants.CENTER_LIMIT);
+        if (Limelight.isTarget()) {
+            double translationX = MathUtil.clamp(pidControllerX.calculate(Limelight.getTx()), -Constants.VisionConstants.CENTER_LIMIT, Constants.VisionConstants.CENTER_LIMIT);
+            double translationY = MathUtil.clamp(pidControllerX.calculate(visionSubsystem.getTy()), -Constants.VisionConstants.CENTER_LIMIT, Constants.VisionConstants.CENTER_LIMIT);
             double translationAngle = pidControllerAngle.calculate(visionSubsystem.getYaw());
             drivetrainSubsystem.drive(new Translation2d(translationX, translationY), translationAngle);
         }

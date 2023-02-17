@@ -13,8 +13,8 @@ import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.utils.Limelight;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.Limelight;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
@@ -78,7 +78,6 @@ public class CommandsModule {
         pidControllerX.setSetpoint(0);
 
         Limelight visionSubsystem = new Limelight();
-
 
         return new AprilTagAlignCommand(drivetrainSubsystem, visionSubsystem, pidControllerX, pidControllerY, pidControllerAngle);
     }
