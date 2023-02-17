@@ -1,52 +1,72 @@
 package frc.robot.di.devices;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.*;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.Constants;
-import frc.robot.subsystems.IntakeSubsystem;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
     /****** IntakeMotors ******/
     @Provides
     @Singleton
-    @Named(Constants.IntakeConstants.INTAKE_SPARK_1_NAME)
+    @Named(Constants.IntakeConstants.LEFT_SPARK)
     public CANSparkMax providesIntakeSpark1(){
-        CANSparkMax intakeSpark1 = new CANSparkMax(Constants.IntakeConstants.INTAKE_SPARK_1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        intakeSpark1.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
-        intakeSpark1.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
-        intakeSpark1.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkConstants.SPARK_PERIODMS);
-       intakeSpark1.getPIDController();
+        CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        sparkMax.setInverted(false);
 
+        sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.getPIDController();
 
-        intakeSpark1.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
-        intakeSpark1.enableVoltageCompensation(Constants.IntakeConstants.INTAKE_VOLTAGE_COMP);
-        return intakeSpark1;
+        return sparkMax;
     }
     @Provides
     @Singleton
-    @Named(Constants.IntakeConstants.INTAKE_SPARK_2_NAME)
-    public CANSparkMax providesIntakeSpark2(@Named ("intake spark 1") CANSparkMax intakeSpark1){
-        CANSparkMax intakeSpark2= new CANSparkMax(Constants.IntakeConstants.INTAKE_SPARK_2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        intakeSpark2.follow(intakeSpark1, true);
-        intakeSpark2.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
-        intakeSpark2.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
-        intakeSpark2.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
-        intakeSpark2.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkConstants.SPARK_PERIODMS);
+    @Named(Constants.IntakeConstants.RIGHT_SPARK)
+    public CANSparkMax providesIntakeSpark2(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
+        CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        sparkMax.follow(sparkMaxZero, true);
 
-       intakeSpark2.enableVoltageCompensation(Constants.IntakeConstants.INTAKE_VOLTAGE_COMP);
+        sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkConstants.SPARK_PERIODMS);
 
-        return intakeSpark2;
-
+        return sparkMax;
     }
 
+    @Provides
+    @Singleton
+    @Named(Constants.IntakeConstants.INTAKE_PID)
+    public SparkMaxPIDController provideIntakePID(
+            @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero,
+            @Named(Constants.IntakeConstants.INTAKE_ENCODER) RelativeEncoder encoder) {
+        SparkMaxPIDController pidController = sparkMaxZero.getPIDController();
+        pidController.setFeedbackDevice(encoder);
 
+        pidController.setP(Constants.IntakeConstants.INTAKE_P);
+        pidController.setI(Constants.IntakeConstants.INTAKE_I);
+        pidController.setD(Constants.IntakeConstants.INTAKE_D);
+        pidController.setFF(Constants.IntakeConstants.INTAKE_F);
 
+        return pidController;
+    }
+
+    @Provides
+    @Singleton
+    @Named(Constants.IntakeConstants.INTAKE_ENCODER)
+    public RelativeEncoder provideIntakeEncoder(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero) {
+        RelativeEncoder encoder = sparkMaxZero.getEncoder();
+
+        encoder.setVelocityConversionFactor(Constants.IntakeConstants.VELOCITY_CONVERSION);
+
+        return encoder;
+    }
 }

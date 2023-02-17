@@ -1,54 +1,59 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
+import frc.robot.Constants;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.SparkConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final CANSparkMax intakeSpark1;
-    private final CANSparkMax intakeSpark2;
+    private final CANSparkMax leftSpark;
+    private final CANSparkMax rightSpark;
     private final DoubleSolenoid intakePiston;
 
-    //    private SparkMaxLimitSwitch intakeBeamBreak;
     private final SparkMaxPIDController intakePID;
+    private final RelativeEncoder encoder;
+    private final SparkMaxLimitSwitch beamBreak;
+    private final SparkMaxLimitSwitch reedSwitch;
 
     @Inject
     public IntakeSubsystem(
-            @Named(IntakeConstants.INTAKE_SPARK_1_NAME) CANSparkMax intakeSpark1,
-            @Named(IntakeConstants.INTAKE_SPARK_2_NAME) CANSparkMax intakeSpark2,
-            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
-
+            @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
+            @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
+            @Named(IntakeConstants.INTAKE_PID) SparkMaxPIDController intakePID,
+            @Named(IntakeConstants.INTAKE_ENCODER) RelativeEncoder encoder,
+            @Named(IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
+            @Named(IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
         this.intakePiston = intakePiston;
-        this.intakeSpark1 = intakeSpark1;
-        this.intakeSpark2 = intakeSpark2;
+        this.leftSpark = leftSpark;
+        this.rightSpark = rightSpark;
+        this.intakePID = intakePID;
+        this.encoder = encoder;
+        this.beamBreak = beamBreak;
+        this.reedSwitch = reedSwitch;
+    }
 
-
-        intakePID = intakeSpark1.getPIDController();
-        intakePID.setP(IntakeConstants.INTAKE_P);
-        intakePID.setD(IntakeConstants.INTAKE_D);
-        intakePID.setFF(IntakeConstants.INTAKE_F);
-
-//       intakeBeamBreak = intakeSpark1.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-
-
+    public void setSetPoint(double setPoint) {
+        intakePID.setReference(setPoint, CANSparkMax.ControlType.kVelocity,
+                0, IntakeConstants.FEEDFORWARD.calculate(setPoint, IntakeConstants.MAX_ACCEL), SparkMaxPIDController.ArbFFUnits.kVoltage);
     }
 
     public void rollIn() {
-        intakeSpark1.set(IntakeConstants.INTAKE_SPEED);
+        leftSpark.set(IntakeConstants.INTAKE_SPEED);
     }
 
     public void roll(double speed) {
-        intakeSpark1.set(speed);
+        leftSpark.set(speed);
     }
 
     public void rollOut() {
-        intakeSpark1.set(-IntakeConstants.INTAKE_SPEED);
+        leftSpark.set(-IntakeConstants.INTAKE_SPEED);
     }
 
 
@@ -56,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakePiston.set(DoubleSolenoid.Value.kForward); //check Forward/Reverse values
     }
 
-    public void intakeUnClamp() {
+    public void intakeUnclamp() {
         intakePiston.set(DoubleSolenoid.Value.kReverse); //check Forward/Reverse values
     }
 
@@ -66,7 +71,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
     public double getAverageEncoder() {
-        return ((intakeSpark1.getEncoder().getVelocity()) + (intakeSpark2.getEncoder().getVelocity())) / 2;
+        return ((leftSpark.getEncoder().getVelocity()) + (rightSpark.getEncoder().getVelocity())) / 2;
     }
 
     public boolean isClamped() {
@@ -79,21 +84,18 @@ public class IntakeSubsystem extends SubsystemBase {
         return actuated;
     }
 
-//        public boolean getBeamBreak() {
-//            return intakeBeamBreak.isPressed();
-//        }
-
-
-    public double getRPM() {
-        return (getAverageEncoder() * IntakeConstants.INTAKE_RATIO * (SparkConstants.SPARK_PERIODMS / SparkConstants.SPARK_RESOLUTION));
+    public boolean getBeamBreak() {
+        return beamBreak.isPressed();
     }
 
+    public double getRPM() {
+        return encoder.getVelocity();
+    }
 
-//    @Override
-//    public void periodic() {
-//        if (getBeamBreak()){
-//            intakeClamp();
-//        }
-
-//}
+    @Override
+    public void periodic() {
+        if (getBeamBreak()) {
+            intakeClamp();
+        }
+    }
 }
