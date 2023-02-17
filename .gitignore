@@ -205,7 +205,8 @@ replay_pid*
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -330,4 +331,21 @@ bin/
 *-window.json
 
 # End entries from WPI Lib team
+
+# IDEs
+.idea
+.run
+.vscode
+
+# Sim GUI JSONS
+*simgui*.json
+
+# Sysid
+.sysid
+
+# Glass
+.glass
+
+# DataLogTool
+.datalogtool
 
