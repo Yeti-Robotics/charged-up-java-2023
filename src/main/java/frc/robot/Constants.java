@@ -29,7 +29,7 @@ public final class Constants
         public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
         public static final double CARRIAGE_SPEED = 0.35;
         public static final int CARRIAGE_BEAMBREAK = 0;
-        public static final double FLIP_SPEED = .5;
+        public static final double FLIP_SPEED = .08;
 
         public static final int CARRIAGE_LIMITSWITCH = 1; //placeholder
 

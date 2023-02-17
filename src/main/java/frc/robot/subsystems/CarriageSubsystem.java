@@ -21,7 +21,7 @@ public class CarriageSubsystem extends SubsystemBase {
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
         this.forwardCarriageBeamBreak = rollerMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-        this.reverseCarriageBeamBreak = rollerMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+        this.reverseCarriageBeamBreak = flipMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
 
     public void carriageOut(){
@@ -35,8 +35,11 @@ public class CarriageSubsystem extends SubsystemBase {
         rollerMotor.set(0);
     }
 
-    public boolean getBeamBreak(){
+    public boolean getCubeBeamBreak(){
        return forwardCarriageBeamBreak.isPressed();
+    }
+    public boolean getConeBeamBreak() {
+       return reverseCarriageBeamBreak.isPressed();
     }
 
     public void flipMechanism(){
@@ -47,13 +50,12 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     @Override
-
     public void periodic() {
-        if (!getBeamBreak()) {
-            return;
+        if (!getCubeBeamBreak()) {
+            rollerMotor.set(0);}
+        else if (!getConeBeamBreak()) {
+            flipMotor.set(0);
         }
-        carriageStop();
-        flipMechanism();
     }
 
 
