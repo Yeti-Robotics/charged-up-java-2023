@@ -4,27 +4,20 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
-import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.Limelight;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
-import frc.robot.commands.*;
-import frc.robot.subsystems.ElevatorSubsystem;
-
-import javax.inject.Named;
 
 @Module
 public class CommandsModule {
@@ -89,6 +82,46 @@ public class CommandsModule {
 
     @Provides
     @IntoMap
+    @ClassKey(ConeHandoffHighCommand.class)
+    static CommandBase provideConeHandoffHighCommand(
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem){
+                return new ConeHandoffHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(ConeHandoffLowCommand.class)
+    static CommandBase provideConeHandoffLowCommand(
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem){
+        return new ConeHandoffLowCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(CubeHandoffHighCommand.class)
+    static CommandBase provideCubeHandoffCommand(
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem){
+        return new CubeHandoffHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(CubeHandoffLowCommand.class)
+    static CommandBase provideCubeHandoffLowCommand(
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem){
+        return new CubeHandoffLowCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
     @ClassKey(FieldOrientedDrive.class)
     static CommandBase provideFieldOrientedDrive(
             DrivetrainSubsystem drivetrainSubsystem,
@@ -97,4 +130,5 @@ public class CommandsModule {
             @Named(Constants.OIConstants.THETA_SUPPLIER) DoubleSupplier rotationSupplier) {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
     }
+
 }

@@ -80,6 +80,10 @@ public class IntakeSubsystem extends SubsystemBase {
         return beamBreak.isPressed();
     }
 
+    public boolean isCube() {
+        return reedSwitch.isLimitSwitchEnabled();
+    }
+
     public double getRPM() {
         return encoder.getVelocity();
     }
