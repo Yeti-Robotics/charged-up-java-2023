@@ -1,12 +1,8 @@
 package frc.robot.di.devices;
 
 
-
-import com.revrobotics.CANSparkMax;
-
 import dagger.Module;
 import dagger.Provides;
-import dagger.internal.InjectedFieldSignature;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Constants;

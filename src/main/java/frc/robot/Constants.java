@@ -7,15 +7,11 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.util.Units;
-import javax.inject.Singleton;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-
 
 import java.util.Map;
 
@@ -75,6 +71,42 @@ public final class Constants
 
         public static final int GYRO = 1; //placeholder value
 
+        public static final double DRIVE_MOTOR_P = 2.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_D = 0.0; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KS = 0.743; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KV = 2.178; //placeholder from borealis
+        public static final double DRIVE_MOTOR_KA = 0.406; //placeholder from borealis
+
+        public static final double AZIMUTH_MOTOR_P = 5.0; //placeholder from borealis 3
+        public static final double AZIMUTH_MOTOR_I = 0.0; //placeholder from borealis
+        public static final double AZIMUTH_MOTOR_D = 0.00; //placeholder from borealis 0.01
+        public static final double AZIMUTH_MOTOR_KS = 0.50; //placeholder from borealis 0.75
+        public static final double AZIMUTH_MOTOR_KV = 0.35; //placeholder from borealis 0.7
+        public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
+        public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
+        public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SWERVE_X_REDUCTION * WHEEL_DIAMETER * Math.PI; //placeholder
+        private static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(22.25); //PLACEHOLDER
+        private static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(22.25); //PLACEHOLDER
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2, DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2); //PLACEHOLDER
+
+        public static final SwerveDriveKinematics DRIVE_KINEMATICS =
+                new SwerveDriveKinematics(
+                        // Front left
+                        new Translation2d(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+                        // Front right
+                        new Translation2d(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                -DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+                        // Back left
+                        new Translation2d(-DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+                        // Back right
+                        new Translation2d(-DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
+                                -DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
+                );
     }
 
     public static final class CarriageConstants {
@@ -90,7 +122,7 @@ public final class Constants
         public static final double FLIP_RATIO = 1.0 / 40.0;
         public static final double ROLLER_RATIO = 1.0 / 21.0;
 
-        public static final double FLIP_DEGREES_TO_COUNTS = FLIP_RATIO * SparkMaxConstants.PULSES_PER_REV / 360.0;
+        public static final double FLIP_DEGREES_TO_COUNTS = FLIP_RATIO * SparkConstants.PULSES_PER_REV / 360.0;
         public static final double FLIP_P = 0.005;
         public static final double FLIP_I = 0;
         public static final double FLIP_D = 0;
@@ -99,6 +131,63 @@ public final class Constants
         public static final String FLIP_MOTOR_NAME = "flipMotor";
         public static final String ROLLER_MOTOR_NAME = "rollerMotor";
         public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
+    }
+
+    public static final class ArmConstants {
+        public static final String ARM_MOTOR_1 = "armMotor1";
+        public static final String ARM_MOTOR_2 = "armMotor2";
+        public static final int ARM_MOTOR_1_ID = 11; // Right arm
+        public static final int ARM_MOTOR_2_ID = 12; // Left arm
+        public static final double ARM_SPEED = 0.3;
+
+        public static final String ARM_ENCODER = "armEncoder";
+        public static final int ARM_ENCODER_ID = 5;
+
+        public static final String AIR_BRAKE = "airBrake";
+        public static final int[] AIR_BRAKE_PORTS = {2, 3};
+
+        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT =
+                new SupplyCurrentLimitConfiguration(true, 55, 65, 0.1);
+        public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT =
+                new StatorCurrentLimitConfiguration(true, 55, 65, 0.1);
+
+        public static final double ENCODER_OFFSET = -170.0;
+        public static final boolean ARM_ENCODER_REVERSE = true;
+
+        /*
+         * The reduction from the encoder to the arm
+         * Multiply the encoder value; divide the output
+         */
+        public static final double GEAR_RATIO = 1.0 / (32.0 / 12.0); // ~2.6667
+        // (real world output) / (gear ratio) * (CANCoder raw units) = (encoder limit in raw units)
+        public static final double UPPER_LIMIT = 105.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+        public static final double LOWER_LIMIT = 0.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+
+        public static final double ANGLE_TOLERANCE = 1.0;
+
+        public static final double ARM_P = 0.15;
+        public static final double ARM_I = 0.00;
+        public static final double ARM_D = 0.01;
+        public static final double ARM_F = 0.0;
+        public static final double GRAVITY_FEEDFORWARD = 0.5;
+        public static final double MAX_VELOCITY = 200.0;
+        public static final double MAX_ACCELERATION = MAX_VELOCITY / 2.0;
+        // [0, 8]
+        public static final int MOTION_SMOOTHING = 3;
+
+        public enum ArmPositions {
+            DOWN(0.0),
+            UP(80.0),
+            HANDOFF(107.0);
+
+            public final double angle;
+            public final double sensorUnits;
+
+            ArmPositions(double angle) {
+                this.angle = angle;
+                this.sensorUnits = angle / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+            }
+        }
     }
 
     public static final class TalonFXConstants {

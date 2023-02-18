@@ -5,9 +5,19 @@ import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.commands.*;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.commands.arm.ArmDownCommand;
+import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+
+import javax.inject.Named;
+import java.util.function.DoubleSupplier;
 
 @Module
 public class CommandsModule {
@@ -63,27 +73,6 @@ public class CommandsModule {
 
     @Provides
     @IntoMap
-    @ClassKey(CarriageStop.class)
-    static CommandBase provideCarriageStopCommand(CarriageSubsystem carriageSubsystem){
-        return new CarriageStop(carriageSubsystem);
-    }
-
-    @Provides
-    @IntoMap
-    @ClassKey(CarriageFlip.class)
-    static CommandBase provideCarriageFlipCommand(CarriageSubsystem carriageSubsystem){
-        return new CarriageFlip(carriageSubsystem);
-    }
-
-    @Provides
-    @IntoMap
-    @ClassKey(CarriageReverseFlip.class)
-    static CommandBase provideCarriageReverseFlipCommand(CarriageSubsystem carriageSubsystem){
-        return new CarriageInCommand(carriageSubsystem);
-    }
-
-    @Provides
-    @IntoMap
     @ClassKey(FieldOrientedDrive.class)
     static CommandBase provideFieldOrientedDrive(
             DrivetrainSubsystem drivetrainSubsystem,
@@ -99,7 +88,6 @@ public class CommandsModule {
     static CommandBase provideArmDownCommand(ArmSubsystem armSubsystem) {
         return new ArmDownCommand(armSubsystem);
     }
-
 
     @Provides
     @IntoMap

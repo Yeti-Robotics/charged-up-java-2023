@@ -9,11 +9,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.MoveElevatorDownCommand;
-import frc.robot.commands.MoveElevatorUpCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
@@ -21,18 +18,16 @@ import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
-import frc.robot.commands.*;
 import frc.robot.di.RobotComponent;
-import frc.robot.utils.controllerUtils.MultiButton;
-import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
-import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -66,15 +61,6 @@ public class RobotContainer {
 
     public final ControllerContainer controllerContainer;
 
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController controller =
-            new CommandXboxController(Constants.OIConstants.XBOX_PORT);
-    
-@Inject
-    public RobotContainer(CarriageSubsystem carriageSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
-    {
-        this.carriageSubsystem = carriageSubsystem;
-
     @Inject
     public RobotContainer(
             CarriageSubsystem carriageSubsystem,
@@ -83,8 +69,7 @@ public class RobotContainer {
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
             ControllerContainer controllerContainer,
-            Map<Class<?>,
-            CommandBase> commands,
+            Map<Class<?>, CommandBase> commands,
             ButtonHelper buttonHelper) {
         this.carriageSubsystem = carriageSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
@@ -135,10 +120,8 @@ public class RobotContainer {
         buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
 
         /* Carriage command buttons -- UPDATE THESE */
-        buttonHelper.createButton(1, 0, commands.get(CarriageFlip.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(2, 0, commands.get(CarriageInCommand.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(3, 0, commands.get(CarriageOutCommand.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(4, 0, commands.get(CarriageReverseFlip.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, commands.get(CarriageRollerStop.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(6, 0, new InstantCommand(carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHEN_PRESSED);
         //**CHECK THIS LINE** buttonHelper.createButton(2,0, new CarriageFlip());

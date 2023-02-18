@@ -2,13 +2,9 @@ package frc.robot.di.devices;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
@@ -188,6 +184,11 @@ public class MotorsModule {
         pidController.setI(Constants.CarriageConstants.FLIP_I);
         pidController.setD(Constants.CarriageConstants.FLIP_D);
         pidController.setFF(Constants.CarriageConstants.FLIP_F);
+        return pidController;
+    }
+
+    @Provides
+    @Singleton
     @Named(Constants.IntakeConstants.INTAKE_PID)
     public SparkMaxPIDController provideIntakePID(
             @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero,
@@ -226,8 +227,6 @@ public class MotorsModule {
         return driveMotor;
     }
 
-        return pidController;
-    }
     public static WPI_TalonFX azimuthMotorFactory(int id) {
         WPI_TalonFX steerMotor = new WPI_TalonFX(id, "canivoreBus");
         steerMotor.setNeutralMode(NeutralMode.Brake);

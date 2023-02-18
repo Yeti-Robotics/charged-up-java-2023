@@ -2,25 +2,15 @@ package frc.robot.di.devices;
 
 
 import com.ctre.phoenix.sensors.*;
-
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.CANSparkMaxLowLevel;
-
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
-import org.photonvision.PhotonCamera;
-
-import frc.robot.di.devices.MotorsModule;
+import frc.robot.Constants.DriveConstants;
 
 import javax.inject.Named;
-import com.ctre.phoenix.sensors.*;
-import dagger.Module;
-import dagger.Provides;
-import frc.robot.Constants.*;
 import javax.inject.Singleton;
 
 @Module(includes = {MotorsModule.class, SolenoidsModule.class})
