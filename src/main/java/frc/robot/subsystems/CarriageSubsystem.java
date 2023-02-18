@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -48,10 +47,10 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public void setSetpoint(double setpoint){
-        flipPIDController.setReference(setpoint, CANSparkMax.ControlType.kPosition);
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
         double FLIP_FEED_FORWARD = Constants.CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
+        flipPIDController.setReference(setpoint*FLIP_FEED_FORWARD, CANSparkMax.ControlType.kPosition); //make command later
     }
 
     public void flipMechanism(){
