@@ -30,17 +30,18 @@ public final class Constants
         public static final int ROLLER_NEO = 4; //change ID later
         public static final int FLIP_NEO = 3; //change ID later
         public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
-        public static final double CARRIAGE_SPEED = 0.2;
-        public static final double FLIP_SPEED = 0.5;
+        public static final double CARRIAGE_SPEED = 0.35;
+        public static final double FLIP_SPEED = 0.2;
         /** TODO: Find real value */
-        public static final double STOP_ROLLER_CURRENT_DELTA = 10;
-        public static final double FLIP_POSITION = 0.5;
+        public static final double CUBE_CURRENT_DELTA = 5.25;
+        public static final double CONE_CURRENT_DELTA = 6.5;
+        public static final double FLIP_POSITION = 10.0;
         public static final double DEFAULT_POSITION = 0.0;
         public static final double FLIP_RATIO = 1.0 / 40.0;
         public static final double ROLLER_RATIO = 1.0 / 21.0;
 
         public static final double FLIP_DEGREES_TO_COUNTS = FLIP_RATIO * SparkMaxConstants.PULSES_PER_REV / 360.0;
-        public static final double FLIP_P = 0.005;
+        public static final double FLIP_P = 0.01;
         public static final double FLIP_I = 0;
         public static final double FLIP_D = 0;
         public static final double FLIP_F = 0;
