@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+
 import java.util.Map;
 
 /**
@@ -107,14 +108,6 @@ public final class Constants
 
     }
 
-    public static final class VisionConstants{
-        public static final double STOPPING_DISTANCE = 1.58333;
-        public static final double LIMELIGHT_HEIGHT = 10; //placeholder
-
-        public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
-
-
-    }
 
     public static final class AutoConstants {
 
@@ -126,6 +119,7 @@ public final class Constants
          * Max acceleration in meters per second squared
          */
         public static final double MAX_ACCEL = DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.75;
+
         public static final double X_CONTROLLER_P = 2.1; //2.9, 2.15
         public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
         public static final double X_CONTROLLER_D = 0;
@@ -194,5 +188,16 @@ public final class Constants
         public static final String INTAKE_REED_SWITCH = "intakeReedSwitch";
         public static final String INTAKE_PID = "intakePIDController";
         public static final String INTAKE_ENCODER = "intakeEncoder";
+    }
+
+    public static final class VisionConstants {
+        public static final double STOPPING_DISTANCE = 1.58333;
+        public static final double LIMELIGHT_HEIGHT = 10; //placeholder
+
+        public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
+
+        public static final String TABLE_NAME = "table";
+
+        public static final double CENTER_LIMIT = 0.3;
     }
 }

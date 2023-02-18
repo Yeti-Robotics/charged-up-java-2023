@@ -9,6 +9,6 @@ public enum POVDirections {
         public final int value;
 
         POVDirections(int value) {
-            this.value = value;
+                this.value = value;
         }
 }

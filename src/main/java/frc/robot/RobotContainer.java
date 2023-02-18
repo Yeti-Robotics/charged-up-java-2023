@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AprilTagAlignCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
@@ -26,7 +27,6 @@ import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Map;
 
 
@@ -36,10 +36,7 @@ import java.util.Map;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-@Singleton
-
-public class RobotContainer
-{
+public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
     private RobotComponent robotComponent;
@@ -80,6 +77,9 @@ public class RobotContainer
         buttonHelper.createButton(2, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(4, 0, commands.get(AutoBalancingCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
     }
 
 
@@ -95,8 +95,9 @@ public class RobotContainer
     public void setRobotComponent(RobotComponent robotComponent) {
         this.robotComponent = robotComponent;
     }
-    
+
     public RobotComponent getRobotComponent() {
         return robotComponent;
     }
 }
+
