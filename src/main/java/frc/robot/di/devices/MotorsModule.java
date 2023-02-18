@@ -16,9 +16,9 @@ public class MotorsModule {
 
     @Provides
     @Singleton
-    @Named(Constants.ArmConstants.ARM_MOTOR)
+    @Named(Constants.ArmConstants.ARM_MOTOR_1)
     public WPI_TalonFX providesArmMotor1(@Named("armEncoder") WPI_CANCoder armEncoder) {
-        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.ARM_MOTOR_ID, "canivoreBus");
+        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.ARM_MOTOR_1_ID, "canivoreBus");
         motor.setSensorPhase(true);
         motor.setInverted(TalonFXInvertType.Clockwise);
 
@@ -35,6 +35,31 @@ public class MotorsModule {
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+
+        motor.config_kP(0, Constants.ArmConstants.ARM_P);
+        motor.config_kI(0, Constants.ArmConstants.ARM_I);
+        motor.config_kD(0, Constants.ArmConstants.ARM_D);
+        motor.config_kF(0, Constants.ArmConstants.ARM_F);
+        motor.configMotionCruiseVelocity(Constants.ArmConstants.MAX_VELOCITY);
+        motor.configMotionAcceleration(Constants.ArmConstants.MAX_ACCELERATION);
+        motor.configMotionSCurveStrength(Constants.ArmConstants.MOTION_SMOOTHING);
+
+        return motor;
+    }
+    @Provides
+    @Singleton
+    @Named(Constants.ArmConstants.ARM_MOTOR_2)
+    public WPI_TalonFX providesArmMotor2(@Named(Constants.ArmConstants.ARM_MOTOR_1) WPI_TalonFX motor1) {
+        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.ARM_MOTOR_2_ID, "canivoreBus");
+        motor.follow(motor1);
+        motor.setInverted(InvertType.OpposeMaster);
+
+
+        motor.configSupplyCurrentLimit(Constants.ArmConstants.SUPPLY_CURRENT_LIMIT);
+        motor.configStatorCurrentLimit(Constants.ArmConstants.STATOR_CURRENT_LIMIT);
+
+        motor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
+        motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 50);
 
         motor.config_kP(0, Constants.ArmConstants.ARM_P);
         motor.config_kI(0, Constants.ArmConstants.ARM_I);

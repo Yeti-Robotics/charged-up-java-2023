@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 
 @Module
 public class SolenoidsModule {
-
     @Provides
     @Singleton
     @Named(Constants.ArmConstants.AIR_BRAKE)

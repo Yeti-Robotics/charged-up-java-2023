@@ -17,12 +17,14 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public ArmSubsystem providesArmSubsystem (
-            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor,
+            @Named(Constants.ArmConstants.ARM_MOTOR_1) WPI_TalonFX armMotor1,
+            @Named(Constants.ArmConstants.ARM_MOTOR_2) WPI_TalonFX armMotor2,
             @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
             @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake
             ) {
        return new ArmSubsystem(
-               armMotor,
+               armMotor1,
+               armMotor2,
                encoder,
                airBrake);
     }

@@ -25,8 +25,10 @@ public final class Constants {
     }
 
     public static final class ArmConstants {
-        public static final String ARM_MOTOR = "armMotor";
-        public static final int ARM_MOTOR_ID = 11; // Right arm
+        public static final String ARM_MOTOR_1 = "armMotor1";
+        public static final String ARM_MOTOR_2 = "armMotor2";
+        public static final int ARM_MOTOR_1_ID = 11; // Right arm
+        public static final int ARM_MOTOR_2_ID = 12; // Left arm
         public static final double ARM_SPEED = 0.3;
 
         public static final String ARM_ENCODER = "armEncoder";
@@ -50,25 +52,25 @@ public final class Constants {
         public static final double GEAR_RATIO = 1.0 / (32.0 / 12.0); // ~2.6667
 
         // (real world output) / (gear ratio) * (CANCoder raw units) = (encoder limit in raw units)
-        public static final double UPPER_LIMIT = 80.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
-        public static final double LOWER_LIMIT = -5.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+        public static final double UPPER_LIMIT = 105.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+        public static final double LOWER_LIMIT = 0.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
 
-        public static final double ANGLE_TOLERANCE = 2.0;
+        public static final double ANGLE_TOLERANCE = 1.0;
 
-        public static final double ARM_P = 0.1;
-        public static final double ARM_I = 0.0;
-        public static final double ARM_D = 1.0;
+        public static final double ARM_P = 0.15;
+        public static final double ARM_I = 0.00;
+        public static final double ARM_D = 0.01;
         public static final double ARM_F = 0.0;
-        public static final double GRAVITY_FEEDFORWARD = 0.2;
-        public static final double MAX_VELOCITY = 80.0;
+        public static final double GRAVITY_FEEDFORWARD = 0.5;
+        public static final double MAX_VELOCITY = 200.0;
         public static final double MAX_ACCELERATION = MAX_VELOCITY / 2.0;
         // [0, 8]
-        public static final int MOTION_SMOOTHING = 0;
+        public static final int MOTION_SMOOTHING = 3;
 
         public enum ArmPositions {
             DOWN(0.0),
-            UP(60.0),
-            HANDOFF(80.0);
+            UP(80.0),
+            HANDOFF(107.0);
 
             public final double angle;
             public final double sensorUnits;

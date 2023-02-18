@@ -67,7 +67,7 @@ public class RobotContainer
      */
     private void configureBindings() {
         buttonHelper.createButton(3, 0, commands.get(SetPositionCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake, armSubsystem), MultiButton.RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(6, 0, commands.get(ArmDownCommand.class), MultiButton.RunCondition.WHILE_HELD);
         buttonHelper.createButton(7, 0, commands.get(ArmUpCommand.class), MultiButton.RunCondition.WHILE_HELD);
     }
