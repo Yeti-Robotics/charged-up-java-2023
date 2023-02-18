@@ -36,7 +36,6 @@ public class Robot extends TimedRobot
         robotComponent.inject(this);
         robotContainer.setRobotComponent(robotComponent);
     }
-
     
     /**
      * This method is run when the robot is first started up and should be used for any

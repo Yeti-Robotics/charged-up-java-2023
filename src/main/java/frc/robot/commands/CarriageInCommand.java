@@ -1,12 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.CarriageSubsystem;
 
 import javax.inject.Inject;
 
 
 public class CarriageInCommand extends CommandBase {
+    private double lastVoltage;
     private final CarriageSubsystem carriageSubsystem;
     @Inject
     public CarriageInCommand(CarriageSubsystem carriageSubsystem){
@@ -16,7 +18,7 @@ public class CarriageInCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        lastVoltage = carriageSubsystem.getRollerVoltage();
     }
 
     @Override
@@ -26,11 +28,15 @@ public class CarriageInCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        // Stops the motor when the piece can no longer move, indicated by a voltage spike
+        double currentVoltage = carriageSubsystem.getRollerVoltage();
+        boolean stopMotor = (currentVoltage - lastVoltage) > Constants.CarriageConstants.STOP_ROLLER_VOLTAGE_DELTA;
+        lastVoltage = currentVoltage;
+        return stopMotor;
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        carriageSubsystem.carriageStop();
     }
 }

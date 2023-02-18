@@ -6,10 +6,10 @@ import frc.robot.subsystems.CarriageSubsystem;
 import javax.inject.Inject;
 
 
-public class AutoActuateCarriageCommand extends CommandBase {
+public class CarriageReverseFlip extends CommandBase {
     private final CarriageSubsystem carriageSubsystem;
     @Inject
-    public AutoActuateCarriageCommand(CarriageSubsystem carriageSubsystem){
+    public CarriageReverseFlip(CarriageSubsystem carriageSubsystem){
         this.carriageSubsystem = carriageSubsystem;
         addRequirements(carriageSubsystem);
     }
@@ -21,9 +21,7 @@ public class AutoActuateCarriageCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(!carriageSubsystem.getBeamBreak()){
-            carriageSubsystem.carriageClose();
-        }
+        carriageSubsystem.reverseFlipMechanism();
     }
 
     @Override

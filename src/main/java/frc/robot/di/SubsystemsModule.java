@@ -1,28 +1,33 @@
 package frc.robot.di;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 @Module
 public class SubsystemsModule {
+
     @Provides
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
-            @Named("sideNeo") CANSparkMax sideNeo,
-            @Named("piston") DoubleSolenoid piston,
-            @Named("limitSwitch") DigitalInput limitSwitch,
-            @Named("beamBreak") SparkMaxLimitSwitch beamBreak
-    ){
-        return new CarriageSubsystem(sideNeo, piston, limitSwitch, beamBreak);
+            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController
+            ) {
+        return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
+    }
+
+    @Provides
+    @Singleton
+    public VisionSubsystem providesVisionSubsystem(@Named(Constants.VisionConstants.TABLE_NAME) NetworkTableInstance table) {
+        return new VisionSubsystem(NetworkTableInstance.getDefault());
     }
 }
