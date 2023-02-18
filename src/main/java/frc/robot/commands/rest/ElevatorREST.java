@@ -6,7 +6,7 @@ import frc.robot.utils.rests.restAnnotations.Requirement;
 import frc.robot.utils.rests.restUtils.RESTContainer;
 
 import javax.inject.Inject;
-
+import static frc.robot.utils.rests.restUtils.RESTAssertions.assertEquals;
 public class ElevatorREST extends RESTContainer {
     @Requirement
     private final ElevatorSubsystem elevatorSubsystem;
@@ -39,6 +39,7 @@ public class ElevatorREST extends RESTContainer {
         isFinished(() -> {return hasElapsed(5);});
 
         end(() -> {
+            assertEquals(5000, elevatorSubsystem.getElevatorEncoder(), 50);
         });
     }
 
