@@ -16,15 +16,12 @@ public class SolenoidsModule {
     /****** IntakeSolenoid ******/
     @Provides
     @Singleton
-    @Named("intake piston")
+    @Named(Constants.IntakeConstants.INTAKE_PISTON_NAME)
     public DoubleSolenoid providesIntakePiston() {
-
-        DoubleSolenoid intakePiston = new DoubleSolenoid(
+        return new DoubleSolenoid(
                 PneumaticsModuleType.CTREPCM,
                 Constants.IntakeConstants.INTAKE_PISTON[0],
                 Constants.IntakeConstants.INTAKE_PISTON[1]);
-        return intakePiston;
-
     }
 //    @Provides
 //    @Singleton

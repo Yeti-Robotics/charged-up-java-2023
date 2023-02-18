@@ -16,9 +16,9 @@ import java.util.Map;
 public class RobotModule {
     @Provides
     @Singleton
-    public RobotContainer providesRobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, ButtonHelper buttonHelper, Map<Class<?>, CommandBase> commands) {
+    public RobotContainer providesRobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
         return new RobotContainer(
-                intakeSubsystem, controllerContainer, buttonHelper, commands
+                intakeSubsystem, controllerContainer, commands, buttonHelper
         );
     }
 
@@ -30,8 +30,7 @@ public class RobotModule {
 
     @Provides
     @Singleton
-    public Controller[] providesControllers(ControllerContainer controllerContainer) {
-        return controllerContainer.getControllers();
+    public ButtonHelper providesButtonHelper(ControllerContainer controllerContainer) {
+        return new ButtonHelper(controllerContainer.getControllers());
     }
-
 }

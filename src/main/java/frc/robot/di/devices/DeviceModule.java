@@ -1,13 +1,13 @@
 package frc.robot.di.devices;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.di.devices.MotorsModule;
-import org.photonvision.PhotonCamera;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -19,10 +19,17 @@ public class DeviceModule {
         return new WPI_Pigeon2(Constants.DriveConstants.GYRO);
     }
 
+    @Provides
+    @Singleton
+    @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK)
+    public SparkMaxLimitSwitch providesIntakeBeamBreak(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMax) {
+        return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    }
 
     @Provides
     @Singleton
-    public PhotonCamera providesCamera(){
-        return new PhotonCamera("camera");
+    @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH)
+    public SparkMaxLimitSwitch providesIntakeReedSwitch(@Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax sparkMax) {
+        return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
 }

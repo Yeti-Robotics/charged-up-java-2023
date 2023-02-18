@@ -25,14 +25,22 @@ public class CommandsModule {
     }
     @Provides
     @IntoMap
-    @ClassKey(intakeRollInCommand.class)
-    static CommandBase provideIntakeRollIn(IntakeSubsystem intakeSubsystem){
-        return new intakeRollInCommand(intakeSubsystem);
+    @ClassKey(IntakeRollInCommand.class)
+    static CommandBase provideIntakeRollInCommand(IntakeSubsystem intakeSubsystem){
+        return new IntakeRollInCommand(intakeSubsystem);
     }
     @Provides
     @IntoMap
-    @ClassKey(intakeRollOutCommand.class)
-    static CommandBase provideIntakeRollOut(IntakeSubsystem intakeSubsystem){
-        return new intakeRollOutCommand(intakeSubsystem);
+    @ClassKey(IntakeRollOutCommand.class)
+    static CommandBase provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
+        return new IntakeRollOutCommand(intakeSubsystem);
     }
+
+    @Provides
+    @IntoMap
+    @ClassKey(IntakeShootCommand.class)
+    static CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem){
+        return new IntakeShootCommand(intakeSubsystem);
+    }
+
 }

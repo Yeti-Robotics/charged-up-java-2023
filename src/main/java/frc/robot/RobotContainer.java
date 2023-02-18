@@ -10,11 +10,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.di.RobotComponent;
+import frc.robot.commands.*;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 import frc.robot.utils.controllerUtils.POVDirections;
 
@@ -40,25 +44,26 @@ public class RobotContainer
     private final IntakeSubsystem intakeSubsystem;
     private final Map<Class<?>, CommandBase> commands;
 
-    public final ControllerContainer controllerContainer;
-    public final ButtonHelper buttonHelper;
+    private final ButtonHelper buttonHelper;
 
+    public final ControllerContainer controllerContainer;
+    
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController controller =
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
-    
-@Inject
 
-    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, ButtonHelper buttonHelper, Map<Class<?>, CommandBase> commands)
+    @Inject
+
+    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
     {
         this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
-        this.buttonHelper = buttonHelper;
         this.commands = commands;
+        this.buttonHelper = buttonHelper;
         configureBindings();
     }
-    
-    
+
+
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -69,12 +74,16 @@ public class RobotContainer
      * joysticks}.
      */
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new PrintCommand("Button button"), RunCondition.WHEN_PRESSED);
-        buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), RunCondition.WHEN_PRESSED, 0.25);
-        buttonHelper.createPOVButton(0, POVDirections.UP, 0, new PrintCommand("POV button"), RunCondition.WHEN_PRESSED);
+        /* change joystick button values*/
+        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, commands.get(IntakeRollInCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(4, 0, commands.get(IntakeRollOutCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(5, 0, commands.get(IntakeShootCommand.class), MultiButton.RunCondition.WHILE_HELD);
+
     }
-    
-    
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -84,6 +93,7 @@ public class RobotContainer
         return new InstantCommand();
     }
 
+
     public void setRobotComponent(RobotComponent robotComponent) {
         this.robotComponent = robotComponent;
     }
@@ -91,4 +101,5 @@ public class RobotContainer
     public RobotComponent getRobotComponent() {
         return robotComponent;
     }
+
 }

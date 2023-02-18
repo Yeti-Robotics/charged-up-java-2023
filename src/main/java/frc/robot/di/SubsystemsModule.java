@@ -2,13 +2,13 @@ package frc.robot.di;
 
 import javax.inject.Singleton;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.*;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 import javax.inject.Named;
 
@@ -17,31 +17,23 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public IntakeSubsystem providesIntakeSubsystem(
-            @Named("intake spark 1") CANSparkMax intakeSpark1,
-            @Named ("intake spark 2") CANSparkMax intakeSpark2,
-            @Named ("intake piston") DoubleSolenoid intakePiston) {
-
+            @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
+            @Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(Constants.IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
+            @Named(Constants.IntakeConstants.INTAKE_PID) SparkMaxPIDController pidController,
+            @Named(Constants.IntakeConstants.INTAKE_ENCODER) RelativeEncoder encoder,
+            @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
+            @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
         return new IntakeSubsystem(
-                intakeSpark1,
-                intakeSpark2,
-                intakePiston
+                leftSpark,
+                rightSpark,
+                intakePiston,
+                pidController,
+                encoder,
+                beamBreak,
+                reedSwitch
         );
 
 
-    }
-//    @Provides
-//    @Singleton
-//    public CarriageSubsystem provideCarriageSubsystem(
-////            @Named("rollerMotor") CANSparkMax rollerMotor,
-////            @Named("flipMotor") CANSparkMax flipMotor,
-////            @Named("beamBreak") SparkMaxLimitSwitch beamBreak
-//    ) {
-//        return new CarriageSubsystem(rollerMotor, flipMotor, beamBreak);
-//    }
-
-    @Provides
-    @Singleton
-    public VisionSubsystem providesVisionSubsystem(@Named("table") NetworkTableInstance table) {
-        return new VisionSubsystem(NetworkTableInstance.getDefault());
     }
 }
