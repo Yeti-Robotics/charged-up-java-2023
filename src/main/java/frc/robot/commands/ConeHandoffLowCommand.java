@@ -24,16 +24,17 @@ public class ConeHandoffLowCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.CONE);
+        armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.HANDOFF);
+        armSubsystem.toggleBrake();
+        intakeSubsystem.intakeUnclamp();
+        //carriageroll
+
 
     }
 
     @Override
     public void execute() {
-        armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.HANDOFF);
-        armSubsystem.toggleBrake();
-        elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.CONE);
-        //carriageroll
-        intakeSubsystem.intakeUnclamp();
     }
 
     @Override

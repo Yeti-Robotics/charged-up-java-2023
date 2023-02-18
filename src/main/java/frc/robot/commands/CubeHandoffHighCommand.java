@@ -25,14 +25,16 @@ public class CubeHandoffHighCommand extends CommandBase {
     @Override
     public void initialize() {
 
-    }
-
-    @Override
-    public void execute() {
         armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.HANDOFF);
         armSubsystem.toggleBrake();
         //carriageroll
         intakeSubsystem.intakeUnclamp();
+
+
+    }
+
+    @Override
+    public void execute() {
     }
 
     @Override
