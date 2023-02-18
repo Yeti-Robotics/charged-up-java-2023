@@ -127,7 +127,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        armMotor1.set(0);
+        armMotor1.stopMotor();
     }
 }
 

@@ -1,37 +1,37 @@
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.utils.CommandFactory;
 
 import javax.inject.Inject;
 
-
 public class SetArmPositionCommand extends CommandFactory {
     public class SetArmPositionImpl extends CommandBase {
         private final ArmSubsystem armSubsystem;
+
+        private final Timer timer;
         public SetArmPositionImpl(ArmSubsystem armSubsystem) {
             this.armSubsystem = armSubsystem;
-
+            timer = new Timer();
+            timer.start();
             addRequirements(armSubsystem);
         }
 
 
         @Override
         public void initialize() {
+            timer.reset();
             armSubsystem.disengageBrake();
 
-            double position = armSubsystem.getAngle();
-            if (Math.abs(position - ArmConstants.ArmPositions.UP.angle) <= Constants.ArmConstants.ANGLE_TOLERANCE) {
+            ArmConstants.ArmPositions position = armSubsystem.getArmPosition();
+            if (position == ArmConstants.ArmPositions.UP) {
                 armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
             }
-            else if (Math.abs(position - ArmConstants.ArmPositions.HANDOFF.angle) <= Constants.ArmConstants.ANGLE_TOLERANCE) {
+            else if (position == ArmConstants.ArmPositions.HANDOFF) {
                 armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
-            }
-            else if (Math.abs(position - ArmConstants.ArmPositions.DOWN.angle) <= Constants.ArmConstants.ANGLE_TOLERANCE) {
-                armSubsystem.setPosition(ArmConstants.ArmPositions.HANDOFF);
             } else {
                 armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
             }
@@ -42,7 +42,7 @@ public class SetArmPositionCommand extends CommandFactory {
 
         @Override
         public boolean isFinished() {
-            return armSubsystem.isMotionFinished();
+            return armSubsystem.isMotionFinished() || timer.hasElapsed(5.0);
         }
 
 
