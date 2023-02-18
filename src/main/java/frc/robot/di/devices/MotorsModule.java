@@ -127,10 +127,10 @@ public class MotorsModule {
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.getPIDController();
 
         return sparkMax;
@@ -143,9 +143,9 @@ public class MotorsModule {
         sparkMax.follow(sparkMaxZero, true);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
 
         return sparkMax;
 

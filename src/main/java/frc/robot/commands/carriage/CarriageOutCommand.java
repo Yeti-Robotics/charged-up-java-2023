@@ -40,7 +40,7 @@ public class CarriageOutCommand extends CommandBase {
         boolean stopMotor = (presentCurrent - lastCurrent) > Constants.CarriageConstants.CUBE_CURRENT_DELTA;
         if (stopMotor) {
             System.out.println("Stopping motor because presentCurrent(" + presentCurrent + ") - lastCurrent(" +
-                    lastCurrent + ") > DELTA (" + Constants.CarriageConstants.STOP_ROLLER_CURRENT_DELTA + ")");
+                    lastCurrent + ") > DELTA (" + Constants.CarriageConstants.CUBE_CURRENT_DELTA + ")");
         }
         timer.reset();
         return stopMotor;
