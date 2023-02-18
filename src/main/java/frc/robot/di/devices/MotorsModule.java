@@ -38,6 +38,7 @@ public class MotorsModule {
     @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME)
     public CANSparkMax flipMotor() {
         CANSparkMax flipMotor = new CANSparkMax(Constants.CarriageConstants.FLIP_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
+        flipMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
         flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
         flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 100);

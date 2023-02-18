@@ -49,6 +49,14 @@ public class CarriageSubsystem extends SubsystemBase {
         flipPIDController.setReference(Constants.CarriageConstants.DEFAULT_POSITION, CANSparkMax.ControlType.kPosition);
     }
 
+    public void flipOut() {
+        flipMotor.set(Constants.CarriageConstants.FLIP_SPEED);
+    }
+
+    public void flipIn() {
+        flipMotor.set(-Constants.CarriageConstants.FLIP_SPEED);
+    }
+
     public void stopFlipMechanism() {
         flipMotor.stopMotor();
     }
