@@ -1,6 +1,9 @@
 package frc.robot.di.devices;
 
+
+
 import com.revrobotics.CANSparkMax;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.internal.InjectedFieldSignature;
@@ -13,6 +16,17 @@ import javax.inject.Singleton;
 
 @Module
 public class SolenoidsModule {
+
+    @Provides
+    @Singleton
+    @Named(Constants.ArmConstants.AIR_BRAKE)
+    public DoubleSolenoid providesAirBrake() {
+        return new DoubleSolenoid(
+                PneumaticsModuleType.CTREPCM,
+                Constants.ArmConstants.AIR_BRAKE_PORTS[0],
+                Constants.ArmConstants.AIR_BRAKE_PORTS[1]);
+    }
+
     /****** IntakeSolenoid ******/
     @Provides
     @Singleton
