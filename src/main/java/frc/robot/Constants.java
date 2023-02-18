@@ -132,6 +132,9 @@ public final class Constants
         public static final String FLIP_MOTOR_NAME = "flipMotor";
         public static final String ROLLER_MOTOR_NAME = "rollerMotor";
         public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
+
+        public static final double GRAVITY_FEEDFORWARD = 0.07;
+
     }
 
     public static final class ArmConstants {
