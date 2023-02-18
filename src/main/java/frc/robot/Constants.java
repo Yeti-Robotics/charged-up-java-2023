@@ -39,7 +39,7 @@ public final class Constants {
         public static final double ELEVATOR_SPEED = 0.2;
 
         public static final String ELEVATOR_MAG_SWITCH = "elevatorMagSwitch";
-        public static final int MAG_SWITCH_PORT = 5;
+        public static final int MAG_SWITCH_PORT = 0;
 
         /*
          * Gear reduction from motor to output
@@ -55,7 +55,7 @@ public final class Constants {
          * Number of elevator stages excluding the stationary stage
          */
         public static final int STAGES = 2;
-        public static final double STAGE_EXTENSION = 20.5;
+        public static final double STAGE_EXTENSION = 23.5;
         public static final double MAX_EXTENSION = STAGE_EXTENSION * STAGES;
 
         public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(
@@ -63,19 +63,21 @@ public final class Constants {
         public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(
                 true, 40, 50, 0.1);
 
-        public static final double ELEVATOR_P = 0.001;
-        public static final double ELEVATOR_I = 0.0;
-        public static final double ELEVATOR_D = 0.0;
-        public static final double ELEVATOR_F = 0.0;
-        public static final double GRAVITY_FEEDFORWARD = 0.02; //experimental value
+        public static final double ELEVATOR_P = 0.04;
+        public static final double ELEVATOR_I = 0.015;
+        public static final double ELEVATOR_D = 0.2;
+        public static final double ELEVATOR_F = 0.003;
+        public static final double GRAVITY_FEEDFORWARD = 0.06; //experimental value
 
         public static final double MAX_VELOCITY = 3.0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
-        public static final double ELEVATOR_TOLERANCE = 0.25 / ELEVATOR_DISTANCE_PER_PULSE;
+        public static final double ELEVATOR_TOLERANCE = 0.04 / ELEVATOR_DISTANCE_PER_PULSE;
 
         public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;
+        public static final int SMOOTHING = 0;
+        public static final double IZONE = 0.0001;
 
         public enum ElevatorPositions {
             DOWN(0),

@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
     @Provides
     @Singleton
     @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR)
@@ -33,8 +34,10 @@ public class MotorsModule {
         motor.config_kI(0, Constants.ElevatorConstants.ELEVATOR_I);
         motor.config_kD(0, Constants.ElevatorConstants.ELEVATOR_D);
         motor.config_kF(0, Constants.ElevatorConstants.ELEVATOR_F);
+        motor.config_IntegralZone(0, Constants.ElevatorConstants.IZONE);
         motor.configMotionCruiseVelocity(Constants.ElevatorConstants.MAX_VELOCITY);
         motor.configMotionAcceleration(Constants.ElevatorConstants.MAX_ACCEL);
+        motor.configMotionSCurveStrength(Constants.ElevatorConstants.SMOOTHING);
         motor.configAllowableClosedloopError(0, Constants.ElevatorConstants.ELEVATOR_TOLERANCE);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
