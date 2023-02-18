@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
-import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.arm.ToggleArmPositionCommand;
 import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.carriage.CarriageOutCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
@@ -20,6 +20,8 @@ import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
+
+
 
 @Module
 public class CommandsModule {
@@ -72,7 +74,17 @@ public class CommandsModule {
     static CommandBase provideCarriageOutCommand(CarriageSubsystem carriageSubsystem){
         return new CarriageOutCommand(carriageSubsystem);
     }
+    
 
+    @Provides
+    @IntoMap
+    @ClassKey(ToggleArmPositionCommand.class)
+    static CommandBase ToggleArmPositionCommand(ArmSubsystem armSubsystem) {
+        return new ToggleArmPositionCommand(armSubsystem);
+    }
+
+
+    
     @Provides
     @IntoMap
     @ClassKey(FieldOrientedDrive.class)
@@ -91,10 +103,4 @@ public class CommandsModule {
         return new ArmDownCommand(armSubsystem);
     }
 
-    @Provides
-    @IntoMap
-    @ClassKey(SetArmPositionCommand.class)
-    static CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
-        return new SetArmPositionCommand(armSubsystem);
-    }
 }

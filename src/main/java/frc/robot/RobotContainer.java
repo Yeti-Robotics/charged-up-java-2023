@@ -12,16 +12,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.*;
+import frc.robot.commands.AprilTagAlignCommand;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
-import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.arm.ToggleArmPositionCommand;
 import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.carriage.CarriageOutCommand;
 import frc.robot.commands.carriage.CarriageRollerStop;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
-import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -30,7 +29,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
-import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
@@ -98,27 +96,43 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-
-        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), RunCondition.WHEN_PRESSED);
-
-        buttonHelper.createButton(6, 0, commands.get(IntakeRollOutCommand.class), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(7, 0, commands.get(IntakeRollInCommand.class), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(8, 0, commands.get(IntakeShootCommand.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(3, 0, new InstantCommand(intakeSubsystem::stop, intakeSubsystem), RunCondition.WHEN_PRESSED);
-
-
-        buttonHelper.createButton(3, 0, commands.get(SetArmPositionCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake, armSubsystem), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 0, commands.get(ArmDownCommand.class), MultiButton.RunCondition.WHILE_HELD);
-        buttonHelper.createButton(7, 0, commands.get(ArmUpCommand.class), MultiButton.RunCondition.WHILE_HELD);
+//
+//        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), RunCondition.WHEN_PRESSED);
+//
+//        buttonHelper.createButton(6, 0, commands.get(IntakeRollOutCommand.class), RunCondition.WHILE_HELD);
+//        buttonHelper.createButton(7, 0, commands.get(IntakeRollInCommand.class), RunCondition.WHILE_HELD);
+//        buttonHelper.createButton(8, 0, commands.get(IntakeShootCommand.class), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(3, 0, new InstantCommand(intakeSubsystem::stop, intakeSubsystem), RunCondition.WHEN_PRESSED);
 
 
-        buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3, 0, commands.get(ToggleArmPositionCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake, armSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, commands.get(ArmDownCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(7, 0, commands.get(ArmUpCommand.class), RunCondition.WHILE_HELD);
 
+        buttonHelper.createButton(8, 0, new InstantCommand(elevatorSubsystem::elevatorStop, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(9, 0, new InstantCommand(() -> {
+            elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.DOWN);}, elevatorSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(10, 0, new InstantCommand(() -> {
+
+            elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.CONE);}, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 0, new InstantCommand(() -> {
+            elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.LEVEL_TWO);}, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5, 0, new InstantCommand(() -> {
+            elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.UP);}, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
+//
+//        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
+//            drivetrainSubsystem.resetOdometer(new Pose2d());
+//        }), RunCondition.WHEN_PRESSED);
+//
+//        buttonHelper.createButton(4, 0, commands.get(AutoBalancingCommand.class), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
+
             drivetrainSubsystem.resetOdometer(new Pose2d());
-        }), RunCondition.WHEN_PRESSED);
+
 
         buttonHelper.createButton(4, 0, commands.get(AutoBalancingCommand.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
@@ -132,6 +146,7 @@ public class RobotContainer {
         buttonHelper.createButton(8, 0, new StartEndCommand(carriageSubsystem::flipOut, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
         buttonHelper.createButton(9, 0, new StartEndCommand(carriageSubsystem::flipIn, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
         //**CHECK THIS LINE** buttonHelper.createButton(2,0, new CarriageFlip());
+
     }
 
 

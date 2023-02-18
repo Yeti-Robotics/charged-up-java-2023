@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants.ArmPositions;
+import frc.robot.commands.arm.ArmUpCommand;
 
 import javax.inject.Named;
 
@@ -40,8 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        System.out.println(armMotor1.get());
-//        System.out.println(encoder.getPosition() + " : " + encoder.getAbsolutePosition() + " : " + armMotor1.getSelectedSensorPosition() + " : " + getAngle());
+        System.out.println(getAngle());
     }
 
     public void setPosition(ArmPositions position) {
@@ -56,7 +56,6 @@ public class ArmSubsystem extends SubsystemBase {
         double cosineScalar = Math.cos(radians);
 
         armMotor1.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
-        System.out.println("MAGIC MOTION SET: " + position.angle);
     }
 
     public double getAngle() {
