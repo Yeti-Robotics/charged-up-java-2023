@@ -9,11 +9,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.*;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
@@ -51,14 +49,8 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(IntakeShootCommand.class)
-    static CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem){
+    static CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
         return new IntakeShootCommand(intakeSubsystem);
-
-    @Provides
-    @IntoMap
-    @ClassKey(ExampleCommand.class)
-    static CommandBase provideExampleCommand(ExampleSubsystem exampleSubsystem) {
-        return new ExampleCommand(exampleSubsystem);
     }
 
     @Provides

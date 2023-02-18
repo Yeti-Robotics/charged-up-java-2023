@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
 

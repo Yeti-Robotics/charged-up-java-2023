@@ -51,15 +51,11 @@ public class RobotContainer
 
     public final ControllerContainer controllerContainer;
     private final DrivetrainSubsystem drivetrainSubsystem;
-    
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController controller =
-            new CommandXboxController(Constants.OIConstants.XBOX_PORT);
 
     @Inject
     public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
     {
-        this.drivetrainSubsystem = drivetrainSystem;
+        this.drivetrainSubsystem = drivetrainSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
