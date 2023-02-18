@@ -6,10 +6,10 @@ import frc.robot.subsystems.CarriageSubsystem;
 import javax.inject.Inject;
 
 
-public class CarriageStop extends CommandBase {
+public class CarriageRollerStop extends CommandBase {
     private final CarriageSubsystem carriageSubsystem;
     @Inject
-    public CarriageStop(CarriageSubsystem carriageSubsystem){
+    public CarriageRollerStop(CarriageSubsystem carriageSubsystem){
         this.carriageSubsystem = carriageSubsystem;
         addRequirements(carriageSubsystem);
     }
@@ -21,7 +21,7 @@ public class CarriageStop extends CommandBase {
 
     @Override
     public void execute() {
-        carriageSubsystem.carriageStop();
+        carriageSubsystem.rollerStop();
     }
 
     @Override

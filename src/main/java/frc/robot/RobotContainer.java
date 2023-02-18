@@ -8,15 +8,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.di.RobotComponent;
+import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
-import frc.robot.utils.controllerUtils.POVDirections;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -33,6 +32,8 @@ public class RobotContainer {
 
     private RobotComponent robotComponent;
 
+    private final CarriageSubsystem carriageSubsystem;
+
     private final Map<Class<?>, CommandBase> commands;
 
     public final ControllerContainer controllerContainer;
@@ -46,9 +47,11 @@ public class RobotContainer {
 
     @Inject
     public RobotContainer(
+            CarriageSubsystem carriageSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             Map<Class<?>, CommandBase> commands) {
+        this.carriageSubsystem = carriageSubsystem;
         this.controllerContainer = controllerContainer;
         this.buttonHelper = buttonHelper;
         this.commands = commands;
@@ -72,9 +75,8 @@ public class RobotContainer {
         buttonHelper.createButton(2, 0, commands.get(CarriageInCommand.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(3, 0, commands.get(CarriageOutCommand.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(4, 0, commands.get(CarriageReverseFlip.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(5, 0, commands.get(CarriageStop.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), RunCondition.WHEN_PRESSED, 0.25);
-        buttonHelper.createPOVButton(0, POVDirections.UP, 0, new PrintCommand("POV button"), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, commands.get(CarriageRollerStop.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, new InstantCommand(carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHEN_PRESSED);
         //**CHECK THIS LINE** buttonHelper.createButton(2,0, new CarriageFlip());
     }
 
