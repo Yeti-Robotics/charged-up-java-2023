@@ -1,6 +1,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
@@ -22,13 +23,13 @@ public class SetArmPositionCommand extends CommandBase {
         armSubsystem.disengageBrake();
 
         double position = armSubsystem.getAngle();
-        if (Math.abs(position - ArmConstants.ArmPositions.UP.angle) <= 5) {
+        if (Math.abs(position - ArmConstants.ArmPositions.UP.angle) <= Constants.ArmConstants.ANGLE_TOLERANCE) {
             armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
         }
-        else if (Math.abs(position - ArmConstants.ArmPositions.HANDOFF.angle) <= 5) {
+        else if (Math.abs(position - ArmConstants.ArmPositions.HANDOFF.angle) <= Constants.ArmConstants.ANGLE_TOLERANCE) {
             armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
         }
-        else if (Math.abs(position - ArmConstants.ArmPositions.DOWN.angle) <= 5) {
+        else if (Math.abs(position - ArmConstants.ArmPositions.DOWN.angle) <= Constants.ArmConstants.ANGLE_TOLERANCE) {
             armSubsystem.setPosition(ArmConstants.ArmPositions.HANDOFF);
         } else {
             armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
