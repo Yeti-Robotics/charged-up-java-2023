@@ -1,23 +1,25 @@
 package frc.robot.di;
 
-import javax.inject.Singleton;
-import com.revrobotics.*;
-import dagger.Module;
-import dagger.Provides;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import frc.robot.Constants;
-import frc.robot.subsystems.IntakeSubsystem;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import frc.robot.Constants.DriveConstants;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.Constants;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
+import frc.robot.Constants.*;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -36,6 +38,20 @@ public class SubsystemsModule {
 
     @Provides
     @Singleton
+
+    public ArmSubsystem providesArmSubsystem (
+            @Named(Constants.ArmConstants.ARM_MOTOR_1) WPI_TalonFX armMotor1,
+            @Named(Constants.ArmConstants.ARM_MOTOR_2) WPI_TalonFX armMotor2,
+            @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
+            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake
+            ) {
+       return new ArmSubsystem(
+               armMotor1,
+               armMotor2,
+               encoder,
+               airBrake);
+    }
+
     public IntakeSubsystem providesIntakeSubsystem(
             @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
             @Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
@@ -135,3 +151,4 @@ public class SubsystemsModule {
     }
 
 }
+

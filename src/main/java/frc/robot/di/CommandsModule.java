@@ -6,13 +6,16 @@ import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.*;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants;
-import frc.robot.commands.AprilTagAlignCommand;
+import frc.robot.commands.*;
+import frc.robot.commands.arm.ArmDownCommand;
+import frc.robot.commands.arm.ArmUpCommand;
+import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.Limelight;
 
@@ -21,8 +24,7 @@ import java.util.function.DoubleSupplier;
 
 @Module
 public class CommandsModule {
-    @Provides
-    @IntoMap
+
     @ClassKey(IntakeClampCommand.class)
     static CommandBase provideIntakeClampCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeClampCommand(intakeSubsystem);
@@ -33,28 +35,47 @@ public class CommandsModule {
     @ClassKey(IntakeUnclampCommand.class)
     static CommandBase provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeUnclampCommand(intakeSubsystem);
+
     }
 
-    @Provides
-    @IntoMap
     @ClassKey(IntakeRollInCommand.class)
     static CommandBase provideIntakeRollInCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollInCommand(intakeSubsystem);
-    }
 
-    @Provides
-    @IntoMap
+    }
     @ClassKey(IntakeRollOutCommand.class)
     static CommandBase provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollOutCommand(intakeSubsystem);
     }
 
-    @Provides
-    @IntoMap
     @ClassKey(IntakeShootCommand.class)
     static CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
         return new IntakeShootCommand(intakeSubsystem);
     }
+
+    @Provides
+    @IntoMap
+    @ClassKey(ArmUpCommand.class)
+    static CommandBase provideArmUpCommand(ArmSubsystem armSubsystem) {
+        return new ArmUpCommand(armSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(ArmDownCommand.class)
+    static CommandBase provideArmDownCommand(ArmSubsystem armSubsystem) {
+        return new ArmDownCommand(armSubsystem);
+    }
+
+
+    @Provides
+    @IntoMap
+    @ClassKey(SetArmPositionCommand.class)
+    static CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
+        return new SetArmPositionCommand(armSubsystem);
+    }
+
+
 
     @Provides
     @IntoMap
@@ -108,6 +129,4 @@ public class CommandsModule {
 
         return new AprilTagAlignCommand(drivetrainSubsystem, visionSubsystem, pidControllerX, pidControllerY, pidControllerAngle);
     }
-
-
 }

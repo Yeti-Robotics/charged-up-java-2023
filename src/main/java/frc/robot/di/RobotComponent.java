@@ -1,13 +1,8 @@
 package frc.robot.di;
 
 import dagger.Component;
-import dagger.Provides;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.di.CommandsModule;
-import frc.robot.di.RobotModule;
-import frc.robot.di.SubsystemsModule;
 import frc.robot.di.devices.DeviceModule;
 
 import javax.inject.Singleton;

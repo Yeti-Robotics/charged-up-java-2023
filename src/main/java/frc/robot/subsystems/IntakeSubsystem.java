@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.SparkConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
