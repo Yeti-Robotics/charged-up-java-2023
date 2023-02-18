@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.carriage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -7,11 +7,11 @@ import frc.robot.subsystems.CarriageSubsystem;
 import javax.inject.Inject;
 
 
-public class CarriageOutCommand extends CommandBase {
-    private final CarriageSubsystem carriageSubsystem;
+public class CarriageInCommand extends CommandBase {
     private double lastCurrent = 0.0;
+    private final CarriageSubsystem carriageSubsystem;
     @Inject
-    public CarriageOutCommand(CarriageSubsystem carriageSubsystem){
+    public CarriageInCommand(CarriageSubsystem carriageSubsystem){
         this.carriageSubsystem = carriageSubsystem;
         addRequirements(carriageSubsystem);
     }
@@ -22,7 +22,7 @@ public class CarriageOutCommand extends CommandBase {
 
     @Override
     public void execute() {
-        carriageSubsystem.carriageOut();
+        carriageSubsystem.carriageIn();
     }
 
     @Override
@@ -30,6 +30,10 @@ public class CarriageOutCommand extends CommandBase {
         // Stops the motor when the piece can no longer move, indicated by a voltage spike
         double presentCurrent = carriageSubsystem.getRollerCurrent();
         boolean stopMotor = (presentCurrent - lastCurrent) > Constants.CarriageConstants.STOP_ROLLER_CURRENT_DELTA;
+        if (stopMotor) {
+            System.out.println("Stopping motor because presentCurrent(" + presentCurrent + ") - lastCurrent(" +
+                    lastCurrent + ") > DELTA (" + Constants.CarriageConstants.STOP_ROLLER_CURRENT_DELTA + ")");
+        }
         lastCurrent = presentCurrent;
         return stopMotor;
     }
