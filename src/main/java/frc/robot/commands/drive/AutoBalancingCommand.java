@@ -16,7 +16,7 @@ public class AutoBalancingCommand extends CommandBase {
 private final DrivetrainSubsystem drivetrainSubsystem;
 private final PIDController pidController;
 
-@Inject
+    @Inject
     public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem, PIDController pidController) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pidController = pidController;

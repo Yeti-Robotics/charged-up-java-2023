@@ -14,6 +14,7 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.CommandFactory;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
@@ -36,7 +37,7 @@ public class RobotModule {
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
             ControllerContainer controllerContainer,
-            Map<Class<?>,CommandBase> commands,
+            Map<Class<?>, CommandFactory> commands,
             ButtonHelper buttonHelper) {
         return new RobotContainer(
                 carriageSubsystem,
