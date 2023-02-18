@@ -25,9 +25,9 @@ public class CommandsModule {
 
     @Provides
     @IntoMap
-    @ClassKey(CarriageStop.class)
+    @ClassKey(CarriageRollerStop.class)
     static CommandBase provideCarriageStopCommand(CarriageSubsystem carriageSubsystem){
-        return new CarriageStop(carriageSubsystem);
+        return new CarriageRollerStop(carriageSubsystem);
     }
 
     @Provides

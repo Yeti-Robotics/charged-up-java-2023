@@ -19,9 +19,9 @@ public class MotorsModule {
     public CANSparkMax rollerMotor() {
         CANSparkMax rollerMotor = new CANSparkMax(Constants.CarriageConstants.ROLLER_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 250);
-        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 250);
-        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 250);
+        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
+        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
+        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 100);
         rollerMotor.setSmartCurrentLimit(40);
         rollerMotor.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
         rollerMotor.getEncoder().setVelocityConversionFactor(Constants.CarriageConstants.ROLLER_RATIO);
@@ -34,12 +34,13 @@ public class MotorsModule {
     @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME)
     public CANSparkMax flipMotor() {
         CANSparkMax flipMotor = new CANSparkMax(Constants.CarriageConstants.FLIP_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
-        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 250);
-        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 250);
-        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 250);
+        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
+        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
+        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 100);
         flipMotor.setSmartCurrentLimit(40);
         flipMotor.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
-        flipMotor.getEncoder().setPositionConversionFactor(Constants.CarriageConstants.FLIP_RATIO);
+        flipMotor.getEncoder().setPositionConversionFactor(Constants.CarriageConstants.FLIP_DEGREES_TO_COUNTS);
+        flipMotor.getEncoder().setPosition(0.0);
 
         return flipMotor;
     }
