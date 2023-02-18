@@ -26,9 +26,9 @@ import javax.inject.Inject;
 public class Robot extends TimedRobot {
     @Inject
     RobotContainer robotContainer;
-    private Command autonomousCommand;
     @Inject
     Lazy<RESTHandler> restHandler;
+    private Command autonomousCommand;
 
     public Robot() {
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
@@ -126,7 +126,6 @@ public class Robot extends TimedRobot {
         LiveWindow.setEnabled(false);
         restHandler.get().init();
         restHandler.get().fullTest();
-
     }
 
 
