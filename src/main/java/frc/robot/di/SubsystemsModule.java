@@ -7,24 +7,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.WPI_CANCoder;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
-import frc.robot.Constants.*;
-import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Constants;
-import frc.robot.subsystems.ElevatorSubsystem;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -118,6 +116,16 @@ public class SubsystemsModule {
                 DriveConstants.BACK_LEFT_ENCODER_OFFSET,
                 DriveConstants.BACK_LEFT_ENCODER_REVERSED
         );
+    }
+
+    @Provides
+    @Singleton
+    public CarriageSubsystem provideCarriageSubsystem(
+            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController
+    ) {
+        return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
     }
 
     @Provides

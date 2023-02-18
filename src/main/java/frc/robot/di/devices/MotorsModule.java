@@ -2,9 +2,6 @@ package frc.robot.di.devices;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -19,6 +16,40 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
+    @Provides
+    @Singleton
+    @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME)
+    public CANSparkMax rollerMotor() {
+        CANSparkMax rollerMotor = new CANSparkMax(Constants.CarriageConstants.ROLLER_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
+        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
+        rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 100);
+        rollerMotor.setSmartCurrentLimit(40);
+        rollerMotor.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        rollerMotor.getEncoder().setVelocityConversionFactor(Constants.CarriageConstants.ROLLER_RATIO);
+
+        return rollerMotor;
+    }
+
+    @Provides
+    @Singleton
+    @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME)
+    public CANSparkMax flipMotor() {
+        CANSparkMax flipMotor = new CANSparkMax(Constants.CarriageConstants.FLIP_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
+        flipMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20);
+        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100);
+        flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 100);
+        flipMotor.setSmartCurrentLimit(40);
+        flipMotor.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        flipMotor.getEncoder().setPositionConversionFactor(Constants.CarriageConstants.FLIP_DEGREES_TO_COUNTS);
+        flipMotor.getEncoder().setPosition(0.0);
+
+        return flipMotor;
+    }
+
 
     @Provides
     @Singleton
@@ -96,10 +127,10 @@ public class MotorsModule {
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.getPIDController();
 
         return sparkMax;
@@ -112,9 +143,9 @@ public class MotorsModule {
         sparkMax.follow(sparkMaxZero, true);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkConstants.SPARK_PERIODMS);
+        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
 
         return sparkMax;
 
@@ -144,6 +175,19 @@ public class MotorsModule {
 
         return motor;
     }
+    @Provides
+    @Singleton
+    @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME)
+    public SparkMaxPIDController carriageFlipMotorPID(@Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor) {
+        SparkMaxPIDController pidController = flipMotor.getPIDController();
+        pidController.setFeedbackDevice(flipMotor.getEncoder());
+        pidController.setP(Constants.CarriageConstants.FLIP_P);
+        pidController.setI(Constants.CarriageConstants.FLIP_I);
+        pidController.setD(Constants.CarriageConstants.FLIP_D);
+        pidController.setFF(Constants.CarriageConstants.FLIP_F);
+        return pidController;
+    }
+
     @Provides
     @Singleton
     @Named(Constants.IntakeConstants.INTAKE_PID)
