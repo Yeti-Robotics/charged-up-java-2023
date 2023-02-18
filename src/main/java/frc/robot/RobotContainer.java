@@ -5,18 +5,18 @@
 
 package frc.robot;
 
-import dagger.Provides;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.di.RobotComponent;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
+import frc.robot.utils.controllerUtils.POVDirections;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,17 +41,19 @@ public class RobotContainer
     private final Map<Class<?>, CommandBase> commands;
 
     public final ControllerContainer controllerContainer;
-    
+    public final ButtonHelper buttonHelper;
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController controller =
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
     
 @Inject
 
-    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
+    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, ButtonHelper buttonHelper, Map<Class<?>, CommandBase> commands)
     {
         this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
+        this.buttonHelper = buttonHelper;
         this.commands = commands;
         configureBindings();
     }
@@ -66,14 +68,10 @@ public class RobotContainer
      * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
-    private void configureBindings()
-    {
-        /* change joystick button values*/
-        new JoystickButton(controllerContainer.get(0), 1).onTrue(new InstantCommand(intakeSubsystem::intakeUnclamp));
-        new JoystickButton(controllerContainer.get(0), 2).onTrue(new InstantCommand(intakeSubsystem::intakeClamp));
-        new JoystickButton(controllerContainer.get(0), 3).onTrue(new InstantCommand(intakeSubsystem::rollIn));
-        new JoystickButton(controllerContainer.get(0), 4).onTrue(new InstantCommand(intakeSubsystem::rollOut));
-
+    private void configureBindings() {
+        buttonHelper.createButton(1, 0, new PrintCommand("Button button"), RunCondition.WHEN_PRESSED);
+        buttonHelper.createAxisButton(0, 0, new PrintCommand("Axis button"), RunCondition.WHEN_PRESSED, 0.25);
+        buttonHelper.createPOVButton(0, POVDirections.UP, 0, new PrintCommand("POV button"), RunCondition.WHEN_PRESSED);
     }
     
     
@@ -82,8 +80,15 @@ public class RobotContainer
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand()
-    {
+    public Command getAutonomousCommand() {
         return new InstantCommand();
+    }
+
+    public void setRobotComponent(RobotComponent robotComponent) {
+        this.robotComponent = robotComponent;
+    }
+
+    public RobotComponent getRobotComponent() {
+        return robotComponent;
     }
 }

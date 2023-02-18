@@ -26,4 +26,15 @@ public class SolenoidsModule {
         return intakePiston;
 
     }
+//    @Provides
+//    @Singleton
+//    @Named("carriage piston")
+//    public DoubleSolenoid providesDoubleSolenoid() {
+//
+//        return new DoubleSolenoid(
+//                PneumaticsModuleType.CTREPCM,
+//                Constants.CarriageConstants.CARRIAGE_PISTON[0],
+//                Constants.CarriageConstants.CARRIAGE_PISTON[1]);
+//
+//    }
 }
