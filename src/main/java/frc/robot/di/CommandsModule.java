@@ -4,13 +4,11 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
-import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
-import frc.robot.commands.AprilTagAlignCommand;
 import frc.robot.commands.arm.ArmDownCommand;
-import frc.robot.commands.arm.SetArmPositionHandoffCommand;
 import frc.robot.commands.arm.ArmUpCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.arm.SetArmPositionHandoffCommand;
 import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.carriage.CarriageRollerStopCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
@@ -26,7 +24,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.CommandFactory;
-import frc.robot.utils.Limelight;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
@@ -89,6 +86,14 @@ public class CommandsModule {
     @ClassKey(IntakeRollOutCommand.class)
     public CommandFactory provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollOutCommand(intakeSubsystem);
+    }
+
+
+    @Provides
+    @IntoMap
+    @ClassKey(CubeRollOutCommand.class)
+    public CommandFactory provideCubeRollOutCommand(IntakeSubsystem intakeSubsystem){
+        return new CubeRollOutCommand(intakeSubsystem);
     }
 
     @Provides

@@ -52,6 +52,10 @@ public class IntakeSubsystem extends SubsystemBase {
         leftSpark.set(-IntakeConstants.INTAKE_SPEED);
     }
 
+    public void roll(double speed){
+        leftSpark.set(speed);
+    }
+
     public void stop() {
         leftSpark.stopMotor();
     }
@@ -87,4 +91,5 @@ public class IntakeSubsystem extends SubsystemBase {
     public double getRPM() {
         return encoder.getVelocity();
     }
+
 }
