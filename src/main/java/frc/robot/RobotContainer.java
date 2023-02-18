@@ -5,22 +5,25 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.commands.*;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
+import frc.robot.utils.controllerUtils.ButtonHelper.ButtonType;
 import frc.robot.utils.controllerUtils.ControllerContainer;
-import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
-import frc.robot.utils.controllerUtils.POVDirections;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,7 +42,7 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
 
-   private RobotComponent robotComponent;
+    private RobotComponent robotComponent;
 
     private final IntakeSubsystem intakeSubsystem;
     private final Map<Class<?>, CommandBase> commands;
@@ -47,19 +50,21 @@ public class RobotContainer
     private final ButtonHelper buttonHelper;
 
     public final ControllerContainer controllerContainer;
+    private final DrivetrainSubsystem drivetrainSubsystem;
     
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController controller =
             new CommandXboxController(Constants.OIConstants.XBOX_PORT);
 
     @Inject
-
-    public RobotContainer(IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
+    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
     {
+        this.drivetrainSubsystem = drivetrainSystem;
         this.intakeSubsystem = intakeSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
         this.buttonHelper = buttonHelper;
+        drivetrainSubsystem.setDefaultCommand(commands.get(FieldOrientedDrive.class));
         configureBindings();
     }
 
@@ -74,13 +79,11 @@ public class RobotContainer
      * joysticks}.
      */
     private void configureBindings() {
-        /* change joystick button values*/
-        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(3, 0, commands.get(IntakeRollInCommand.class), MultiButton.RunCondition.WHILE_HELD);
-        buttonHelper.createButton(4, 0, commands.get(IntakeRollOutCommand.class), MultiButton.RunCondition.WHILE_HELD);
-        buttonHelper.createButton(5, 0, commands.get(IntakeShootCommand.class), MultiButton.RunCondition.WHILE_HELD);
+        buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
 
+        buttonHelper.createButton(2, 0, new InstantCommand(() -> {
+            drivetrainSubsystem.resetOdometer(new Pose2d());
+        }), RunCondition.WHEN_PRESSED);
     }
 
 
@@ -93,13 +96,11 @@ public class RobotContainer
         return new InstantCommand();
     }
 
-
     public void setRobotComponent(RobotComponent robotComponent) {
         this.robotComponent = robotComponent;
     }
-
+    
     public RobotComponent getRobotComponent() {
         return robotComponent;
     }
-
 }
