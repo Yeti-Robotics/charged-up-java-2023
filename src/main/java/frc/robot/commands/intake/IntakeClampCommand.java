@@ -1,20 +1,18 @@
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.utils.CommandFactory;
 
 import javax.inject.Inject;
 
-public class IntakeRollInCommand extends CommandFactory {
 
-    public static class IntakeRollInImpl extends StartEndCommand {
+public class IntakeClampCommand extends CommandFactory {
+    public static class IntakeClampImpl extends InstantCommand {
         private final IntakeSubsystem intakeSubsystem;
-
-
-        public IntakeRollInImpl(IntakeSubsystem intakeSubsystem) {
-            super(intakeSubsystem::rollIn, intakeSubsystem::stop);
+        public IntakeClampImpl(IntakeSubsystem intakeSubsystem) {
+            super(intakeSubsystem::intakeClamp);
             this.intakeSubsystem = intakeSubsystem;
             addRequirements(intakeSubsystem);
         }
@@ -23,11 +21,11 @@ public class IntakeRollInCommand extends CommandFactory {
     private IntakeSubsystem intakeSubsystem;
 
     @Inject
-    public IntakeRollInCommand(IntakeSubsystem intakeSubsystem){
+    public IntakeClampCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
     }
 
     public CommandBase create() {
-        return new IntakeRollInImpl(intakeSubsystem);
+        return new IntakeClampImpl(intakeSubsystem);
     }
 }

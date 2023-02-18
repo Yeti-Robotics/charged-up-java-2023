@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -10,7 +10,6 @@ import javax.inject.Inject;
 public class IntakeShootCommand extends CommandFactory {
 
     public static class IntakeShootImpl extends InstantCommand {
-
         private final IntakeSubsystem intakeSubsystem;
         private double setpoint;
 
