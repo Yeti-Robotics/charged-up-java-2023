@@ -101,7 +101,6 @@ public class SwerveModule {
         final double azimuthOutput =
                 azimuthPIDController.calculate(azimuthPosition, desiredState.angle.getRadians())
                         + azimuthFeedForward.calculate(azimuthPIDController.getSetpoint().velocity);
-//        System.out.println(azimuthOutput);
 
         driveMotor.setVoltage(driveOutput);
         azimuthMotor.setVoltage(azimuthOutput);

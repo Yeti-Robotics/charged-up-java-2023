@@ -4,27 +4,21 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
-import frc.robot.commands.arm.SetArmPositionCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.arm.ToggleArmPositionCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
-import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.Limelight;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
-import frc.robot.commands.*;
-import frc.robot.subsystems.ElevatorSubsystem;
 
-import javax.inject.Named;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 @Module
 public class CommandsModule {
@@ -80,9 +74,9 @@ public class CommandsModule {
 
     @Provides
     @IntoMap
-    @ClassKey(SetArmPositionCommand.class)
+    @ClassKey(ToggleArmPositionCommand.class)
     static CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
-        return new SetArmPositionCommand(armSubsystem);
+        return new ToggleArmPositionCommand(armSubsystem);
     }
 
 

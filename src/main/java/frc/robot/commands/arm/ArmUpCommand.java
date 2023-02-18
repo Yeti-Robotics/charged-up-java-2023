@@ -17,13 +17,12 @@ public class ArmUpCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        armSubsystem.moveUp(ArmConstants.ARM_SPEED);
     }
 
 
     @Override
     public void execute() {
-        armSubsystem.moveUp(ArmConstants.ARM_SPEED);
     }
 
 
