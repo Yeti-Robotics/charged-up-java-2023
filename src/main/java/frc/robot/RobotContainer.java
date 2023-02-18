@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.MoveElevatorDownCommand;
+import frc.robot.commands.MoveElevatorUpCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
@@ -19,13 +21,15 @@ import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
+import frc.robot.utils.controllerUtils.MultiButton;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
-import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
+import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -42,6 +46,8 @@ public class RobotContainer {
 
     private RobotComponent robotComponent;
 
+    private final ElevatorSubsystem elevatorSubsystem;
+
 
     private final ArmSubsystem armSubsystem;
 
@@ -56,13 +62,14 @@ public class RobotContainer {
     public final ControllerContainer controllerContainer;
 
     @Inject
-    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
         this.controllerContainer = controllerContainer;
-        this.commands = commands;
         this.buttonHelper = buttonHelper;
+        this.commands = commands;
         drivetrainSubsystem.setDefaultCommand(commands.get(FieldOrientedDrive.class));
         configureBindings();
     }
@@ -123,4 +130,3 @@ public class RobotContainer {
         return robotComponent;
     }
 }
-

@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -29,13 +30,14 @@ import java.util.function.DoubleSupplier;
 
 @Module
 public class RobotModule {
+
     @Provides
     @Singleton
 
 
-    public RobotContainer providesRobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+    public RobotContainer providesRobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
         return new RobotContainer(
-                drivetrainSubsystem, intakeSubsystem, armSubsystem, controllerContainer, commands, buttonHelper
+                drivetrainSubsystem, intakeSubsystem, armSubsystem, elevatorSubsystem, controllerContainer, commands, buttonHelper
 
         );
     }
@@ -57,7 +59,7 @@ public class RobotModule {
      */
 
     @Provides
-    @Named("translationXSupplier")
+    @Named(Constants.OIConstants.TRANSLATION_XSUPPLIER)
     public DoubleSupplier provideTranslationXSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getLeftY();
     }
@@ -66,13 +68,13 @@ public class RobotModule {
      * The Y is side to side
      */
     @Provides
-    @Named("translationYSupplier")
+    @Named(Constants.OIConstants.TRANSLATION_YSUPPLIER)
     public DoubleSupplier provideTranslationYSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getLeftX();
     }
 
     @Provides
-    @Named("thetaSupplier")
+    @Named(Constants.OIConstants.THETA_SUPPLIER)
     public DoubleSupplier provideRotationSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getRightX();
     }

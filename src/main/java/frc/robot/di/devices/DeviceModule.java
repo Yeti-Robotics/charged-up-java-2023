@@ -9,6 +9,7 @@ import com.revrobotics.SparkMaxLimitSwitch;
 
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 import frc.robot.di.devices.MotorsModule;
@@ -22,7 +23,6 @@ import javax.inject.Singleton;
 
 @Module(includes = {MotorsModule.class, SolenoidsModule.class})
 public class DeviceModule {
-
     @Provides
     @Singleton
     public WPI_Pigeon2 providesGyro() {
@@ -71,5 +71,12 @@ public class DeviceModule {
     @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH)
     public SparkMaxLimitSwitch providesIntakeReedSwitch(@Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax sparkMax) {
         return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    }
+
+    @Provides
+    @Singleton
+    @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH)
+    public DigitalInput providesElevatorMagSwitch(){
+        return new DigitalInput(Constants.ElevatorConstants.MAG_SWITCH_PORT);
     }
 }

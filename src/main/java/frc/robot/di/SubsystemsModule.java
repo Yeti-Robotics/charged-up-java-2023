@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -20,6 +22,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
 import frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Constants;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -117,6 +122,16 @@ public class SubsystemsModule {
 
     @Provides
     @Singleton
+    public ElevatorSubsystem provideElevatorSubsystem(
+            @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
+            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorMagSwitch) {
+        return new ElevatorSubsystem(
+                elevatorMotor,
+                elevatorMagSwitch);
+    }
+
+    @Provides
+    @Singleton
     @Named(DriveConstants.BACK_RIGHT_MODULE_NAME)
     public SwerveModule providesBackRightSwerveModule() {
         return swerveModuleFactory(
@@ -151,4 +166,3 @@ public class SubsystemsModule {
     }
 
 }
-

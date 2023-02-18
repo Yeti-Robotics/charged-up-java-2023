@@ -21,9 +21,19 @@ import frc.robot.utils.Limelight;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
+import frc.robot.commands.*;
+import frc.robot.subsystems.ElevatorSubsystem;
+
+import javax.inject.Named;
 
 @Module
 public class CommandsModule {
+    @Provides
+    @IntoMap
+    @ClassKey(MoveElevatorDownCommand.class)
+    static CommandBase provideMoveElevatorDownCommand(ElevatorSubsystem elevatorSubsystem) {
+        return new MoveElevatorDownCommand(elevatorSubsystem);
+    }
 
     @ClassKey(IntakeClampCommand.class)
     static CommandBase provideIntakeClampCommand(IntakeSubsystem intakeSubsystem){
@@ -82,51 +92,9 @@ public class CommandsModule {
     @ClassKey(FieldOrientedDrive.class)
     static CommandBase provideFieldOrientedDrive(
             DrivetrainSubsystem drivetrainSubsystem,
-            @Named("translationXSupplier") DoubleSupplier translationXSupplier,
-            @Named("translationYSupplier") DoubleSupplier translationYSupplier,
-            @Named("thetaSupplier") DoubleSupplier rotationSupplier) {
+            @Named(Constants.OIConstants.TRANSLATION_XSUPPLIER) DoubleSupplier translationXSupplier,
+            @Named(Constants.OIConstants.TRANSLATION_YSUPPLIER) DoubleSupplier translationYSupplier,
+            @Named(Constants.OIConstants.THETA_SUPPLIER) DoubleSupplier rotationSupplier) {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
-    }
-
-    @Provides
-    @IntoMap
-    @ClassKey(SwerveLockCommand.class)
-    static CommandBase provideSwerveLockCommand(DrivetrainSubsystem drivetrainSubsystem) {
-        return new SwerveLockCommand(drivetrainSubsystem);
-    }
-    @Provides
-    @IntoMap
-    @ClassKey(AutoBalancingCommand.class)
-    static CommandBase providesAutoBalancingCommand(
-            DrivetrainSubsystem drivetrainSubsystem) {
-        PIDController pidController = new PIDController(Constants.AutoConstants.PITCH_P, Constants.AutoConstants.PITCH_I, Constants.AutoConstants.PITCH_D, Constants.AutoConstants.PITCH_F);
-        pidController.setTolerance(1);
-        pidController.setSetpoint(Constants.AutoConstants.PITCH_SET_POINT);
-        return new AutoBalancingCommand(drivetrainSubsystem, pidController);
-    }
-
-
-    @Provides
-    @IntoMap
-    @ClassKey(AprilTagAlignCommand.class)
-    static CommandBase providesAprilTagAlignCommand(
-            DrivetrainSubsystem drivetrainSubsystem) {
-        PIDController pidControllerX = new PIDController(Constants.DriveConstants.DRIVE_MOTOR_P, Constants.DriveConstants.DRIVE_MOTOR_I, Constants.DriveConstants.DRIVE_MOTOR_D);
-
-        pidControllerX.setTolerance(0.15);
-        pidControllerX.setSetpoint(1.2);
-
-        PIDController pidControllerY = new PIDController(Constants.DriveConstants.DRIVE_MOTOR_P, Constants.DriveConstants.DRIVE_MOTOR_I, Constants.DriveConstants.DRIVE_MOTOR_D);
-
-        pidControllerX.setTolerance(0.3);
-        pidControllerX.setSetpoint(0);
-
-        PIDController pidControllerAngle = new PIDController(Constants.DriveConstants.AZIMUTH_MOTOR_P, Constants.DriveConstants.AZIMUTH_MOTOR_I, Constants.DriveConstants.AZIMUTH_MOTOR_D);
-        pidControllerX.setTolerance(1);
-        pidControllerX.setSetpoint(0);
-
-        Limelight visionSubsystem = new Limelight();
-
-        return new AprilTagAlignCommand(drivetrainSubsystem, visionSubsystem, pidControllerX, pidControllerY, pidControllerAngle);
     }
 }
