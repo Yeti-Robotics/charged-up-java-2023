@@ -5,19 +5,27 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AprilTagAlignCommand;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
-import frc.robot.commands.arm.SetPositionCommand;
+import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton;
+import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -29,33 +37,37 @@ import java.util.Map;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
-   private RobotComponent robotComponent;
+    private RobotComponent robotComponent;
+
 
     private final ArmSubsystem armSubsystem;
+
+    private final IntakeSubsystem intakeSubsystem;
+
+    private final DrivetrainSubsystem drivetrainSubsystem;
+
     private final Map<Class<?>, CommandBase> commands;
 
-    public final ControllerContainer controllerContainer;
     private final ButtonHelper buttonHelper;
-    
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController controller =
-            new CommandXboxController(Constants.OIConstants.XBOX_PORT);
-    
-@Inject
-    public RobotContainer(ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper)
-    {
+
+    public final ControllerContainer controllerContainer;
+
+    @Inject
+    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+        this.drivetrainSubsystem = drivetrainSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
         this.controllerContainer = controllerContainer;
         this.commands = commands;
         this.buttonHelper = buttonHelper;
+        drivetrainSubsystem.setDefaultCommand(commands.get(FieldOrientedDrive.class));
         configureBindings();
     }
-    
-    
+
+
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -66,20 +78,30 @@ public class RobotContainer
      * joysticks}.
      */
     private void configureBindings() {
-        buttonHelper.createButton(3, 0, commands.get(SetPositionCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(3, 0, commands.get(SetArmPositionCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake, armSubsystem), MultiButton.RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(6, 0, commands.get(ArmDownCommand.class), MultiButton.RunCondition.WHILE_HELD);
         buttonHelper.createButton(7, 0, commands.get(ArmUpCommand.class), MultiButton.RunCondition.WHILE_HELD);
+
+        buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
+
+        buttonHelper.createButton(2, 0, new InstantCommand(() -> {
+            drivetrainSubsystem.resetOdometer(new Pose2d());
+        }), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(4, 0, commands.get(AutoBalancingCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
+
     }
-    
-    
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand()
-    {
+    public Command getAutonomousCommand() {
         return new InstantCommand();
     }
 
@@ -91,3 +113,4 @@ public class RobotContainer
         return robotComponent;
     }
 }
+
