@@ -7,10 +7,10 @@ import frc.robot.subsystems.ArmSubsystem;
 import javax.inject.Inject;
 
 
-public class SetPositionCommand extends CommandBase {
+public class SetArmPositionCommand extends CommandBase {
     private final ArmSubsystem armSubsystem;
     @Inject
-    public SetPositionCommand(ArmSubsystem armSubsystem) {
+    public SetArmPositionCommand(ArmSubsystem armSubsystem) {
         this.armSubsystem = armSubsystem;
 
         addRequirements(armSubsystem);
