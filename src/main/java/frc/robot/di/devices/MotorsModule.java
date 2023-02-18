@@ -24,6 +24,7 @@ public class MotorsModule {
         rollerMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 250);
         rollerMotor.setSmartCurrentLimit(40);
         rollerMotor.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        rollerMotor.getEncoder().setVelocityConversionFactor(Constants.CarriageConstants.ROLLER_RATIO);
 
         return rollerMotor;
     }
@@ -38,6 +39,7 @@ public class MotorsModule {
         flipMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 250);
         flipMotor.setSmartCurrentLimit(40);
         flipMotor.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        flipMotor.getEncoder().setPositionConversionFactor(Constants.CarriageConstants.FLIP_RATIO);
 
         return flipMotor;
     }

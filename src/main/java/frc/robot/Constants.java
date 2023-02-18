@@ -28,12 +28,13 @@ public final class Constants
         public static final int FLIP_NEO = 2; //change ID later
         public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
         public static final double CARRIAGE_SPEED = 0.35;
-        public static final int CARRIAGE_BEAMBREAK = 0;
         public static final double FLIP_SPEED = .5;
         /** TODO: Find real value */
         public static final double STOP_ROLLER_VOLTAGE_DELTA = 1;
-        public static final double FLIP_POSITION = 0;
+        public static final double FLIP_POSITION = 0.5;
         public static final double DEFAULT_POSITION = 0;
+        public static final double FLIP_RATIO = 40 / 1;
+        public static final double ROLLER_RATIO = 21 / 1;
         public static final double FLIP_P = 0;
         public static final double FLIP_I = 0;
         public static final double FLIP_D = 0;
