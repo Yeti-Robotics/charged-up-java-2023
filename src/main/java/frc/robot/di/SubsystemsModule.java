@@ -1,5 +1,13 @@
 package frc.robot.di;
 
+import javax.inject.Singleton;
+import com.revrobotics.*;
+import dagger.Module;
+import dagger.Provides;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.Constants;
+import frc.robot.subsystems.IntakeSubsystem;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import dagger.Module;
 import dagger.Provides;
@@ -8,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
 
@@ -29,8 +36,25 @@ public class SubsystemsModule {
 
     @Provides
     @Singleton
-    public ExampleSubsystem provideExampleSubsystem() {
-        return new ExampleSubsystem();
+    public IntakeSubsystem providesIntakeSubsystem(
+            @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
+            @Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(Constants.IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
+            @Named(Constants.IntakeConstants.INTAKE_PID) SparkMaxPIDController pidController,
+            @Named(Constants.IntakeConstants.INTAKE_ENCODER) RelativeEncoder encoder,
+            @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
+            @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
+        return new IntakeSubsystem(
+                leftSpark,
+                rightSpark,
+                intakePiston,
+                pidController,
+                encoder,
+                beamBreak,
+                reedSwitch
+        );
+
+
     }
 
     @Provides

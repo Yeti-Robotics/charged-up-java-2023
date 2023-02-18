@@ -6,12 +6,14 @@ import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
+import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Map;
@@ -21,16 +23,9 @@ import java.util.function.DoubleSupplier;
 public class RobotModule {
     @Provides
     @Singleton
-    public RobotContainer providesRobotContainer(
-            DrivetrainSubsystem drivetrainSubsystem,
-            ControllerContainer controllerContainer,
-            ButtonHelper buttonHelper,
-            Map<Class<?>, CommandBase> commands) {
+    public RobotContainer providesRobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
         return new RobotContainer(
-                drivetrainSubsystem,
-                controllerContainer,
-                buttonHelper,
-                commands
+                drivetrainSubsystem, intakeSubsystem, controllerContainer, commands, buttonHelper
         );
     }
 

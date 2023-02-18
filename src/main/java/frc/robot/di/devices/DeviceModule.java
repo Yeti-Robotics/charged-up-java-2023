@@ -1,12 +1,21 @@
 package frc.robot.di.devices;
 
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
+import dagger.Module;
+import dagger.Provides;
+import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Constants;
+import frc.robot.di.devices.MotorsModule;
+import javax.inject.Named;
 import com.ctre.phoenix.sensors.*;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.Constants.*;
 import javax.inject.Singleton;
 
-@Module(includes = {MotorsModule.class})
+@Module(includes = {MotorsModule.class, SolenoidsModule.class})
 public class DeviceModule {
     @Provides
     @Singleton
@@ -25,5 +34,19 @@ public class DeviceModule {
         absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
         absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
         return absoluteEncoder;
+    }
+
+    @Provides
+    @Singleton
+    @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK)
+    public SparkMaxLimitSwitch providesIntakeBeamBreak(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMax) {
+        return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    }
+
+    @Provides
+    @Singleton
+    @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH)
+    public SparkMaxLimitSwitch providesIntakeReedSwitch(@Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax sparkMax) {
+        return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
 }
