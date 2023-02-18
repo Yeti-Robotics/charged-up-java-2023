@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.carriage;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -8,12 +8,12 @@ import frc.robot.subsystems.CarriageSubsystem;
 import javax.inject.Inject;
 
 
-public class CarriageInCommand extends CommandBase {
+public class CarriageOutCommand extends CommandBase {
     private final CarriageSubsystem carriageSubsystem;
     private final Timer timer;
     private double lastCurrent;
     @Inject
-    public CarriageInCommand(CarriageSubsystem carriageSubsystem){
+    public CarriageOutCommand(CarriageSubsystem carriageSubsystem){
         this.carriageSubsystem = carriageSubsystem;
         timer = new Timer();
         addRequirements(carriageSubsystem);
@@ -27,19 +27,23 @@ public class CarriageInCommand extends CommandBase {
 
     @Override
     public void execute() {
-        carriageSubsystem.carriageIn();
+        carriageSubsystem.carriageOut();
     }
 
     @Override
     public boolean isFinished() {
-        if (timer.hasElapsed(0.500)) {
-            double presentCurrent = carriageSubsystem.getRollerCurrent();
-            boolean stopMotor = (presentCurrent - lastCurrent) > Constants.CarriageConstants.CONE_CURRENT_DELTA;
-            timer.reset();
-            return stopMotor;
+        if (!timer.hasElapsed(0.500)) {
+            return false;
         }
 
-        return false;
+        double presentCurrent = carriageSubsystem.getRollerCurrent();
+        boolean stopMotor = (presentCurrent - lastCurrent) > Constants.CarriageConstants.CUBE_CURRENT_DELTA;
+        if (stopMotor) {
+            System.out.println("Stopping motor because presentCurrent(" + presentCurrent + ") - lastCurrent(" +
+                    lastCurrent + ") > DELTA (" + Constants.CarriageConstants.STOP_ROLLER_CURRENT_DELTA + ")");
+        }
+        timer.reset();
+        return stopMotor;
     }
 
     @Override
