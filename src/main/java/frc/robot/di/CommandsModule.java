@@ -65,23 +65,23 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(IntakeUnclampCommand.class)
-    public CommandBase provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
+    public CommandFactory provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeUnclampCommand(intakeSubsystem);
 
     }
 
     @ClassKey(IntakeRollInCommand.class)
-    public CommandBase provideIntakeRollInCommand(IntakeSubsystem intakeSubsystem){
+    public CommandFactory provideIntakeRollInCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollInCommand(intakeSubsystem);
 
     }
     @ClassKey(IntakeRollOutCommand.class)
-    public CommandBase provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
+    public CommandFactory provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollOutCommand(intakeSubsystem);
     }
 
     @ClassKey(IntakeShootCommand.class)
-    public CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
+    public CommandFactory provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
         return new IntakeShootCommand(intakeSubsystem);
     }
 

@@ -26,7 +26,7 @@ public class CubeHandoffHighCommand extends CommandBase {
                 commands.get(CarriageInCommand.class)
                         .alongWith(commands.get(IntakeUnclampCommand.class))
                         .withTimeout(1.5),
-                commands.get(SetElevatorPositionTopCommand.class)
+                commands.get(SetElevatorPositionTopCommand  .class)
         );
     }
 
