@@ -1,16 +1,12 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
 
@@ -20,10 +16,7 @@ public class VisionSubsystem extends SubsystemBase {
     public double xFinal;
     public double yFinal;
 
-    NetworkTableInstance camera;
-    @Inject
-
-    public VisionSubsystem(@Named("table") NetworkTableInstance table) {
+    public VisionSubsystem(@Named(Constants.VisionConstants.TABLE_NAME) NetworkTableInstance table) {
         this.table = table;
     }
 
@@ -43,14 +36,13 @@ public class VisionSubsystem extends SubsystemBase {
         return getValue("ty").getDouble(0.00);
     }
 
-    public double[] getPose(){
+    public double[] getPose() {
         return getValue("botpose").getDoubleArray(new double[6]);
     }
 
     public double getYaw(){
         return getPose()[5];
     }
-
     public double getPitch(){
         return getPose()[4];
     }
@@ -58,8 +50,7 @@ public class VisionSubsystem extends SubsystemBase {
     public int getID(){
         return (int) getValue("tid").getInteger(0);
     }
-
-    public void setPipeline(int num){
+    public void setPipeline(int num) {
         getValue("pipeline").setNumber(num);
     }
 }

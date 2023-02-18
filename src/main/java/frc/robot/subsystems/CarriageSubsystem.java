@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants;
-import org.opencv.core.Mat;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -48,6 +47,14 @@ public class CarriageSubsystem extends SubsystemBase {
 
     public void reverseFlipMechanism(){
         flipPIDController.setReference(Constants.CarriageConstants.DEFAULT_POSITION, CANSparkMax.ControlType.kPosition);
+    }
+
+    public void flipOut() {
+        flipMotor.set(Constants.CarriageConstants.FLIP_SPEED);
+    }
+
+    public void flipIn() {
+        flipMotor.set(-Constants.CarriageConstants.FLIP_SPEED);
     }
 
     public void stopFlipMechanism() {
