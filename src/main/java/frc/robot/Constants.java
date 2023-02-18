@@ -81,7 +81,7 @@ public final class Constants {
 
         public enum ElevatorPositions {
             DOWN(0),
-            CONE(10),
+            CONE(4.25),
             LEVEL_TWO(20.5),
             UP(MAX_EXTENSION);
 
