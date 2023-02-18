@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AprilTagAlignCommand;
+import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
@@ -79,14 +79,24 @@ public class RobotContainer {
      */
     private void configureBindings() {
 
+        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(6, 0, commands.get(IntakeRollOutCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(7, 0, commands.get(IntakeRollInCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(8, 0, commands.get(IntakeShootCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new InstantCommand(intakeSubsystem::stop, intakeSubsystem), RunCondition.WHEN_PRESSED);
+
+
         buttonHelper.createButton(3, 0, commands.get(SetArmPositionCommand.class), MultiButton.RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(1, 0, new InstantCommand(armSubsystem::toggleBrake, armSubsystem), MultiButton.RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(6, 0, commands.get(ArmDownCommand.class), MultiButton.RunCondition.WHILE_HELD);
         buttonHelper.createButton(7, 0, commands.get(ArmUpCommand.class), MultiButton.RunCondition.WHILE_HELD);
 
+
         buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(2, 0, new InstantCommand(() -> {
+        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 

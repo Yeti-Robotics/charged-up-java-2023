@@ -219,7 +219,7 @@ public final class Constants {
                 0, ControllerType.CUSTOM
         );
         public static final int CONTROLLER_COUNT = CONTROLLERS.size(); //placeholder value
-        public static final double DEADBAND = 0.05;
+        public static final double DEADBAND = 0.1;
 
         public enum ControllerType {
             CUSTOM, XBOX
@@ -242,19 +242,19 @@ public final class Constants {
         public static final double GEAR_RATIO = 1.0 / 7.0;
         public static final double VELOCITY_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
 
-        public static final double INTAKE_SPEED = 0.35; //placeholder
+        public static final double INTAKE_SPEED = 0.2; //placeholder
         public static final double MAX_ACCEL = 3.0;
 
         public static final double INTAKE_VOLTAGE_COMP = 12.0;
 
-        public static final double INTAKE_P = 0.5; //placeholder
+        public static final double INTAKE_P = 0.05; //placeholder
         public static final double INTAKE_I = 0.0; //placeholder
         public static final double INTAKE_D = 0.0; //placeholder
-        public static final double INTAKE_F = 0.1; //placeholder
+        public static final double INTAKE_F = 0.01; //placeholder
 
-        public static final double INTAKE_KS = 0.5;
-        public static final double INTAKE_KV = 0.5;
-        public static final double INTAKE_KA = 0.5;
+        public static final double INTAKE_KS = 0.3;
+        public static final double INTAKE_KV = 0.1;
+        public static final double INTAKE_KA = 0.0;
 
         public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(INTAKE_KS, INTAKE_KV, INTAKE_KA); //we can use once characterized
 

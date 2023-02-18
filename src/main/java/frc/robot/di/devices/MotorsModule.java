@@ -59,6 +59,7 @@ public class MotorsModule {
     public CANSparkMax providesIntakeSpark1(){
         CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setInverted(false);
+        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
@@ -74,6 +75,7 @@ public class MotorsModule {
     public CANSparkMax providesIntakeSpark2(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
         CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.follow(sparkMaxZero, true);
+        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         sparkMax.setSmartCurrentLimit(Constants.SparkConstants.CURRENT_LIM);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkConstants.SPARK_PERIODMS);
