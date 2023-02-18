@@ -5,7 +5,6 @@ import frc.robot.utils.rests.restAnnotations.REST;
 import frc.robot.utils.rests.restAnnotations.Requirement;
 import frc.robot.utils.rests.restUtils.RESTContainer;
 
-
 import javax.inject.Inject;
 
 public class ElevatorREST extends RESTContainer {

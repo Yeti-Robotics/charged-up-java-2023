@@ -2,33 +2,36 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.commands.arm.ArmDownCommand;
+import frc.robot.commands.arm.SetArmPositionHandoffCommand;
+import frc.robot.commands.carriage.CarriageInCommand;
+import frc.robot.commands.elevator.MoveElevatorUpCommand;
+import frc.robot.commands.elevator.SetElevatorPositionConeHandoffCommand;
+import frc.robot.commands.elevator.SetElevatorPositionTopCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 
 public class CubeHandoffHighCommand extends CommandBase {
 
-    private final IntakeSubsystem intakeSubsystem;
-    private final ArmSubsystem armSubsystem;
-    private final ElevatorSubsystem elevatorSubsystem;
-    @Inject
-    public CubeHandoffHighCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem) {
-        this.intakeSubsystem = intakeSubsystem;
-        this.armSubsystem = armSubsystem;
-        this.elevatorSubsystem = elevatorSubsystem;
-        addRequirements(intakeSubsystem, armSubsystem, elevatorSubsystem);
+
+    public CubeHandoffHighCommand(Map<Class<?>, CommandBase> commands) {
+        andThen(
+                commands.get(SetArmPositionHandoffCommand.class),
+                commands.get(CarriageInCommand.class)
+                        .alongWith(commands.get(IntakeUnclampCommand.class))
+                        .withTimeout(1.5),
+                commands.get(SetElevatorPositionTopCommand.class)
+        );
     }
 
     @Override
     public void initialize() {
-
-        armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.HANDOFF);
-        armSubsystem.toggleBrake();
-        //carriageroll
-        intakeSubsystem.intakeUnclamp();
 
 
     }
@@ -45,10 +48,6 @@ public class CubeHandoffHighCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        //carriagestoproll
-        armSubsystem.toggleBrake();
-        armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.DOWN);
-        elevatorSubsystem.setMotionMagic(Constants.ElevatorConstants.ElevatorPositions.UP);
     }
 
 }

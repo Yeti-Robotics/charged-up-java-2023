@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -31,6 +31,6 @@ public class MoveElevatorDownCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        elevatorSubsystem.elevatorStop();
+        elevatorSubsystem.stop();
     }
 }

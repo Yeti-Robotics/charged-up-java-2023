@@ -8,13 +8,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
+import frc.robot.commands.arm.SetArmPositionHandoffCommand;
 import frc.robot.commands.arm.ArmUpCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.elevator.MoveElevatorDownCommand;
+import frc.robot.commands.elevator.MoveElevatorUpCommand;
+import frc.robot.commands.elevator.SetElevatorPositionConeHandoffCommand;
+import frc.robot.commands.elevator.SetElevatorPositionTopCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.CommandFactory;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
@@ -24,49 +32,70 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(MoveElevatorDownCommand.class)
-    static CommandBase provideMoveElevatorDownCommand(ElevatorSubsystem elevatorSubsystem) {
+    public CommandBase provideMoveElevatorDownCommand(ElevatorSubsystem elevatorSubsystem) {
         return new MoveElevatorDownCommand(elevatorSubsystem);
     }
 
+    @Provides
+    @IntoMap
+    @ClassKey(MoveElevatorUpCommand.class)
+    public CommandBase provideMoveElevatorUpCommand(ElevatorSubsystem elevatorSubsystem) {
+        return new MoveElevatorUpCommand(elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(SetElevatorPositionConeHandoffCommand.class)
+    public CommandBase provideSetElevatorPositionConeHandoffCommand(ElevatorSubsystem elevatorSubsystem) {
+        return new SetElevatorPositionConeHandoffCommand(elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(SetElevatorPositionTopCommand.class)
+    public CommandBase provideSetElevatorPositionTomCommand(ElevatorSubsystem elevatorSubsystem) {
+        return new SetElevatorPositionTopCommand(elevatorSubsystem);
+    }
+
     @ClassKey(IntakeClampCommand.class)
-    static CommandBase provideIntakeClampCommand(IntakeSubsystem intakeSubsystem){
+    public CommandFactory provideIntakeClampCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeClampCommand(intakeSubsystem);
     }
 
     @Provides
     @IntoMap
     @ClassKey(IntakeUnclampCommand.class)
-    static CommandBase provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
+    public CommandBase provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeUnclampCommand(intakeSubsystem);
 
     }
 
     @ClassKey(IntakeRollInCommand.class)
-    static CommandBase provideIntakeRollInCommand(IntakeSubsystem intakeSubsystem){
+    public CommandBase provideIntakeRollInCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollInCommand(intakeSubsystem);
 
     }
     @ClassKey(IntakeRollOutCommand.class)
-    static CommandBase provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
+    public CommandBase provideIntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeRollOutCommand(intakeSubsystem);
     }
 
     @ClassKey(IntakeShootCommand.class)
-    static CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
+    public CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
         return new IntakeShootCommand(intakeSubsystem);
     }
 
     @Provides
     @IntoMap
     @ClassKey(ArmUpCommand.class)
-    static CommandBase provideArmUpCommand(ArmSubsystem armSubsystem) {
+    public CommandBase provideArmUpCommand(ArmSubsystem armSubsystem) {
         return new ArmUpCommand(armSubsystem);
     }
 
     @Provides
     @IntoMap
     @ClassKey(ArmDownCommand.class)
-    static CommandBase provideArmDownCommand(ArmSubsystem armSubsystem) {
+    public CommandBase provideArmDownCommand(ArmSubsystem armSubsystem) {
         return new ArmDownCommand(armSubsystem);
     }
 
@@ -74,56 +103,23 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(SetArmPositionCommand.class)
-    static CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
+    public CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
         return new SetArmPositionCommand(armSubsystem);
     }
 
-
-
     @Provides
     @IntoMap
-    @ClassKey(ConeHandoffHighCommand.class)
-    static CommandBase provideConeHandoffHighCommand(
-            IntakeSubsystem intakeSubsystem,
-            ArmSubsystem armSubsystem,
-            ElevatorSubsystem elevatorSubsystem){
-                return new ConeHandoffHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
+    @ClassKey(SetArmPositionHandoffCommand.class)
+    public CommandBase provideSetArmPositionHandoffCommand(ArmSubsystem armSubsystem) {
+        return new SetArmPositionHandoffCommand(armSubsystem);
     }
 
-    @Provides
-    @IntoMap
-    @ClassKey(ConeHandoffLowCommand.class)
-    static CommandBase provideConeHandoffLowCommand(
-            IntakeSubsystem intakeSubsystem,
-            ArmSubsystem armSubsystem,
-            ElevatorSubsystem elevatorSubsystem){
-        return new ConeHandoffLowCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
-    }
 
-    @Provides
-    @IntoMap
-    @ClassKey(CubeHandoffHighCommand.class)
-    static CommandBase provideCubeHandoffCommand(
-            IntakeSubsystem intakeSubsystem,
-            ArmSubsystem armSubsystem,
-            ElevatorSubsystem elevatorSubsystem){
-        return new CubeHandoffHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
-    }
-
-    @Provides
-    @IntoMap
-    @ClassKey(CubeHandoffLowCommand.class)
-    static CommandBase provideCubeHandoffLowCommand(
-            IntakeSubsystem intakeSubsystem,
-            ArmSubsystem armSubsystem,
-            ElevatorSubsystem elevatorSubsystem){
-        return new CubeHandoffLowCommand(intakeSubsystem, armSubsystem, elevatorSubsystem);
-    }
 
     @Provides
     @IntoMap
     @ClassKey(FieldOrientedDrive.class)
-    static CommandBase provideFieldOrientedDrive(
+    public CommandBase provideFieldOrientedDrive(
             DrivetrainSubsystem drivetrainSubsystem,
             @Named(Constants.OIConstants.TRANSLATION_XSUPPLIER) DoubleSupplier translationXSupplier,
             @Named(Constants.OIConstants.TRANSLATION_YSUPPLIER) DoubleSupplier translationYSupplier,
@@ -131,4 +127,10 @@ public class CommandsModule {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
     }
 
+    @Provides
+    @IntoMap
+    @ClassKey(CarriageInCommand.class)
+    public CommandBase provideCarriageInCommand(CarriageSubsystem carriageSubsystem, IntakeSubsystem intakeSubsystem) {
+        return new CarriageInCommand(carriageSubsystem, intakeSubsystem);
+    }
 }

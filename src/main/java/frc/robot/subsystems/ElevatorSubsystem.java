@@ -38,16 +38,16 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(ControlMode.PercentOutput, -Constants.ElevatorConstants.ELEVATOR_SPEED);
     }
 
-    public void elevatorStop() {
+    public void stop() {
         elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
 
-    public void setMotionMagic(ElevatorPositions setpoint) {
+    public void setPosition(ElevatorPositions setpoint) {
         distanceSetpoint = setpoint;
         elevatorMotor.set(ControlMode.MotionMagic, distanceSetpoint.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ElevatorConstants.GRAVITY_FEEDFORWARD);
     }
 
-    public boolean motionMagicOnTarget() {
+    public boolean motionFinished() {
         return Math.abs(elevatorMotor.getSelectedSensorPosition() - distanceSetpoint.sensorUnits) <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
     }
 

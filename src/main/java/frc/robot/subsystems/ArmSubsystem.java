@@ -12,7 +12,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants.ArmPositions;
 
 import javax.inject.Named;
-import javax.swing.plaf.TableHeaderUI;
 
 public class ArmSubsystem extends SubsystemBase {
 

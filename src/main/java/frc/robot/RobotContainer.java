@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -16,6 +17,7 @@ import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
@@ -45,6 +47,7 @@ public class RobotContainer {
 
     private final IntakeSubsystem intakeSubsystem;
 
+    private final CarriageSubsystem carriageSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
 
     private final Map<Class<?>, CommandBase> commands;
@@ -54,7 +57,8 @@ public class RobotContainer {
     public final ControllerContainer controllerContainer;
 
     @Inject
-    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+    public RobotContainer(CarriageSubsystem carriageSubsystem, DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+        this.carriageSubsystem = carriageSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
@@ -83,13 +87,12 @@ public class RobotContainer {
 
         buttonHelper.createButton(6, 0, commands.get(IntakeClampCommand.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, commands.get(IntakeUnclampCommand.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(3, 0, commands.get(IntakeShootCommand.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(8, 0, new InstantCommand(intakeSubsystem::stop, intakeSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(4, 0, (
-                intakeSubsystem.isCube() ? commands.get(CubeHandoffLowCommand.class) : commands.get(ConeHandoffLowCommand.class)), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(9, 0, (
-                intakeSubsystem.isCube() ? commands.get(CubeHandoffHighCommand.class) : commands.get(ConeHandoffHighCommand.class)), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 0, new InstantCommand(carriageSubsystem::flipOut, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 0, new InstantCommand(carriageSubsystem::flipIn, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new ConditionalCommand(new CubeHandoffHighCommand(commands), new ConeHandoffHighCommand(commands), intakeSubsystem::isCube), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, new ConditionalCommand(new CubeHandoffLowCommand(commands), new ConeHandoffLowCommand(commands), intakeSubsystem::isCube), RunCondition.WHEN_PRESSED);
         //CARRIAGE IN AND OUt
+
 
 
         buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
