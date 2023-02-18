@@ -7,15 +7,11 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.util.Units;
-import javax.inject.Singleton;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-
 
 import java.util.Map;
 
@@ -27,10 +23,10 @@ import java.util.Map;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-
-public final class Constants {
-
-    public static final class SparkConstants {
+public final class Constants
+{
+    public static final class SparkMaxConstants {
+        public static final double PULSES_PER_REV = 4096.0;
         public static final int SPARK_PERIODMS = 250;
         public static final int CURRENT_LIM = 40;
 
@@ -74,6 +70,7 @@ public final class Constants {
         public static final String BACK_RIGHT_MODULE_NAME = "back right";
 
         public static final int GYRO = 1; //placeholder value
+
         public static final double DRIVE_MOTOR_P = 2.0; //placeholder from borealis
         public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis
         public static final double DRIVE_MOTOR_D = 0.0; //placeholder from borealis
@@ -110,6 +107,33 @@ public final class Constants {
                         new Translation2d(-DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0,
                                 -DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
                 );
+    }
+
+    public static final class CarriageConstants {
+        public static final int ROLLER_NEO = 4; //change ID later
+        public static final int FLIP_NEO = 3; //change ID later
+        public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
+        public static final double CARRIAGE_SPEED = 0.35;
+        public static final double FLIP_SPEED = 0.2;
+        /** TODO: Find real value */
+        public static final double CUBE_CURRENT_DELTA = 5.25;
+        public static final double CONE_CURRENT_DELTA = 6.5;
+        public static final double FLIP_POSITION = 10.0;
+        public static final double DEFAULT_POSITION = 0.0;
+        public static final double FLIP_RATIO = 1.0 / 40.0;
+        public static final double ROLLER_RATIO = 1.0 / 21.0;
+
+        public static final double FLIP_DEGREES_TO_COUNTS = FLIP_RATIO * SparkMaxConstants.PULSES_PER_REV / 360.0;
+        public static final double FLIP_P = 0.01;
+        public static final double FLIP_I = 0;
+        public static final double FLIP_D = 0;
+        public static final double FLIP_F = 0;
+
+        public static final String FLIP_MOTOR_NAME = "flipMotor";
+        public static final String ROLLER_MOTOR_NAME = "rollerMotor";
+        public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
+
+        public static final double GRAVITY_FEEDFORWARD = 0.07;
 
     }
 
@@ -173,7 +197,6 @@ public final class Constants {
     public static final class TalonFXConstants {
         public static final int COUNTS_PER_REV = 2048;
     }
-
 
     public static final class CANCoderConstants {
         public static final int COUNTS_PER_REV = 4096;

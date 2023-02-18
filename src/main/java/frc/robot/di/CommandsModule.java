@@ -4,27 +4,22 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
-import frc.robot.commands.arm.ArmUpCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.carriage.CarriageInCommand;
+import frc.robot.commands.carriage.CarriageOutCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
-import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.Limelight;
 
 import javax.inject.Named;
 import java.util.function.DoubleSupplier;
-import frc.robot.commands.*;
-import frc.robot.subsystems.ElevatorSubsystem;
-
-import javax.inject.Named;
 
 @Module
 public class CommandsModule {
@@ -35,6 +30,8 @@ public class CommandsModule {
         return new MoveElevatorDownCommand(elevatorSubsystem);
     }
 
+    @Provides
+    @IntoMap
     @ClassKey(IntakeClampCommand.class)
     static CommandBase provideIntakeClampCommand(IntakeSubsystem intakeSubsystem){
         return new IntakeClampCommand(intakeSubsystem);
@@ -62,30 +59,19 @@ public class CommandsModule {
     static CommandBase provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
         return new IntakeShootCommand(intakeSubsystem);
     }
-
     @Provides
     @IntoMap
-    @ClassKey(ArmUpCommand.class)
-    static CommandBase provideArmUpCommand(ArmSubsystem armSubsystem) {
-        return new ArmUpCommand(armSubsystem);
+    @ClassKey(CarriageInCommand.class)
+    static CommandBase provideCarriageInCommand(CarriageSubsystem carriageSubsystem){
+        return new CarriageInCommand(carriageSubsystem);
     }
 
     @Provides
     @IntoMap
-    @ClassKey(ArmDownCommand.class)
-    static CommandBase provideArmDownCommand(ArmSubsystem armSubsystem) {
-        return new ArmDownCommand(armSubsystem);
+    @ClassKey(CarriageOutCommand.class)
+    static CommandBase provideCarriageOutCommand(CarriageSubsystem carriageSubsystem){
+        return new CarriageOutCommand(carriageSubsystem);
     }
-
-
-    @Provides
-    @IntoMap
-    @ClassKey(SetArmPositionCommand.class)
-    static CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
-        return new SetArmPositionCommand(armSubsystem);
-    }
-
-
 
     @Provides
     @IntoMap
@@ -96,5 +82,19 @@ public class CommandsModule {
             @Named(Constants.OIConstants.TRANSLATION_YSUPPLIER) DoubleSupplier translationYSupplier,
             @Named(Constants.OIConstants.THETA_SUPPLIER) DoubleSupplier rotationSupplier) {
         return new FieldOrientedDrive(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(ArmDownCommand.class)
+    static CommandBase provideArmDownCommand(ArmSubsystem armSubsystem) {
+        return new ArmDownCommand(armSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(SetArmPositionCommand.class)
+    static CommandBase provideSetArmPositionCommand(ArmSubsystem armSubsystem) {
+        return new SetArmPositionCommand(armSubsystem);
     }
 }

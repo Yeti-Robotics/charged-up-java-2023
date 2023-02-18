@@ -1,28 +1,22 @@
 package frc.robot.di;
 
 
-
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ArmSubsystem;
-
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-
 import frc.robot.utils.controllerUtils.ButtonHelper;
-import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Map;
@@ -35,10 +29,24 @@ public class RobotModule {
     @Singleton
 
 
-    public RobotContainer providesRobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+    public RobotContainer providesRobotContainer(
+            CarriageSubsystem carriageSubsystem,
+            DrivetrainSubsystem drivetrainSubsystem,
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem,
+            ControllerContainer controllerContainer,
+            Map<Class<?>,CommandBase> commands,
+            ButtonHelper buttonHelper) {
         return new RobotContainer(
-                drivetrainSubsystem, intakeSubsystem, armSubsystem, elevatorSubsystem, controllerContainer, commands, buttonHelper
-
+                carriageSubsystem,
+                drivetrainSubsystem,
+                intakeSubsystem,
+                armSubsystem,
+                elevatorSubsystem,
+                controllerContainer,
+                commands,
+                buttonHelper
         );
     }
 

@@ -9,27 +9,29 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.MoveElevatorDownCommand;
-import frc.robot.commands.MoveElevatorUpCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.ArmDownCommand;
 import frc.robot.commands.arm.ArmUpCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.carriage.CarriageInCommand;
+import frc.robot.commands.carriage.CarriageOutCommand;
+import frc.robot.commands.carriage.CarriageRollerStop;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.di.RobotComponent;
-import frc.robot.utils.controllerUtils.MultiButton;
-import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
-import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -45,6 +47,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
     private RobotComponent robotComponent;
+
+    private final CarriageSubsystem carriageSubsystem;
 
     private final ElevatorSubsystem elevatorSubsystem;
 
@@ -62,7 +66,16 @@ public class RobotContainer {
     public final ControllerContainer controllerContainer;
 
     @Inject
-    public RobotContainer(DrivetrainSubsystem drivetrainSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands, ButtonHelper buttonHelper) {
+    public RobotContainer(
+            CarriageSubsystem carriageSubsystem,
+            DrivetrainSubsystem drivetrainSubsystem,
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem,
+            ControllerContainer controllerContainer,
+            Map<Class<?>, CommandBase> commands,
+            ButtonHelper buttonHelper) {
+        this.carriageSubsystem = carriageSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
@@ -110,6 +123,15 @@ public class RobotContainer {
         buttonHelper.createButton(4, 0, commands.get(AutoBalancingCommand.class), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
 
+        /* Carriage command buttons -- UPDATE THESE */
+        buttonHelper.createButton(2, 0, commands.get(CarriageInCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, commands.get(CarriageOutCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, commands.get(CarriageRollerStop.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, new InstantCommand(carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(8, 0, new StartEndCommand(carriageSubsystem::flipOut, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(9, 0, new StartEndCommand(carriageSubsystem::flipIn, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
+        //**CHECK THIS LINE** buttonHelper.createButton(2,0, new CarriageFlip());
     }
 
 
