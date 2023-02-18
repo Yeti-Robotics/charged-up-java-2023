@@ -52,13 +52,16 @@ public class IntakeSubsystem extends SubsystemBase {
         leftSpark.set(-IntakeConstants.INTAKE_SPEED);
     }
 
+    public void stop() {
+        leftSpark.stopMotor();
+    }
 
     public void intakeClamp() {
-        intakePiston.set(DoubleSolenoid.Value.kForward); //check Forward/Reverse values
+        intakePiston.set(DoubleSolenoid.Value.kReverse); //check Forward/Reverse values
     }
 
     public void intakeUnclamp() {
-        intakePiston.set(DoubleSolenoid.Value.kReverse); //check Forward/Reverse values
+        intakePiston.set(DoubleSolenoid.Value.kForward); //check Forward/Reverse values
     }
 
     public void toggleClamp() {

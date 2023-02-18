@@ -75,9 +75,16 @@ public class RobotContainer
      * joysticks}.
      */
     private void configureBindings() {
+        buttonHelper.createButton(1, 0, commands.get(IntakeClampCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, commands.get(IntakeUnclampCommand.class), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(6, 0, commands.get(IntakeRollOutCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(7, 0, commands.get(IntakeRollInCommand.class), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(8, 0, commands.get(IntakeShootCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new InstantCommand(intakeSubsystem::stop, intakeSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(2, 0, new InstantCommand(() -> {
+        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
     }
