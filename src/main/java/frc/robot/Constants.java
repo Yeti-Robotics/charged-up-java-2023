@@ -361,5 +361,9 @@ public final class Constants
         public static final String TABLE_NAME = "table";
 
         public static final double CENTER_LIMIT = 0.3;
+
+//        public static final String VISION_PID_X = "pid controller x";
+//        public static final String VISION_PID_Y = "pid controller x";
+//        public static final String VISION_PID_ = "pid controller x";
     }
 }

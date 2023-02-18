@@ -161,16 +161,16 @@ public class CommandsModule {
         return new CarriageRollerStopCommand(carriageSubsystem);
     }
 
-    @Provides
-    @IntoMap
-    @ClassKey(AprilTagAlignCommand.class)
-    public CommandFactory provideAprilTagAlign(
-            DrivetrainSubsystem drivetrainSubsystem,
-            Limelight visionSubsystem,
-            PIDController pidControllerX,
-            PIDController pidControllerY,
-            PIDController pidControllerAngle
-    ) {
-        return new AprilTagAlignCommand(drivetrainSubsystem, visionSubsystem, pidControllerX, pidControllerY, pidControllerAngle);
-    }
+//    @Provides
+//    @IntoMap
+//    @ClassKey(AprilTagAlignCommand.class)
+//    public CommandFactory provideAprilTagAlign(
+//            DrivetrainSubsystem drivetrainSubsystem,
+//            Limelight visionSubsystem,
+//            @Named() PIDController pidControllerX,
+//            @Named() IDController pidControllerY,
+//            @Named("") PIDController pidControllerAngle
+//    ) {
+//        return new AprilTagAlignCommand(drivetrainSubsystem, visionSubsystem, pidControllerX, pidControllerY, pidControllerAngle);
+//    }
 }
