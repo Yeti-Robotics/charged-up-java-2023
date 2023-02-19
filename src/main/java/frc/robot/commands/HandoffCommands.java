@@ -1,12 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.arm.SetArmPositionHandoffCommand;
 import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.elevator.MoveElevatorUpCommand;
 import frc.robot.commands.elevator.SetElevatorPositionConeHandoffCommand;
+import frc.robot.commands.elevator.SetElevatorPositionMidCommand;
 import frc.robot.commands.elevator.SetElevatorPositionTopCommand;
 import frc.robot.commands.intake.IntakeOpenCommand;
+import frc.robot.commands.intake.IntakeRollOutCommand;
 import frc.robot.utils.CommandFactory;
 
 import javax.inject.Inject;
@@ -29,7 +32,9 @@ public class HandoffCommands {
                                         .alongWith(commands.get(IntakeOpenCommand.class).create())
                                         .withTimeout(1.5),
                                 commands.get(SetElevatorPositionTopCommand.class).create()
-                        );
+
+                                );
+
 
         cubeHigh = commands.get(SetArmPositionHandoffCommand.class).create()
                 .andThen(
@@ -41,19 +46,19 @@ public class HandoffCommands {
 
         coneLow = commands.get(SetElevatorPositionConeHandoffCommand.class).create()
                 .andThen(
-                        commands.get(SetArmPositionHandoffCommand.class).create(),
+                        commands.get(SetArmPositionHandoffCommand.class).create().withTimeout(1),
                         commands.get(CarriageInCommand.class).create()
                                 .alongWith(commands.get(IntakeOpenCommand.class).create())
-                                .withTimeout(1.5),
-                        commands.get(MoveElevatorUpCommand.class).create()
+                                .withTimeout(3),
+                        commands.get(SetElevatorPositionMidCommand.class).create()
                 );
 
         cubeLow = commands.get(SetArmPositionHandoffCommand.class).create()
                 .andThen(
-                        commands.get(CarriageInCommand.class).create()
-                                .alongWith(commands.get(IntakeOpenCommand.class).create())
+                        commands.get(IntakeOpenCommand.class).create(),
+                                (commands.get(CarriageInCommand.class).create())
                                 .withTimeout(1.5),
-                        commands.get(MoveElevatorUpCommand.class).create()
+                        commands.get(SetElevatorPositionMidCommand.class).create()
                 );
 
     }

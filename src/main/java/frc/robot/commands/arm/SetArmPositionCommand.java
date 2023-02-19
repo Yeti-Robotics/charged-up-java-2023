@@ -31,7 +31,7 @@ public class SetArmPositionCommand extends CommandFactory {
                 armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
             }
             else if (position == ArmConstants.ArmPositions.HANDOFF) {
-                armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
+                armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
             } else {
                 armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
             }

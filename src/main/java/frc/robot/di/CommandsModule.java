@@ -13,10 +13,7 @@ import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.carriage.CarriageRollerStopCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
-import frc.robot.commands.elevator.MoveElevatorDownCommand;
-import frc.robot.commands.elevator.MoveElevatorUpCommand;
-import frc.robot.commands.elevator.SetElevatorPositionConeHandoffCommand;
-import frc.robot.commands.elevator.SetElevatorPositionTopCommand;
+import frc.robot.commands.elevator.*;
 import frc.robot.commands.intake.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -54,9 +51,25 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(SetElevatorPositionTopCommand.class)
-    public CommandFactory provideSetElevatorPositionTomCommand(ElevatorSubsystem elevatorSubsystem) {
+    public CommandFactory provideSetElevatorPositionTopCommand(ElevatorSubsystem elevatorSubsystem) {
         return new SetElevatorPositionTopCommand(elevatorSubsystem);
     }
+
+    @Provides
+    @IntoMap
+    @ClassKey(SetElevatorPositionMidCommand.class)
+    public CommandFactory provideSetElevatorPositionMidCommand(ElevatorSubsystem elevatorSubsystem) {
+        return new SetElevatorPositionMidCommand(elevatorSubsystem);
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(SetElevatorPositionDownCommand.class)
+    public CommandFactory provideSetElevatorPositionDownCommand(ElevatorSubsystem elevatorSubsystem) {
+        return new SetElevatorPositionDownCommand(elevatorSubsystem);
+    }
+
+
 
     @Provides
     @IntoMap

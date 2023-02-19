@@ -8,11 +8,11 @@ import frc.robot.utils.CommandFactory;
 import javax.inject.Inject;
 
 
-public class SetElevatorPositionTopCommand extends CommandFactory {
-    public class SetElevatorPositionTopImpl extends CommandBase {
+public class SetElevatorPositionDownCommand extends CommandFactory {
+    public class SetElevatorPositionDownImpl extends CommandBase {
         private final ElevatorSubsystem elevatorSubsystem;
 
-        public SetElevatorPositionTopImpl(ElevatorSubsystem elevatorSubsystem) {
+        public SetElevatorPositionDownImpl(ElevatorSubsystem elevatorSubsystem) {
             this.elevatorSubsystem = elevatorSubsystem;
             // each subsystem used by the command must be passed into the
             // addRequirements() method (which takes a vararg of Subsystem)
@@ -21,7 +21,7 @@ public class SetElevatorPositionTopCommand extends CommandFactory {
 
         @Override
         public void initialize() {
-            elevatorSubsystem.setPosition(Constants.ElevatorConstants.ElevatorPositions.UP);
+            elevatorSubsystem.setPosition(Constants.ElevatorConstants.ElevatorPositions.DOWN);
         }
 
         @Override
@@ -37,19 +37,19 @@ public class SetElevatorPositionTopCommand extends CommandFactory {
 
         @Override
         public void end(boolean interrupted) {
-
-        }
+            elevatorSubsystem.stop();
+             }
     }
 
     private final ElevatorSubsystem elevatorSubsystem;
 
     @Inject
-    public SetElevatorPositionTopCommand(ElevatorSubsystem elevatorSubsystem) {
+    public SetElevatorPositionDownCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
     }
 
     @Override
     public CommandBase create() {
-        return new SetElevatorPositionTopImpl(elevatorSubsystem);
+        return new SetElevatorPositionDownImpl(elevatorSubsystem);
     }
 }

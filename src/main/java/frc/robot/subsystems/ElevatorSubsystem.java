@@ -72,8 +72,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         if (getMagSwitch() && distanceSetpoint == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
-        System.out.println(elevatorMotor.getSelectedSensorPosition());
-        System.out.println(getMagSwitch());
+        //System.out.println(elevatorMotor.getSelectedSensorPosition());
+        //System.out.println(getMagSwitch());
     }
 }
 

@@ -21,6 +21,7 @@ public class SetArmPositionHandoffCommand extends CommandFactory {
 
         @Override
         public void initialize() {
+            armSubsystem.disengageBrake();
             armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.HANDOFF);
         }
 
@@ -30,12 +31,12 @@ public class SetArmPositionHandoffCommand extends CommandFactory {
         @Override
         public boolean isFinished() {
             // TODO: Make this return true when this Command no longer needs to run execute()
-            return armSubsystem.isMotionFinished();
+            return true;
         }
 
         @Override
         public void end(boolean interrupted) {
-            armSubsystem.engageBrake();
+
         }
     }
 

@@ -13,7 +13,10 @@ public class IntakeOpenCommand extends CommandFactory {
         private final IntakeSubsystem intakeSubsystem;
 
         public IntakeUnclampImpl(IntakeSubsystem intakeSubsystem) {
-            super(intakeSubsystem::intakeOpen);
+            super(() -> {
+                intakeSubsystem.intakeOpen();
+                intakeSubsystem.setBrakeMode();
+            });
             this.intakeSubsystem = intakeSubsystem;
             addRequirements(intakeSubsystem);
         }

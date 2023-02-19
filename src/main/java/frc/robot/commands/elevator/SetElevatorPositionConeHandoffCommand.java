@@ -31,12 +31,12 @@ public class SetElevatorPositionConeHandoffCommand extends CommandFactory {
         @Override
         public boolean isFinished() {
             // TODO: Make this return true when this Command no longer needs to run execute()
-            return elevatorSubsystem.motionFinished();
+            return true;
         }
 
         @Override
         public void end(boolean interrupted) {
-            elevatorSubsystem.stop();
+
         }
     }
 

@@ -6,15 +6,14 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
+import frc.robot.commands.elevator.*;
 import frc.robot.commands.intake.IntakeCloseCommand;
 import frc.robot.commands.intake.IntakeOpenCommand;
 import frc.robot.commands.intake.IntakeRollInCommand;
@@ -90,23 +89,31 @@ public class RobotContainer {
         buttonHelper.createButton(1, 0, commands.get(IntakeRollInCommand.class).create(), RunCondition.WHILE_HELD);
         buttonHelper.createButton(2, 0, commands.get(IntakeRollOutCommand.class).create(), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(6, 0, commands.get(IntakeCloseCommand.class).create(), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, commands.get(SetElevatorPositionDownCommand.class).create(), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, commands.get(IntakeOpenCommand.class).create(), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(4, 0, new InstantCommand(carriageSubsystem::flipOut, carriageSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(9, 0, new InstantCommand(carriageSubsystem::flipIn, carriageSubsystem), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(4, 0, new StartEndCommand(carriageSubsystem::flipOut, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
+//        buttonHelper.createButton(9, 0, new StartEndCommand(carriageSubsystem::flipIn, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
         HandoffCommands handoffCommands = new HandoffCommands(commands);
-        buttonHelper.createButton(3, 0, new ConditionalCommand(handoffCommands.cubeHigh, handoffCommands.coneHigh, intakeSubsystem::isCube), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(8, 0, new ConditionalCommand(handoffCommands.cubeLow, handoffCommands.coneLow, intakeSubsystem::isCube), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, handoffCommands.coneHigh, RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, handoffCommands.coneLow, RunCondition.WHEN_PRESSED);
+
+//        buttonHelper.createButton(4,0,commands.get(SetElevatorPositionConeHandoffCommand.class).create(),RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(9,0,commands.get(SetElevatorPositionTopCommand.class).create(),RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(8, 0, commands.get(SetElevatorPositionMidCommand.class).create(), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(3, 0, commands.get(SetElevatorPositionDownCommand.class).create(), RunCondition.WHEN_PRESSED);
         //CARRIAGE IN AND OUt
+        buttonHelper.createButton(9,0,new StartEndCommand(carriageSubsystem::carriageOut, carriageSubsystem::rollerStop), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(4,0,new StartEndCommand(carriageSubsystem::carriageIn, carriageSubsystem::rollerStop), RunCondition.WHILE_HELD);
 
 
 
-        buttonHelper.createButton(11, 0, commands.get(SwerveLockCommand.class).create(), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(11, 0, commands.get(IntakeCloseCommand.class).create(), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(12, 0, commands.get(SetArmPositionCommand.class).create(), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5,0, new StartEndCommand(carriageSubsystem::flipOut, carriageSubsystem::flipIn), RunCondition.WHILE_HELD);
 
 //        buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class).create(), RunCondition.WHEN_PRESSED);
 

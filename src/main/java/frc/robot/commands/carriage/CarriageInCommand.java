@@ -34,7 +34,7 @@ public class CarriageInCommand extends CommandFactory {
             if (isCube) {
                 carriageSubsystem.carriageIn();
             } else {
-                carriageSubsystem.carriageOut();
+                carriageSubsystem.carriageIn();
             }
         }
 

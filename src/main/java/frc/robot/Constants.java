@@ -164,7 +164,7 @@ public final class Constants
          */
         public static final double GEAR_RATIO = 1.0 / (32.0 / 12.0); // ~2.6667
         // (real world output) / (gear ratio) * (CANCoder raw units) = (encoder limit in raw units)
-        public static final double UPPER_LIMIT = 110.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+        public static final double UPPER_LIMIT = 120.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
         public static final double LOWER_LIMIT = 0.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
 
         public static final double ANGLE_TOLERANCE = 0.75;
@@ -182,7 +182,7 @@ public final class Constants
         public enum ArmPositions {
             DOWN(0.0),
             UP(100.0),
-            HANDOFF(110.0);
+            HANDOFF(120.0);
 
             public final double angle;
             public final double sensorUnits;
@@ -268,7 +268,7 @@ public final class Constants
         public static final double ELEVATOR_P = 0.04;
         public static final double ELEVATOR_I = 0.015;
         public static final double ELEVATOR_D = 0.2;
-        public static final double ELEVATOR_F = 0.003;
+        public static final double ELEVATOR_F = 0.01;
         public static final double GRAVITY_FEEDFORWARD = 0.06; //experimental value
 
         public static final double MAX_VELOCITY = 3.0 / ELEVATOR_DISTANCE_PER_PULSE;
@@ -283,7 +283,7 @@ public final class Constants
 
         public enum ElevatorPositions {
             DOWN(0),
-            CONE_HANDOFF(4.25),
+            CONE_HANDOFF(6.5),
             LEVEL_TWO(20.5),
             UP(MAX_EXTENSION);
 

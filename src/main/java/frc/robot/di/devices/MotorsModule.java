@@ -114,6 +114,9 @@ public class MotorsModule {
         motor.configMotionCruiseVelocity(Constants.ArmConstants.MAX_VELOCITY);
         motor.configMotionAcceleration(Constants.ArmConstants.MAX_ACCELERATION);
         motor.configMotionSCurveStrength(Constants.ArmConstants.MOTION_SMOOTHING);
+        motor.configAllowableClosedloopError(0,
+                (Constants.ArmConstants.ANGLE_TOLERANCE / Constants.ArmConstants.GEAR_RATIO)
+                        * Constants.CANCoderConstants.COUNTS_PER_DEG);
 
         return motor;
     }

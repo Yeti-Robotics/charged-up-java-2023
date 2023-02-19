@@ -96,6 +96,11 @@ public class IntakeSubsystem extends SubsystemBase {
         reedSwitch.enableLimitSwitch(true);
     }
 
+    public void setBrakeMode(){
+        leftSpark.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        rightSpark.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
+
 
 
 }

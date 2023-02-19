@@ -12,7 +12,7 @@ public class IntakeRollOutCommand extends CommandFactory {
     public static class IntakeRollOutImpl extends StartEndCommand {
         private final IntakeSubsystem intakeSubsystem;
         public IntakeRollOutImpl(IntakeSubsystem intakeSubsystem) {
-            super(intakeSubsystem::rollIn, intakeSubsystem::stop);
+            super(intakeSubsystem::rollOut, intakeSubsystem::stop);
             this.intakeSubsystem = intakeSubsystem;
             addRequirements(intakeSubsystem);
         }
