@@ -60,15 +60,15 @@ public class IntakeSubsystem extends SubsystemBase {
         leftSpark.stopMotor();
     }
 
-    public void intakeClamp() {
+    public void intakeClose() {
         intakePiston.set(DoubleSolenoid.Value.kReverse); //check Forward/Reverse values
     }
 
-    public void intakeUnclamp() {
+    public void intakeOpen() {
         intakePiston.set(DoubleSolenoid.Value.kForward); //check Forward/Reverse values
     }
 
-    public void toggleClamp() {
+    public void toggle() {
         intakePiston.toggle();
     }
 
@@ -76,7 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
         return (leftSpark.getEncoder().getVelocity() + rightSpark.getEncoder().getVelocity()) / 2;
     }
 
-    public boolean isClamped() {
+    public boolean isClosed() {
         return intakePiston.get() == DoubleSolenoid.Value.kReverse;
     }
 
@@ -91,5 +91,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public double getRPM() {
         return encoder.getVelocity();
     }
+
+    public void enableReedSwitch(){
+        reedSwitch.enableLimitSwitch(true);
+    }
+
+
 
 }

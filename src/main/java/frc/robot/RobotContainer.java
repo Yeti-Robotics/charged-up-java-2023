@@ -7,18 +7,18 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
-import frc.robot.commands.intake.IntakeClampCommand;
+import frc.robot.commands.intake.IntakeCloseCommand;
+import frc.robot.commands.intake.IntakeOpenCommand;
 import frc.robot.commands.intake.IntakeRollInCommand;
 import frc.robot.commands.intake.IntakeRollOutCommand;
-import frc.robot.commands.intake.IntakeUnclampCommand;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -90,8 +90,8 @@ public class RobotContainer {
         buttonHelper.createButton(1, 0, commands.get(IntakeRollInCommand.class).create(), RunCondition.WHILE_HELD);
         buttonHelper.createButton(2, 0, commands.get(IntakeRollOutCommand.class).create(), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(6, 0, commands.get(IntakeClampCommand.class).create(), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(7, 0, commands.get(IntakeUnclampCommand.class).create(), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, commands.get(IntakeCloseCommand.class).create(), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, commands.get(IntakeOpenCommand.class).create(), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(4, 0, new InstantCommand(carriageSubsystem::flipOut, carriageSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(9, 0, new InstantCommand(carriageSubsystem::flipIn, carriageSubsystem), RunCondition.WHEN_PRESSED);
         HandoffCommands handoffCommands = new HandoffCommands(commands);
@@ -101,7 +101,8 @@ public class RobotContainer {
 
 
 
-        buttonHelper.createButton(12, 0, commands.get(SwerveLockCommand.class).create(), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(11, 0, commands.get(SwerveLockCommand.class).create(), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(12, 0, commands.get(SetArmPositionCommand.class).create(), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());

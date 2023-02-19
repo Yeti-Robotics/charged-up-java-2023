@@ -5,7 +5,7 @@ import frc.robot.commands.arm.SetArmPositionHandoffCommand;
 import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.elevator.MoveElevatorUpCommand;
 import frc.robot.commands.elevator.SetElevatorPositionConeHandoffCommand;
-import frc.robot.commands.intake.IntakeUnclampCommand;
+import frc.robot.commands.intake.IntakeOpenCommand;
 import frc.robot.utils.CommandFactory;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class ConeHandoffLowCommand extends CommandBase {
                 commands.get(SetElevatorPositionConeHandoffCommand.class).create(),
                 commands.get(SetArmPositionHandoffCommand.class).create(),
                 commands.get(CarriageInCommand.class).create()
-                        .alongWith(commands.get(IntakeUnclampCommand.class).create())
+                        .alongWith(commands.get(IntakeOpenCommand.class).create())
                         .withTimeout(1.5),
                 commands.get(MoveElevatorUpCommand.class).create()
         );

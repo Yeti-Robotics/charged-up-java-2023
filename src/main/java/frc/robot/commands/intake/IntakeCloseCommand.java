@@ -7,13 +7,12 @@ import frc.robot.utils.CommandFactory;
 
 import javax.inject.Inject;
 
-public class IntakeUnclampCommand extends CommandFactory {
 
-    public static class IntakeUnclampImpl extends InstantCommand {
+public class IntakeCloseCommand extends CommandFactory {
+    public static class IntakeClampImpl extends InstantCommand {
         private final IntakeSubsystem intakeSubsystem;
-
-        public IntakeUnclampImpl(IntakeSubsystem intakeSubsystem) {
-            super(intakeSubsystem::intakeUnclamp);
+        public IntakeClampImpl(IntakeSubsystem intakeSubsystem) {
+            super(intakeSubsystem::intakeClose);
             this.intakeSubsystem = intakeSubsystem;
             addRequirements(intakeSubsystem);
         }
@@ -22,11 +21,11 @@ public class IntakeUnclampCommand extends CommandFactory {
     private IntakeSubsystem intakeSubsystem;
 
     @Inject
-    public IntakeUnclampCommand(IntakeSubsystem intakeSubsystem){
+    public IntakeCloseCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
     }
 
     public CommandBase create() {
-        return new IntakeUnclampImpl(intakeSubsystem);
+        return new IntakeClampImpl(intakeSubsystem);
     }
 }

@@ -6,7 +6,7 @@ import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.elevator.MoveElevatorUpCommand;
 import frc.robot.commands.elevator.SetElevatorPositionConeHandoffCommand;
 import frc.robot.commands.elevator.SetElevatorPositionTopCommand;
-import frc.robot.commands.intake.IntakeUnclampCommand;
+import frc.robot.commands.intake.IntakeOpenCommand;
 import frc.robot.utils.CommandFactory;
 
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ public class HandoffCommands {
                         .andThen(
                                 commands.get(SetArmPositionHandoffCommand.class).create(),
                                 commands.get(CarriageInCommand.class).create()
-                                        .alongWith(commands.get(IntakeUnclampCommand.class).create())
+                                        .alongWith(commands.get(IntakeOpenCommand.class).create())
                                         .withTimeout(1.5),
                                 commands.get(SetElevatorPositionTopCommand.class).create()
                         );
@@ -34,7 +34,7 @@ public class HandoffCommands {
         cubeHigh = commands.get(SetArmPositionHandoffCommand.class).create()
                 .andThen(
                         commands.get(CarriageInCommand.class).create()
-                                .alongWith(commands.get(IntakeUnclampCommand.class).create())
+                                .alongWith(commands.get(IntakeOpenCommand.class).create())
                                 .withTimeout(1.5),
                         commands.get(SetElevatorPositionTopCommand.class).create()
                 );
@@ -43,7 +43,7 @@ public class HandoffCommands {
                 .andThen(
                         commands.get(SetArmPositionHandoffCommand.class).create(),
                         commands.get(CarriageInCommand.class).create()
-                                .alongWith(commands.get(IntakeUnclampCommand.class).create())
+                                .alongWith(commands.get(IntakeOpenCommand.class).create())
                                 .withTimeout(1.5),
                         commands.get(MoveElevatorUpCommand.class).create()
                 );
@@ -51,7 +51,7 @@ public class HandoffCommands {
         cubeLow = commands.get(SetArmPositionHandoffCommand.class).create()
                 .andThen(
                         commands.get(CarriageInCommand.class).create()
-                                .alongWith(commands.get(IntakeUnclampCommand.class).create())
+                                .alongWith(commands.get(IntakeOpenCommand.class).create())
                                 .withTimeout(1.5),
                         commands.get(MoveElevatorUpCommand.class).create()
                 );

@@ -60,16 +60,16 @@ public class CommandsModule {
 
     @Provides
     @IntoMap
-    @ClassKey(IntakeClampCommand.class)
-    public CommandFactory provideIntakeClampCommand(IntakeSubsystem intakeSubsystem){
-        return new IntakeClampCommand(intakeSubsystem);
+    @ClassKey(IntakeCloseCommand.class)
+    public CommandFactory provideIntakeCloseCommand(IntakeSubsystem intakeSubsystem){
+        return new IntakeCloseCommand(intakeSubsystem);
     }
 
     @Provides
     @IntoMap
-    @ClassKey(IntakeUnclampCommand.class)
-    public CommandFactory provideIntakeUnClampCommand(IntakeSubsystem intakeSubsystem){
-        return new IntakeUnclampCommand(intakeSubsystem);
+    @ClassKey(IntakeOpenCommand.class)
+    public CommandFactory provideIntakeOpenCommand(IntakeSubsystem intakeSubsystem){
+        return new IntakeOpenCommand(intakeSubsystem);
 
     }
 

@@ -5,7 +5,7 @@ import frc.robot.commands.arm.SetArmPositionHandoffCommand;
 import frc.robot.commands.carriage.CarriageInCommand;
 import frc.robot.commands.elevator.SetElevatorPositionTopCommand;
 import frc.robot.commands.intake.CubeRollOutCommand;
-import frc.robot.commands.intake.IntakeUnclampCommand;
+import frc.robot.commands.intake.IntakeOpenCommand;
 import frc.robot.utils.CommandFactory;
 
 import java.util.Map;
@@ -18,7 +18,7 @@ public class CubeHandoffHighCommand extends CommandBase {
         andThen(
                 commands.get(SetArmPositionHandoffCommand.class).create(),
                 commands.get(CarriageInCommand.class).create()
-                        .alongWith(commands.get(IntakeUnclampCommand.class).create())
+                        .alongWith(commands.get(IntakeOpenCommand.class).create())
                         .withTimeout(1.5).alongWith(commands.get(CubeRollOutCommand.class).create())
                         .withTimeout(.5),
                 commands.get(SetElevatorPositionTopCommand  .class).create()
