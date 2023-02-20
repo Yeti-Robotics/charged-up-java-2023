@@ -39,6 +39,9 @@ public class IntakeSubsystem extends SubsystemBase {
         this.reedSwitch = reedSwitch;
     }
 
+    /**
+     * @param setPoint Setpoint in meters/s
+     * */
     public void setSetPoint(double setPoint) {
         intakePID.setReference(setPoint, CANSparkMax.ControlType.kVelocity,
                 0, IntakeConstants.FEEDFORWARD.calculate(setPoint, IntakeConstants.MAX_ACCEL), SparkMaxPIDController.ArbFFUnits.kVoltage);

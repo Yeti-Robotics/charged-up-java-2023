@@ -181,6 +181,7 @@ public final class Constants
 
         public enum ArmPositions {
             DOWN(0.0),
+            SHOOT(50),
             UP(100.0),
             HANDOFF(120.0);
 

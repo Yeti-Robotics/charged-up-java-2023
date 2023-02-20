@@ -112,8 +112,8 @@ public class CommandsModule {
     @Provides
     @IntoMap
     @ClassKey(IntakeShootCommand.class)
-    public CommandFactory provideIntakeShootCommand(IntakeSubsystem intakeSubsystem) {
-        return new IntakeShootCommand(intakeSubsystem);
+    public CommandFactory provideIntakeShootCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
+        return new IntakeShootCommand(intakeSubsystem, armSubsystem);
     }
 
     @Provides
