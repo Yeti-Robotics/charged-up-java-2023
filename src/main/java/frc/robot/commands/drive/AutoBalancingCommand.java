@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -20,6 +21,7 @@ private final PIDController pidController;
     public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem, PIDController pidController) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pidController = pidController;
+        this.pidController.setTolerance(2.0);
 
 
 
@@ -40,10 +42,11 @@ private final PIDController pidController;
      */
     @Override
     public void execute() {
-        double val = MathUtil.clamp(
+        double val = -MathUtil.clamp(
                 pidController.calculate(
                         drivetrainSubsystem.getPitch().getDegrees(), Constants.AutoConstants.PITCH_SET_POINT), -.35, .35);
-        drivetrainSubsystem.drive(new Translation2d(val, 0).times(Constants.DriveConstants.MAX_VELOCITY_METERS_PER_SECOND), 0);
+        drivetrainSubsystem.drive(Constants.DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                ChassisSpeeds.fromFieldRelativeSpeeds(val, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
 
     }
 

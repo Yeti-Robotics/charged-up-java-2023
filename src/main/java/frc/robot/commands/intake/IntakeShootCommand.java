@@ -1,7 +1,6 @@
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -20,16 +19,18 @@ public class IntakeShootCommand extends CommandFactory {
     }
 
     public CommandBase create() {
-        return Commands
-                .runOnce(() -> armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.SHOOT), armSubsystem)
-                .andThen(Commands.waitUntil(armSubsystem::isMotionFinished))
-                .andThen(Commands.runOnce(armSubsystem::engageBrake, armSubsystem))
-                .andThen(Commands.runOnce(() -> intakeSubsystem.setSetPoint(2.0), intakeSubsystem))
-                .withTimeout(1.0)
-                .andThen(Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
+//        return Commands
+//                .runOnce(() -> armSubsystem.disengageBrake())
+//                .andThen(() -> armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.SHOOT), armSubsystem)
+//                .andThen(Commands.waitSeconds(1))
+//                .andThen(armSubsystem::engageBrake, armSubsystem)
+//                .andThen(() -> intakeSubsystem.roll(-0.6), intakeSubsystem)
+//                .withTimeout(0.5)
+//                .andThen(intakeSubsystem::stop, intakeSubsystem);
+        return new IntakeShootImpl(intakeSubsystem, armSubsystem);
     }
 
-    public static class IntakeShootImpl extends CommandBase {
+    public static class IntakeShootImpl extends SequentialCommandGroup {
         private final IntakeSubsystem intakeSubsystem;
         private final ArmSubsystem armSubsystem;
         private boolean done;
@@ -37,31 +38,17 @@ public class IntakeShootCommand extends CommandFactory {
         public IntakeShootImpl(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
             this.intakeSubsystem = intakeSubsystem;
             this.armSubsystem = armSubsystem;
-            addRequirements(intakeSubsystem, armSubsystem);
-        }
-
-        @Override
-        public void initialize() {
-            done = false;
-            armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.SHOOT);
-        }
-
-        @Override
-        public void execute() {
-            if (armSubsystem.isMotionFinished()) {
-                intakeSubsystem.setSetPoint(2.0);
-                done = true;
-            }
-        }
-
-        @Override
-        public boolean isFinished() {
-            return done;
-        }
-
-        @Override
-        public void end(boolean interrupted) {
-            intakeSubsystem.stop();
+            addCommands(
+                    new InstantCommand(armSubsystem::disengageBrake, armSubsystem),
+                    new InstantCommand(() -> armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.SHOOT), armSubsystem),
+                    new WaitCommand(1),
+                    new InstantCommand(armSubsystem::engageBrake, armSubsystem),
+                    // Cube speed -0.55
+                    // Cone -0.62
+                    new InstantCommand(() -> intakeSubsystem.roll(-0.55), intakeSubsystem),
+                    new WaitCommand(1),
+                    new InstantCommand(intakeSubsystem::stop, intakeSubsystem)
+            );
         }
     }
 }

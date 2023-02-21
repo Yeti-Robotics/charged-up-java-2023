@@ -65,7 +65,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getPitch() {
-        return Rotation2d.fromDegrees(gyro.getPitch());
+        return Rotation2d.fromDegrees(gyro.getRoll());
     }
 
     public Pose2d getPose() {

@@ -12,6 +12,7 @@ public class IntakeRollOutCommand extends CommandFactory {
     public static class IntakeRollOutImpl extends StartEndCommand {
         private final IntakeSubsystem intakeSubsystem;
         public IntakeRollOutImpl(IntakeSubsystem intakeSubsystem) {
+            // 0.315 for low cone out
             super(intakeSubsystem::rollOut, intakeSubsystem::stop);
             this.intakeSubsystem = intakeSubsystem;
             addRequirements(intakeSubsystem);

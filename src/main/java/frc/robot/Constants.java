@@ -167,7 +167,7 @@ public final class Constants
         public static final double UPPER_LIMIT = 120.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
         public static final double LOWER_LIMIT = 0.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
 
-        public static final double ANGLE_TOLERANCE = 0.75;
+        public static final double ANGLE_TOLERANCE = 1.0;
 
         public static final double ARM_P = 0.5;
         public static final double ARM_I = 0.00;
@@ -181,7 +181,7 @@ public final class Constants
 
         public enum ArmPositions {
             DOWN(0.0),
-            SHOOT(50),
+            SHOOT(60),
             UP(100.0),
             HANDOFF(120.0);
 
@@ -331,15 +331,16 @@ public final class Constants
         public static final double GEAR_RATIO = 1.0 / 7.0;
         public static final double VELOCITY_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
 
+        // 0.315 for shoot cone low
         public static final double INTAKE_SPEED = 0.2; //placeholder
         public static final double MAX_ACCEL = 3.0;
 
         public static final double INTAKE_VOLTAGE_COMP = 12.0;
 
-        public static final double INTAKE_P = 0.05; //placeholder
+        public static final double INTAKE_P = 0.00; //placeholder
         public static final double INTAKE_I = 0.0; //placeholder
         public static final double INTAKE_D = 0.0; //placeholder
-        public static final double INTAKE_F = 0.01; //placeholder
+        public static final double INTAKE_F = 0.00; //placeholder
 
         public static final double INTAKE_KS = 0.3;
         public static final double INTAKE_KV = 0.1;

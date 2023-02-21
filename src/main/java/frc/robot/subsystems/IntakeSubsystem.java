@@ -88,7 +88,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean isCube() {
-        return reedSwitch.isLimitSwitchEnabled();
+        return reedSwitch.isPressed();
     }
 
     public double getRPM() {

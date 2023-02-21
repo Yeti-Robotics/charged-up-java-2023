@@ -129,12 +129,14 @@ public class MotorsModule {
         CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        sparkMax.enableVoltageCompensation(10);
 
         sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.getPIDController();
+
 
         return sparkMax;
     }
@@ -145,6 +147,8 @@ public class MotorsModule {
         CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.follow(sparkMaxZero, true);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        sparkMax.enableVoltageCompensation(10);
+
 
         sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);

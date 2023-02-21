@@ -1,5 +1,6 @@
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -11,9 +12,12 @@ import javax.inject.Inject;
 public class SetArmPositionHandoffCommand extends CommandFactory {
     public class SetArmPositionHandoffImpl extends CommandBase {
         private final ArmSubsystem armSubsystem;
+        private final Timer timer;
 
         public SetArmPositionHandoffImpl(ArmSubsystem armSubsystem) {
             this.armSubsystem = armSubsystem;
+            timer = new Timer();
+            timer.start();
             // each subsystem used by the command must be passed into the
             // addRequirements() method (which takes a vararg of Subsystem)
             addRequirements(this.armSubsystem);
@@ -21,6 +25,7 @@ public class SetArmPositionHandoffCommand extends CommandFactory {
 
         @Override
         public void initialize() {
+            timer.reset();
             armSubsystem.disengageBrake();
             armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.HANDOFF);
         }
@@ -30,8 +35,7 @@ public class SetArmPositionHandoffCommand extends CommandFactory {
 
         @Override
         public boolean isFinished() {
-            // TODO: Make this return true when this Command no longer needs to run execute()
-            return true;
+            return armSubsystem.isMotionFinished() || timer.hasElapsed(2.0);
         }
 
         @Override

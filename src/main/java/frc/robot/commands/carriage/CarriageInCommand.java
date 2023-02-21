@@ -43,18 +43,16 @@ public class CarriageInCommand extends CommandFactory {
 
         @Override
         public boolean isFinished() {
-            if (!timer.hasElapsed(0.500)) {
-                return false;
-            }
 
-            double presentCurrent = carriageSubsystem.getRollerCurrent();
-            boolean stopMotor = (presentCurrent - lastCurrent) > delta;
-            if (stopMotor) {
-                System.out.println("Stopping motor because presentCurrent(" + presentCurrent + ") - lastCurrent(" +
-                        lastCurrent + ") > DELTA (" + delta + ")");
-            }
-            timer.reset();
-            return stopMotor;
+//            double presentCurrent = carriageSubsystem.getRollerCurrent();
+//            boolean stopMotor = (presentCurrent - lastCurrent) > delta;
+//            if (stopMotor) {
+//                System.out.println("Stopping motor because presentCurrent(" + presentCurrent + ") - lastCurrent(" +
+//                        lastCurrent + ") > DELTA (" + delta + ")");
+//            }
+//            timer.reset();
+//            return stopMotor;
+            return false;
         }
 
         @Override

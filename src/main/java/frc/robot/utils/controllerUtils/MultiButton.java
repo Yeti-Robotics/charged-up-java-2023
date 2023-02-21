@@ -80,6 +80,10 @@ public class MultiButton {
         return buttonID;
     }
 
+    public boolean isPressed() {
+        return pressed;
+    }
+
     @Override
     public String toString() {
         return ButtonHelper.buttonIDToString(buttonID);
