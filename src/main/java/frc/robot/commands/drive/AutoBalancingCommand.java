@@ -3,7 +3,6 @@ package frc.robot.commands.drive;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,32 +13,22 @@ import javax.inject.Inject;
 
 
 public class AutoBalancingCommand extends CommandBase {
-private final DrivetrainSubsystem drivetrainSubsystem;
-private final PIDController pidController;
+    private final DrivetrainSubsystem drivetrainSubsystem;
+    private final PIDController pidController;
 
-    @Inject
     public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem, PIDController pidController) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pidController = pidController;
+
         this.pidController.setTolerance(2.0);
-
-
-
         addRequirements(drivetrainSubsystem);
     }
 
-    /**
-     * The initial subroutine of a command.  Called once when the command is initially scheduled.
-     */
     @Override
     public void initialize() {
 
     }
 
-    /**
-     * The main body of a command.  Called repeatedly while the command is scheduled.
-     * (That is, it is called repeatedly until {@link #isFinished()}) returns true.)
-     */
     @Override
     public void execute() {
         double val = -MathUtil.clamp(
@@ -50,20 +39,6 @@ private final PIDController pidController;
 
     }
 
-    /**
-     * <p>
-     * Returns whether this command has finished. Once a command finishes -- indicated by
-     * this method returning true -- the scheduler will call its {@link #end(boolean)} method.
-     * </p><p>
-     * Returning false will result in the command never ending automatically. It may still be
-     * cancelled manually or interrupted by another command. Hard coding this command to always
-     * return true will result in the command executing once and finishing immediately. It is
-     * recommended to use * {@link edu.wpi.first.wpilibj2.command.InstantCommand InstantCommand}
-     * for such an operation.
-     * </p>
-     *
-     * @return whether this command has finished.
-     */
     @Override
     public boolean isFinished() {
         return pidController.atSetpoint();
@@ -77,6 +52,5 @@ private final PIDController pidController;
                 new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
                 new SwerveModuleState(0, Rotation2d.fromDegrees(45))
         );
-
     }
 }

@@ -2,6 +2,7 @@ package frc.robot.utils.controllerUtils;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import java.util.Arrays;
 import java.util.function.BiConsumer;
@@ -31,9 +32,17 @@ public class MultiButton {
         addLayer(layer, command, runCondition);
     }
 
+    public MultiButton(BooleanSupplier trigger, byte buttonID) {
+        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED);
+    }
+
     public static void syncLayers(int layer) {
         isLayersSynced = true;
         syncLayer = layer;
+    }
+
+    public static int getSyncLayer() {
+        return syncLayer;
     }
 
     public void addLayer(int layer, Command command, RunCondition runCondition) {

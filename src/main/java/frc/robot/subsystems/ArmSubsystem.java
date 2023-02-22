@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants.ArmPositions;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 public class ArmSubsystem extends SubsystemBase {
 
     private final WPI_TalonFX armMotor1;
-    private final WPI_TalonFX armMotor2;
     private final WPI_CANCoder encoder;
 
     private final DoubleSolenoid airBrake;
@@ -24,14 +24,12 @@ public class ArmSubsystem extends SubsystemBase {
     private ArmPositions armPosition = ArmPositions.UP;
     private boolean isBrakeEngaged;
 
+    @Inject
     public ArmSubsystem(
-            @Named(Constants.ArmConstants.ARM_MOTOR_1) WPI_TalonFX armMotor1,
-            @Named(Constants.ArmConstants.ARM_MOTOR_2) WPI_TalonFX armMotor2,
+            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
             @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
-            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake
-            ) {
+            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
         this.armMotor1 = armMotor1;
-        this.armMotor2 = armMotor2;
         this.encoder = encoder;
         this.airBrake = airBrake;
 
@@ -40,8 +38,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        System.out.println(armMotor1.get());
-//        System.out.println(encoder.getPosition() + " : " + encoder.getAbsolutePosition() + " : " + armMotor1.getSelectedSensorPosition() + " : " + getAngle());
     }
 
     public void setPosition(ArmPositions position) {
@@ -118,12 +114,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     private void motorsBrake() {
         armMotor1.setNeutralMode(NeutralMode.Brake);
-        armMotor2.setNeutralMode(NeutralMode.Brake);
     }
 
     private void motorsCoast() {
         armMotor1.setNeutralMode(NeutralMode.Coast);
-        armMotor2.setNeutralMode(NeutralMode.Coast);
     }
 
     public void stop() {

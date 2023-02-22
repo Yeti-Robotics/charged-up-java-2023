@@ -3,7 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.CarriageConstants;
+import frc.robot.Constants.CarriageConstants.CarriagePositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,23 +14,24 @@ public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax flipMotor;
     private final SparkMaxPIDController flipPIDController;
 
+    private CarriagePositions carriagePosition;
+
     @Inject
     public CarriageSubsystem(
-            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME)SparkMaxPIDController flipPIDController
-            ) {
+            @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
+            @Named(CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(CarriageConstants.FLIP_MOTOR_PID_NAME)SparkMaxPIDController flipPIDController) {
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
         this.flipPIDController = flipPIDController;
     }
 
-    public void carriageOut(){
-        rollerMotor.set(Constants.CarriageConstants.CARRIAGE_SPEED);
+    public void coneInCubeOut(){
+        rollerMotor.set(-CarriageConstants.ROLLER_SPEED);
     }
 
-    public void carriageIn(){
-        rollerMotor.set(-Constants.CarriageConstants.CARRIAGE_SPEED);
+    public void coneOutCubeIn(){
+        rollerMotor.set(CarriageConstants.ROLLER_SPEED);
     }
 
     public double getRollerCurrent() {
@@ -43,34 +45,43 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public double getAngle() {
-        return flipMotor.getEncoder().getPosition() / Constants.CANCoderConstants.COUNTS_PER_DEG * Constants.ArmConstants.GEAR_RATIO;
+        return flipMotor.getEncoder().getPosition();
     }
 
-    public void setSetpoint(double setpoint){
+    public void setSetpoint(CarriagePositions setpoint){
+        carriagePosition = setpoint;
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
-        double FLIP_FEED_FORWARD = Constants.CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
-        flipPIDController.setReference(setpoint*FLIP_FEED_FORWARD, CANSparkMax.ControlType.kPosition); //make command later
+
+        double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
+        flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0,
+                FLIP_FEED_FORWARD, SparkMaxPIDController.ArbFFUnits.kPercentOut); //make command later
     }
 
     public void flipMechanism(){
-        flipPIDController.setReference(Constants.CarriageConstants.FLIP_POSITION, CANSparkMax.ControlType.kPosition);
+        carriagePosition = CarriagePositions.FLIPPED;
+        flipPIDController.setReference(CarriagePositions.FLIPPED.angle, CANSparkMax.ControlType.kPosition);
     }
 
     public void reverseFlipMechanism(){
-        flipPIDController.setReference(Constants.CarriageConstants.DEFAULT_POSITION, CANSparkMax.ControlType.kPosition);
+        carriagePosition = CarriagePositions.DOWN;
+        flipPIDController.setReference(CarriagePositions.DOWN.angle, CANSparkMax.ControlType.kPosition);
     }
 
     public void flipOut() {
-        flipMotor.set(Constants.CarriageConstants.FLIP_SPEED);
+        flipMotor.set(CarriageConstants.FLIP_SPEED);
     }
 
     public void flipIn() {
-        flipMotor.set(-Constants.CarriageConstants.FLIP_SPEED);
+        flipMotor.set(-CarriageConstants.FLIP_SPEED);
     }
 
     public void stopFlipMechanism() {
         flipMotor.stopMotor();
+    }
+
+    public CarriagePositions getCarriagePosition() {
+        return carriagePosition;
     }
 }
 
