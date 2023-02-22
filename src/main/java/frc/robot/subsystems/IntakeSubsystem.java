@@ -15,9 +15,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax leftSpark;
     private final CANSparkMax rightSpark;
     private final DoubleSolenoid intakePiston;
-
-    private final SparkMaxPIDController intakePID;
-    private final RelativeEncoder encoder;
     private final SparkMaxLimitSwitch beamBreak;
     private final SparkMaxLimitSwitch reedSwitch;
 
@@ -26,25 +23,15 @@ public class IntakeSubsystem extends SubsystemBase {
             @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
             @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
             @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
-            @Named(IntakeConstants.INTAKE_PID) SparkMaxPIDController intakePID,
-            @Named(IntakeConstants.INTAKE_ENCODER) RelativeEncoder encoder,
             @Named(IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
             @Named(IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
         this.intakePiston = intakePiston;
         this.leftSpark = leftSpark;
         this.rightSpark = rightSpark;
-        this.intakePID = intakePID;
-        this.encoder = encoder;
         this.beamBreak = beamBreak;
         this.reedSwitch = reedSwitch;
-    }
 
-    /**
-     * @param setPoint Setpoint in meters/s
-     * */
-    public void setSetPoint(double setPoint) {
-        intakePID.setReference(setPoint, CANSparkMax.ControlType.kVelocity,
-                0, IntakeConstants.FEEDFORWARD.calculate(setPoint, IntakeConstants.MAX_ACCEL), SparkMaxPIDController.ArbFFUnits.kVoltage);
+        intakeClose();
     }
 
     public void rollIn() {
@@ -75,10 +62,6 @@ public class IntakeSubsystem extends SubsystemBase {
         intakePiston.toggle();
     }
 
-    public double getAverageEncoder() {
-        return (leftSpark.getEncoder().getVelocity() + rightSpark.getEncoder().getVelocity()) / 2;
-    }
-
     public boolean isClosed() {
         return intakePiston.get() == DoubleSolenoid.Value.kReverse;
     }
@@ -91,19 +74,13 @@ public class IntakeSubsystem extends SubsystemBase {
         return reedSwitch.isPressed();
     }
 
-    public double getRPM() {
-        return encoder.getVelocity();
-    }
-
-    public void enableReedSwitch(){
-        reedSwitch.enableLimitSwitch(true);
-    }
-
-    public void setBrakeMode(){
+    public void setCoastMode(){
         leftSpark.setIdleMode(CANSparkMax.IdleMode.kCoast);
         rightSpark.setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
 
-
-
+    public void setBrakeMode(){
+        leftSpark.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        rightSpark.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
 }

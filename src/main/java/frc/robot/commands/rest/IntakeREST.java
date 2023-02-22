@@ -19,8 +19,8 @@ public class IntakeREST extends RESTContainer {
     @REST
     public void intakeCloseTest() {
         init(() -> {
-            intakeSubsystem.enableReedSwitch();
         });
+
         execute(() -> {
             intakeSubsystem.intakeClose();
         });
@@ -35,7 +35,6 @@ public class IntakeREST extends RESTContainer {
     @REST
     public void intakeOpenTest() {
         init(() -> {
-            intakeSubsystem.enableReedSwitch();
         });
         execute(() -> {
             intakeSubsystem.intakeOpen();

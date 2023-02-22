@@ -49,16 +49,12 @@ public class SubsystemsModule {
             @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
             @Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
             @Named(Constants.IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
-            @Named(Constants.IntakeConstants.INTAKE_PID) SparkMaxPIDController pidController,
-            @Named(Constants.IntakeConstants.INTAKE_ENCODER) RelativeEncoder encoder,
             @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
             @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
         return new IntakeSubsystem(
                 leftSpark,
                 rightSpark,
                 intakePiston,
-                pidController,
-                encoder,
                 beamBreak,
                 reedSwitch
         );

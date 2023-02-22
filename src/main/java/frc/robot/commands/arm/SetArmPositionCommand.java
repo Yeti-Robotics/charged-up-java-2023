@@ -2,33 +2,28 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.ArmPositions;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class SetArmPositionCommand extends CommandBase {
     private final ArmSubsystem armSubsystem;
     private final Timer timer;
+    private ArmPositions position;
 
-    public SetArmPositionCommand(ArmSubsystem armSubsystem) {
+    public SetArmPositionCommand(ArmSubsystem armSubsystem, ArmPositions position) {
         this.armSubsystem = armSubsystem;
+        this.position = position;
         timer = new Timer();
         timer.start();
-        addRequirements(armSubsystem);
+
+        addRequirements(this.armSubsystem);
     }
 
     @Override
     public void initialize() {
         timer.reset();
         armSubsystem.disengageBrake();
-
-        ArmConstants.ArmPositions position = armSubsystem.getArmPosition();
-        if (position == ArmConstants.ArmPositions.UP) {
-            armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
-        } else if (position == ArmConstants.ArmPositions.HANDOFF) {
-            armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
-        } else {
-            armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
-        }
+        armSubsystem.setPosition(position);
     }
 
     @Override
@@ -37,9 +32,8 @@ public class SetArmPositionCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return armSubsystem.isMotionFinished() || timer.hasElapsed(5.0);
+        return armSubsystem.isMotionFinished() || timer.hasElapsed(2.0);
     }
-
 
     @Override
     public void end(boolean interrupted) {

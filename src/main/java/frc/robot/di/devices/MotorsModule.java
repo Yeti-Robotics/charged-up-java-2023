@@ -124,7 +124,7 @@ public class MotorsModule {
     @Provides
     @Singleton
     @Named(Constants.IntakeConstants.LEFT_SPARK)
-    public CANSparkMax providesIntakeSpark1(){
+    public CANSparkMax providesLeftIntakeSpark(){
         CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -134,15 +134,13 @@ public class MotorsModule {
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.SPARK_PERIODMS);
-        sparkMax.getPIDController();
-
 
         return sparkMax;
     }
     @Provides
     @Singleton
     @Named(Constants.IntakeConstants.RIGHT_SPARK)
-    public CANSparkMax providesIntakeSpark2(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
+    public CANSparkMax providesRightIntakeSpark(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
         CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.follow(sparkMaxZero, true);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -152,6 +150,7 @@ public class MotorsModule {
         sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.CURRENT_LIM);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.SPARK_PERIODMS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.SPARK_PERIODMS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.SPARK_PERIODMS);
 
         return sparkMax;
 

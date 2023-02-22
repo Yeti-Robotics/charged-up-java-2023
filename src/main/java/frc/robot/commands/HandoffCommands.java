@@ -1,16 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.arm.SetArmPositionCommand;
-import frc.robot.commands.arm.SetArmPositionHandoffCommand;
-import frc.robot.commands.carriage.CarriageInCommand;
-import frc.robot.commands.elevator.SetElevatorPositionCommand;
-import frc.robot.commands.intake.IntakeOpenCommand;
-import frc.robot.commands.intake.IntakeRollOutCommand;
-
-import javax.inject.Inject;
-import java.util.Map;
-
 public class HandoffCommands {
 //    public final CommandBase coneHigh;
 //    public final CommandBase cubeHigh;

@@ -39,7 +39,6 @@ public class DeviceModule {
     @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK)
     public SparkMaxLimitSwitch providesIntakeBeamBreak(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMax) {
         return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-
     }
 
     @Provides
