@@ -41,6 +41,10 @@ public class MultiButton {
         syncLayer = layer;
     }
 
+    public static int getSyncLayer() {
+        return syncLayer;
+    }
+
     public void addLayer(int layer, Command command, RunCondition runCondition) {
         if (layerCount <= layer) {
             layerCount = layer + 1;

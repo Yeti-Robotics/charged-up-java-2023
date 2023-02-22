@@ -100,7 +100,8 @@ public class RobotContainer {
         buttonHelper.createButton(5, 0, new AutoBalancingCommand(drivetrainSubsystem,
                 new PIDController(1.0, 0.0, 0.0)), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
+        buttonHelper.createButton(10, 0, new SetElevatorDownCommand(elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(10, 1, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
@@ -108,6 +109,9 @@ public class RobotContainer {
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(9, 0, new InstantCommand(() ->
+            buttonHelper.setAllLayers(buttonHelper.getAllLayers() == 1 ? 0 : 1)), RunCondition.WHEN_PRESSED);
     }
 
 

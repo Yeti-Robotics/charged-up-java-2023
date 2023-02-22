@@ -262,6 +262,10 @@ public class ButtonHelper {
         MultiButton.syncLayers(layer);
     }
 
+    public int getAllLayers() {
+        return MultiButton.getSyncLayer();
+    }
+
     public void setButtonLayer(int controllerNumber, byte buttonID, int layer) {
         buttonMaps.get(controllers[controllerNumber]).get(buttonID).setButtonLayer(layer);
     }
