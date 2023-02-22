@@ -9,6 +9,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.arm.DriverArmPositionCommand;
+import frc.robot.commands.carriage.CarriageFlipInCommand;
+import frc.robot.commands.carriage.CarriageFlipOutCommand;
+import frc.robot.commands.carriage.ConeInCubeOutCommand;
+import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.elevator.*;
@@ -77,37 +81,33 @@ public class RobotContainer {
 
     private void configureBindings() {
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(2, 0, new IntakeRollOutCommand(intakeSubsystem), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(6, 0, new SetElevatorPositionCommand(elevatorSubsystem, ElevatorPositions.DOWN), RunCondition.WHEN_PRESSED);
-//        buttonHelper.createButton(4, 0, new StartEndCommand(carriageSubsystem::flipOut, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
-//        buttonHelper.createButton(9, 0, new StartEndCommand(carriageSubsystem::flipIn, carriageSubsystem::stopFlipMechanism, carriageSubsystem), RunCondition.WHILE_HELD);
         buttonHelper.createButton(8, 0, new IntakeShootCommand(intakeSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 //        buttonHelper.createButton(3, 0, handoffCommands.coneLow, RunCondition.WHEN_PRESSED);
 
-//        buttonHelper.createButton(3, 0, commands.get(MoveElevatorUpCommand.class).create(), RunCondition.WHILE_HELD);
-//        buttonHelper.createButton(4,0,commands.get(SetElevatorPositionConeHandoffCommand.class).create(),RunCondition.WHEN_PRESSED);
 //        buttonHelper.createButton(9,0,commands.get(SetElevatorPositionTopCommand.class).create(),RunCondition.WHEN_PRESSED);
 //        buttonHelper.createButton(8, 0, commands.get(SetElevatorPositionMidCommand.class).create(), RunCondition.WHEN_PRESSED);
 //        buttonHelper.createButton(3, 0, commands.get(SetElevatorPositionDownCommand.class).create(), RunCondition.WHEN_PRESSED);
-        //CARRIAGE IN AND OUt
-//        buttonHelper.createButton(9,0,new StartEndCommand(carriageSubsystem::carriageOut, carriageSubsystem::rollerStop), RunCondition.WHILE_HELD);
-//        buttonHelper.createButton(4,0,new StartEndCommand(carriageSubsystem::carriageIn, carriageSubsystem::rollerStop), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(2,0, new ConeInCubeOutCommand(carriageSubsystem), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(7,0, new ConeOutCubeInCommand(carriageSubsystem), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(8, 0, new CarriageFlipOutCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new CarriageFlipInCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
 
 
-        buttonHelper.createButton(11, 0, new ToggleIntakeCommand(intakeSubsystem), RunCondition.WHEN_PRESSED);
 
-        MultiButton rightJoystickButton = buttonHelper.createButton(12);
-        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
-
-        buttonHelper.createButton(4, 0, new AutoBalancingCommand(drivetrainSubsystem,
+        buttonHelper.createButton(5, 0, new AutoBalancingCommand(drivetrainSubsystem,
                 new PIDController(1.0, 0.0, 0.0)), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
-//        buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class).create(), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(11, 0, new ToggleIntakeCommand(intakeSubsystem), RunCondition.WHEN_PRESSED);
+
+        MultiButton rightJoystickButton = buttonHelper.createButton(12);
+        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
     }
 
 

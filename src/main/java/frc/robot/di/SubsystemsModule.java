@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
@@ -32,13 +31,11 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public ArmSubsystem providesArmSubsystem (
-            @Named(Constants.ArmConstants.ARM_MOTOR_1) WPI_TalonFX armMotor1,
-            @Named(Constants.ArmConstants.ARM_MOTOR_2) WPI_TalonFX armMotor2,
+            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
             @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
             @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
        return new ArmSubsystem(
                armMotor1,
-               armMotor2,
                encoder,
                airBrake);
     }
@@ -63,7 +60,7 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
-            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
+            @Named(Constants.CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
             @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
             @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController) {
         return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);

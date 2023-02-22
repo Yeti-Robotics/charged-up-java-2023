@@ -27,10 +27,15 @@ public final class Constants
 {
     public static final class SparkMaxConstants {
         public static final double PULSES_PER_REV = 4096.0;
-        public static final int SPARK_PERIODMS = 250;
-        public static final int CURRENT_LIM = 40;
+
+        public static final int HIGH_PRIORITY_MS = 20;
+        public static final int MEDIUM_PRIORITY_MS = 60;
+        public static final int LOW_PRIORITY_MS = 120;
+        public static final int NEO_CURRENT_LIM = 30;
+        public static final int NEO550_CURRENT_LIM = 20;
 
         public static final int SPARK_RESOLUTION = 4096;
+        public static final double COUNTS_PER_DEG = SPARK_RESOLUTION / 360.0;
     }
 
 
@@ -84,6 +89,7 @@ public final class Constants
         public static final double AZIMUTH_MOTOR_KS = 0.50; //placeholder from borealis 0.75
         public static final double AZIMUTH_MOTOR_KV = 0.35; //placeholder from borealis 0.7
         public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
+
         public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
         public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
@@ -110,39 +116,49 @@ public final class Constants
     }
 
     public static final class CarriageConstants {
-        public static final int ROLLER_NEO = 4; //change ID later
+        public static final int ROLLER_SPARK_ID = 4; //change ID later
         public static final int FLIP_NEO = 3; //change ID later
         public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
-        public static final double CARRIAGE_SPEED = 0.35;
+        public static final double ROLLER_SPEED = 0.35;
         public static final double FLIP_SPEED = 0.2;
         /** TODO: Find real value */
-        public static final double CUBE_CURRENT_DELTA = 5.25;
-        public static final double CONE_CURRENT_DELTA = 6.5;
-        public static final double FLIP_POSITION = 10.0;
-        public static final double DEFAULT_POSITION = 0.0;
-        public static final double FLIP_RATIO = 1.0 / 40.0;
+        public static final double FLIP_RATIO = 1.0 / 21.33;
         public static final double ROLLER_RATIO = 1.0 / 21.0;
 
-        public static final double FLIP_DEGREES_TO_COUNTS = FLIP_RATIO * SparkMaxConstants.PULSES_PER_REV / 360.0;
+        public static final double COUNTS_TO_DEGREES = FLIP_RATIO / SparkMaxConstants.COUNTS_PER_DEG;
+        public static final double LOWER_FLIP_LIMIT = 0.0;
+        public static final double UPPER_FLIP_LIMIT = 170;
         public static final double FLIP_P = 0.01;
         public static final double FLIP_I = 0;
         public static final double FLIP_D = 0;
         public static final double FLIP_F = 0;
 
+        public static final double MAX_VELOCITY = 0.25 / FLIP_RATIO;
+        public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
+
         public static final String FLIP_MOTOR_NAME = "flipMotor";
-        public static final String ROLLER_MOTOR_NAME = "rollerMotor";
+        public static final String ROLLER_SPARK = "rollerMotor";
         public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
 
         public static final double GRAVITY_FEEDFORWARD = 0.07;
 
+        public enum CarriagePositions {
+            DOWN(0.0),
+            FLIPPED(170.0);
+
+            public final double angle;
+            public final double sensorUnits;
+
+            CarriagePositions(double angle) {
+                this.angle = angle;
+                this.sensorUnits = angle / COUNTS_TO_DEGREES;
+            }
+        }
     }
 
     public static final class ArmConstants {
-        public static final String ARM_MOTOR_1 = "armMotor1";
-        public static final String ARM_MOTOR_2 = "armMotor2";
-        public static final int ARM_MOTOR_1_ID = 11; // Right arm
-        public static final int ARM_MOTOR_2_ID = 12; // Left arm
-        public static final double ARM_SPEED = 0.3;
+        public static final String ARM_MOTOR = "armMotor";
+        public static final int ARM_MOTOR_ID = 11;
 
         public static final String ARM_ENCODER = "armEncoder";
         public static final int ARM_ENCODER_ID = 5;
@@ -353,6 +369,7 @@ public final class Constants
         public static final String INTAKE_REED_SWITCH = "intakeReedSwitch";
         public static final String INTAKE_PID = "intakePIDController";
         public static final String INTAKE_ENCODER = "intakeEncoder";
+        public static final int VOLTAGE_COMP = 10;
     }
 
     public static final class VisionConstants {
