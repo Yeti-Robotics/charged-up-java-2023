@@ -16,7 +16,6 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
-
     @Provides
     @Singleton
     @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME)

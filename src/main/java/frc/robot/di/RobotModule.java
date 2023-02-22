@@ -6,7 +6,6 @@ import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
@@ -14,7 +13,6 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.CommandFactory;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
@@ -25,11 +23,8 @@ import java.util.function.DoubleSupplier;
 
 @Module
 public class RobotModule {
-
     @Provides
     @Singleton
-
-
     public RobotContainer providesRobotContainer(
             CarriageSubsystem carriageSubsystem,
             DrivetrainSubsystem drivetrainSubsystem,
@@ -37,7 +32,6 @@ public class RobotModule {
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
             ControllerContainer controllerContainer,
-            Map<Class<?>, CommandFactory> commands,
             ButtonHelper buttonHelper) {
         return new RobotContainer(
                 carriageSubsystem,
@@ -46,7 +40,6 @@ public class RobotModule {
                 armSubsystem,
                 elevatorSubsystem,
                 controllerContainer,
-                commands,
                 buttonHelper
         );
     }
@@ -66,7 +59,6 @@ public class RobotModule {
     /*
      * The X axis is forward and backward
      */
-
     @Provides
     @Named(Constants.OIConstants.TRANSLATION_XSUPPLIER)
     public DoubleSupplier provideTranslationXSupplier(ControllerContainer controllerContainer) {

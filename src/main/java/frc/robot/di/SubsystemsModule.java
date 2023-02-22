@@ -29,25 +29,13 @@ import javax.inject.Singleton;
 
 @Module
 public class SubsystemsModule {
-    private static SwerveModule swerveModuleFactory(
-            int driveMotorID, int steerMotorID, int CANcoderID, boolean driveInverted, double encoderOffset, boolean encoderReversed
-    ) {
-        return new SwerveModule(
-                MotorsModule.driveMotorFactory(driveMotorID, driveInverted),
-                MotorsModule.azimuthMotorFactory(steerMotorID),
-                DeviceModule.absoluteEncoderFactory(CANcoderID, encoderOffset, encoderReversed)
-        );
-    }
-
     @Provides
     @Singleton
-
     public ArmSubsystem providesArmSubsystem (
             @Named(Constants.ArmConstants.ARM_MOTOR_1) WPI_TalonFX armMotor1,
             @Named(Constants.ArmConstants.ARM_MOTOR_2) WPI_TalonFX armMotor2,
             @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
-            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake
-            ) {
+            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
        return new ArmSubsystem(
                armMotor1,
                armMotor2,
@@ -55,6 +43,8 @@ public class SubsystemsModule {
                airBrake);
     }
 
+    @Provides
+    @Singleton
     public IntakeSubsystem providesIntakeSubsystem(
             @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
             @Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
@@ -72,8 +62,35 @@ public class SubsystemsModule {
                 beamBreak,
                 reedSwitch
         );
+    }
 
+    @Provides
+    @Singleton
+    public CarriageSubsystem provideCarriageSubsystem(
+            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController) {
+        return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
+    }
 
+    @Provides
+    @Singleton
+    public ElevatorSubsystem provideElevatorSubsystem(
+            @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
+            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorMagSwitch) {
+        return new ElevatorSubsystem(
+                elevatorMotor,
+                elevatorMagSwitch);
+    }
+
+    private static SwerveModule swerveModuleFactory(
+            int driveMotorID, int steerMotorID, int CANcoderID, boolean driveInverted, double encoderOffset, boolean encoderReversed
+    ) {
+        return new SwerveModule(
+                MotorsModule.driveMotorFactory(driveMotorID, driveInverted),
+                MotorsModule.azimuthMotorFactory(steerMotorID),
+                DeviceModule.absoluteEncoderFactory(CANcoderID, encoderOffset, encoderReversed)
+        );
     }
 
     @Provides
@@ -118,25 +135,6 @@ public class SubsystemsModule {
         );
     }
 
-    @Provides
-    @Singleton
-    public CarriageSubsystem provideCarriageSubsystem(
-            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController
-    ) {
-        return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
-    }
-
-    @Provides
-    @Singleton
-    public ElevatorSubsystem provideElevatorSubsystem(
-            @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
-            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorMagSwitch) {
-        return new ElevatorSubsystem(
-                elevatorMotor,
-                elevatorMagSwitch);
-    }
 
     @Provides
     @Singleton
@@ -172,5 +170,4 @@ public class SubsystemsModule {
                 gyro
         );
     }
-
 }

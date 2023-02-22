@@ -5,44 +5,41 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.utils.CommandFactory;
 
-import javax.inject.Inject;
+public class CarriageInCommand extends CommandBase {
+    private final CarriageSubsystem carriageSubsystem;
+    private final IntakeSubsystem intakeSubsystem;
+    private final Timer timer;
+    private double lastCurrent;
+    private boolean isCube;
+    private double delta;
 
+    public CarriageInCommand(CarriageSubsystem carriageSubsystem, IntakeSubsystem intakeSubsystem) {
+        this.carriageSubsystem = carriageSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
+        timer = new Timer();
+        addRequirements(carriageSubsystem);
+    }
 
-public class CarriageInCommand extends CommandFactory {
-    public class CarriageInImpl extends CommandBase {
-        private final CarriageSubsystem carriageSubsystem;
-        private final IntakeSubsystem intakeSubsystem;
-        private final Timer timer;
-        private double lastCurrent;
-        private boolean isCube;
-        private double delta;
-        public CarriageInImpl(CarriageSubsystem carriageSubsystem, IntakeSubsystem intakeSubsystem){
-            this.carriageSubsystem = carriageSubsystem;
-            this.intakeSubsystem = intakeSubsystem;
-            timer = new Timer();
-            addRequirements(carriageSubsystem);
+    @Override
+    public void initialize() {
+        timer.start();
+        lastCurrent = carriageSubsystem.getRollerCurrent();
+        isCube = intakeSubsystem.isCube();
+        delta = isCube ? Constants.CarriageConstants.CUBE_CURRENT_DELTA : Constants.CarriageConstants.CONE_CURRENT_DELTA;
+        if (isCube) {
+            carriageSubsystem.carriageIn();
+        } else {
+            carriageSubsystem.carriageIn();
         }
+    }
 
-        @Override
-        public void initialize() {
-            timer.start();
-            lastCurrent = carriageSubsystem.getRollerCurrent();
-            isCube = intakeSubsystem.isCube();
-            delta = isCube ? Constants.CarriageConstants.CUBE_CURRENT_DELTA : Constants.CarriageConstants.CONE_CURRENT_DELTA;
-            if (isCube) {
-                carriageSubsystem.carriageIn();
-            } else {
-                carriageSubsystem.carriageIn();
-            }
-        }
+    @Override
+    public void execute() {
+    }
 
-        @Override
-        public void execute() {}
-
-        @Override
-        public boolean isFinished() {
+    @Override
+    public boolean isFinished() {
 
 //            double presentCurrent = carriageSubsystem.getRollerCurrent();
 //            boolean stopMotor = (presentCurrent - lastCurrent) > delta;
@@ -52,26 +49,11 @@ public class CarriageInCommand extends CommandFactory {
 //            }
 //            timer.reset();
 //            return stopMotor;
-            return false;
-        }
-
-        @Override
-        public void end(boolean interrupted) {
-            carriageSubsystem.rollerStop();
-        }
-    }
-
-    private final CarriageSubsystem carriageSubsystem;
-    private final IntakeSubsystem intakeSubsystem;
-
-    @Inject
-    public CarriageInCommand(CarriageSubsystem carriageSubsystem, IntakeSubsystem intakeSubsystem) {
-        this.carriageSubsystem = carriageSubsystem;
-        this.intakeSubsystem = intakeSubsystem;
+        return false;
     }
 
     @Override
-    public CommandBase create() {
-        return new CarriageInImpl(carriageSubsystem, intakeSubsystem);
+    public void end(boolean interrupted) {
+        carriageSubsystem.rollerStop();
     }
 }

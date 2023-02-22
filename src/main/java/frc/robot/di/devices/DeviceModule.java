@@ -44,7 +44,6 @@ public class DeviceModule {
 
     @Provides
     @Singleton
-
     @Named(Constants.ArmConstants.ARM_ENCODER)
     public WPI_CANCoder providesArmEncoder() {
         WPI_CANCoder encoder = new WPI_CANCoder(Constants.ArmConstants.ARM_ENCODER_ID, "canivoreBus");

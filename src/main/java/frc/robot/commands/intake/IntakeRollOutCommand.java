@@ -1,32 +1,14 @@
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.utils.CommandFactory;
 
-import javax.inject.Inject;
+public class IntakeRollOutCommand extends StartEndCommand {
+    private final IntakeSubsystem intakeSubsystem;
 
-public class IntakeRollOutCommand extends CommandFactory {
-
-    public static class IntakeRollOutImpl extends StartEndCommand {
-        private final IntakeSubsystem intakeSubsystem;
-        public IntakeRollOutImpl(IntakeSubsystem intakeSubsystem) {
-            // 0.315 for low cone out
-            super(intakeSubsystem::rollOut, intakeSubsystem::stop);
-            this.intakeSubsystem = intakeSubsystem;
-            addRequirements(intakeSubsystem);
-        }
-    }
-
-    private IntakeSubsystem intakeSubsystem;
-
-    @Inject
-    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem){
+    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem) {
+        super(intakeSubsystem::rollOut, intakeSubsystem::stop);
         this.intakeSubsystem = intakeSubsystem;
-    }
-
-    public CommandBase create() {
-        return new IntakeRollOutImpl(intakeSubsystem);
+        addRequirements(intakeSubsystem);
     }
 }
