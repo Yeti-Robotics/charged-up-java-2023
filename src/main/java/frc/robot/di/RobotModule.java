@@ -6,12 +6,9 @@ import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -21,14 +18,12 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.auto.AutoBuilder;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 @Module
@@ -67,28 +62,37 @@ public class RobotModule {
     }
 
     @Provides
-    public AutoBuilder providesAutoBuilder(DrivetrainSubsystem drivetrainSubsystem,
-                                           IntakeSubsystem intakeSubsystem,
-                                           ArmSubsystem armSubsystem,
-                                           ElevatorSubsystem elevatorSubsystem,
-                                           CarriageSubsystem carriageSubsystem){
-
+    @Singleton
+    @Named("event map")
+    public HashMap<String, Command> providesEventMap(
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem,
+            CarriageSubsystem carriageSubsystem
+    ){
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, Constants.ArmConstants.ArmPositions.DOWN)));
+        return eventMap;
+    }
+
+    @Provides
+    @Singleton
+    public SwerveAutoBuilder providesAutoBuilder(DrivetrainSubsystem drivetrainSubsystem, @Named("event map") HashMap<String, Command> eventMap){
+
 
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
                 drivetrainSubsystem::getPose,
                 drivetrainSubsystem::resetOdometer,
                 Constants.DriveConstants.DRIVE_KINEMATICS,
-                new PIDConstants(Constants.AutoConstants.X_CONTROLLER_P, 0, 0),
-                new PIDConstants(Constants.AutoConstants.THETA_CONTROLLER_P, 0, 0),
+                Constants.AutoConstants.TRANSLATION_CONTROLLER,
+                Constants.AutoConstants.THETA_CONTROLLER,
                 drivetrainSubsystem::drive,
                 eventMap,
                 drivetrainSubsystem);
 
 
-        return new AutoBuilder(autoBuilder);
+        return autoBuilder;
     }
     /*
      * The X axis is forward and backward

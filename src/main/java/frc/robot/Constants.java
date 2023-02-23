@@ -7,6 +7,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.pathplanner.lib.auto.PIDConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -255,7 +256,9 @@ public final class Constants
         public static final double PITCH_F = 0.000000000000001;
 
 
-        public static final PIDController AUTO_TRANSLATION_CONTROLLER = new PIDController(X_CONTROLLER_P, 0, X_CONTROLLER_D);
+        public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(X_CONTROLLER_P, 0, X_CONTROLLER_D);
+        public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, 0, 0);
+
     }
 
     /*
