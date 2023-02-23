@@ -38,6 +38,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(ControlMode.PercentOutput, -Constants.ElevatorConstants.ELEVATOR_SPEED);
     }
 
+    public boolean isDown(){
+        return getElevatorEncoder() == 0;
+    }
+
     public void stop() {
         elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
