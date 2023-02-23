@@ -8,17 +8,12 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.pathplanner.lib.auto.PIDConstants;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.arm.SetArmPositionCommand;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -112,7 +107,9 @@ public final class Constants {
         public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
         public static final double ROLLER_SPEED = 0.35;
         public static final double FLIP_SPEED = 0.2;
-        /** TODO: Find real value */
+        /**
+         * TODO: Find real value
+         */
         public static final double FLIP_RATIO = 1.0 / 21.33;
         public static final double ROLLER_RATIO = 1.0 / 21.0;
 
@@ -243,6 +240,9 @@ public final class Constants {
         public static final double X_CONTROLLER_D = 0;
         public static final double Y_CONTROLLER_D = 0;
         public static final double THETA_CONTROLLER_P = 3; //3
+
+        public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(X_CONTROLLER_P, 0, X_CONTROLLER_D);
+        public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, 0, 0);
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONTRAINTS = //
                 new TrapezoidProfile.Constraints(
                         DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
@@ -254,9 +254,6 @@ public final class Constants {
         public static final double PITCH_D = 0.0;
         public static final double PITCH_F = 0.0;
         public static final double PITCH_TOLERANCE = 2.0;
-
-        public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(X_CONTROLLER_P, 0, X_CONTROLLER_D);
-        public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, 0, 0);
     }
 
     /*
