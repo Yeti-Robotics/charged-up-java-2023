@@ -5,6 +5,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Lazy;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -15,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
 import frc.robot.utils.rests.restUtils.RESTHandler;
+import frc.robot.Constants.AutoConstants.AutoModes;
 
 import javax.inject.Inject;
 
@@ -29,17 +33,12 @@ public class Robot extends TimedRobot {
     @Inject
     RobotContainer robotContainer;
     @Inject
+    SwerveAutoBuilder autoBuilder;
+    @Inject
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
 
     private static SendableChooser<AutoModes> autoChooser;
-
-
-    public enum AutoModes {
-        CUBE_AUTO,
-        BALANCE_AUTO
-    }
-
     private AutoModes previousSelectedAuto;
 
 
@@ -64,6 +63,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
+        PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString()));
+        autonomousCommand = autoBuilder.fullAuto(trajectory);
     }
 
 
@@ -94,6 +95,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
+        if (previousSelectedAuto != autoChooser.getSelected()) {
+            previousSelectedAuto = autoChooser.getSelected();
+
+            PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString()));
+            autonomousCommand = autoBuilder.fullAuto(trajectory);
+        }
     }
 
 

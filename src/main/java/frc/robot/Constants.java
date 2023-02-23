@@ -254,6 +254,13 @@ public final class Constants {
         public static final double PITCH_D = 0.0;
         public static final double PITCH_F = 0.0;
         public static final double PITCH_TOLERANCE = 2.0;
+
+        public enum AutoModes {
+            CUBE_AUTO,
+            BALANCE_AUTO
+
+
+        }
     }
 
     /*
@@ -380,9 +387,10 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final double STOPPING_DISTANCE = 1.58333;
-        public static final double LIMELIGHT_HEIGHT = 10; //placeholder
-
-        public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
+        public static final double LIMELIGHT_HEIGHT = 11.9; //placeholder
+        public static final double LIMELIGHT_X_TRANSLATION = 4.75;
+        public static final double LIMELIGHT_Y_TRANSLATION = 0.0;
+        public static final double LIMELIGHT_MOUNTING_ANGLE = 15.0; //placeholder
 
         public static final String TABLE_NAME = "table";
 
