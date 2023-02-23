@@ -1,7 +1,9 @@
 package frc.robot.utils.auto;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +22,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class AutoBuilder {
 
@@ -43,5 +46,10 @@ public class AutoBuilder {
                 path.getInitialPose().getTranslation(),
                 path.getInitialState().holonomicRotation
         );
+    }
+
+    private void driveToPose(List<PathPoint> points){
+        PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(DriveConstants.MAX_VELOCITY_METERS_PER_SECOND, AutoConstants.MAX_ACCEL),points);
+        autoBuilder.fullAuto(path);
     }
 }
