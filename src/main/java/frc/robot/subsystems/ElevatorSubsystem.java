@@ -14,7 +14,7 @@ import javax.inject.Named;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private final WPI_TalonFX elevatorMotor;
-    private ElevatorPositions distanceSetpoint;
+    private ElevatorPositions position;
 
     private final DigitalInput magSwitch;
 
@@ -38,17 +38,25 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(ControlMode.PercentOutput, -Constants.ElevatorConstants.ELEVATOR_SPEED);
     }
 
+    public boolean isDown(){
+        return getElevatorEncoder() <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
+    }
+
     public void stop() {
         elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void setPosition(ElevatorPositions setpoint) {
-        distanceSetpoint = setpoint;
-        elevatorMotor.set(ControlMode.MotionMagic, distanceSetpoint.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ElevatorConstants.GRAVITY_FEEDFORWARD);
+        position = setpoint;
+        elevatorMotor.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ElevatorConstants.GRAVITY_FEEDFORWARD);
+    }
+
+    public ElevatorPositions getPosition() {
+        return position;
     }
 
     public boolean motionFinished() {
-        return Math.abs(elevatorMotor.getSelectedSensorPosition() - distanceSetpoint.sensorUnits) <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
+        return Math.abs(elevatorMotor.getSelectedSensorPosition() - position.sensorUnits) <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
     }
 
     public boolean getMagSwitch() {
@@ -69,7 +77,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (getMagSwitch() && distanceSetpoint == ElevatorPositions.DOWN) {
+        if (getMagSwitch() && position == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
     }

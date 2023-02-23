@@ -1,35 +1,35 @@
 package frc.robot.commands.elevator;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
-import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 
-public class SetElevatorPositionCommand extends CommandBase {
+public class CycleElevatorPositionCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
     private final ArmSubsystem armSubsystem;
-    private final ElevatorPositions position;
+    private ElevatorPositions position;
 
-    public SetElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem, ElevatorPositions position) {
+    public CycleElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
         this.armSubsystem = armSubsystem;
-        this.position = position;
 
         addRequirements(elevatorSubsystem);
     }
 
     @Override
     public void initialize() {
-        if (!armSubsystem.isUP()) {
-            this.cancel();
+        ElevatorPositions currentPosition = elevatorSubsystem.getPosition();
+
+        if (currentPosition == ElevatorPositions.LEVEL_TWO) {
+            position = ElevatorPositions.UP;
+        } else {
+            position = ElevatorPositions.LEVEL_TWO;
         }
 
-        elevatorSubsystem.setPosition(position);
+        new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, position).schedule();
     }
 
     @Override

@@ -29,22 +29,7 @@ import java.util.Map;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
-    public static final class SparkMaxConstants {
-        public static final double PULSES_PER_REV = 4096.0;
-
-        public static final int HIGH_PRIORITY_MS = 20;
-        public static final int MEDIUM_PRIORITY_MS = 60;
-        public static final int LOW_PRIORITY_MS = 120;
-        public static final int NEO_CURRENT_LIM = 30;
-        public static final int NEO550_CURRENT_LIM = 20;
-
-        public static final int SPARK_RESOLUTION = 4096;
-        public static final double COUNTS_PER_DEG = SPARK_RESOLUTION / 360.0;
-    }
-
-
+public final class Constants {
     public static final class DriveConstants {
 
         public static final int FRONT_LEFT_DRIVE = 2;
@@ -201,6 +186,8 @@ public final class Constants
         // [0, 8]
         public static final int MOTION_SMOOTHING = 0;
 
+        public static final double ARM_ANGLE_LIMIT = 90;
+
         public enum ArmPositions {
             DOWN(0.0),
             CONE_FLIP(10.0),
@@ -227,6 +214,18 @@ public final class Constants
         public static final double COUNTS_PER_DEG = COUNTS_PER_REV / 360.0;
     }
 
+    public static final class SparkMaxConstants {
+        public static final double PULSES_PER_REV = 4096.0;
+
+        public static final int HIGH_PRIORITY_MS = 20;
+        public static final int MEDIUM_PRIORITY_MS = 60;
+        public static final int LOW_PRIORITY_MS = 120;
+        public static final int NEO_CURRENT_LIM = 30;
+        public static final int NEO550_CURRENT_LIM = 20;
+
+        public static final int SPARK_RESOLUTION = 42;
+        public static final double COUNTS_PER_DEG = SPARK_RESOLUTION / 360.0;
+    }
 
     public static final class AutoConstants {
 
@@ -250,15 +249,14 @@ public final class Constants
                         DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
         public static final double PITCH_SET_POINT = 0.0;
-        public static final double PITCH_P = 0.04;
-        public static final double PITCH_I = 0.0005;
-        public static final double PITCH_D = 0.000000000000001;
-        public static final double PITCH_F = 0.000000000000001;
-
+        public static final double PITCH_P = 1.0;
+        public static final double PITCH_I = 0.0;
+        public static final double PITCH_D = 0.0;
+        public static final double PITCH_F = 0.0;
+        public static final double PITCH_TOLERANCE = 2.0;
 
         public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(X_CONTROLLER_P, 0, X_CONTROLLER_D);
         public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, 0, 0);
-
     }
 
     /*
@@ -303,7 +301,7 @@ public final class Constants
         public static final double MAX_VELOCITY = 3.0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
-        public static final double ELEVATOR_TOLERANCE = 0.04 / ELEVATOR_DISTANCE_PER_PULSE;
+        public static final double ELEVATOR_TOLERANCE = 0.10 / ELEVATOR_DISTANCE_PER_PULSE;
 
         public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;

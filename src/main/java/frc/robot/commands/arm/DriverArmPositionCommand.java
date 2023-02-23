@@ -4,18 +4,22 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.MultiButton;
 
 public class DriverArmPositionCommand extends CommandBase {
     private final ArmSubsystem armSubsystem;
+
+    private final ElevatorSubsystem elevatorSubsystem;
     private final Timer timer;
     private final MultiButton button;
     private ArmConstants.ArmPositions position;
     private boolean isHeld;
 
-    public DriverArmPositionCommand(ArmSubsystem armSubsystem, MultiButton button) {
+    public DriverArmPositionCommand(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, MultiButton button) {
         this.armSubsystem = armSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
         this.button = button;
 
         timer = new Timer();
@@ -47,7 +51,7 @@ public class DriverArmPositionCommand extends CommandBase {
         }
 
         if (isHeld && position == ArmConstants.ArmPositions.CONE_FLIP) {
-            new SetArmPositionCommand(armSubsystem, position).schedule();
+            new SetArmPositionCommand(armSubsystem, elevatorSubsystem , position).schedule();
             position = ArmConstants.ArmPositions.DOWN;
         }
     }
@@ -59,6 +63,6 @@ public class DriverArmPositionCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        new SetArmPositionCommand(armSubsystem, position).schedule();
+        new SetArmPositionCommand(armSubsystem, elevatorSubsystem, position).schedule();
     }
 }

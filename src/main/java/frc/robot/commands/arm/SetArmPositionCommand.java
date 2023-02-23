@@ -4,15 +4,19 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants.ArmPositions;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class SetArmPositionCommand extends CommandBase {
     private final ArmSubsystem armSubsystem;
+    private final ElevatorSubsystem elevatorSubsystem;
     private final Timer timer;
-    private ArmPositions position;
+    private final ArmPositions position;
 
-    public SetArmPositionCommand(ArmSubsystem armSubsystem, ArmPositions position) {
+    public SetArmPositionCommand(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ArmPositions position) {
         this.armSubsystem = armSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
         this.position = position;
+
         timer = new Timer();
         timer.start();
 
@@ -21,6 +25,10 @@ public class SetArmPositionCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        if (!elevatorSubsystem.isDown()) {
+            this.cancel();
+        }
+
         timer.reset();
         armSubsystem.disengageBrake();
         armSubsystem.setPosition(position);
