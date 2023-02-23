@@ -16,11 +16,15 @@ public class AutoBalancingCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final PIDController pidController;
 
-    public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem, PIDController pidController) {
+    public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
-        this.pidController = pidController;
+        this.pidController = new PIDController(
+                Constants.AutoConstants.PITCH_P,
+                Constants.AutoConstants.PITCH_I,
+                Constants.AutoConstants.PITCH_D
+        );
 
-        this.pidController.setTolerance(2.0);
+        this.pidController.setTolerance(Constants.AutoConstants.PITCH_TOLERANCE);
         addRequirements(drivetrainSubsystem);
     }
 
@@ -46,11 +50,6 @@ public class AutoBalancingCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.drive(
-                new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(45))
-        );
+        andThen(new SwerveLockCommand(drivetrainSubsystem));
     }
 }

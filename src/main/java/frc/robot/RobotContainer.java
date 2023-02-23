@@ -13,6 +13,7 @@ import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.carriage.*;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.*;
 import frc.robot.commands.intake.*;
 import frc.robot.di.RobotComponent;
@@ -96,7 +97,23 @@ public class RobotContainer {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(11, 0, new ToggleIntakeCommand(intakeSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(11, 0, new ToggleIntakeCommand(intakeSubsystem)
+                .beforeStarting(new InstantCommand(() -> {
+                    if (armSubsystem.isUP()) {
+                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
+                    } else {
+                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
+                    }
+                })), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(11, 1, new SwerveLockCommand(drivetrainSubsystem)
+                .beforeStarting(new InstantCommand(() -> {
+                    if (armSubsystem.isUP()) {
+                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
+                    } else {
+                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
+                    }
+                })), RunCondition.WHILE_HELD);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
