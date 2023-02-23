@@ -292,7 +292,7 @@ public final class Constants {
         public static final double MAX_VELOCITY = 3.0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
-        public static final double ELEVATOR_TOLERANCE = 0.04 / ELEVATOR_DISTANCE_PER_PULSE;
+        public static final double ELEVATOR_TOLERANCE = 0.10 / ELEVATOR_DISTANCE_PER_PULSE;
 
         public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
         public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;

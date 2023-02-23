@@ -39,7 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public boolean isDown(){
-        return getElevatorEncoder() == 0;
+        return getElevatorEncoder() <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
     }
 
     public void stop() {

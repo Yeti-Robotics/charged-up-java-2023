@@ -2,24 +2,49 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants.ArmPositions;
-import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
-public class SetArmPositionCommand extends SequentialCommandGroup {
-    private ArmPositions position;
+public class SetArmPositionCommand extends CommandBase {
+    private final ArmSubsystem armSubsystem;
+    private final ElevatorSubsystem elevatorSubsystem;
+    private final Timer timer;
+    private final ArmPositions position;
 
     public SetArmPositionCommand(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ArmPositions position) {
-        addCommands(
-                new SetElevatorDownCommand(elevatorSubsystem).until(elevatorSubsystem::isDown).andThen(
-                        new InstantCommand(armSubsystem::disengageBrake),
-                        new InstantCommand(() -> armSubsystem.setPosition(position)).withTimeout(2),
-                        new InstantCommand(armSubsystem::engageBrake)
-                )
-        );
+        this.armSubsystem = armSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
+        this.position = position;
+
+        timer = new Timer();
+        timer.start();
+
+        addRequirements(this.armSubsystem);
     }
 
+    @Override
+    public void initialize() {
+        if (!elevatorSubsystem.isDown()) {
+            this.cancel();
+        }
+
+        timer.reset();
+        armSubsystem.disengageBrake();
+        armSubsystem.setPosition(position);
+    }
+
+    @Override
+    public void execute() {
+    }
+
+    @Override
+    public boolean isFinished() {
+        return armSubsystem.isMotionFinished() || timer.hasElapsed(2.0);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        armSubsystem.engageBrake();
+    }
 }
