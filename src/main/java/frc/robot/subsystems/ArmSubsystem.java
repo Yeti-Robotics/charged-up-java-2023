@@ -13,11 +13,13 @@ import frc.robot.Constants.ArmConstants.ArmPositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.function.BooleanSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
 
     private final WPI_TalonFX armMotor1;
     private final WPI_CANCoder encoder;
+
 
     private final DoubleSolenoid airBrake;
 
@@ -110,6 +112,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean isBrakeEngaged() {
         return isBrakeEngaged;
+    }
+
+    public boolean isUP(){
+        return getAngle() >= 90;
     }
 
     private void motorsBrake() {

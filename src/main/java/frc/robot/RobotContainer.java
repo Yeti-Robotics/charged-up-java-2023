@@ -83,7 +83,7 @@ public class RobotContainer {
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(6, 0, new SetElevatorPositionCommand(elevatorSubsystem, ElevatorPositions.DOWN), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 0, new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorPositions.DOWN), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(8, 0, new IntakeShootCommand(intakeSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 //        buttonHelper.createButton(3, 0, handoffCommands.coneLow, RunCondition.WHEN_PRESSED);
 

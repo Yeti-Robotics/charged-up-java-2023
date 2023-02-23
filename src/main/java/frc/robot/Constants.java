@@ -195,6 +195,8 @@ public final class Constants
         // [0, 8]
         public static final int MOTION_SMOOTHING = 0;
 
+        public static final double ARM_ANGLE_LIMIT = 90;
+
         public enum ArmPositions {
             DOWN(0.0),
             CONE_FLIP(10.0),
