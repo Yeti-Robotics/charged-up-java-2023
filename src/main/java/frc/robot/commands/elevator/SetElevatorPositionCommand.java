@@ -13,7 +13,7 @@ public class SetElevatorPositionCommand extends SequentialCommandGroup {
 
     public SetElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem, ElevatorPositions position) {
         addCommands(
-                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, Constants.ArmConstants.ArmPositions.UP).until(
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, Constants.ArmConstants.ArmPositions.HANDOFF).until(
                         armSubsystem::isUP).andThen(
                         new InstantCommand(() -> elevatorSubsystem.setPosition(position))
                 )
