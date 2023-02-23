@@ -2,6 +2,7 @@ package frc.robot.commands.carriage;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.CarriageSubsystem;
 
 public class CarriageFlipInCommand extends CommandBase {
@@ -14,7 +15,7 @@ public class CarriageFlipInCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        carriageSubsystem.flipIn();
+        carriageSubsystem.setSetpoint(Constants.CarriageConstants.CarriagePositions.DOWN);
     }
 
     @Override

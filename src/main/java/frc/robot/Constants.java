@@ -23,22 +23,7 @@ import java.util.Map;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
-    public static final class SparkMaxConstants {
-        public static final double PULSES_PER_REV = 4096.0;
-
-        public static final int HIGH_PRIORITY_MS = 20;
-        public static final int MEDIUM_PRIORITY_MS = 60;
-        public static final int LOW_PRIORITY_MS = 120;
-        public static final int NEO_CURRENT_LIM = 30;
-        public static final int NEO550_CURRENT_LIM = 20;
-
-        public static final int SPARK_RESOLUTION = 4096;
-        public static final double COUNTS_PER_DEG = SPARK_RESOLUTION / 360.0;
-    }
-
-
+public final class Constants {
     public static final class DriveConstants {
 
         public static final int FRONT_LEFT_DRIVE = 2;
@@ -223,6 +208,18 @@ public final class Constants
         public static final double COUNTS_PER_DEG = COUNTS_PER_REV / 360.0;
     }
 
+    public static final class SparkMaxConstants {
+        public static final double PULSES_PER_REV = 4096.0;
+
+        public static final int HIGH_PRIORITY_MS = 20;
+        public static final int MEDIUM_PRIORITY_MS = 60;
+        public static final int LOW_PRIORITY_MS = 120;
+        public static final int NEO_CURRENT_LIM = 30;
+        public static final int NEO550_CURRENT_LIM = 20;
+
+        public static final int SPARK_RESOLUTION = 42;
+        public static final double COUNTS_PER_DEG = SPARK_RESOLUTION / 360.0;
+    }
 
     public static final class AutoConstants {
 

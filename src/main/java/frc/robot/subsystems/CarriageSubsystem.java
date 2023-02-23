@@ -35,10 +35,8 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public double getRollerCurrent() {
-        /* according to https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136/5 */
         return Math.abs(rollerMotor.getOutputCurrent());
     }
-
 
     public void rollerStop(){
         rollerMotor.stopMotor();
@@ -56,16 +54,6 @@ public class CarriageSubsystem extends SubsystemBase {
         double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
         flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0,
                 FLIP_FEED_FORWARD, SparkMaxPIDController.ArbFFUnits.kPercentOut); //make command later
-    }
-
-    public void flipMechanism(){
-        carriagePosition = CarriagePositions.FLIPPED;
-        flipPIDController.setReference(CarriagePositions.FLIPPED.angle, CANSparkMax.ControlType.kPosition);
-    }
-
-    public void reverseFlipMechanism(){
-        carriagePosition = CarriagePositions.DOWN;
-        flipPIDController.setReference(CarriagePositions.DOWN.angle, CANSparkMax.ControlType.kPosition);
     }
 
     public void flipOut() {
