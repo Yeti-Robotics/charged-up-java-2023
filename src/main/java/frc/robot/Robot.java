@@ -8,6 +8,8 @@ package frc.robot;
 import dagger.Lazy;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.di.DaggerRobotComponent;
@@ -30,6 +32,17 @@ public class Robot extends TimedRobot {
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
 
+    private static SendableChooser<AutoModes> autoChooser;
+
+
+    public enum AutoModes {
+        CUBE_AUTO,
+        BALANCE_AUTO
+    }
+
+    private AutoModes previousSelectedAuto;
+
+
     public Robot() {
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
         robotComponent.inject(this);
@@ -43,6 +56,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+
+        autoChooser = new SendableChooser<>();
+        autoChooser.setDefaultOption("CUBE", AutoModes.CUBE_AUTO);
+        autoChooser.addOption("CUBE", AutoModes.CUBE_AUTO);
+        autoChooser.addOption("BALANCE", AutoModes.BALANCE_AUTO);
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        previousSelectedAuto = autoChooser.getSelected();
 
     }
 

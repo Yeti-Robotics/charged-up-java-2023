@@ -7,12 +7,17 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.arm.SetArmPositionCommand;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -248,6 +253,9 @@ public final class Constants
         public static final double PITCH_I = 0.0005;
         public static final double PITCH_D = 0.000000000000001;
         public static final double PITCH_F = 0.000000000000001;
+
+
+        public static final PIDController AUTO_TRANSLATION_CONTROLLER = new PIDController(X_CONTROLLER_P, 0, X_CONTROLLER_D);
     }
 
     /*
