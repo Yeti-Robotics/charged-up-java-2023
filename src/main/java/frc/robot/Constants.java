@@ -254,6 +254,8 @@ public final class Constants {
         public static final double PITCH_D = 0.0;
         public static final double PITCH_F = 0.0;
         public static final double PITCH_TOLERANCE = 2.0;
+        public static final double ALIGN_OFFSET = 2.0; //placeholder
+        public static final double CONE_OFFSET = 2.0; //placeholder
 
         public enum AutoModes {
             CUBE_AUTO,
