@@ -1,11 +1,7 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
-import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.constants.ElevatorConstants.ElevatorPositions;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 

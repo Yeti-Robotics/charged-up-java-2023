@@ -2,14 +2,11 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.constants.AutoConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-
-import javax.inject.Inject;
 
 
 public class AutoBalancingCommand extends CommandBase {
@@ -19,12 +16,12 @@ public class AutoBalancingCommand extends CommandBase {
     public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pidController = new PIDController(
-                Constants.AutoConstants.PITCH_P,
-                Constants.AutoConstants.PITCH_I,
-                Constants.AutoConstants.PITCH_D
+                AutoConstants.PITCH_P,
+                AutoConstants.PITCH_I,
+                AutoConstants.PITCH_D
         );
 
-        this.pidController.setTolerance(Constants.AutoConstants.PITCH_TOLERANCE);
+        this.pidController.setTolerance(AutoConstants.PITCH_TOLERANCE);
         addRequirements(drivetrainSubsystem);
     }
 
@@ -37,8 +34,8 @@ public class AutoBalancingCommand extends CommandBase {
     public void execute() {
         double val = -MathUtil.clamp(
                 pidController.calculate(
-                        drivetrainSubsystem.getPitch().getDegrees(), Constants.AutoConstants.PITCH_SET_POINT), -.35, .35);
-        drivetrainSubsystem.drive(Constants.DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                        drivetrainSubsystem.getPitch().getDegrees(), AutoConstants.PITCH_SET_POINT), -.35, .35);
+        drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                 ChassisSpeeds.fromFieldRelativeSpeeds(val, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
 
     }

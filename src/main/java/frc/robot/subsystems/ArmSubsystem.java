@@ -8,12 +8,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.ArmConstants.ArmPositions;
+import frc.robot.constants.ArmConstants;
+import frc.robot.constants.CANCoderConstants;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.ArmConstants.ArmPositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.function.BooleanSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -28,9 +29,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Inject
     public ArmSubsystem(
-            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
-            @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
-            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
+            @Named(ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
+            @Named(ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
+            @Named(ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
         this.armMotor1 = armMotor1;
         this.encoder = encoder;
         this.airBrake = airBrake;
@@ -53,12 +54,12 @@ public class ArmSubsystem extends SubsystemBase {
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
 
-        armMotor1.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
+        armMotor1.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
         System.out.println("MAGIC MOTION SET: " + position.angle);
     }
 
     public double getAngle() {
-        return armMotor1.getSelectedSensorPosition() / Constants.CANCoderConstants.COUNTS_PER_DEG * Constants.ArmConstants.GEAR_RATIO;
+        return armMotor1.getSelectedSensorPosition() / CANCoderConstants.COUNTS_PER_DEG * ArmConstants.GEAR_RATIO;
     }
 
     public ArmPositions getArmPosition() {
@@ -66,7 +67,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public boolean isMotionFinished() {
-        return Math.abs(getAngle() - armPosition.angle) < Constants.ArmConstants.ANGLE_TOLERANCE;
+        return Math.abs(getAngle() - armPosition.angle) < ArmConstants.ANGLE_TOLERANCE;
     }
 
     public void moveUp(double speed) {

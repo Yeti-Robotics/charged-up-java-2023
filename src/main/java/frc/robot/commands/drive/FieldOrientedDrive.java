@@ -2,8 +2,8 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;

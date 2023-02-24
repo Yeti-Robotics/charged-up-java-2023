@@ -4,7 +4,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.VisionConstants;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import javax.inject.Named;
@@ -16,7 +17,7 @@ public class VisionSubsystem extends SubsystemBase {
     public double xFinal;
     public double yFinal;
 
-    public VisionSubsystem(@Named(Constants.VisionConstants.TABLE_NAME) NetworkTableInstance table) {
+    public VisionSubsystem(@Named(VisionConstants.TABLE_NAME) NetworkTableInstance table) {
         this.table = table;
     }
 

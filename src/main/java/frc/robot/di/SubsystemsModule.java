@@ -12,8 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.*;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
 import frc.robot.subsystems.ArmSubsystem;
@@ -31,9 +30,9 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public ArmSubsystem providesArmSubsystem (
-            @Named(Constants.ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
-            @Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
-            @Named(Constants.ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
+            @Named(ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
+            @Named(ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
+            @Named(ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
        return new ArmSubsystem(
                armMotor1,
                encoder,
@@ -43,11 +42,11 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public IntakeSubsystem providesIntakeSubsystem(
-            @Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
-            @Named(Constants.IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
-            @Named(Constants.IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
-            @Named(Constants.IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
-            @Named(Constants.IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
+            @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
+            @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
+            @Named(IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
+            @Named(IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
         return new IntakeSubsystem(
                 leftSpark,
                 rightSpark,
@@ -60,17 +59,17 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
-            @Named(Constants.CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController) {
+            @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
+            @Named(CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
+            @Named(CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController) {
         return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
     }
 
     @Provides
     @Singleton
     public ElevatorSubsystem provideElevatorSubsystem(
-            @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
-            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorMagSwitch) {
+            @Named(ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
+            @Named(ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput elevatorMagSwitch) {
         return new ElevatorSubsystem(
                 elevatorMotor,
                 elevatorMagSwitch);

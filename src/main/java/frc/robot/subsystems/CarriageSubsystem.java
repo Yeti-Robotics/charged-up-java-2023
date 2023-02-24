@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CarriageConstants;
-import frc.robot.Constants.CarriageConstants.CarriagePositions;
+import frc.robot.constants.CarriageConstants;
+import frc.robot.constants.CarriageConstants.CarriagePositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
