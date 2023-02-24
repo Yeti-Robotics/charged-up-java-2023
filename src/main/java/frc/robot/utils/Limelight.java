@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -93,13 +95,16 @@ public class Limelight {
         return getValue("botpose").getDoubleArray(new double[6]);
     }
 
+    public static Translation2d getTranslation() {
+        return new Translation2d(getPose()[0], getPose()[1]);
+    }
 
     public static double getPitch(){
-        return getPose()[5];
+        return getPose()[4];
     }
 
     public static double getRoll(){
-        return getPose()[4];
+        return getPose()[3];
     }
 
     public static double getYaw(){
