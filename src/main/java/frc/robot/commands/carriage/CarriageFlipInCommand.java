@@ -25,7 +25,7 @@ public class CarriageFlipInCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return carriageSubsystem.getAngle() < 5.0;
+        return carriageSubsystem.getAngle() < 1.0;
     }
 
     @Override

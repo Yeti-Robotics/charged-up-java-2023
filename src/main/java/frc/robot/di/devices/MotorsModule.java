@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
     @Provides
     @Singleton
     @Named(Constants.ArmConstants.ARM_MOTOR)
@@ -150,6 +151,7 @@ public class MotorsModule {
         CANSparkMax sparkMax = new CANSparkMax(Constants.CarriageConstants.FLIP_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
         RelativeEncoder encoder = sparkMax.getEncoder();
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        sparkMax.setInverted(true);
 
         sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.NEO_CURRENT_LIM);
         sparkMax.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
@@ -159,7 +161,6 @@ public class MotorsModule {
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.HIGH_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
-        encoder.setPositionConversionFactor(Constants.CarriageConstants.COUNTS_TO_DEGREES);
         encoder.setPosition(0.0);
 
         return sparkMax;
@@ -175,11 +176,8 @@ public class MotorsModule {
         pidController.setI(Constants.CarriageConstants.FLIP_I, 0);
         pidController.setD(Constants.CarriageConstants.FLIP_D, 0);
         pidController.setFF(Constants.CarriageConstants.FLIP_F, 0);
-        pidController.setOutputRange(-0.8, 0.8, 0);
+        pidController.setOutputRange(Constants.CarriageConstants.PID_MIN, Constants.CarriageConstants.PID_MAX, 0);
 
-        pidController.setSmartMotionMaxVelocity(Constants.CarriageConstants.MAX_VELOCITY, 0);
-        pidController.setSmartMotionMaxAccel(Constants.CarriageConstants.MAX_ACCEL, 0);
-        pidController.setSmartMotionAccelStrategy(SparkMaxPIDController.AccelStrategy.kTrapezoidal, 0);
         return pidController;
     }
 

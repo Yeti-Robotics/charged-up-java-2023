@@ -113,10 +113,10 @@ public final class Constants {
         public static final double COUNTS_TO_DEGREES = FLIP_RATIO / SparkMaxConstants.COUNTS_PER_DEG;
         public static final double LOWER_FLIP_LIMIT = 0.0;
         public static final double UPPER_FLIP_LIMIT = 170;
-        public static final double FLIP_P = 0.01;
-        public static final double FLIP_I = 0;
+        public static final double FLIP_P = 0.15;
+        public static final double FLIP_I = 0.01;
         public static final double FLIP_D = 0;
-        public static final double FLIP_F = 0;
+        public static final double FLIP_F = 0.03;
 
         public static final double MAX_VELOCITY = 0.25 / FLIP_RATIO;
         public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
@@ -126,10 +126,12 @@ public final class Constants {
         public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
 
         public static final double GRAVITY_FEEDFORWARD = 0.07;
+        public static final double PID_MIN = -0.3;
+        public static final double PID_MAX = 0.3;
 
         public enum CarriagePositions {
             DOWN(0.0),
-            FLIPPED(170.0);
+            FLIPPED(7.0);
 
             public final double angle;
             public final double sensorUnits;

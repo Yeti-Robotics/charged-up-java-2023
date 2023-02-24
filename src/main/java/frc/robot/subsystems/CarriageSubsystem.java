@@ -48,12 +48,8 @@ public class CarriageSubsystem extends SubsystemBase {
 
     public void setSetpoint(CarriagePositions setpoint){
         carriagePosition = setpoint;
-        double radians = Math.toRadians(getAngle());
-        double cosineScalar = Math.cos(radians);
 
-        double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
-        flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0,
-                FLIP_FEED_FORWARD, SparkMaxPIDController.ArbFFUnits.kPercentOut); //make command later
+        flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0); //make command later
     }
 
     public void flipOut() {
