@@ -3,7 +3,8 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants;
+import frc.robot.constants.ArmConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -17,7 +18,7 @@ public class IntakeShootCommand extends SequentialCommandGroup {
         this.armSubsystem = armSubsystem;
         addCommands(
                 new InstantCommand(armSubsystem::disengageBrake, armSubsystem),
-                new InstantCommand(() -> armSubsystem.setPosition(Constants.ArmConstants.ArmPositions.SHOOT), armSubsystem),
+                new InstantCommand(() -> armSubsystem.setPosition(ArmConstants.ArmPositions.SHOOT), armSubsystem),
                 new WaitCommand(1),
                 new InstantCommand(armSubsystem::engageBrake, armSubsystem),
                 // Cube speed -0.55

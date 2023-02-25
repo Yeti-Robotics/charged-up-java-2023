@@ -1,82 +1,82 @@
 package frc.robot.di.devices;
 
 import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.*;
 import dagger.Module;
 import dagger.Provides;
-import frc.robot.Constants;
+import frc.robot.constants.*;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
-
     @Provides
     @Singleton
-    @Named(Constants.ArmConstants.ARM_MOTOR)
-    public WPI_TalonFX providesArmMotor1(@Named(Constants.ArmConstants.ARM_ENCODER) WPI_CANCoder armEncoder) {
-        WPI_TalonFX motor = new WPI_TalonFX(Constants.ArmConstants.ARM_MOTOR_ID, "canivoreBus");
+    @Named(ArmConstants.ARM_MOTOR)
+    public WPI_TalonFX providesArmMotor1(@Named(ArmConstants.ARM_ENCODER) WPI_CANCoder armEncoder) {
+        WPI_TalonFX motor = new WPI_TalonFX(ArmConstants.ARM_MOTOR_ID, "canivoreBus");
         motor.setSensorPhase(true);
         motor.setInverted(TalonFXInvertType.Clockwise);
 
-        motor.configSupplyCurrentLimit(Constants.ArmConstants.SUPPLY_CURRENT_LIMIT);
-        motor.configStatorCurrentLimit(Constants.ArmConstants.STATOR_CURRENT_LIMIT);
+        motor.configSupplyCurrentLimit(ArmConstants.SUPPLY_CURRENT_LIMIT);
+        motor.configStatorCurrentLimit(ArmConstants.STATOR_CURRENT_LIMIT);
 
         motor.configRemoteFeedbackFilter(armEncoder, 0, 10);
         motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
 
-        motor.configForwardSoftLimitThreshold(Constants.ArmConstants.UPPER_LIMIT);
+        motor.configForwardSoftLimitThreshold(ArmConstants.UPPER_LIMIT);
         motor.configForwardSoftLimitEnable(true);
-        motor.configReverseSoftLimitThreshold(Constants.ArmConstants.LOWER_LIMIT);
+        motor.configReverseSoftLimitThreshold(ArmConstants.LOWER_LIMIT);
         motor.configReverseSoftLimitEnable(true);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
 
-        motor.config_kP(0, Constants.ArmConstants.ARM_P);
-        motor.config_kI(0, Constants.ArmConstants.ARM_I);
-        motor.config_kD(0, Constants.ArmConstants.ARM_D);
-        motor.config_kF(0, Constants.ArmConstants.ARM_F);
-        motor.configMotionCruiseVelocity(Constants.ArmConstants.MAX_VELOCITY);
-        motor.configMotionAcceleration(Constants.ArmConstants.MAX_ACCELERATION);
-        motor.configMotionSCurveStrength(Constants.ArmConstants.MOTION_SMOOTHING);
+        motor.config_kP(0, ArmConstants.ARM_P);
+        motor.config_kI(0, ArmConstants.ARM_I);
+        motor.config_kD(0, ArmConstants.ARM_D);
+        motor.config_kF(0, ArmConstants.ARM_F);
+        motor.configMotionCruiseVelocity(ArmConstants.MAX_VELOCITY);
+        motor.configMotionAcceleration(ArmConstants.MAX_ACCELERATION);
+        motor.configMotionSCurveStrength(ArmConstants.MOTION_SMOOTHING);
         motor.configAllowableClosedloopError(0,
-                (Constants.ArmConstants.ANGLE_TOLERANCE / Constants.ArmConstants.GEAR_RATIO)
-                        * Constants.CANCoderConstants.COUNTS_PER_DEG);
+                (ArmConstants.ANGLE_TOLERANCE / ArmConstants.GEAR_RATIO)
+                        * CANCoderConstants.COUNTS_PER_DEG);
 
         return motor;
     }
 
     @Provides
     @Singleton
-    @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR)
+    @Named(ElevatorConstants.ELEVATOR_MOTOR)
     public WPI_TalonFX elevatorMotor() {
-        WPI_TalonFX motor = new WPI_TalonFX(Constants.ElevatorConstants.ELEVATOR_MOTOR_ID, "canivoreBus");
+        WPI_TalonFX motor = new WPI_TalonFX(ElevatorConstants.ELEVATOR_MOTOR_ID, "canivoreBus");
         motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-        motor.configForwardSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_FORWARD_SOFT_LIMIT); //Need to check convertInchesToCounts
+        motor.configForwardSoftLimitThreshold(ElevatorConstants.ELEVATOR_FORWARD_SOFT_LIMIT); //Need to check convertInchesToCounts
         motor.configForwardSoftLimitEnable(true);
-        motor.configReverseSoftLimitThreshold(Constants.ElevatorConstants.ELEVATOR_REVERSE_SOFT_LIMIT); //Need to check convertInchesToCounts
+        motor.configReverseSoftLimitThreshold(ElevatorConstants.ELEVATOR_REVERSE_SOFT_LIMIT); //Need to check convertInchesToCounts
         motor.configReverseSoftLimitEnable(true);
 
         motor.setInverted(TalonFXInvertType.Clockwise);
         motor.setNeutralMode(NeutralMode.Brake);
 
-        motor.configSupplyCurrentLimit(Constants.ElevatorConstants.SUPPLY_CURRENT_LIMIT);
-        motor.configStatorCurrentLimit(Constants.ElevatorConstants.STATOR_CURRENT_LIMIT);
+        motor.configSupplyCurrentLimit(ElevatorConstants.SUPPLY_CURRENT_LIMIT);
+        motor.configStatorCurrentLimit(ElevatorConstants.STATOR_CURRENT_LIMIT);
 
-        motor.config_kP(0, Constants.ElevatorConstants.ELEVATOR_P);
-        motor.config_kI(0, Constants.ElevatorConstants.ELEVATOR_I);
-        motor.config_kD(0, Constants.ElevatorConstants.ELEVATOR_D);
-        motor.config_kF(0, Constants.ElevatorConstants.ELEVATOR_F);
-        motor.config_IntegralZone(0, Constants.ElevatorConstants.IZONE);
-        motor.configMotionCruiseVelocity(Constants.ElevatorConstants.MAX_VELOCITY);
-        motor.configMotionAcceleration(Constants.ElevatorConstants.MAX_ACCEL);
-        motor.configMotionSCurveStrength(Constants.ElevatorConstants.SMOOTHING);
-        motor.configAllowableClosedloopError(0, Constants.ElevatorConstants.ELEVATOR_TOLERANCE);
+        motor.config_kP(0, ElevatorConstants.ELEVATOR_P);
+        motor.config_kI(0, ElevatorConstants.ELEVATOR_I);
+        motor.config_kD(0, ElevatorConstants.ELEVATOR_D);
+        motor.config_kF(0, ElevatorConstants.ELEVATOR_F);
+        motor.config_IntegralZone(0, ElevatorConstants.IZONE);
+        motor.configMotionCruiseVelocity(ElevatorConstants.MAX_VELOCITY);
+        motor.configMotionAcceleration(ElevatorConstants.MAX_ACCEL);
+        motor.configMotionSCurveStrength(ElevatorConstants.SMOOTHING);
+        motor.configAllowableClosedloopError(0, ElevatorConstants.ELEVATOR_TOLERANCE);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
         motor.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);
@@ -87,38 +87,38 @@ public class MotorsModule {
     /****** IntakeMotors ******/
     @Provides
     @Singleton
-    @Named(Constants.IntakeConstants.LEFT_SPARK)
+    @Named(IntakeConstants.LEFT_SPARK)
     public CANSparkMax providesLeftIntakeSpark(){
-        CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        sparkMax.enableVoltageCompensation(Constants.IntakeConstants.VOLTAGE_COMP);
+        sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.NEO550_CURRENT_LIM);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, Constants.SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
+        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
 
         return sparkMax;
     }
 
     @Provides
     @Singleton
-    @Named(Constants.IntakeConstants.RIGHT_SPARK)
-    public CANSparkMax providesRightIntakeSpark(@Named(Constants.IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
-        CANSparkMax sparkMax = new CANSparkMax(Constants.IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    @Named(IntakeConstants.RIGHT_SPARK)
+    public CANSparkMax providesRightIntakeSpark(@Named(IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
+        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.follow(sparkMaxZero, true);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        sparkMax.enableVoltageCompensation(Constants.IntakeConstants.VOLTAGE_COMP);
+        sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.NEO550_CURRENT_LIM);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, Constants.SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
+        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
 
         return sparkMax;
 
@@ -127,60 +127,74 @@ public class MotorsModule {
     /***** Carriage Motors *****/
     @Provides
     @Singleton
-    @Named(Constants.CarriageConstants.ROLLER_SPARK)
+    @Named(CarriageConstants.ROLLER_SPARK)
     public CANSparkMax rollerMotor() {
-        CANSparkMax sparkMax = new CANSparkMax(Constants.CarriageConstants.ROLLER_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        CANSparkMax sparkMax = new CANSparkMax(CarriageConstants.ROLLER_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.NEO550_CURRENT_LIM);
-        sparkMax.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.enableVoltageCompensation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
 
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, Constants.SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
+        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
 
         return sparkMax;
     }
 
+    //Check if implementation of each method
     @Provides
     @Singleton
-    @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME)
-    public CANSparkMax flipMotor() {
-        CANSparkMax sparkMax = new CANSparkMax(Constants.CarriageConstants.FLIP_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
-        RelativeEncoder encoder = sparkMax.getEncoder();
-        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        sparkMax.setInverted(true);
+    @Named(CarriageConstants.FLIP_MOTOR_NAME)
+    public TalonFX flipMotor() {
+        TalonFX talonFX = new TalonFX(CarriageConstants.FLIP_TALON_ID);
 
-        sparkMax.setSmartCurrentLimit(Constants.SparkMaxConstants.NEO_CURRENT_LIM);
-        sparkMax.enableVoltageCompensation(Constants.CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        //RelativeEncoder encoder = sparkMax.getEncoder();
+        double encoder = talonFX.getSelectedSensorPosition();
 
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, Constants.SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, Constants.SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, Constants.SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, Constants.SparkMaxConstants.LOW_PRIORITY_MS);
-        encoder.setPosition(0.0);
+        //sparkMax.setIdleMode(TalonFX.IdleMode.kBrake);
 
-        return sparkMax;
+        //sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO_CURRENT_LIM);
+        talonFX.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
+                CarriageConstants.CARRIAGE_TALON_CURRENT_LIM,
+                3.5,
+                .5));
+        //sparkMax.enableVoltageCompensation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        talonFX.configVoltageCompSaturation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
+
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.HIGH_PRIORITY_MS);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
+        //encoder.setPositionConversionFactor(CarriageConstants.COUNTS_TO_DEGREES);
+        //encoder.setPosition(0.0);
+        talonFX.setSelectedSensorPosition(0.0);
+
+        return talonFX;
     }
+    /* Not applicable for talon
 
     @Provides
     @Singleton
-    @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME)
-    public SparkMaxPIDController carriageFlipMotorPID(@Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor) {
+    @Named(CarriageConstants.FLIP_MOTOR_PID_NAME)
+    public SparkMaxPIDController carriageFlipMotorPID(@Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor) {
         SparkMaxPIDController pidController = flipMotor.getPIDController();
         pidController.setFeedbackDevice(flipMotor.getEncoder());
-        pidController.setP(Constants.CarriageConstants.FLIP_P, 0);
-        pidController.setI(Constants.CarriageConstants.FLIP_I, 0);
-        pidController.setD(Constants.CarriageConstants.FLIP_D, 0);
-        pidController.setFF(Constants.CarriageConstants.FLIP_F, 0);
-        pidController.setOutputRange(Constants.CarriageConstants.PID_MIN, Constants.CarriageConstants.PID_MAX, 0);
+        pidController.setP(CarriageConstants.FLIP_P, 0);
+        pidController.setI(CarriageConstants.FLIP_I, 0);
+        pidController.setD(CarriageConstants.FLIP_D, 0);
+        pidController.setFF(CarriageConstants.FLIP_F, 0);
+        pidController.setOutputRange(-0.8, 0.8, 0);
 
+        pidController.setSmartMotionMaxVelocity(CarriageConstants.MAX_VELOCITY, 0);
+        pidController.setSmartMotionMaxAccel(CarriageConstants.MAX_ACCEL, 0);
+        pidController.setSmartMotionAccelStrategy(SparkMaxPIDController.AccelStrategy.kTrapezoidal, 0);
         return pidController;
     }
-
+    */
     public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {
         WPI_TalonFX driveMotor = new WPI_TalonFX(id, "canivoreBus");
         driveMotor.setNeutralMode(NeutralMode.Brake);

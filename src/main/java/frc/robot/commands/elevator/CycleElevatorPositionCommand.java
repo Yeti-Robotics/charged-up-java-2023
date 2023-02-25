@@ -1,8 +1,7 @@
 package frc.robot.commands.elevator;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
+import frc.robot.constants.ElevatorConstants.ElevatorPositions;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
