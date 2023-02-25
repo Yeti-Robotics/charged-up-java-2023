@@ -1,5 +1,6 @@
 package frc.robot.di;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
@@ -60,9 +61,11 @@ public class SubsystemsModule {
     @Singleton
     public CarriageSubsystem provideCarriageSubsystem(
             @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
-            @Named(CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
-            @Named(CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController) {
-        return new CarriageSubsystem(rollerMotor, flipMotor, flipPIDController);
+            @Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor)
+          //  @Named(CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController)
+          {
+
+        return new CarriageSubsystem(rollerMotor, flipMotor);
     }
 
     @Provides

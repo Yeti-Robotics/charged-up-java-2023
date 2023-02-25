@@ -2,8 +2,10 @@ package frc.robot.constants;
 
 public final class CarriageConstants {
     public static final int ROLLER_SPARK_ID = 4; //change ID later
-    public static final int FLIP_NEO = 3; //change ID later
+    public static final int FLIP_TALON_ID = 3; //update ID to talon ID
     public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
+
+    public static final double CARRIAGE_TALON_CURRENT_LIM = 3.0; // Adjust Value
     public static final double ROLLER_SPEED = 0.35;
     public static final double FLIP_SPEED = 0.2;
     /** TODO: Find real value */

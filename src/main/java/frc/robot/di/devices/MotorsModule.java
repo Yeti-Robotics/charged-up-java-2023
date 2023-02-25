@@ -1,6 +1,7 @@
 package frc.robot.di.devices;
 
 import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.*;
@@ -143,32 +144,43 @@ public class MotorsModule {
         return sparkMax;
     }
 
+    //Check if implementation of each method
     @Provides
     @Singleton
     @Named(CarriageConstants.FLIP_MOTOR_NAME)
-    public CANSparkMax flipMotor() {
-        CANSparkMax sparkMax = new CANSparkMax(CarriageConstants.FLIP_NEO, CANSparkMaxLowLevel.MotorType.kBrushless);
-        RelativeEncoder encoder = sparkMax.getEncoder();
-        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    public TalonFX flipMotor() {
+        TalonFX talonFX = new TalonFX(CarriageConstants.FLIP_TALON_ID);
 
-        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO_CURRENT_LIM);
-        sparkMax.enableVoltageCompensation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        //RelativeEncoder encoder = sparkMax.getEncoder();
+        double encoder = talonFX.getSelectedSensorPosition();
 
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
-        encoder.setPositionConversionFactor(CarriageConstants.COUNTS_TO_DEGREES);
-        encoder.setPosition(0.0);
+        //sparkMax.setIdleMode(TalonFX.IdleMode.kBrake);
 
-        return sparkMax;
+        //sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO_CURRENT_LIM);
+        talonFX.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
+                CarriageConstants.CARRIAGE_TALON_CURRENT_LIM,
+                3.5,
+                .5));
+        //sparkMax.enableVoltageCompensation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        talonFX.configVoltageCompSaturation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
+
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.HIGH_PRIORITY_MS);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
+        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
+        //encoder.setPositionConversionFactor(CarriageConstants.COUNTS_TO_DEGREES);
+        //encoder.setPosition(0.0);
+        talonFX.setSelectedSensorPosition(0.0);
+
+        return talonFX;
     }
+    /* Not applicable for talon
 
     @Provides
     @Singleton
     @Named(CarriageConstants.FLIP_MOTOR_PID_NAME)
-    public SparkMaxPIDController carriageFlipMotorPID(@Named(CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor) {
+    public SparkMaxPIDController carriageFlipMotorPID(@Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor) {
         SparkMaxPIDController pidController = flipMotor.getPIDController();
         pidController.setFeedbackDevice(flipMotor.getEncoder());
         pidController.setP(CarriageConstants.FLIP_P, 0);
@@ -182,7 +194,7 @@ public class MotorsModule {
         pidController.setSmartMotionAccelStrategy(SparkMaxPIDController.AccelStrategy.kTrapezoidal, 0);
         return pidController;
     }
-
+    */
     public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {
         WPI_TalonFX driveMotor = new WPI_TalonFX(id, "canivoreBus");
         driveMotor.setNeutralMode(NeutralMode.Brake);
