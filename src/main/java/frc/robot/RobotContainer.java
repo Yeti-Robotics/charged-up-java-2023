@@ -81,9 +81,10 @@ public class RobotContainer {
 
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
+
         buttonHelper.createButton(6, 1, new IntakeShootCommand(intakeSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(3, 0, new SetElevatorDownCommand(elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
@@ -94,23 +95,23 @@ public class RobotContainer {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(11, 0, new ToggleIntakeCommand(intakeSubsystem)
-                .beforeStarting(new InstantCommand(() -> {
-                    if (armSubsystem.isUP()) {
-                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
-                    } else {
-                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
-                    }
-                })), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(11, 0, new InstantCommand(() -> {
+            if (armSubsystem.isUP()) {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
+            } else {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
+            }
+        })
+                .alongWith(new ToggleIntakeCommand(intakeSubsystem).unless(() -> armSubsystem.isUP())), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(11, 1, new SwerveLockCommand(drivetrainSubsystem)
-                .beforeStarting(new InstantCommand(() -> {
-                    if (armSubsystem.isUP()) {
-                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
-                    } else {
-                        buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
-                    }
-                })), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(11, 1, new InstantCommand(() -> {
+            if (armSubsystem.isUP()) {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
+            } else {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
+            }
+        })
+                .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);

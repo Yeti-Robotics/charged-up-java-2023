@@ -44,7 +44,7 @@ public class DriverArmPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.5) && !isHeld) {
+        if (timer.hasElapsed(0.25) && !isHeld) {
             isHeld = button.isPressed();
             position = ArmConstants.ArmPositions.CONE_FLIP;
         }
