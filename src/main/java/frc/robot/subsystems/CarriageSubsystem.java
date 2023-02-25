@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -8,6 +9,7 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.CarriageConstants;
 import frc.robot.constants.CarriageConstants.CarriagePositions;
+import frc.robot.constants.ElevatorConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,8 +56,9 @@ public class CarriageSubsystem extends SubsystemBase {
         carriagePosition = setpoint;
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
-
         double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
+        flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, CarriageConstants.GRAVITY_FEEDFORWARD);
+
         //flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0,
                 //FLIP_FEED_FORWARD, SparkMaxPIDController.ArbFFUnits.kPercentOut); //make command later
     }
