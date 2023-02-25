@@ -4,7 +4,8 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import dagger.Module;
 import dagger.Provides;
 import frc.robot.constants.*;
@@ -88,7 +89,7 @@ public class MotorsModule {
     @Provides
     @Singleton
     @Named(IntakeConstants.LEFT_SPARK)
-    public CANSparkMax providesLeftIntakeSpark(){
+    public CANSparkMax providesLeftIntakeSpark() {
         CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -107,7 +108,7 @@ public class MotorsModule {
     @Provides
     @Singleton
     @Named(IntakeConstants.RIGHT_SPARK)
-    public CANSparkMax providesRightIntakeSpark(@Named(IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero){
+    public CANSparkMax providesRightIntakeSpark(@Named(IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero) {
         CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.follow(sparkMaxZero, true);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -151,50 +152,34 @@ public class MotorsModule {
     public TalonFX flipMotor() {
         TalonFX talonFX = new TalonFX(CarriageConstants.FLIP_TALON_ID);
 
-        //RelativeEncoder encoder = sparkMax.getEncoder();
-        double encoder = talonFX.getSelectedSensorPosition();
+        talonFX.setNeutralMode(NeutralMode.Brake);
+        talonFX.setInverted(TalonFXInvertType.Clockwise);
 
-        //sparkMax.setIdleMode(TalonFX.IdleMode.kBrake);
+        talonFX.configSupplyCurrentLimit(CarriageConstants.FLIP_SUPPLY_CURRENT_LIMIT);
+        talonFX.configStatorCurrentLimit(CarriageConstants.FLIP_STATOR_CURRENT_LIMIT);
 
-        //sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO_CURRENT_LIM);
-        talonFX.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
-                CarriageConstants.CARRIAGE_TALON_CURRENT_LIM,
-                3.5,
-                .5));
-        //sparkMax.enableVoltageCompensation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
-        talonFX.configVoltageCompSaturation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
-        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
-
-        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.HIGH_PRIORITY_MS);
-        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
-        //sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
-        //encoder.setPositionConversionFactor(CarriageConstants.COUNTS_TO_DEGREES);
-        //encoder.setPosition(0.0);
+        talonFX.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
         talonFX.setSelectedSensorPosition(0.0);
+
+        talonFX.configForwardSoftLimitThreshold(CarriageConstants.UPPER_FLIP_LIMIT);
+        talonFX.configForwardSoftLimitEnable(true);
+        talonFX.configReverseSoftLimitThreshold(CarriageConstants.LOWER_FLIP_LIMIT);
+        talonFX.configReverseSoftLimitEnable(true);
+
+        talonFX.config_kP(0, CarriageConstants.FLIP_P);
+        talonFX.config_kI(0, CarriageConstants.FLIP_I);
+        talonFX.config_kD(0, CarriageConstants.FLIP_D);
+        talonFX.config_kF(0, CarriageConstants.FLIP_F);
+        talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
+        talonFX.configMotionAcceleration(CarriageConstants.MAX_ACCEL);
+        talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE);
+
+        talonFX.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
+        talonFX.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);
 
         return talonFX;
     }
-    /* Not applicable for talon
 
-    @Provides
-    @Singleton
-    @Named(CarriageConstants.FLIP_MOTOR_PID_NAME)
-    public SparkMaxPIDController carriageFlipMotorPID(@Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor) {
-        SparkMaxPIDController pidController = flipMotor.getPIDController();
-        pidController.setFeedbackDevice(flipMotor.getEncoder());
-        pidController.setP(CarriageConstants.FLIP_P, 0);
-        pidController.setI(CarriageConstants.FLIP_I, 0);
-        pidController.setD(CarriageConstants.FLIP_D, 0);
-        pidController.setFF(CarriageConstants.FLIP_F, 0);
-        pidController.setOutputRange(-0.8, 0.8, 0);
-
-        pidController.setSmartMotionMaxVelocity(CarriageConstants.MAX_VELOCITY, 0);
-        pidController.setSmartMotionMaxAccel(CarriageConstants.MAX_ACCEL, 0);
-        pidController.setSmartMotionAccelStrategy(SparkMaxPIDController.AccelStrategy.kTrapezoidal, 0);
-        return pidController;
-    }
-    */
     public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {
         WPI_TalonFX driveMotor = new WPI_TalonFX(id, "canivoreBus");
         driveMotor.setNeutralMode(NeutralMode.Brake);

@@ -62,7 +62,6 @@ public class SubsystemsModule {
     public CarriageSubsystem provideCarriageSubsystem(
             @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
             @Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor)
-          //  @Named(CarriageConstants.FLIP_MOTOR_PID_NAME) SparkMaxPIDController flipPIDController)
           {
 
         return new CarriageSubsystem(rollerMotor, flipMotor);

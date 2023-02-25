@@ -24,11 +24,14 @@ public class CarriageSubsystem extends SubsystemBase {
     public CarriageSubsystem(
             @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
             @Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor){
-            //@Named(CarriageConstants.FLIP_MOTOR_PID_NAME)SparkMaxPIDController flipPIDController)
 
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
-        //this.flipPIDController = flipPIDController;
+    }
+
+    @Override
+    public void periodic() {
+        System.out.println(getAngle());
     }
 
     public void coneInCubeOut(){
@@ -49,7 +52,7 @@ public class CarriageSubsystem extends SubsystemBase {
 
     //Check if correct method used
     public double getAngle() {
-        return flipMotor.getSelectedSensorPosition();
+        return flipMotor.getSelectedSensorPosition() * CarriageConstants.COUNTS_TO_DEGREES;
     }
 
     public void setSetpoint(CarriagePositions setpoint){
@@ -57,10 +60,8 @@ public class CarriageSubsystem extends SubsystemBase {
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
         double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
-        flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, CarriageConstants.GRAVITY_FEEDFORWARD);
 
-        //flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0,
-                //FLIP_FEED_FORWARD, SparkMaxPIDController.ArbFFUnits.kPercentOut); //make command later
+        flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, FLIP_FEED_FORWARD);
     }
 
     //Check if correct method used
@@ -80,6 +81,10 @@ public class CarriageSubsystem extends SubsystemBase {
 
     public CarriagePositions getCarriagePosition() {
         return carriagePosition;
+    }
+
+    public void zeroFlip() {
+        flipMotor.setSelectedSensorPosition(0.0);
     }
 }
 
