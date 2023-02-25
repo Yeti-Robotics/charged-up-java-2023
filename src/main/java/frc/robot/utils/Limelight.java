@@ -111,6 +111,8 @@ public class Limelight {
         return getPose()[5];
     }
 
+    public static long getID() { return getValue("tid").getInteger(0);}
+
     /**
      * Sets LED mode of Limelight.
      *

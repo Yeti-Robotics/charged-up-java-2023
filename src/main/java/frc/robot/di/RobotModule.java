@@ -37,7 +37,8 @@ public class RobotModule {
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
             ControllerContainer controllerContainer,
-            ButtonHelper buttonHelper) {
+            ButtonHelper buttonHelper,
+            SwerveAutoBuilder autoBuilder) {
         return new RobotContainer(
                 carriageSubsystem,
                 drivetrainSubsystem,
@@ -45,7 +46,8 @@ public class RobotModule {
                 armSubsystem,
                 elevatorSubsystem,
                 controllerContainer,
-                buttonHelper
+                buttonHelper,
+                autoBuilder
         );
     }
 
@@ -71,7 +73,7 @@ public class RobotModule {
             CarriageSubsystem carriageSubsystem
     ){
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
-        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, Constants.ArmConstants.ArmPositions.DOWN)));
+        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, Constants.ArmConstants.ArmPositions.DOWN)));
         return eventMap;
     }
 

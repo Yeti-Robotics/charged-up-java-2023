@@ -8,27 +8,34 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.FieldConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.Limelight;
+import frc.robot.Constants.VisionConstants.ALIGMENT_POSITION;
 
 
-public class AutoAlignConeCommand extends CommandBase
+public class AutoAlignCommand extends CommandBase
 {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final SwerveAutoBuilder autoBuilder;
 
+    private final ALIGMENT_POSITION position;
 
-    public AutoAlignConeCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveAutoBuilder autoBuilder){
+
+    public AutoAlignCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveAutoBuilder autoBuilder, ALIGMENT_POSITION position){
         this.drivetrainSubsystem=drivetrainSubsystem;
         this.autoBuilder = autoBuilder;
+        this.position = position;
     }
 
 
 
     @Override
     public void initialize(){
-        Translation2d tagLocation = new Translation2d(Limelight.getTranslation().getX() + Constants.AutoConstants.CONE_OFFSET, Limelight.getTranslation().getY() + Constants.AutoConstants.ALIGN_OFFSET);
-        Translation2d robotPose = drivetrainSubsystem.getPose().getTranslation();
+        int id = (int) Limelight.getID();
+        Translation2d tagLocation = new Translation2d(FieldConstants.aprilTags.get(id).getTranslation().toTranslation2d().getX() + Constants.VisionConstants.X_OFFSET,
+                FieldConstants.aprilTags.get(id).getTranslation().toTranslation2d().getY() + position.offset);
+        Translation2d robotPose = Limelight.getTranslation();
         Translation2d translation2 = robotPose.interpolate(tagLocation,.8);
         Translation2d translation3 = robotPose.interpolate(tagLocation,.4);
         PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(Constants.DriveConstants.MAX_VELOCITY_METERS_PER_SECOND, Constants.AutoConstants.MAX_ACCEL),

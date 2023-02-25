@@ -7,12 +7,16 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.FieldConstants;
+import frc.robot.utils.Limelight;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.lang.reflect.Field;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
@@ -114,6 +118,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
         );
     }
 
+    public Translation2d closestAprilTagTranslation() {
+        if (Limelight.getTranslation().getX() > Units.inchesToMeters(600.0)) {
+            if (Limelight.getTranslation().getY() <= Units.inchesToMeters(75.19)) {
+                return FieldConstants.aprilTags.get(1).toPose2d().getTranslation();
+            } else if (Limelight.getTranslation().getY() <= Units.inchesToMeters(141.19)){
+                return FieldConstants.aprilTags.get(2).toPose2d().getTranslation();
+            } else if (Limelight.getTranslation().getY() <= Units.inchesToMeters(219.965)){
+                return FieldConstants.aprilTags.get(3).toPose2d().getTranslation();
+            } else {
+                return FieldConstants.aprilTags.get(4).toPose2d().getTranslation();
+            }
+        } else {
+            return null;
+        }
+    }
     public void stop() {
         drive(
                 DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds())
