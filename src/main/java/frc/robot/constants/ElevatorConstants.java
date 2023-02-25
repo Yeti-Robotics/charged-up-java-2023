@@ -19,7 +19,7 @@ public final class ElevatorConstants {
      * Multiply encoder value; divide output
      */
     public static final double ELEVATOR_GEAR_RATIO = 1.0 / 7.75;
-    public static final double SPROCKET_DIAMETER = 1.5;
+    public static final double SPROCKET_DIAMETER = 1.344;
     public static final double SPROCKET_CIRCUMFERENCE = SPROCKET_DIAMETER * Math.PI;
     public static final double ELEVATOR_DISTANCE_PER_PULSE = SPROCKET_CIRCUMFERENCE /
             (TalonFXConstants.COUNTS_PER_REV / ELEVATOR_GEAR_RATIO);
@@ -28,7 +28,7 @@ public final class ElevatorConstants {
      * Number of elevator stages excluding the stationary stage
      */
     public static final int STAGES = 2;
-    public static final double STAGE_EXTENSION = 23.5;
+    public static final double STAGE_EXTENSION = 18.5;
     public static final double MAX_EXTENSION = STAGE_EXTENSION * STAGES;
 
     public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(
@@ -50,12 +50,12 @@ public final class ElevatorConstants {
     public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;
     public static final int SMOOTHING = 0;
-    public static final double IZONE = 0.0001;
+    public static final double IZONE = 0.000;
 
     public enum ElevatorPositions {
         DOWN(0),
         CONE_HANDOFF(6.5),
-        LEVEL_TWO(20.5),
+        LEVEL_TWO(15.5),
         UP(MAX_EXTENSION);
 
         public final double distance;

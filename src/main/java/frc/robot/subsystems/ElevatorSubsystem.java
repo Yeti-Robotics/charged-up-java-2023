@@ -68,6 +68,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         return inches / ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE;
     }
 
+    public double getDistance() {
+        return elevatorMotor.getSelectedSensorPosition() * ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE;
+    }
+
     public double getElevatorEncoder() {
         return elevatorMotor.getSelectedSensorPosition();
     }
@@ -81,6 +85,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         if (getMagSwitch() && position == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
+        System.out.println(getDistance());
     }
 }
 
