@@ -258,11 +258,17 @@ public final class Constants {
         public static final double CONE_OFFSET = 2.0; //placeholder
 
         public enum AutoModes {
-            CUBE_AUTO,
-            BALANCE_AUTO
+            TWO_CUBE_AUTO("Two Cubes"),
+            BALANCE_AUTO("Balance");
 
+            public final String name;
+            AutoModes(String name) {
+                this.name = name;
+            }
 
         }
+
+
     }
 
     /*

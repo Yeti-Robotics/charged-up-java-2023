@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
@@ -57,14 +58,14 @@ public class Robot extends TimedRobot {
     public void robotInit() {
 
         autoChooser = new SendableChooser<>();
-        autoChooser.setDefaultOption("CUBE", AutoModes.CUBE_AUTO);
-        autoChooser.addOption("CUBE", AutoModes.CUBE_AUTO);
-        autoChooser.addOption("BALANCE", AutoModes.BALANCE_AUTO);
+        autoChooser.setDefaultOption("Two Cubes", AutoModes.TWO_CUBE_AUTO);
+        autoChooser.addOption("Two Cubes", AutoModes.TWO_CUBE_AUTO);
+        autoChooser.addOption("Balance", AutoModes.BALANCE_AUTO);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString()));
-        autonomousCommand = autoBuilder.fullAuto(trajectory);
+        PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), new PathConstraints(Constants.AutoConstants.MAX_VELOCITY, Constants.AutoConstants.MAX_ACCEL));
+        autonomousCommand = autoBuilder.followPath(trajectory);
     }
 
 
@@ -99,7 +100,7 @@ public class Robot extends TimedRobot {
             previousSelectedAuto = autoChooser.getSelected();
 
             PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString()));
-            autonomousCommand = autoBuilder.fullAuto(trajectory);
+            autonomousCommand = autoBuilder.followPath(trajectory);
         }
     }
 
@@ -110,6 +111,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         autonomousCommand = robotContainer.getAutonomousCommand();
+        autoBuilder.resetPose(PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString())));
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
