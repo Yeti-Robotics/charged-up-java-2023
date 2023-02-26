@@ -48,6 +48,7 @@ public final class ArmConstants {
         DOWN(0.0),
         CONE_FLIP(6.0),
         SHOOT(60.0),
+        SHOOT_HIGH(65.0),
         UP(100.0),
         HANDOFF(125.0);
 

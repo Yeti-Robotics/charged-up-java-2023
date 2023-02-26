@@ -82,18 +82,28 @@ public class RobotContainer {
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(6, 1, new IntakeShootCommand(intakeSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(9, 0, new ToggleCarriagePositionCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, new ToggleCarriagePositionCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
+        buttonHelper.createButton(5, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
+            buttonHelper.setAllLayers(1);
+        }), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(10, 1, new InstantCommand(() -> {
+            buttonHelper.setAllLayers(0);
+        }), RunCondition.WHEN_PRESSED);
+
 
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUP()) {

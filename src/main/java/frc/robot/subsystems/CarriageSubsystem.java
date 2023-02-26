@@ -31,6 +31,7 @@ public class CarriageSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        System.out.println(getAngle());
     }
 
     public void coneInCubeOut(){

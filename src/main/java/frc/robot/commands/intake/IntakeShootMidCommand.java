@@ -8,12 +8,12 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeShootCommand extends SequentialCommandGroup {
+public class IntakeShootMidCommand extends SequentialCommandGroup {
 
     private IntakeSubsystem intakeSubsystem;
     private ArmSubsystem armSubsystem;
 
-    public IntakeShootCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
+    public IntakeShootMidCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
         addCommands(
@@ -23,7 +23,7 @@ public class IntakeShootCommand extends SequentialCommandGroup {
                 new InstantCommand(armSubsystem::engageBrake, armSubsystem),
                 // Cube speed -0.55
                 // Cone -0.62
-                new InstantCommand(() -> intakeSubsystem.roll(-0.55), intakeSubsystem),
+                new InstantCommand(() -> intakeSubsystem.roll(-0.2), intakeSubsystem),
                 new WaitCommand(1),
                 new InstantCommand(intakeSubsystem::stop, intakeSubsystem)
         );

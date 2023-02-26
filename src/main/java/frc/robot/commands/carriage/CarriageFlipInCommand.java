@@ -25,12 +25,15 @@ public class CarriageFlipInCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return carriageSubsystem.getAngle() < 2.0;
+        boolean isZeroed = carriageSubsystem.getAngle() < 2.0;
+        if (isZeroed) {
+            carriageSubsystem.zeroFlip();
+        }
+        return isZeroed;
     }
 
     @Override
     public void end(boolean interrupted) {
-        carriageSubsystem.zeroFlip();
         carriageSubsystem.stopFlipMechanism();
     }
 }
