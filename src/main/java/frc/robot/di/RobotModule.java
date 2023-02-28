@@ -2,7 +2,6 @@ package frc.robot.di;
 
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Module;
 import dagger.Provides;
@@ -10,8 +9,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
+import frc.robot.constants.ArmConstants;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.AutoConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.constants.OIConstants;
@@ -75,7 +75,7 @@ public class RobotModule {
             CarriageSubsystem carriageSubsystem
     ){
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
-        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, Constants.ArmConstants.ArmPositions.DOWN)));
+        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN)));
         return eventMap;
     }
 
@@ -88,9 +88,9 @@ public class RobotModule {
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
                 drivetrainSubsystem::getPose,
                 drivetrainSubsystem::resetOdometer,
-                Constants.DriveConstants.DRIVE_KINEMATICS,
-                Constants.AutoConstants.TRANSLATION_CONTROLLER,
-                Constants.AutoConstants.THETA_CONTROLLER,
+                DriveConstants.DRIVE_KINEMATICS,
+                AutoConstants.TRANSLATION_CONTROLLER,
+                AutoConstants.THETA_CONTROLLER,
                 drivetrainSubsystem::drive,
                 eventMap,
                 drivetrainSubsystem);

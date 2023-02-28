@@ -6,15 +6,12 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
-import frc.robot.commands.carriage.*;
 import frc.robot.commands.drive.AutoAlignCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
@@ -24,6 +21,7 @@ import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.VisionConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -130,10 +128,10 @@ public class RobotContainer {
         })
                 .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, Constants.VisionConstants.ALIGMENT_POSITION.HUMAN_PLAYER), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, Constants.VisionConstants.ALIGMENT_POSITION.LEFT), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, Constants.VisionConstants.ALIGMENT_POSITION.MIDDLE), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, Constants.VisionConstants.ALIGMENT_POSITION.RIGHT), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.HUMAN_PLAYER), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.LEFT), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.MIDDLE), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.RIGHT), RunCondition.WHILE_HELD);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);

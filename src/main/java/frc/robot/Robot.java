@@ -16,10 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.constants.AutoConstants;
+import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
 import frc.robot.utils.rests.restUtils.RESTHandler;
-import frc.robot.Constants.AutoConstants.AutoModes;
 
 import javax.inject.Inject;
 
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), new PathConstraints(Constants.AutoConstants.MAX_VELOCITY, Constants.AutoConstants.MAX_ACCEL));
+        PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), new PathConstraints(AutoConstants.MAX_VELOCITY, AutoConstants.MAX_ACCEL));
         autonomousCommand = autoBuilder.followPath(trajectory);
     }
 

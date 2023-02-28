@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.FieldConstants;
+import frc.robot.constants.FieldConstants;
 import frc.robot.utils.Limelight;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
@@ -98,14 +98,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         frontRightModule.setDesiredState(desiredStates[1]);
         backLeftModule.setDesiredState(desiredStates[2]);
         backRightModule.setDesiredState(desiredStates[3]);
-    }
-
-    public void drive(Translation2d translation2d, double rotation){
-        SwerveModuleState[] swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                        translation2d.getX(), translation2d.getY(), rotation, getGyroscopeHeading()
-                )
-        );
     }
 
     public ChassisSpeeds getChassisSpeeds() {
