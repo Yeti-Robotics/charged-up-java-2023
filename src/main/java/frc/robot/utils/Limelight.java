@@ -1,9 +1,9 @@
 package frc.robot.utils;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Limelight {
 
@@ -32,13 +32,12 @@ public class Limelight {
     }
 
 
-
     /**
      * Gets whether a target is detected by the Limelight.
      *
      * @return true if a target is detected, false otherwise.
      */
-    public static boolean isTarget() {
+    public static boolean hasTarget() {
         return getValue("tv").getDouble(0) == 1;
     }
 
@@ -91,27 +90,32 @@ public class Limelight {
         return getValue("tlong").getDouble(0.0);
     }
 
-    public static double[] getPose(){
-        return getValue("botpose").getDoubleArray(new double[6]);
+    public static double[] getPose() {
+        return DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
+                getValue("botpose_wpiblue").getDoubleArray(new double[6]) :
+                getValue("botpose_wpired").getDoubleArray(new double[6]);
     }
 
     public static Translation2d getTranslation() {
-        return new Translation2d(getPose()[0], getPose()[1]);
+        double[] botpose = getPose();
+        return new Translation2d(botpose[0], botpose[1]);
     }
 
-    public static double getPitch(){
+    public static double getPitch() {
         return getPose()[4];
     }
 
-    public static double getRoll(){
+    public static double getRoll() {
         return getPose()[3];
     }
 
-    public static double getYaw(){
+    public static double getYaw() {
         return getPose()[5];
     }
 
-    public static long getID() { return getValue("tid").getInteger(0);}
+    public static long getID() {
+        return getValue("tid").getInteger(0);
+    }
 
     /**
      * Sets LED mode of Limelight.

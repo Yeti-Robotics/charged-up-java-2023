@@ -10,6 +10,8 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Lazy;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
+import frc.robot.constants.FieldConstants;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
 import frc.robot.utils.rests.restUtils.RESTHandler;
@@ -59,7 +62,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
 
         autoChooser = new SendableChooser<>();
-        autoChooser.setDefaultOption("Two Cubes", AutoModes.TWO_CUBE_AUTO);
+        autoChooser.setDefaultOption(AutoModes.TESTING.name, AutoModes.TESTING);
+        autoChooser.addOption(AutoModes.CONE_CUBE_BALANCE.name, AutoModes.CONE_CUBE_BALANCE);
         autoChooser.addOption("Two Cubes", AutoModes.TWO_CUBE_AUTO);
         autoChooser.addOption("Balance", AutoModes.BALANCE_AUTO);
         SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -102,6 +106,12 @@ public class Robot extends TimedRobot {
 
             PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString()));
             autonomousCommand = autoBuilder.followPath(trajectory);
+        }
+
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+            FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
+        } else {
+            FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kRedAllianceWallRightSide);
         }
     }
 

@@ -99,21 +99,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return chassisSpeeds;
     }
 
-    public Translation2d closestAprilTagTranslation() {
-        if (Limelight.getTranslation().getX() > Units.inchesToMeters(600.0)) {
-            if (Limelight.getTranslation().getY() <= Units.inchesToMeters(75.19)) {
-                return FieldConstants.aprilTags.get(1).toPose2d().getTranslation();
-            } else if (Limelight.getTranslation().getY() <= Units.inchesToMeters(141.19)){
-                return FieldConstants.aprilTags.get(2).toPose2d().getTranslation();
-            } else if (Limelight.getTranslation().getY() <= Units.inchesToMeters(219.965)){
-                return FieldConstants.aprilTags.get(3).toPose2d().getTranslation();
-            } else {
-                return FieldConstants.aprilTags.get(4).toPose2d().getTranslation();
-            }
-        } else {
-            return null;
-        }
-    }
     public void stop() {
         drive(
                 DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds())

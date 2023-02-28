@@ -20,8 +20,8 @@ import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.intake.*;
+import frc.robot.constants.AutoConstants;
 import frc.robot.constants.IntakeConstants;
-import frc.robot.constants.VisionConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -128,10 +128,10 @@ public class RobotContainer {
         })
                 .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.HUMAN_PLAYER), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.LEFT), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.MIDDLE), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, VisionConstants.ALIGMENT_POSITION.RIGHT), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(3,2,new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHILE_HELD);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);

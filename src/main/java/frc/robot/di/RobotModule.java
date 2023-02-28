@@ -5,11 +5,15 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.constants.ArmConstants;
@@ -28,6 +32,7 @@ import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
@@ -75,8 +80,7 @@ public class RobotModule {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
-            CarriageSubsystem carriageSubsystem
-    ){
+            CarriageSubsystem carriageSubsystem){
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN)));
         return eventMap;
@@ -85,10 +89,7 @@ public class RobotModule {
     @Provides
     @Singleton
     public SwerveAutoBuilder providesAutoBuilder(DrivetrainSubsystem drivetrainSubsystem, @Named("event map") HashMap<String, Command> eventMap){
-
-
-
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+        return new SwerveAutoBuilder(
                 drivetrainSubsystem::getPose,
                 drivetrainSubsystem::resetOdometer,
                 DriveConstants.DRIVE_KINEMATICS,
@@ -96,11 +97,10 @@ public class RobotModule {
                 AutoConstants.THETA_CONTROLLER,
                 drivetrainSubsystem::drive,
                 eventMap,
+                true,
                 drivetrainSubsystem);
-
-
-        return autoBuilder;
     }
+
     /*
      * The X axis is forward and backward
      */
