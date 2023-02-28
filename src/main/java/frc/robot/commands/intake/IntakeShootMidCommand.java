@@ -18,7 +18,5 @@ public class IntakeShootMidCommand extends SequentialCommandGroup {
                 new WaitCommand(1),
                 new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_MID_SPEED).withTimeout(1.0)
         );
-
-        this.unless(() -> !elevatorSubsystem.isDown());
     }
 }

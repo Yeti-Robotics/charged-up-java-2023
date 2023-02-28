@@ -45,10 +45,11 @@ public final class ArmConstants {
 
     public enum ArmPositions {
         DOWN(0.0),
-        CONE_FLIP(6.0),
+        CONE_FLIP(7.0),
         SHOOT(60.0),
+        PORTAL(70.0),
         UP(100.0),
-        HANDOFF(125.0);
+        HANDOFF(120.0);
 
         public final double angle;
         public final double sensorUnits;

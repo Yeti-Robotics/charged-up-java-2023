@@ -18,7 +18,5 @@ public class IntakeShootHighCommand extends SequentialCommandGroup {
                 new InstantCommand(intakeSubsystem::intakeClose),
                 new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_HIGH_SPEED).withTimeout(1.0)
         );
-
-        this.unless(() -> !elevatorSubsystem.isDown());
     }
 }
