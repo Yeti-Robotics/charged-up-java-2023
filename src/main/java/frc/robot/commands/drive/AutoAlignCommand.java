@@ -43,7 +43,6 @@ public class AutoAlignCommand extends CommandBase
         PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(DriveConstants.MAX_VELOCITY_METERS_PER_SECOND, AutoConstants.MAX_ACCEL),
                 new PathPoint(robotPose, drivetrainSubsystem.getGyroscopeHeading()), new PathPoint(translation2, drivetrainSubsystem.getGyroscopeHeading()), new PathPoint(translation3, drivetrainSubsystem.getGyroscopeHeading()), new PathPoint(tagLocation, drivetrainSubsystem.getGyroscopeHeading()));
         autoBuilder.followPath(path);
-
     }
 
     @Override

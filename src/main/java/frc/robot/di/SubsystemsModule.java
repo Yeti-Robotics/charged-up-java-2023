@@ -9,6 +9,7 @@ import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -148,7 +149,7 @@ public class SubsystemsModule {
             @Named(DriveConstants.BACK_LEFT_MODULE_NAME) SwerveModule backLeftModule,
             @Named(DriveConstants.BACK_RIGHT_MODULE_NAME) SwerveModule backRightModule,
             SwerveModulePosition[] swerveModulePositions,
-            SwerveDriveOdometry odometer,
+            SwerveDrivePoseEstimator odometer,
             WPI_Pigeon2 gyro) {
         return new DrivetrainSubsystem(
                 frontLeftModule,

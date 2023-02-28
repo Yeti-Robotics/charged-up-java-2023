@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,11 +22,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
 
     private final SwerveModulePosition[] positions;
-    private final PIDController yController = new PIDController(AutoConstants.Y_CONTROLLER_P, 0.0, AutoConstants.X_CONTROLLER_D);
-    private final PIDController xController = new PIDController(AutoConstants.X_CONTROLLER_P, 0.0, AutoConstants.Y_CONTROLLER_D);
-    private final PIDController thetaController = new PIDController(AutoConstants.THETA_CONTROLLER_P,
-            0.0, 0.0);
-    private final SwerveDriveOdometry odometer;
+    private final SwerveDrivePoseEstimator odometer;
     private final WPI_Pigeon2 gyro;
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
@@ -36,7 +33,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             @Named(DriveConstants.BACK_LEFT_MODULE_NAME) SwerveModule backLeftModule,
             @Named(DriveConstants.BACK_RIGHT_MODULE_NAME) SwerveModule backRightModule,
             SwerveModulePosition[] swerveModulePosition,
-            SwerveDriveOdometry odometer,
+            SwerveDrivePoseEstimator odometer,
             WPI_Pigeon2 gyro) {
         this.frontLeftModule = frontLeftModule;
         this.frontRightModule = frontRightModule;
@@ -47,7 +44,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.gyro = gyro;
 
         updateSwerveModulePositions();
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         new Thread(() -> {
             try {
@@ -72,7 +68,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-        return odometer.getPoseMeters();
+        return odometer.getEstimatedPosition();
     }
 
     public void resetOdometer(Pose2d pose) {
@@ -80,16 +76,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         odometer.resetPosition(getGyroscopeHeading(), positions, pose);
     }
 
-    public PIDController getxController() {
-        return xController;
-    }
-
-    public PIDController getyController() {
-        return yController;
-    }
-
-    public PIDController getThetaController() {
-        return thetaController;
+    public void updateOdometerWithVision(Pose2d visionPose, double timestamp) {
+        odometer.addVisionMeasurement(visionPose, timestamp);
     }
 
     public void drive(SwerveModuleState... desiredStates) {
@@ -101,12 +89,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public ChassisSpeeds getChassisSpeeds() {
-        return chassisSpeeds = DriveConstants.DRIVE_KINEMATICS.toChassisSpeeds(
+        chassisSpeeds = DriveConstants.DRIVE_KINEMATICS.toChassisSpeeds(
                 frontLeftModule.getState(),
                 frontRightModule.getState(),
                 backLeftModule.getState(),
                 backRightModule.getState()
         );
+
+        return chassisSpeeds;
     }
 
     public Translation2d closestAprilTagTranslation() {
