@@ -28,5 +28,7 @@ public class ConeHandoffCommand extends SequentialCommandGroup {
                 new InstantCommand(intakeSubsystem::intakeOpen, intakeSubsystem),
                 new ConeInCubeOutCommand(carriageSubsystem).withTimeout(2.0)
         );
+
+        this.unless(() -> !armSubsystem.isUP());
     }
 }

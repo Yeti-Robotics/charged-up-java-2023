@@ -25,8 +25,9 @@ public class SetArmPositionCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        if (!elevatorSubsystem.isDown()) {
+        if (!elevatorSubsystem.isDown() && !(position.angle <= 95.0)) {
             this.cancel();
+            return;
         }
 
         timer.reset();

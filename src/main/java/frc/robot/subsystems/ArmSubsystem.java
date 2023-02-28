@@ -55,7 +55,6 @@ public class ArmSubsystem extends SubsystemBase {
         double cosineScalar = Math.cos(radians);
 
         armMotor1.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
-        System.out.println("MAGIC MOTION SET: " + position.angle);
     }
 
     public double getAngle() {

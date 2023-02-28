@@ -3,29 +3,22 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.constants.ArmConstants;
+import frc.robot.constants.IntakeConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeShootHighCommand extends SequentialCommandGroup {
-
-    private IntakeSubsystem intakeSubsystem;
-    private ArmSubsystem armSubsystem;
-
-    public IntakeShootHighCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem) {
-        this.intakeSubsystem = intakeSubsystem;
-        this.armSubsystem = armSubsystem;
+    public IntakeShootHighCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem) {
         addCommands(
-                new InstantCommand(armSubsystem::disengageBrake, armSubsystem),
-                new InstantCommand(() -> armSubsystem.setPosition(ArmConstants.ArmPositions.SHOOT), armSubsystem),
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SHOOT),
                 new WaitCommand(1),
-                new InstantCommand(armSubsystem::engageBrake, armSubsystem),
-                // Cube speed -0.55
-                // Cone -0.62
-                new InstantCommand(() -> intakeSubsystem.intakeClose()),
-                new InstantCommand(() -> intakeSubsystem.roll(-0.55), intakeSubsystem),
-                new WaitCommand(1),
-                new InstantCommand(intakeSubsystem::stop, intakeSubsystem)
+                new InstantCommand(intakeSubsystem::intakeClose),
+                new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_HIGH_SPEED).withTimeout(1.0)
         );
+
+        this.unless(() -> !elevatorSubsystem.isDown());
     }
 }

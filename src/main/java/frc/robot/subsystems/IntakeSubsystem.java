@@ -5,6 +5,7 @@ import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
+import org.opencv.core.Mat;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,31 +14,25 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax leftSpark;
     private final CANSparkMax rightSpark;
     private final DoubleSolenoid intakePiston;
-    private final SparkMaxLimitSwitch beamBreak;
-    private final SparkMaxLimitSwitch reedSwitch;
 
     @Inject
     public IntakeSubsystem(
             @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
             @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
-            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
-            @Named(IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
-            @Named(IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
+            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
         this.intakePiston = intakePiston;
         this.leftSpark = leftSpark;
         this.rightSpark = rightSpark;
-        this.beamBreak = beamBreak;
-        this.reedSwitch = reedSwitch;
 
         intakeClose();
     }
 
-    public void rollIn() {
-        leftSpark.set(IntakeConstants.INTAKE_SPEED);
+    public void rollIn(double speed) {
+        leftSpark.set(Math.abs(speed));
     }
 
-    public void rollOut() {
-        leftSpark.set(-IntakeConstants.INTAKE_SPEED);
+    public void rollOut(double speed) {
+        leftSpark.set(-Math.abs(speed));
     }
 
     public void roll(double speed){
@@ -62,14 +57,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean isClosed() {
         return intakePiston.get() == DoubleSolenoid.Value.kReverse;
-    }
-
-    public boolean getBeamBreak() {
-        return beamBreak.isPressed();
-    }
-
-    public boolean isCube() {
-        return reedSwitch.isPressed();
     }
 
     public void setCoastMode(){

@@ -45,15 +45,11 @@ public class SubsystemsModule {
     public IntakeSubsystem providesIntakeSubsystem(
             @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
             @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
-            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston,
-            @Named(IntakeConstants.INTAKE_BEAM_BREAK) SparkMaxLimitSwitch beamBreak,
-            @Named(IntakeConstants.INTAKE_REED_SWITCH) SparkMaxLimitSwitch reedSwitch) {
+            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
         return new IntakeSubsystem(
                 leftSpark,
                 rightSpark,
-                intakePiston,
-                beamBreak,
-                reedSwitch
+                intakePiston
         );
     }
 

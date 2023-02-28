@@ -85,7 +85,6 @@ public class ElevatorSubsystem extends SubsystemBase {
         if (getMagSwitch() && position == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
-        System.out.println(getDistance());
     }
 }
 

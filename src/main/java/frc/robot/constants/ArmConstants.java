@@ -39,16 +39,14 @@ public final class ArmConstants {
     public static final double GRAVITY_FEEDFORWARD = 0.08;
     public static final double MAX_VELOCITY = 1500.0;
     public static final double MAX_ACCELERATION = MAX_VELOCITY / 1.25;
+
     // [0, 8]
     public static final int MOTION_SMOOTHING = 0;
-
-    public static final double ARM_ANGLE_LIMIT = 90;
 
     public enum ArmPositions {
         DOWN(0.0),
         CONE_FLIP(6.0),
         SHOOT(60.0),
-        SHOOT_HIGH(65.0),
         UP(100.0),
         HANDOFF(125.0);
 

@@ -40,13 +40,6 @@ public class DeviceModule {
 
     @Provides
     @Singleton
-    @Named(IntakeConstants.INTAKE_BEAM_BREAK)
-    public SparkMaxLimitSwitch providesIntakeBeamBreak(@Named(IntakeConstants.LEFT_SPARK) CANSparkMax sparkMax) {
-        return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
-    }
-
-    @Provides
-    @Singleton
     @Named(ArmConstants.ARM_ENCODER)
     public WPI_CANCoder providesArmEncoder() {
         WPI_CANCoder encoder = new WPI_CANCoder(ArmConstants.ARM_ENCODER_ID, "canivoreBus");
@@ -60,11 +53,6 @@ public class DeviceModule {
         encoder.setPositionToAbsolute();
 
         return encoder;
-    }
-    @Provides
-    @Named(IntakeConstants.INTAKE_REED_SWITCH)
-    public SparkMaxLimitSwitch providesIntakeReedSwitch(@Named(IntakeConstants.RIGHT_SPARK) CANSparkMax sparkMax) {
-        return sparkMax.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     }
 
     @Provides

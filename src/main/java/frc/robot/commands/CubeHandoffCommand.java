@@ -9,6 +9,7 @@ import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
 import frc.robot.commands.intake.IntakeRollOutCommand;
 import frc.robot.constants.ElevatorConstants;
+import frc.robot.constants.IntakeConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -24,7 +25,7 @@ public class CubeHandoffCommand extends SequentialCommandGroup {
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF),
                 new InstantCommand(intakeSubsystem::intakeOpen, intakeSubsystem),
-                new IntakeRollOutCommand(intakeSubsystem).withTimeout(1.0)
+                new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED).withTimeout(1.0)
                         .alongWith(new ConeInCubeOutCommand(carriageSubsystem)).withTimeout(2.5)
         );
     }

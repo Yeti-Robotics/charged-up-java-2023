@@ -1,6 +1,7 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.constants.CarriageConstants;
 import frc.robot.constants.ElevatorConstants.ElevatorPositions;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -14,12 +15,14 @@ public class SetElevatorDownCommand extends CommandBase {
         this.elevatorSubsystem = elevatorSubsystem;
         this.carriageSubsystem = carriageSubsystem;
 
-        addRequirements(this.elevatorSubsystem, this.carriageSubsystem);
+        addRequirements(this.elevatorSubsystem);
     }
 
     @Override
-    public void initialize()
-    {
+    public void initialize() {
+        if (carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED) {
+            new CarriageFlipInCommand(carriageSubsystem).asProxy().schedule();
+        }
         elevatorSubsystem.setPosition(ElevatorPositions.DOWN);
     }
 
