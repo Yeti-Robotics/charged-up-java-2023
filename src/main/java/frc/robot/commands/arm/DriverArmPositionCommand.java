@@ -2,10 +2,9 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants;
+import frc.robot.constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.MultiButton;
 
 public class DriverArmPositionCommand extends CommandBase {
@@ -45,7 +44,7 @@ public class DriverArmPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.5) && !isHeld) {
+        if (timer.hasElapsed(0.25) && !isHeld) {
             isHeld = button.isPressed();
             position = ArmConstants.ArmPositions.CONE_FLIP;
         }

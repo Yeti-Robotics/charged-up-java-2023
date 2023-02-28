@@ -11,8 +11,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -100,7 +102,7 @@ public class RobotModule {
      * The X axis is forward and backward
      */
     @Provides
-    @Named(Constants.OIConstants.TRANSLATION_XSUPPLIER)
+    @Named(OIConstants.TRANSLATION_XSUPPLIER)
     public DoubleSupplier provideTranslationXSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getLeftY();
     }
@@ -109,13 +111,13 @@ public class RobotModule {
      * The Y is side to side
      */
     @Provides
-    @Named(Constants.OIConstants.TRANSLATION_YSUPPLIER)
+    @Named(OIConstants.TRANSLATION_YSUPPLIER)
     public DoubleSupplier provideTranslationYSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getLeftX();
     }
 
     @Provides
-    @Named(Constants.OIConstants.THETA_SUPPLIER)
+    @Named(OIConstants.THETA_SUPPLIER)
     public DoubleSupplier provideRotationSupplier(ControllerContainer controllerContainer) {
         return () -> controllerContainer.get(0).getRightX();
     }
@@ -134,6 +136,6 @@ public class RobotModule {
     @Provides
     @Singleton
     public SwerveDriveOdometry providesSwerveDriveOdometry(WPI_Pigeon2 gyro, SwerveModulePosition[] positions) {
-        return new SwerveDriveOdometry(Constants.DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions);
+        return new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions);
     }
 }

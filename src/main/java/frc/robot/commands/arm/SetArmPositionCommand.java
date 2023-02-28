@@ -2,7 +2,7 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants.ArmPositions;
+import frc.robot.constants.ArmConstants.ArmPositions;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -25,8 +25,9 @@ public class SetArmPositionCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        if (!elevatorSubsystem.isDown()) {
+        if (!elevatorSubsystem.isDown() && !(position.angle <= 95.0)) {
             this.cancel();
+            return;
         }
 
         timer.reset();

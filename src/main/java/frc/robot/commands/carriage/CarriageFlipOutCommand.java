@@ -1,7 +1,8 @@
 package frc.robot.commands.carriage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.constants.CarriageConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.CarriageSubsystem;
 
 
@@ -16,7 +17,7 @@ public class CarriageFlipOutCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        carriageSubsystem.setSetpoint(Constants.CarriageConstants.CarriagePositions.FLIPPED);
+        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
     }
 
     @Override

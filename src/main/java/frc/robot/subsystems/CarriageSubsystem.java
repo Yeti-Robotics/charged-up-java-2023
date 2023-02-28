@@ -1,29 +1,36 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CarriageConstants;
-import frc.robot.Constants.CarriageConstants.CarriagePositions;
+import frc.robot.constants.CarriageConstants;
+import frc.robot.constants.CarriageConstants.CarriagePositions;
+import frc.robot.constants.ElevatorConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax rollerMotor;
-    private final CANSparkMax flipMotor;
-    private final SparkMaxPIDController flipPIDController;
+    private final TalonFX flipMotor;
 
     private CarriagePositions carriagePosition;
 
     @Inject
     public CarriageSubsystem(
             @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
-            @Named(CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
-            @Named(CarriageConstants.FLIP_MOTOR_PID_NAME)SparkMaxPIDController flipPIDController) {
+            @Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor){
+
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
-        this.flipPIDController = flipPIDController;
+    }
+
+    @Override
+    public void periodic() {
     }
 
     public void coneInCubeOut(){
@@ -42,34 +49,41 @@ public class CarriageSubsystem extends SubsystemBase {
         rollerMotor.stopMotor();
     }
 
+    //Check if correct method used
     public double getAngle() {
-        return flipMotor.getEncoder().getPosition();
+        return flipMotor.getSelectedSensorPosition() * CarriageConstants.COUNTS_TO_DEGREES;
     }
 
     public void setSetpoint(CarriagePositions setpoint){
         carriagePosition = setpoint;
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
-
         double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
-        flipPIDController.setReference(setpoint.angle, CANSparkMax.ControlType.kPosition, 0,
-                FLIP_FEED_FORWARD, SparkMaxPIDController.ArbFFUnits.kPercentOut); //make command later
+
+        flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, FLIP_FEED_FORWARD);
     }
 
+    //Check if correct method used
     public void flipOut() {
-        flipMotor.set(CarriageConstants.FLIP_SPEED);
+        flipMotor.set(TalonFXControlMode.PercentOutput, CarriageConstants.FLIP_SPEED);
     }
 
+    //Check if correct method used
     public void flipIn() {
-        flipMotor.set(-CarriageConstants.FLIP_SPEED);
+        flipMotor.set(ControlMode.PercentOutput,-CarriageConstants.FLIP_SPEED);
     }
 
+    //Check if correct method used
     public void stopFlipMechanism() {
-        flipMotor.stopMotor();
+        flipMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public CarriagePositions getCarriagePosition() {
         return carriagePosition;
+    }
+
+    public void zeroFlip() {
+        flipMotor.setSelectedSensorPosition(0.0);
     }
 }
 

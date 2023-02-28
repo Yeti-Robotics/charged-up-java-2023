@@ -9,14 +9,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.FieldConstants;
 import frc.robot.utils.Limelight;
+import frc.robot.constants.AutoConstants;
+import frc.robot.constants.DriveConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.lang.reflect.Field;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;

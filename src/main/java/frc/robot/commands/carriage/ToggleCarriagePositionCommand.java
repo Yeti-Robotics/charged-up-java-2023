@@ -1,7 +1,7 @@
 package frc.robot.commands.carriage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.CarriageConstants.CarriagePositions;
+import frc.robot.constants.CarriageConstants.CarriagePositions;
 import frc.robot.subsystems.CarriageSubsystem;
 
 public class ToggleCarriagePositionCommand extends CommandBase {

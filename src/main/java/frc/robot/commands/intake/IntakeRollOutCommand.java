@@ -6,8 +6,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeRollOutCommand extends StartEndCommand {
     private final IntakeSubsystem intakeSubsystem;
 
-    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem) {
-        super(intakeSubsystem::rollOut, intakeSubsystem::stop);
+    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem, double speed) {
+        super(() -> intakeSubsystem.rollOut(speed), intakeSubsystem::stop);
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }
