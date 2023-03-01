@@ -1,10 +1,10 @@
 package frc.robot.constants;
 
 public final class VisionConstants {
-    public static final double STOPPING_DISTANCE = 1.58333;
-    public static final double LIMELIGHT_HEIGHT = 10; //placeholder
-
-    public static final double LIMELIGHT_MOUNTING_ANGLE = 10; //placeholder
+    public static final double LIMELIGHT_HEIGHT = 11.9; //placeholder
+    public static final double LIMELIGHT_X_TRANSLATION = 4.75;
+    public static final double LIMELIGHT_Y_TRANSLATION = 0.0;
+    public static final double LIMELIGHT_MOUNTING_ANGLE = 15.0; //placeholder
 
     public static final String TABLE_NAME = "table";
 

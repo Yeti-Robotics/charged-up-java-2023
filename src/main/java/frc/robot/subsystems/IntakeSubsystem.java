@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
         this.leftSpark = leftSpark;
         this.rightSpark = rightSpark;
 
-        intakeClose();
+        intakeOpen();
     }
 
     public void rollIn(double speed) {

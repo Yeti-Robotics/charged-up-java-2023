@@ -7,10 +7,14 @@
 
 package frc.robot.constants;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Contains various field dimensions and useful reference points. Dimensions are in meters, and sets
@@ -200,55 +204,21 @@ public final class FieldConstants {
         }
     }
 
-    // AprilTag locations (do not flip for red alliance)
-    public static final Map<Integer, Pose3d> aprilTags =
-            Map.of(
-                    1,
-                    new Pose3d(
-                            Units.inchesToMeters(610.77),
-                            Units.inchesToMeters(42.19),
-                            Units.inchesToMeters(18.22),
-                            new Rotation3d(0.0, 0.0, Math.PI)),
-                    2,
-                    new Pose3d(
-                            Units.inchesToMeters(610.77),
-                            Units.inchesToMeters(108.19),
-                            Units.inchesToMeters(18.22),
-                            new Rotation3d(0.0, 0.0, Math.PI)),
-                    3,
-                    new Pose3d(
-                            Units.inchesToMeters(610.77),
-                            Units.inchesToMeters(174.19), // FIRST's diagram has a typo (it says 147.19)
-                            Units.inchesToMeters(18.22),
-                            new Rotation3d(0.0, 0.0, Math.PI)),
-                    4,
-                    new Pose3d(
-                            Units.inchesToMeters(636.96),
-                            Units.inchesToMeters(265.74),
-                            Units.inchesToMeters(27.38),
-                            new Rotation3d(0.0, 0.0, Math.PI)),
-                    5,
-                    new Pose3d(
-                            Units.inchesToMeters(14.25),
-                            Units.inchesToMeters(265.74),
-                            Units.inchesToMeters(27.38),
-                            new Rotation3d()),
-                    6,
-                    new Pose3d(
-                            Units.inchesToMeters(40.45),
-                            Units.inchesToMeters(174.19), // FIRST's diagram has a typo (it says 147.19)
-                            Units.inchesToMeters(18.22),
-                            new Rotation3d()),
-                    7,
-                    new Pose3d(
-                            Units.inchesToMeters(40.45),
-                            Units.inchesToMeters(108.19),
-                            Units.inchesToMeters(18.22),
-                            new Rotation3d()),
-                    8,
-                    new Pose3d(
-                            Units.inchesToMeters(40.45),
-                            Units.inchesToMeters(42.19),
-                            Units.inchesToMeters(18.22),
-                            new Rotation3d()));
+    public static AprilTagFieldLayout aprilTagLayout;
+    public static Translation2d[] aprilTagTranslations = new Translation2d[8];
+    static {
+        try {
+            aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+            updateAprilTagTranslations();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static void updateAprilTagTranslations() {
+        List<AprilTag> aprilTags = aprilTagLayout.getTags();
+        for (int i = 0; i < aprilTags.size(); i++) {
+            aprilTagTranslations[i] = aprilTags.get(i).pose.getTranslation().toTranslation2d();
+        }
+    }
 }

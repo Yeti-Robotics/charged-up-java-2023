@@ -5,19 +5,24 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
+import frc.robot.commands.drive.AutoAlignCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
+import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.intake.*;
+import frc.robot.constants.AutoConstants;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
@@ -46,6 +51,8 @@ public class RobotContainer {
     public final ControllerContainer controllerContainer;
     private final Controller primaryController;
 
+    private final SwerveAutoBuilder autoBuilder;
+
     @Inject
     public RobotContainer(
             CarriageSubsystem carriageSubsystem,
@@ -54,7 +61,8 @@ public class RobotContainer {
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
             ControllerContainer controllerContainer,
-            ButtonHelper buttonHelper) {
+            ButtonHelper buttonHelper,
+            SwerveAutoBuilder autoBuilder) {
         this.carriageSubsystem = carriageSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.intakeSubsystem = intakeSubsystem;
@@ -62,7 +70,7 @@ public class RobotContainer {
         this.elevatorSubsystem = elevatorSubsystem;
         this.controllerContainer = controllerContainer;
         this.buttonHelper = buttonHelper;
-
+        this.autoBuilder = autoBuilder;
         this.primaryController = controllerContainer.get(0);
         drivetrainSubsystem.setDefaultCommand(
                 new FieldOrientedDrive(
@@ -77,7 +85,6 @@ public class RobotContainer {
     private void configureBindings() {
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
-
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
 
@@ -98,14 +105,7 @@ public class RobotContainer {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(10, 0, new InstantCommand(() -> {
-            buttonHelper.setAllLayers(1);
-        }), RunCondition.WHEN_PRESSED);
-
-        buttonHelper.createButton(10, 1, new InstantCommand(() -> {
-            buttonHelper.setAllLayers(0);
-        }), RunCondition.WHEN_PRESSED);
-
+        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(0), () -> buttonHelper.setAllLayers(1)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUP()) {
@@ -124,6 +124,14 @@ public class RobotContainer {
             }
         })
                 .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
+
+        buttonHelper.createButton(1, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);

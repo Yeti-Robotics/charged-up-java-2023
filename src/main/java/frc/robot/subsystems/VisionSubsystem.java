@@ -6,14 +6,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.VisionConstants;
-import org.photonvision.targeting.PhotonPipelineResult;
 
 import javax.inject.Named;
 
 
 public class VisionSubsystem extends SubsystemBase {
     private final NetworkTableInstance table;
-    PhotonPipelineResult result;
     public double xFinal;
     public double yFinal;
 
