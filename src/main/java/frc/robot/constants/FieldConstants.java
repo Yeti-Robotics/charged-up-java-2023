@@ -205,6 +205,7 @@ public final class FieldConstants {
     }
 
     public static AprilTagFieldLayout aprilTagLayout;
+    public static Translation2d[] aprilTagTranslations = new Translation2d[8];
     static {
         try {
             aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
@@ -214,7 +215,6 @@ public final class FieldConstants {
         }
     }
     
-    public static Translation2d[] aprilTagTranslations = new Translation2d[8];
     public static void updateAprilTagTranslations() {
         List<AprilTag> aprilTags = aprilTagLayout.getTags();
         for (int i = 0; i < aprilTags.size(); i++) {
