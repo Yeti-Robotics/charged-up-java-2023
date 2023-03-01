@@ -35,14 +35,18 @@ public class AutoAlignCommand extends CommandBase
         Translation2d robotPose = drivetrainSubsystem.getPose().getTranslation();
         Translation2d tagLocation;
         if (!Limelight.hasTarget()) {
-            robotPose.nearest(Arrays.asList(FieldConstants.aprilTagTranslations));
-            return;
+            tagLocation = robotPose.nearest(Arrays.asList(FieldConstants.aprilTagTranslations));
         } else {
             tagLocation = FieldConstants.aprilTagLayout.getTagPose((int) Limelight.getID()).get().getTranslation().toTranslation2d();
         }
 
-        Translation2d targetPose = new Translation2d(tagLocation.getX() + position.offset.getX(),
-                tagLocation.getY() + position.offset.getY());
+        double targetX = tagLocation.getX() + position.offset.getX();
+        double targetY = tagLocation.getY() + position.offset.getY();
+        if (targetX < 0.0 || targetY < 0.0) {
+            targetX = Math.abs(targetX);
+            targetY = Math.abs(targetY);
+        }
+        Translation2d targetPose = new Translation2d(targetX, targetY);
 
         Translation2d translation2 = robotPose.interpolate(targetPose,0.5);
         PathPlannerTrajectory path = PathPlanner.generatePath(AutoConstants.DEFAULT_CONSTRAINTS,
