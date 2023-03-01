@@ -7,14 +7,14 @@
 
 package frc.robot.constants;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Filesystem;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Contains various field dimensions and useful reference points. Dimensions are in meters, and sets
@@ -205,12 +205,20 @@ public final class FieldConstants {
     }
 
     public static AprilTagFieldLayout aprilTagLayout;
-
     static {
         try {
             aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+            updateAprilTagTranslations();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+    
+    public static Translation2d[] aprilTagTranslations = new Translation2d[8];
+    public static void updateAprilTagTranslations() {
+        List<AprilTag> aprilTags = aprilTagLayout.getTags();
+        for (int i = 0; i < aprilTags.size(); i++) {
+            aprilTagTranslations[i] = aprilTags.get(i).pose.getTranslation().toTranslation2d();
         }
     }
 }

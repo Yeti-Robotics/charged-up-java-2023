@@ -60,11 +60,12 @@ public final class AutoConstants {
     }
 
     public enum ALIGNMENT_POSITION {
-        LEFT_DOUBLE_STATION(CENTER_OFFSET, 1.5, 0.0, 0.0),
-        RIGHT_DOUBLE_STATION(CENTER_OFFSET, -1.5, 0.0, 0.0),
-        LEFT(CENTER_OFFSET, -1.0, 180.0, 180.0),
+        LEFT_DOUBLE_STATION(CENTER_OFFSET, 0.5, 0.0, 0.0),
+        RIGHT_DOUBLE_STATION(CENTER_OFFSET, -0.5, 0.0, 0.0),
+        SINGLE_STATION(0.0, CENTER_OFFSET, 90.0, -90.0),
+        LEFT(CENTER_OFFSET, -0.5, 180.0, 180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 0.0),
-        RIGHT(CENTER_OFFSET, 1.0, 180.0, 180.);
+        RIGHT(CENTER_OFFSET, 0.5, 180.0, 180.);
 
         public final Pose2d offset;
         public final Rotation2d heading;
