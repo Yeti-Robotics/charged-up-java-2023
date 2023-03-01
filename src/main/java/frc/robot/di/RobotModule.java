@@ -5,23 +5,23 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.constants.ArmConstants;
-import frc.robot.constants.DriveConstants;
-import frc.robot.constants.AutoConstants;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.arm.SetArmPositionCommand;
-import frc.robot.constants.OIConstants;
+import frc.robot.commands.carriage.CarriageFlipOutCommand;
+import frc.robot.commands.carriage.ConeOutCubeInCommand;
+import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.drive.SwerveLockCommand;
+import frc.robot.commands.elevator.SetElevatorDownCommand;
+import frc.robot.commands.elevator.SetElevatorPositionCommand;
+import frc.robot.commands.intake.IntakeShootHighCommand;
+import frc.robot.constants.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -32,7 +32,6 @@ import frc.robot.utils.controllerUtils.ControllerContainer;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
@@ -77,18 +76,29 @@ public class RobotModule {
     @Singleton
     @Named("event map")
     public HashMap<String, Command> providesEventMap(
+            DrivetrainSubsystem drivetrainSubsystem,
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
-            CarriageSubsystem carriageSubsystem){
+            CarriageSubsystem carriageSubsystem) {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN)));
+        eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
+        eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));
+        eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
+        eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
+        eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
+        eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
+        eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
+        eventMap.put("waitOneSec", new WaitCommand(1.5));
+        eventMap.put("elevatorDown", new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem));
+        eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
         return eventMap;
     }
 
     @Provides
     @Singleton
-    public SwerveAutoBuilder providesAutoBuilder(DrivetrainSubsystem drivetrainSubsystem, @Named("event map") HashMap<String, Command> eventMap){
+    public SwerveAutoBuilder providesAutoBuilder(DrivetrainSubsystem drivetrainSubsystem, @Named("event map") HashMap<String, Command> eventMap) {
         return new SwerveAutoBuilder(
                 drivetrainSubsystem::getPose,
                 drivetrainSubsystem::resetOdometer,
@@ -139,6 +149,6 @@ public class RobotModule {
     @Provides
     @Singleton
     public SwerveDrivePoseEstimator providesSwerveDrivePoserEstimator(WPI_Pigeon2 gyro, SwerveModulePosition[] positions) {
-        return new SwerveDrivePoseEstimator(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions, new Pose2d(0,0,new Rotation2d()));
+        return new SwerveDrivePoseEstimator(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions, new Pose2d(0, 0, new Rotation2d()));
     }
 }

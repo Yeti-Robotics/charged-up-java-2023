@@ -11,6 +11,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Lazy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -26,6 +27,7 @@ import frc.robot.di.RobotComponent;
 import frc.robot.utils.rests.restUtils.RESTHandler;
 
 import javax.inject.Inject;
+import java.util.List;
 
 
 /**
@@ -60,17 +62,18 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        CameraServer.startAutomaticCapture();
 
         autoChooser = new SendableChooser<>();
         autoChooser.setDefaultOption(AutoModes.TESTING.name, AutoModes.TESTING);
-        autoChooser.addOption(AutoModes.CONE_CUBE_BALANCE.name, AutoModes.CONE_CUBE_BALANCE);
-        autoChooser.addOption("Two Cubes", AutoModes.TWO_CUBE_AUTO);
-        autoChooser.addOption("Balance", AutoModes.BALANCE_AUTO);
+        autoChooser.addOption(AutoModes.MIDDLE_BALANCE.name, AutoModes.MIDDLE_BALANCE);
+        autoChooser.addOption(AutoModes.MIDDLE_SHOOT_BALANCE.name, AutoModes.MIDDLE_SHOOT_BALANCE);
+        autoChooser.addOption(AutoModes.MIDDLE_CONE_BALANCE.name, AutoModes.MIDDLE_CONE_BALANCE);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), new PathConstraints(AutoConstants.MAX_VELOCITY, AutoConstants.MAX_ACCEL));
-        autonomousCommand = autoBuilder.followPath(trajectory);
+        List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(previousSelectedAuto.name, AutoConstants.DEFAULT_CONSTRAINTS);
+        autonomousCommand = autoBuilder.fullAuto(trajectory);
     }
 
 
@@ -104,8 +107,8 @@ public class Robot extends TimedRobot {
         if (previousSelectedAuto != autoChooser.getSelected()) {
             previousSelectedAuto = autoChooser.getSelected();
 
-            PathPlannerTrajectory trajectory = PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString()));
-            autonomousCommand = autoBuilder.followPath(trajectory);
+            List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(previousSelectedAuto.name, AutoConstants.DEFAULT_CONSTRAINTS);
+            autonomousCommand = autoBuilder.fullAuto(trajectory);
         }
 
         if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
@@ -121,9 +124,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        autonomousCommand = robotContainer.getAutonomousCommand();
-        autoBuilder.resetPose(PathPlanner.loadPath(previousSelectedAuto.toString(), PathPlanner.getConstraintsFromPath(previousSelectedAuto.toString())));
-
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
             autonomousCommand.schedule();

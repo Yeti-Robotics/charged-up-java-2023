@@ -208,7 +208,7 @@ public final class FieldConstants {
 
     static {
         try {
-            aprilTagLayout = new AprilTagFieldLayout(Filesystem.getDeployDirectory().getPath() + AprilTagFields.k2023ChargedUp);
+            aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

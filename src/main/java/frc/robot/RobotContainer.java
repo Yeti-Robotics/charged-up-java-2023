@@ -15,6 +15,7 @@ import frc.robot.commands.drive.AutoAlignCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
+import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
@@ -81,8 +82,10 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
-                .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
+//        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
+//                .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(1, 0, new AutoBalancingCommand(drivetrainSubsystem)
+                .andThen(new SwerveLockCommand(drivetrainSubsystem)), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
