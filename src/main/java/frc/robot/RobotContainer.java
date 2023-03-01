@@ -90,13 +90,16 @@ public class RobotContainer {
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
+                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
+                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)
+                .unless(() -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(8, 0, new ToggleCarriagePositionCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
 

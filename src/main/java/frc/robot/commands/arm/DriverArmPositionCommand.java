@@ -15,6 +15,7 @@ public class DriverArmPositionCommand extends CommandBase {
     private final MultiButton button;
     private ArmConstants.ArmPositions position;
     private boolean isHeld;
+    private boolean isSet;
 
     public DriverArmPositionCommand(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, MultiButton button) {
         this.armSubsystem = armSubsystem;
@@ -29,29 +30,37 @@ public class DriverArmPositionCommand extends CommandBase {
     public void initialize() {
         timer.reset();
         isHeld = false;
+        isSet = false;
 
         ArmConstants.ArmPositions currentPosition = armSubsystem.getArmPosition();
 
         if (currentPosition == ArmConstants.ArmPositions.UP) {
             position = ArmConstants.ArmPositions.DOWN;
         }
-        else if (currentPosition == ArmConstants.ArmPositions.HANDOFF) {
-            position = ArmConstants.ArmPositions.UP;
-        } else {
+        else {
             position = ArmConstants.ArmPositions.UP;
         }
     }
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.25) && !isHeld) {
+        if (timer.hasElapsed(0.25) && !isSet) {
             isHeld = button.isPressed();
-            position = ArmConstants.ArmPositions.CONE_FLIP;
+            if (armSubsystem.getArmPosition() == ArmConstants.ArmPositions.UP) {
+                position = ArmConstants.ArmPositions.PORTAL;
+            } else {
+                position = ArmConstants.ArmPositions.CONE_FLIP;
+            }
         }
 
-        if (isHeld && position == ArmConstants.ArmPositions.CONE_FLIP) {
-            new SetArmPositionCommand(armSubsystem, elevatorSubsystem , position).schedule();
-            position = ArmConstants.ArmPositions.DOWN;
+        if (isHeld && !isSet) {
+            new SetArmPositionCommand(armSubsystem, elevatorSubsystem, position).schedule();
+            isSet = true;
+            if (position == ArmConstants.ArmPositions.PORTAL) {
+                position = ArmConstants.ArmPositions.UP;
+            } else {
+                position = ArmConstants.ArmPositions.DOWN;
+            }
         }
     }
 
