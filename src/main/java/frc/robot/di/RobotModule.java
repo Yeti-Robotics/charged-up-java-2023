@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
@@ -20,6 +21,8 @@ import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
+import frc.robot.commands.intake.IntakeRollInCommand;
+import frc.robot.commands.intake.IntakeRollOutCommand;
 import frc.robot.commands.intake.IntakeShootHighCommand;
 import frc.robot.constants.*;
 import frc.robot.subsystems.ArmSubsystem;
@@ -82,17 +85,34 @@ public class RobotModule {
             ElevatorSubsystem elevatorSubsystem,
             CarriageSubsystem carriageSubsystem) {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
-        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN)));
         eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
         eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));
-        eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
+        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN)));
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
+        eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
+        eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
+        eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
+        eventMap.put("elevatorDown", new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem));
         eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
+        eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
         eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
-        eventMap.put("waitOneSec", new WaitCommand(1.5));
-        eventMap.put("elevatorDown", new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem));
-        eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
+        eventMap.put("coneHigh", Commands.sequence(
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
+                new WaitCommand(1.25),
+                new CarriageFlipOutCommand(carriageSubsystem),
+                new WaitCommand(0.3),
+                new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
+        ));
+        eventMap.put("coneMid", Commands.sequence(
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO),
+                new WaitCommand(0.75),
+                new CarriageFlipOutCommand(carriageSubsystem),
+                new WaitCommand(0.3),
+                new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
+        ));
+        eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
+        eventMap.put("waitOneSec", new WaitCommand(1.0));
         return eventMap;
     }
 

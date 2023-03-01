@@ -10,17 +10,15 @@
         "x": 2.799999999999999,
         "y": 3.3
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
+      "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "elevatorHigh",
-          "waitOneSec",
-          "flipCarriageOut",
-          "carriageOut"
+          "coneHigh",
+          "elevatorDown"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "minimum",
@@ -33,31 +31,22 @@
         "y": 3.3
       },
       "prevControl": {
-        "x": 3.5,
+        "x": 3.8323552487026946,
         "y": 3.3
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "autoBalance"
-        ],
-        "executionBehavior": "sequential",
+        "names": [],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": [
-    {
-      "position": 0.0,
-      "names": [
-        "elevatorDown"
-      ]
-    }
-  ]
+  "markers": []
 }

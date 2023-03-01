@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.PIDConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
 public final class AutoConstants {
     /**
@@ -39,24 +40,29 @@ public final class AutoConstants {
 
     public static final double ALIGN_OFFSET = 2.0; //placeholder
     public static final double CONE_OFFSET = 2.0; //placeholder
-    public static final double CENTER_OFFSET = DriveConstants.FRAME_PERIMETER / 2.0 + 4.0;
+    public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 4.0); // 0.4445
 
     public enum AutoModes {
-        TESTING("testing"),
-        MIDDLE_BALANCE("middleBalance"),
-        MIDDLE_SHOOT_BALANCE("middleShootBalance"),
-        MIDDLE_CONE_BALANCE("middleConeBalance");
+        TESTING("testing", DEFAULT_CONSTRAINTS),
+        MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
+        MIDDLE_SHOOT_BALANCE("middleShootBalance", DEFAULT_CONSTRAINTS),
+        MIDDLE_CONE_BALANCE("middleConeBalance", DEFAULT_CONSTRAINTS),
+        TWO_PIECE_BALANCE("twoPieceBalance", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS);
 
         public final String name;
-        AutoModes(String name) {
+        public final PathConstraints initConstraint;
+        public final PathConstraints[] pathConstraints;
+        AutoModes(String name, PathConstraints initConstraint, PathConstraints... pathConstraints) {
             this.name = name;
+            this.initConstraint = initConstraint;
+            this.pathConstraints = pathConstraints;
         }
     }
 
     public enum ALIGNMENT_POSITION {
         LEFT_DOUBLE_STATION(CENTER_OFFSET, 1.5, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(CENTER_OFFSET, -1.5, 0.0, 0.0),
-        LEFT(CENTER_OFFSET, 1.0, 180.0, 180.0),
+        LEFT(CENTER_OFFSET, -1.0, 180.0, 180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 0.0),
         RIGHT(CENTER_OFFSET, 1.0, 180.0, 180.);
 

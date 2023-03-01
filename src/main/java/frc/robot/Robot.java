@@ -5,7 +5,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
@@ -19,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.constants.AutoConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.FieldConstants;
 import frc.robot.di.DaggerRobotComponent;
@@ -47,7 +45,7 @@ public class Robot extends TimedRobot {
 
     private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
-
+    private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
@@ -72,7 +70,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
-        List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(previousSelectedAuto.name, AutoConstants.DEFAULT_CONSTRAINTS);
+        List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
+                previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
     }
 
@@ -107,14 +106,19 @@ public class Robot extends TimedRobot {
         if (previousSelectedAuto != autoChooser.getSelected()) {
             previousSelectedAuto = autoChooser.getSelected();
 
-            List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(previousSelectedAuto.name, AutoConstants.DEFAULT_CONSTRAINTS);
+            List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
+                    previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
             autonomousCommand = autoBuilder.fullAuto(trajectory);
         }
 
-        if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
-            FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
-        } else {
-            FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kRedAllianceWallRightSide);
+        if (DriverStation.getAlliance() != previousAlliance) {
+            previousAlliance = DriverStation.getAlliance();
+            if (previousAlliance == DriverStation.Alliance.Blue) {
+                FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
+            } else {
+                FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kRedAllianceWallRightSide);
+            }
+            FieldConstants.updateAprilTagTranslations();
         }
     }
 
