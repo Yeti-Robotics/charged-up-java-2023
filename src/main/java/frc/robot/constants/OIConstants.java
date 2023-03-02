@@ -18,4 +18,8 @@ public final class OIConstants {
     public enum ControllerType {
         CUSTOM, XBOX
     }
+
+    public enum ButtonMode {
+        PRIMARY, AUTO_ALIGN
+    }
 }

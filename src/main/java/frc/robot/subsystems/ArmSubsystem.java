@@ -126,6 +126,10 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor1.setNeutralMode(NeutralMode.Coast);
     }
 
+    public double getSuppliedCurrent(){
+        return armMotor1.getSupplyCurrent();
+    }
+
     public void stop() {
         armMotor1.stopMotor();
     }
