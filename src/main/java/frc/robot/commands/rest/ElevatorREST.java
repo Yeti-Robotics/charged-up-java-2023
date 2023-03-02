@@ -39,11 +39,14 @@ public class ElevatorREST extends RESTContainer {
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOWN);
         });
 
-        isFinished(() -> {return hasElapsed(5);});
+        isFinished(() -> {
+            return hasElapsed(5);
+        });
         end(() -> {
             assertEquals(0, elevatorSubsystem.getDistance(), 5);
-            assertEquals(12,elevatorSubsystem.getSuppliedCurrent(),5);
+            assertEquals(12, elevatorSubsystem.getSuppliedCurrent(), 5);
         });
+    }
 
 
 }
