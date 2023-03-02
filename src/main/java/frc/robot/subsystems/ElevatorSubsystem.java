@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.ElevatorConstants.ElevatorPositions;
@@ -21,7 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Inject
     public ElevatorSubsystem(
-            @Named(ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
+            @Named(ElevatorConstants.ELEVATOR_MOTOR) WPI elevatorMotor,
             @Named(ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput magSwitch) {
         this.elevatorMotor = elevatorMotor;
         this.magSwitch = magSwitch;
@@ -78,6 +79,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void zeroEncoder() {
         elevatorMotor.setSelectedSensorPosition(0.0);
+    }
+
+    public double getSuppliedCurrent(){
+        return elevatorMotor.getSupplyCurrent();
     }
 
     @Override
