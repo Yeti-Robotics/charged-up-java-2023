@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ConeHandoffCommand;
+import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.drive.AutoAlignCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
@@ -105,7 +106,8 @@ public class RobotContainer {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(0), () -> buttonHelper.setAllLayers(1)), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
+                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUP()) {

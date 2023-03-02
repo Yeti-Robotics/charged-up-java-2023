@@ -9,12 +9,10 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.commands.arm.SetArmPositionCommand;
+import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.commands.carriage.CarriageFlipOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
@@ -92,23 +90,30 @@ public class RobotModule {
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
-        eventMap.put("elevatorDown", new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem));
+        eventMap.put("elevatorDown", Commands.sequence(
+                new CarriageFlipInCommand(carriageSubsystem),
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
+                new WaitCommand(0.15),
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN),
+                new WaitCommand(1.2),
+                new InstantCommand(elevatorSubsystem::stop, elevatorSubsystem)
+                ));
         eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
         eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
         eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
         eventMap.put("coneHigh", Commands.sequence(
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
-                new WaitCommand(1.25),
+                new WaitCommand(1.0),
                 new CarriageFlipOutCommand(carriageSubsystem),
-                new WaitCommand(0.3),
+                new WaitCommand(1.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("coneMid", Commands.sequence(
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO),
                 new WaitCommand(0.75),
                 new CarriageFlipOutCommand(carriageSubsystem),
-                new WaitCommand(0.3),
+                new WaitCommand(1.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
