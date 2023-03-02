@@ -25,12 +25,13 @@ public class ArmREST extends RESTContainer {
         init(()->{
         });
         execute(()->{
-            armSubsystem.setPosition(ArmConstants.ArmPositions.UP);
+            armSubsystem.moveUp(0.1);
         });
+        double current = armSubsystem.getSuppliedCurrent();
         isFinished(()->{return hasElapsed(5);});
         end(()->{
             assertEquals(100, armSubsystem.getAngle(), 5);
-            assertEquals(20, armSubsystem.getSuppliedCurrent(), 5);
+            assertEquals(20, current, 5);
         });
     }
     @REST
@@ -40,6 +41,7 @@ public class ArmREST extends RESTContainer {
         execute(()->{
             armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
         });
+        double current = armSubsystem.getSuppliedCurrent();
         isFinished(()->{return hasElapsed(5);});
         end(()->{
             assertEquals(0, armSubsystem.getAngle(), 5);
