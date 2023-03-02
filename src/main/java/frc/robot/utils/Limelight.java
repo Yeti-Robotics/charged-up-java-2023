@@ -90,27 +90,27 @@ public class Limelight {
         return getValue("tlong").getDouble(0.0);
     }
 
-    public static double[] getPose() {
+    public static double[] getBotPose() {
         return DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
-                getValue("botpose_wpiblue").getDoubleArray(new double[6]) :
-                getValue("botpose_wpired").getDoubleArray(new double[6]);
+                getValue("botpose_wpiblue").getDoubleArray(new double[7]) :
+                getValue("botpose_wpired").getDoubleArray(new double[7]);
     }
 
     public static Translation2d getTranslation() {
-        double[] botpose = getPose();
+        double[] botpose = getBotPose();
         return new Translation2d(botpose[0], botpose[1]);
     }
 
     public static double getPitch() {
-        return getPose()[4];
+        return getBotPose()[4];
     }
 
     public static double getRoll() {
-        return getPose()[3];
+        return getBotPose()[3];
     }
 
     public static double getYaw() {
-        return getPose()[5];
+        return getBotPose()[5];
     }
 
     public static long getID() {
@@ -149,5 +149,4 @@ public class Limelight {
 
         return table.getTable("limelight").getEntry(key);
     }
-
 }

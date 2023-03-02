@@ -11,11 +11,11 @@ public final class AutoConstants {
     /**
      * Max velocity in meters per second
      */
-    public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.75;
+    public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.8;
     /**
      * Max acceleration in meters per second squared
      */
-    public static final double MAX_ACCEL = DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.75;
+    public static final double MAX_ACCEL = MAX_VELOCITY * 0.75;
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
 
     public static final double X_CONTROLLER_P = 6.0; //2.9, 2.15

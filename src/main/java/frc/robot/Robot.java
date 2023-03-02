@@ -18,10 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
+import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.utils.rests.restUtils.RESTHandler;
 
 import javax.inject.Inject;
@@ -73,6 +76,10 @@ public class Robot extends TimedRobot {
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
+        SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
+        SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
+        SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
+
     }
 
 

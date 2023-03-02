@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ConeHandoffCommand;
+import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.drive.AutoAlignCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
@@ -24,6 +25,7 @@ import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.intake.*;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.OIConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -41,13 +43,13 @@ import javax.inject.Inject;
 public class RobotContainer {
     private RobotComponent robotComponent;
 
-    private final ElevatorSubsystem elevatorSubsystem;
-    private final ArmSubsystem armSubsystem;
-    private final IntakeSubsystem intakeSubsystem;
-    private final CarriageSubsystem carriageSubsystem;
-    private final DrivetrainSubsystem drivetrainSubsystem;
+    public final ElevatorSubsystem elevatorSubsystem;
+    public final ArmSubsystem armSubsystem;
+    public final IntakeSubsystem intakeSubsystem;
+    public final CarriageSubsystem carriageSubsystem;
+    public final DrivetrainSubsystem drivetrainSubsystem;
 
-    private final ButtonHelper buttonHelper;
+    public final ButtonHelper buttonHelper;
     public final ControllerContainer controllerContainer;
     private final Controller primaryController;
 
@@ -105,7 +107,8 @@ public class RobotContainer {
             drivetrainSubsystem.resetOdometer(new Pose2d());
         }), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(0), () -> buttonHelper.setAllLayers(1)), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
+                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUP()) {

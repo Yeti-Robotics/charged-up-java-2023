@@ -37,9 +37,9 @@ public final class ElevatorConstants {
             true, 40, 50, 0.1);
 
     public static final double ELEVATOR_P = 0.04;
-    public static final double ELEVATOR_I = 0.015;
+    public static final double ELEVATOR_I = 0.007;
     public static final double ELEVATOR_D = 0.2;
-    public static final double ELEVATOR_F = 0.01;
+    public static final double ELEVATOR_F = 0.00;
     public static final double GRAVITY_FEEDFORWARD = 0.06; //experimental value
 
     public static final double MAX_VELOCITY = 3.0 / ELEVATOR_DISTANCE_PER_PULSE;
@@ -56,7 +56,7 @@ public final class ElevatorConstants {
         DOWN(0),
         CONE_HANDOFF(6.5),
         LEVEL_TWO(15.5),
-        UP(MAX_EXTENSION);
+        UP(MAX_EXTENSION - 1.0);
 
         public final double distance;
         public final double sensorUnits;

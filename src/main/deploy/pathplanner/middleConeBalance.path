@@ -13,7 +13,7 @@
       "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": true,
+      "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
@@ -31,7 +31,7 @@
         "y": 3.3
       },
       "prevControl": {
-        "x": 3.8323552487026946,
+        "x": 3.5,
         "y": 3.3
       },
       "nextControl": null,
@@ -41,8 +41,11 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "autoBalance",
+          "swerveLock"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
