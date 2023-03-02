@@ -22,7 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Inject
     public ElevatorSubsystem(
-            @Named(ElevatorConstants.ELEVATOR_MOTOR) WPI elevatorMotor,
+            @Named(ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
             @Named(ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput magSwitch) {
         this.elevatorMotor = elevatorMotor;
         this.magSwitch = magSwitch;

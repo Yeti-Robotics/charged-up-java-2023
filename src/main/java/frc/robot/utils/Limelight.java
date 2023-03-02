@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class Limelight {
 
-    private static NetworkTableInstance table = NetworkTableInstance.getDefault();
+    private static NetworkTableInstance table = null;
 
     /**
      * Light modes for Limelight.
@@ -149,5 +149,4 @@ public class Limelight {
 
         return table.getTable("limelight").getEntry(key);
     }
-
 }
