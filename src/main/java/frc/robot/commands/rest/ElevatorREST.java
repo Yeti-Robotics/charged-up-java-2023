@@ -1,5 +1,6 @@
 package frc.robot.commands.rest;
 
+import frc.robot.constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.utils.rests.restAnnotations.REST;
 import frc.robot.utils.rests.restAnnotations.Requirement;
@@ -20,11 +21,13 @@ public class ElevatorREST extends RESTContainer {
             elevatorSubsystem.zeroEncoder();
         });
         execute(() -> {
-            elevatorSubsystem.elevatorUp();
+            elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.LEVEL_TWO);
         });
 
         isFinished(() -> {return hasElapsed(5);});
         end(() -> {
+            assertEquals(15.5, elevatorSubsystem.getDistance(), 5);
+            assertEquals(12,elevatorSubsystem.getSuppliedCurrent(),5);
         });
     }
     @REST
@@ -33,16 +36,14 @@ public class ElevatorREST extends RESTContainer {
             elevatorSubsystem.zeroEncoder();
         });
         execute(() -> {
-            elevatorSubsystem.elevatorDown();
+            elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOWN);
         });
 
         isFinished(() -> {return hasElapsed(5);});
-
         end(() -> {
-            assertEquals(5000, elevatorSubsystem.getElevatorEncoder(), 50);
+            assertEquals(0, elevatorSubsystem.getDistance(), 5);
+            assertEquals(12,elevatorSubsystem.getSuppliedCurrent(),5);
         });
-    }
-
 
 
 }
