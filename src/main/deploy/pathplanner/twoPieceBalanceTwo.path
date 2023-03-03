@@ -180,13 +180,13 @@
   ],
   "markers": [
     {
-      "position": 0.1,
+      "position": 0.01,
       "names": [
         "elevatorDown"
       ]
     },
     {
-      "position": 1.4,
+      "position": 1.55,
       "names": [
         "armDown",
         "intakeIn"

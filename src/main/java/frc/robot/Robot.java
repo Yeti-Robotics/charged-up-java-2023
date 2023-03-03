@@ -68,8 +68,16 @@ public class Robot extends TimedRobot {
         autoChooser = new SendableChooser<>();
         autoChooser.setDefaultOption(AutoModes.TESTING.name, AutoModes.TESTING);
         autoChooser.addOption(AutoModes.MIDDLE_BALANCE.name, AutoModes.MIDDLE_BALANCE);
-        autoChooser.addOption(AutoModes.MIDDLE_SHOOT_BALANCE.name, AutoModes.MIDDLE_SHOOT_BALANCE);
-        autoChooser.addOption(AutoModes.MIDDLE_CONE_BALANCE.name, AutoModes.MIDDLE_CONE_BALANCE);
+        autoChooser.addOption(AutoModes.SHOOT_BALANCE_TWO.name, AutoModes.SHOOT_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.CONE_BALANCE_ONE.name, AutoModes.CONE_BALANCE_ONE);
+        autoChooser.addOption(AutoModes.CONE_BALANCE_TWO.name, AutoModes.CONE_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.CONE_BALANCE_THREE.name, AutoModes.CONE_BALANCE_THREE);
+        autoChooser.addOption(AutoModes.TWO_PIECE_BALANCE_ONE.name, AutoModes.TWO_PIECE_BALANCE_ONE);
+        autoChooser.addOption(AutoModes.TWO_PIECE_BALANCE_TWO.name, AutoModes.TWO_PIECE_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.TWO_PIECE_ONE.name, AutoModes.TWO_PIECE_ONE);
+        autoChooser.addOption(AutoModes.TWO_PIECE_TWO.name, AutoModes.TWO_PIECE_TWO);
+        autoChooser.addOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
+        autoChooser.addOption(AutoModes.CONE_THREE.name, AutoModes.CONE_THREE);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
