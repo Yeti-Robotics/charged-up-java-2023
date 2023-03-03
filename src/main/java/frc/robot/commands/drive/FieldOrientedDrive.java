@@ -2,13 +2,11 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.OIConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
-import javax.inject.Inject;
 import java.util.function.DoubleSupplier;
-
 
 public class FieldOrientedDrive extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
@@ -16,7 +14,6 @@ public class FieldOrientedDrive extends CommandBase {
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
 
-    @Inject
     public FieldOrientedDrive(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.translationXSupplier = translationXSupplier;
@@ -27,7 +24,6 @@ public class FieldOrientedDrive extends CommandBase {
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(drivetrainSubsystem);
     }
-
 
     @Override
     public void execute() {
@@ -54,6 +50,11 @@ public class FieldOrientedDrive extends CommandBase {
         }
 
         return Math.copySign(value * value, value);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
     @Override

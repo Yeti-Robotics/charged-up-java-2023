@@ -1,27 +1,28 @@
 package frc.robot.commands.carriage;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.CarriageConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.CarriageSubsystem;
 
-import javax.inject.Inject;
 
-
-public class CarriageRollerStop extends CommandBase {
+public class CarriageFlipOutCommand extends CommandBase {
     private final CarriageSubsystem carriageSubsystem;
-    @Inject
-    public CarriageRollerStop(CarriageSubsystem carriageSubsystem){
+
+    public CarriageFlipOutCommand(CarriageSubsystem carriageSubsystem) {
         this.carriageSubsystem = carriageSubsystem;
+
         addRequirements(carriageSubsystem);
     }
 
     @Override
     public void initialize() {
-
+        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
     }
 
     @Override
     public void execute() {
-        carriageSubsystem.rollerStop();
+
     }
 
     @Override
@@ -31,6 +32,5 @@ public class CarriageRollerStop extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
     }
 }

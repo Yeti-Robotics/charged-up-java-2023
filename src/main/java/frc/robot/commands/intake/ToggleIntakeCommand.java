@@ -1,17 +1,13 @@
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
-import javax.inject.Inject;
-
-
-public class IntakeClampCommand extends InstantCommand {
-
+public class ToggleIntakeCommand extends InstantCommand {
     private final IntakeSubsystem intakeSubsystem;
-    @Inject
-    public IntakeClampCommand(IntakeSubsystem intakeSubsystem) {
-        super(intakeSubsystem::intakeClamp);
+
+    public ToggleIntakeCommand(IntakeSubsystem intakeSubsystem) {
+        super(intakeSubsystem::toggle);
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }

@@ -6,22 +6,24 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.ElevatorConstants.ElevatorPositions;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.ElevatorConstants;
+import frc.robot.constants.ElevatorConstants.ElevatorPositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private final WPI_TalonFX elevatorMotor;
-    private ElevatorPositions distanceSetpoint;
+    private ElevatorPositions position;
 
     private final DigitalInput magSwitch;
 
     @Inject
     public ElevatorSubsystem(
-            @Named(Constants.ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
-            @Named(Constants.ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput magSwitch) {
+            @Named(ElevatorConstants.ELEVATOR_MOTOR) WPI_TalonFX elevatorMotor,
+            @Named(ElevatorConstants.ELEVATOR_MAG_SWITCH) DigitalInput magSwitch) {
         this.elevatorMotor = elevatorMotor;
         this.magSwitch = magSwitch;
 
@@ -31,24 +33,32 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorUp() {
-        elevatorMotor.set(ControlMode.PercentOutput, Constants.ElevatorConstants.ELEVATOR_SPEED);
+        elevatorMotor.set(ControlMode.PercentOutput, ElevatorConstants.ELEVATOR_SPEED);
     }
 
     public void elevatorDown() {
-        elevatorMotor.set(ControlMode.PercentOutput, -Constants.ElevatorConstants.ELEVATOR_SPEED);
+        elevatorMotor.set(ControlMode.PercentOutput, -ElevatorConstants.ELEVATOR_SPEED);
     }
 
-    public void elevatorStop() {
+    public boolean isDown(){
+        return getElevatorEncoder() <= ElevatorConstants.ELEVATOR_TOLERANCE;
+    }
+
+    public void stop() {
         elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
 
-    public void setMotionMagic(ElevatorPositions setpoint) {
-        distanceSetpoint = setpoint;
-        elevatorMotor.set(ControlMode.MotionMagic, distanceSetpoint.sensorUnits, DemandType.ArbitraryFeedForward, Constants.ElevatorConstants.GRAVITY_FEEDFORWARD);
+    public void setPosition(ElevatorPositions setpoint) {
+        position = setpoint;
+        elevatorMotor.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, ElevatorConstants.GRAVITY_FEEDFORWARD);
     }
 
-    public boolean motionMagicOnTarget() {
-        return Math.abs(elevatorMotor.getSelectedSensorPosition() - distanceSetpoint.sensorUnits) <= Constants.ElevatorConstants.ELEVATOR_TOLERANCE;
+    public ElevatorPositions getPosition() {
+        return position;
+    }
+
+    public boolean motionFinished() {
+        return Math.abs(elevatorMotor.getSelectedSensorPosition() - position.sensorUnits) <= ElevatorConstants.ELEVATOR_TOLERANCE;
     }
 
     public boolean getMagSwitch() {
@@ -56,7 +66,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double convertInchesToCounts(double inches) {
-        return inches / Constants.ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE;
+        return inches / ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE;
+    }
+
+    public double getDistance() {
+        return elevatorMotor.getSelectedSensorPosition() * ElevatorConstants.ELEVATOR_DISTANCE_PER_PULSE;
     }
 
     public double getElevatorEncoder() {
@@ -67,9 +81,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.setSelectedSensorPosition(0.0);
     }
 
+    public double getSuppliedCurrent(){
+        return elevatorMotor.getSupplyCurrent();
+    }
+
     @Override
     public void periodic() {
-        if (getMagSwitch() && distanceSetpoint == ElevatorPositions.DOWN) {
+        if (getMagSwitch() && position == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
     }

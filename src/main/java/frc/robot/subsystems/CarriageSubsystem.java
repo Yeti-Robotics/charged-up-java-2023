@@ -1,76 +1,89 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.constants.CarriageConstants;
+import frc.robot.constants.CarriageConstants.CarriagePositions;
+import frc.robot.constants.ElevatorConstants;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 public class CarriageSubsystem extends SubsystemBase {
     private final CANSparkMax rollerMotor;
-    private final CANSparkMax flipMotor;
-    private final SparkMaxPIDController flipPIDController;
+    private final TalonFX flipMotor;
+
+    private CarriagePositions carriagePosition;
 
     @Inject
     public CarriageSubsystem(
-            @Named(Constants.CarriageConstants.ROLLER_MOTOR_NAME) CANSparkMax rollerMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_NAME) CANSparkMax flipMotor,
-            @Named(Constants.CarriageConstants.FLIP_MOTOR_PID_NAME)SparkMaxPIDController flipPIDController
-            ) {
+            @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
+            @Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor){
+
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
-        this.flipPIDController = flipPIDController;
     }
 
-    public void carriageOut(){
-        rollerMotor.set(Constants.CarriageConstants.CARRIAGE_SPEED);
+    @Override
+    public void periodic() {
     }
 
-    public void carriageIn(){
-        rollerMotor.set(-Constants.CarriageConstants.CARRIAGE_SPEED);
+    public void coneInCubeOut(){
+        rollerMotor.set(-CarriageConstants.ROLLER_SPEED);
+    }
+
+    public void coneOutCubeIn(){
+        rollerMotor.set(CarriageConstants.ROLLER_SPEED);
     }
 
     public double getRollerCurrent() {
-        /* according to https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136/5 */
         return Math.abs(rollerMotor.getOutputCurrent());
     }
-
 
     public void rollerStop(){
         rollerMotor.stopMotor();
     }
 
+    //Check if correct method used
     public double getAngle() {
-        return flipMotor.getEncoder().getPosition() / Constants.CANCoderConstants.COUNTS_PER_DEG * Constants.ArmConstants.GEAR_RATIO;
+        return flipMotor.getSelectedSensorPosition() * CarriageConstants.COUNTS_TO_DEGREES;
     }
 
-    public void setSetpoint(double setpoint){
+    public void setSetpoint(CarriagePositions setpoint){
+        carriagePosition = setpoint;
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
-        double FLIP_FEED_FORWARD = Constants.CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
-        flipPIDController.setReference(setpoint*FLIP_FEED_FORWARD, CANSparkMax.ControlType.kPosition); //make command later
+        double FLIP_FEED_FORWARD = CarriageConstants.GRAVITY_FEEDFORWARD * cosineScalar;
+
+        flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, FLIP_FEED_FORWARD);
     }
 
-    public void flipMechanism(){
-        flipPIDController.setReference(Constants.CarriageConstants.FLIP_POSITION, CANSparkMax.ControlType.kPosition);
-    }
-
-    public void reverseFlipMechanism(){
-        flipPIDController.setReference(Constants.CarriageConstants.DEFAULT_POSITION, CANSparkMax.ControlType.kPosition);
-    }
-
+    //Check if correct method used
     public void flipOut() {
-        flipMotor.set(Constants.CarriageConstants.FLIP_SPEED);
+        flipMotor.set(TalonFXControlMode.PercentOutput, CarriageConstants.FLIP_SPEED);
     }
 
+    //Check if correct method used
     public void flipIn() {
-        flipMotor.set(-Constants.CarriageConstants.FLIP_SPEED);
+        flipMotor.set(ControlMode.PercentOutput,-CarriageConstants.FLIP_SPEED);
     }
 
+    //Check if correct method used
     public void stopFlipMechanism() {
-        flipMotor.stopMotor();
+        flipMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+    public CarriagePositions getCarriagePosition() {
+        return carriagePosition;
+    }
+
+    public void zeroFlip() {
+        flipMotor.setSelectedSensorPosition(0.0);
     }
 }
 

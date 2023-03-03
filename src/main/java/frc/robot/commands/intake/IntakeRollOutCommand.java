@@ -1,17 +1,13 @@
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
-import javax.inject.Inject;
-
-
 public class IntakeRollOutCommand extends StartEndCommand {
+    private final IntakeSubsystem intakeSubsystem;
 
-    public final IntakeSubsystem intakeSubsystem;
-    @Inject
-    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem) {
-        super(intakeSubsystem::rollOut, intakeSubsystem::stop);
+    public IntakeRollOutCommand(IntakeSubsystem intakeSubsystem, double speed) {
+        super(() -> intakeSubsystem.rollOut(speed), intakeSubsystem::stop);
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
     }
