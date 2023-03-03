@@ -147,6 +147,6 @@ public class Limelight {
             table = NetworkTableInstance.getDefault();
         }
 
-        return table.getTable("limelight").getEntry(key);
+        return table.getTable("limelight-yeti").getEntry(key);
     }
 }
