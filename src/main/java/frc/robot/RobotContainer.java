@@ -5,79 +5,156 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.commands.ConeHandoffCommand;
+import frc.robot.commands.PoseWithVisionCommand;
+import frc.robot.commands.arm.DriverArmPositionCommand;
+import frc.robot.commands.drive.AutoAlignCommand;
+import frc.robot.commands.carriage.ConeInCubeOutCommand;
+import frc.robot.commands.carriage.ConeOutCubeInCommand;
+import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
+import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
+import frc.robot.commands.elevator.CycleElevatorPositionCommand;
+import frc.robot.commands.elevator.SetElevatorDownCommand;
+import frc.robot.commands.intake.*;
+import frc.robot.constants.AutoConstants;
+import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.OIConstants;
 import frc.robot.di.RobotComponent;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.controllerUtils.ButtonHelper;
+import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
+import frc.robot.utils.controllerUtils.MultiButton;
+import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
-import java.util.Map;
 
+public class RobotContainer {
+    private RobotComponent robotComponent;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
-public class RobotContainer
-{
-    // The robot's subsystems and commands are defined here...
+    public final ElevatorSubsystem elevatorSubsystem;
+    public final ArmSubsystem armSubsystem;
+    public final IntakeSubsystem intakeSubsystem;
+    public final CarriageSubsystem carriageSubsystem;
+    public final DrivetrainSubsystem drivetrainSubsystem;
 
-   private RobotComponent robotComponent;
-
-    private final ExampleSubsystem exampleSubsystem;
-    private final Map<Class<?>, CommandBase> commands;
-
+    public final ButtonHelper buttonHelper;
     public final ControllerContainer controllerContainer;
-    
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController controller =
-            new CommandXboxController(Constants.OIConstants.XBOX_PORT);
-    
-@Inject
-    public RobotContainer(ExampleSubsystem exampleSubsystem, ControllerContainer controllerContainer, Map<Class<?>, CommandBase> commands)
-    {
-        this.exampleSubsystem = exampleSubsystem;
+    private final Controller primaryController;
+
+    private final SwerveAutoBuilder autoBuilder;
+
+    @Inject
+    public RobotContainer(
+            CarriageSubsystem carriageSubsystem,
+            DrivetrainSubsystem drivetrainSubsystem,
+            IntakeSubsystem intakeSubsystem,
+            ArmSubsystem armSubsystem,
+            ElevatorSubsystem elevatorSubsystem,
+            ControllerContainer controllerContainer,
+            ButtonHelper buttonHelper,
+            SwerveAutoBuilder autoBuilder) {
+        this.carriageSubsystem = carriageSubsystem;
+        this.drivetrainSubsystem = drivetrainSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
+        this.armSubsystem = armSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
         this.controllerContainer = controllerContainer;
-        this.commands = commands;
+        this.buttonHelper = buttonHelper;
+        this.autoBuilder = autoBuilder;
+        this.primaryController = controllerContainer.get(0);
+        drivetrainSubsystem.setDefaultCommand(
+                new FieldOrientedDrive(
+                        drivetrainSubsystem,
+                        primaryController::getLeftY,
+                        primaryController::getLeftX,
+                        primaryController::getRightX
+                ));
         configureBindings();
     }
-    
-    
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
-     */
-    private void configureBindings()
-    {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(exampleSubsystem::exampleCondition)
-                .onTrue(new ExampleCommand(exampleSubsystem));
-        
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-        // cancelling on release.
-        controller.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+
+    private void configureBindings() {
+        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
+                .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
+                .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
+
+        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
+                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
+                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)
+                .unless(() -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(8, 0, new ToggleCarriagePositionCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(5, 0, new InstantCommand(() -> {
+            drivetrainSubsystem.resetOdometer(new Pose2d());
+        }), RunCondition.WHEN_PRESSED);
+
+//        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
+//                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
+
+        buttonHelper.createButton(11, 0, new InstantCommand(() -> {
+            if (armSubsystem.isUP()) {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
+            } else {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
+            }
+        })
+                .alongWith(new ToggleIntakeCommand(intakeSubsystem).unless(() -> armSubsystem.isUP())), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(11, 1, new InstantCommand(() -> {
+            if (armSubsystem.isUP()) {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
+            } else {
+                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
+            }
+        })
+                .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
+
+        buttonHelper.createButton(1, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(2, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
+
+        MultiButton rightJoystickButton = buttonHelper.createButton(12);
+        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
     }
-    
-    
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand()
-    {
+    public Command getAutonomousCommand() {
         return new InstantCommand();
+    }
+
+    public void setRobotComponent(RobotComponent robotComponent) {
+        this.robotComponent = robotComponent;
+    }
+
+    public RobotComponent getRobotComponent() {
+        return robotComponent;
     }
 }
