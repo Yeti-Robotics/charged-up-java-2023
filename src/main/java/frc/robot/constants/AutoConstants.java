@@ -45,6 +45,16 @@ public final class AutoConstants {
     public static final double CONE_OFFSET = 2.0; //placeholder
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 4.0); // 0.4445
 
+    public static final double TAPE_P = 0.08;
+    public static final double TAPE_I = 0;
+    public static final double TAPE_D = 0;
+    public static final double ROTATION_P = 0.01;
+    public static final double ROTATION_I = 0;
+    public static final double ROTATION_D = 0;
+    public static final double MAXIMUM_ANGLE = 180.0;
+    public static final double MINIMUM_ANGLE = -180.0;
+    public static final double ALIGN_TOLERANCE = 1.0;
+
     public enum AutoModes {
         TESTING("testing", DEFAULT_CONSTRAINTS),
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),

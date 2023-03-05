@@ -14,13 +14,10 @@ import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.CubeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
-import frc.robot.commands.drive.AutoAlignCommand;
+import frc.robot.commands.drive.*;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
-import frc.robot.commands.drive.FieldOrientedDrive;
-import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.intake.*;
@@ -69,7 +66,7 @@ public class RobotContainer {
 
     public final ButtonHelper buttonHelper;
     public final ControllerContainer controllerContainer;
-    private final Controller primaryController;
+    public final Controller primaryController;
 
     private final SwerveAutoBuilder autoBuilder;
 
@@ -122,6 +119,9 @@ public class RobotContainer {
 
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)
                 .unless(() -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
+
+        buttonHelper.createButton(8,0, new PIDAlignCommand(drivetrainSubsystem,
+                () -> primaryController.getLeftY()), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
