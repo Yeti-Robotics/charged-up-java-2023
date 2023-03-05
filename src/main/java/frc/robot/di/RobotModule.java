@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.commands.carriage.CarriageFlipOutCommand;
@@ -121,6 +122,8 @@ public class RobotModule {
         ));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("coneAutoWait", new WaitCommand(7.0));
+        eventMap.put("waitHalfSecond", new WaitCommand(0.5));
+        eventMap.put("handoff", new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem));
         return eventMap;
     }
 
