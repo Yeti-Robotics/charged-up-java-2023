@@ -51,16 +51,16 @@
     },
     {
       "anchorPoint": {
-        "x": 7.080007433717909,
-        "y": 1.003824547899544
+        "x": 6.996023671762648,
+        "y": 0.8938648482279166
       },
       "prevControl": {
-        "x": 5.9634574863323,
-        "y": 0.9608803191539443
+        "x": 5.879473724377039,
+        "y": 0.8509206194823169
       },
       "nextControl": {
-        "x": 7.337879468329197,
-        "y": 1.013742703076901
+        "x": 7.253895706373936,
+        "y": 0.9037830034052736
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -68,26 +68,28 @@
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "armUp"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "before",
         "waitTime": 0.2
       }
     },
     {
       "anchorPoint": {
-        "x": 5.029337285865985,
-        "y": 0.487571923265493
+        "x": 5.008600764532491,
+        "y": 0.6751532364274702
       },
       "prevControl": {
-        "x": 5.647604780585154,
-        "y": 0.5692298942661378
+        "x": 5.62686825925166,
+        "y": 0.756811207428115
       },
       "nextControl": {
-        "x": 4.270655911360379,
-        "y": 0.3873687228590926
+        "x": 4.249919390026885,
+        "y": 0.5749500360210698
       },
-      "holonomicAngle": -35.837652954278255,
+      "holonomicAngle": -4.5377725079067694,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -101,12 +103,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.7453969791660522,
-        "y": 1.0898666520052194
+        "x": 1.8,
+        "y": 1.1
       },
       "prevControl": {
-        "x": 2.5613300681750877,
-        "y": 1.0931222128020552
+        "x": 2.615939583802581,
+        "y": 1.1
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -125,5 +127,21 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 1.55,
+      "names": [
+        "event",
+        "armDown",
+        "intakeIn"
+      ]
+    },
+    {
+      "position": 2.6,
+      "names": [
+        "armUp",
+        "intakeStop"
+      ]
+    }
+  ]
 }

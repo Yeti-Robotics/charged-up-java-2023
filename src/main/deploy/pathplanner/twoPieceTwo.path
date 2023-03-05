@@ -125,5 +125,27 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.0,
+      "names": [
+        "intakeIn",
+        "armDown"
+      ]
+    },
+    {
+      "position": 1.55,
+      "names": [
+        "armDown",
+        "intakeIn"
+      ]
+    },
+    {
+      "position": 2.6,
+      "names": [
+        "intakeStop",
+        "armUp"
+      ]
+    }
+  ]
 }

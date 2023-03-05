@@ -35,9 +35,9 @@ public final class AutoConstants {
                     DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     public static final double PITCH_SET_POINT = 0.0;
-    public static final double PITCH_P = 0.03;
+    public static final double PITCH_P = 0.02; //0.03
     public static final double PITCH_I = 0.0;
-    public static final double PITCH_D = 0.005;
+    public static final double PITCH_D = 0.001; //0.005
     public static final double PITCH_F = 0.0;
     public static final double PITCH_TOLERANCE = 1.0;
 
@@ -56,8 +56,11 @@ public final class AutoConstants {
         TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
-        CONE_ONE("coneOne", DEFAULT_CONSTRAINTS),
-        CONE_THREE("coneThree", DEFAULT_CONSTRAINTS);
+        CONE_ONE("coneOne", new PathConstraints(0,0), new PathConstraints(0,0)),
+        CONE_THREE("coneThree", DEFAULT_CONSTRAINTS),
+        SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
+        CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
+        CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS);
 
         public final String name;
         public final PathConstraints initConstraint;

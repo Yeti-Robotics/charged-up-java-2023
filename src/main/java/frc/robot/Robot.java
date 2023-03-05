@@ -78,6 +78,9 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.TWO_PIECE_TWO.name, AutoModes.TWO_PIECE_TWO);
         autoChooser.addOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
         autoChooser.addOption(AutoModes.CONE_THREE.name, AutoModes.CONE_THREE);
+        autoChooser.addOption(AutoModes.SHOOT_BALANCE_THREE.name, AutoModes.SHOOT_BALANCE_THREE);
+        autoChooser.addOption(AutoModes.CONE_ONE_WAIT.name, AutoModes.CONE_ONE_WAIT);
+        autoChooser.addOption(AutoModes.CONE_THREE_WAIT.name, AutoModes.CONE_THREE_WAIT);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 

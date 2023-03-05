@@ -11,6 +11,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ConeHandoffCommand;
+import frc.robot.commands.CubeHandoffCommand;
+import frc.robot.commands.PoseWithVisionCommand;
+import frc.robot.commands.arm.DriverArmPositionCommand;
+import frc.robot.commands.drive.AutoAlignCommand;
+import frc.robot.commands.carriage.ConeInCubeOutCommand;
+import frc.robot.commands.carriage.ConeOutCubeInCommand;
+import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
+import frc.robot.commands.drive.AutoBalancingCommand;
+import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.SwerveLockCommand;
+import frc.robot.commands.elevator.CycleElevatorPositionCommand;
+import frc.robot.commands.elevator.SetElevatorDownCommand;
+import frc.robot.commands.intake.*;
+import frc.robot.constants.AutoConstants;
+import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.OIConstants;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.drive.AutoAlignCommand;
@@ -84,14 +102,18 @@ public class RobotContainer {
         configureBindings();
     }
 
-    private void configureBindings() {
+    private void configureBindings(){
+
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
-                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
+//                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4,0,new CubeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem).unless(
+                () -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
+
         buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
                 .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
@@ -101,7 +123,7 @@ public class RobotContainer {
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)
                 .unless(() -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(8, 0, new ToggleCarriagePositionCommand(carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(5, 0, new InstantCommand(() -> {
             drivetrainSubsystem.resetOdometer(new Pose2d());
