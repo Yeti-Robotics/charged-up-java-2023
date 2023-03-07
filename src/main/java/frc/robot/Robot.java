@@ -18,13 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.drive.PIDAlignCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.utils.rests.restUtils.RESTHandler;
 
 import javax.inject.Inject;
@@ -78,6 +78,9 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.TWO_PIECE_TWO.name, AutoModes.TWO_PIECE_TWO);
         autoChooser.addOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
         autoChooser.addOption(AutoModes.CONE_THREE.name, AutoModes.CONE_THREE);
+        autoChooser.addOption(AutoModes.SHOOT_BALANCE_THREE.name, AutoModes.SHOOT_BALANCE_THREE);
+        autoChooser.addOption(AutoModes.CONE_ONE_WAIT.name, AutoModes.CONE_ONE_WAIT);
+        autoChooser.addOption(AutoModes.CONE_THREE_WAIT.name, AutoModes.CONE_THREE_WAIT);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 

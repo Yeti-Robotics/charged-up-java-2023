@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.commands.arm.SetArmPositionCommand;
@@ -26,7 +27,6 @@ public class ConeHandoffCommand extends SequentialCommandGroup {
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF)
                         .alongWith(new WaitCommand(1.0)),
                 new InstantCommand(intakeSubsystem::intakeOpen, intakeSubsystem),
-                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(2.0)
-        );
+                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(2.0));
     }
 }
