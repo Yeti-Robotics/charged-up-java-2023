@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.commands.carriage.CarriageFlipOutCommand;
@@ -89,6 +90,7 @@ public class RobotModule {
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
+        eventMap.put("intakeInOneSec", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED).withTimeout(1));
         eventMap.put("intakeOpen", Commands.runOnce(intakeSubsystem::intakeOpen, intakeSubsystem));
         eventMap.put("intakeClose", Commands.runOnce(intakeSubsystem::intakeClose, intakeSubsystem));
         eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
@@ -119,7 +121,9 @@ public class RobotModule {
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
-        eventMap.put("waitOneSec", new WaitCommand(1.0));
+        eventMap.put("coneAutoWait", new WaitCommand(7.0));
+        eventMap.put("waitHalfSecond", new WaitCommand(0.5));
+        eventMap.put("handoff", new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem));
         return eventMap;
     }
 

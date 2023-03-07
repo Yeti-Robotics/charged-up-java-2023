@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.commands.arm.SetArmPositionCommand;
@@ -26,7 +27,7 @@ public class CubeHandoffCommand extends SequentialCommandGroup {
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF),
                 new InstantCommand(intakeSubsystem::intakeOpen, intakeSubsystem),
                 new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED).withTimeout(1.0)
-                        .alongWith(new ConeInCubeOutCommand(carriageSubsystem)).withTimeout(2.5)
+                        .alongWith(new ConeOutCubeInCommand(carriageSubsystem)).withTimeout(2.5)
         );
     }
 }
