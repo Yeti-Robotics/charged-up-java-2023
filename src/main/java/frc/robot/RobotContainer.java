@@ -7,6 +7,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -121,12 +122,12 @@ public class RobotContainer {
                 .unless(() -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(8,0, new PIDAlignCommand(drivetrainSubsystem,
-                () -> primaryController.getLeftY()), RunCondition.WHILE_HELD);
+                primaryController::getLeftY, primaryController::getRightX), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(5, 0, new InstantCommand(() -> {
-            drivetrainSubsystem.resetOdometer(new Pose2d());
+            drivetrainSubsystem.resetOdometer(new Pose2d(0 ,0, Rotation2d.fromDegrees(0)));
         }), RunCondition.WHEN_PRESSED);
 
 //        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
@@ -150,13 +151,13 @@ public class RobotContainer {
         })
                 .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(1, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(2, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(7, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(3, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(8, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(1, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(6, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(2, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(7, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(3, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(8, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);

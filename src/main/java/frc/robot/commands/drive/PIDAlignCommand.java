@@ -14,17 +14,19 @@ import java.util.function.DoubleSupplier;
 
 public class PIDAlignCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
-    private PIDController rotationPID;
+//    private PIDController rotationPID;
     private PIDController yController;
 
     private DoubleSupplier xSpeed;
+    private DoubleSupplier thetaSpeed;
 
-    public PIDAlignCommand(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier xSpeed){
+    public PIDAlignCommand(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier xSpeed, DoubleSupplier thetaSpeed){
         this.drivetrainSubsystem = drivetrainSubsystem;
-        rotationPID = new PIDController(AutoConstants.ROTATION_P, AutoConstants.ROTATION_I, AutoConstants. ROTATION_D);
-        rotationPID.enableContinuousInput(AutoConstants.MINIMUM_ANGLE, AutoConstants.MAXIMUM_ANGLE);
+//        rotationPID = new PIDController(AutoConstants.ROTATION_P, AutoConstants.ROTATION_I, AutoConstants. ROTATION_D);
+//        rotationPID.enableContinuousInput(AutoConstants.MINIMUM_ANGLE, AutoConstants.MAXIMUM_ANGLE);
         yController = new PIDController(AutoConstants.TAPE_P, AutoConstants.TAPE_I, AutoConstants.TAPE_D);
         this.xSpeed = xSpeed;
+        this.thetaSpeed = thetaSpeed;
         addRequirements(this.drivetrainSubsystem);
     }
 
@@ -34,18 +36,21 @@ public class PIDAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(!Limelight.hasTarget() == true){
+        if(!Limelight.hasTarget()){
             this.cancel();
             return;
         }
-        double currentHeading = MathUtil.inputModulus(
-                drivetrainSubsystem.getGyroscopeHeading().getDegrees(),
-                -180, 180);
-        double rotation = rotationPID.calculate(currentHeading, 180);
+//        double currentHeading = MathUtil.inputModulus(
+//                drivetrainSubsystem.getGyroscopeHeading().getDegrees(),
+//                -180, 180);
+//        double rotation = rotationPID.calculate(currentHeading, 180);
         double ySpeed = -yController.calculate(Limelight.getTx(), 0.0);
 
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                xSpeed.getAsDouble(), ySpeed, rotation, drivetrainSubsystem.getGyroscopeHeading()
+                xSpeed.getAsDouble() * xSpeed.getAsDouble() * DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
+                ySpeed,
+                thetaSpeed.getAsDouble() * thetaSpeed.getAsDouble() * DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                drivetrainSubsystem.getGyroscopeHeading()
         );
 
         drivetrainSubsystem.drive(
