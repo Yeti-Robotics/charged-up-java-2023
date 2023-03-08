@@ -22,16 +22,17 @@ public class PoseWithVisionCommand extends CommandBase {
 
     @Override
     public void execute() {
+        if (!Limelight.hasTarget()) {
+            this.cancel();
+            return;
+        }
         double[] botpose = Limelight.getBotPose();
-        System.out.println(botpose[0] + botpose[1] + botpose[2]);
-        drivetrainSubsystem.updateOdometerWithVision(
-                new Pose2d(botpose[0], botpose[1], Rotation2d.fromDegrees(botpose[5])),
-                Timer.getFPGATimestamp() - botpose[6]);
+        drivetrainSubsystem.resetOdometer(new Pose2d(botpose[0], botpose[1], Rotation2d.fromDegrees(botpose[5])));
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

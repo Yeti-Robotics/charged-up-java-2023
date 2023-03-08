@@ -4,11 +4,14 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.AutoConstants.ALIGNMENT_POSITION;
@@ -38,10 +41,10 @@ public class AutoAlignCommand extends CommandBase
 
     @Override
     public void initialize(){
-        Translation2d robotPose = drivetrainSubsystem.getPose().getTranslation();
+        Pose2d robotPose = drivetrainSubsystem.getPose();
         Translation2d tagLocation;
         if (!Limelight.hasTarget()) {
-            tagLocation = robotPose.nearest(Arrays.asList(FieldConstants.aprilTagTranslations));
+            tagLocation = robotPose.getTranslation().nearest(Arrays.asList(FieldConstants.aprilTagTranslations));
         } else {
             tagLocation = FieldConstants.aprilTagLayout.getTagPose((int) Limelight.getID()).get().getTranslation().toTranslation2d();
         }
@@ -54,10 +57,11 @@ public class AutoAlignCommand extends CommandBase
         }
         Translation2d targetPose = new Translation2d(targetX, targetY);
 
-        Translation2d translation2 = robotPose.interpolate(targetPose,0.5);
+        Translation2d translation2 = robotPose.getTranslation().interpolate(targetPose,0.5);
+        System.out.println(robotPose.getRotation());
         path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
-                new PathPoint(robotPose, position.heading, drivetrainSubsystem.getGyroscopeHeading()),
-                new PathPoint(translation2, position.heading),
+                new PathPoint(robotPose.getTranslation(), position.heading, robotPose.getRotation()),
+                new PathPoint(translation2, position.heading, robotPose.getRotation().interpolate(position.offset.getRotation().div(1.7), 0.5)),
                 new PathPoint(targetPose, position.heading, position.offset.getRotation()));
 
         autoCommand = autoBuilder.followPath(path);
