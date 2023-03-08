@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 
     private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
-    private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
+    private DriverStation.Alliance previousAlliance;
 
     public Robot() {
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
         SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
         SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
-
     }
 
 

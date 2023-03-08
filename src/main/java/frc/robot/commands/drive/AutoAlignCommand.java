@@ -4,9 +4,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -55,14 +53,13 @@ public class AutoAlignCommand extends CommandBase
             targetX = Math.abs(targetX);
             targetY = Math.abs(targetY);
         }
-        Translation2d targetPose = new Translation2d(targetX, targetY);
+        Pose2d targetPose = new Pose2d(targetX, targetY, position.offset.getRotation());
 
-        Translation2d translation2 = robotPose.getTranslation().interpolate(targetPose,0.5);
-        System.out.println(robotPose.getRotation());
+        Pose2d translation2 = robotPose.interpolate(targetPose, 0.8);
         path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
                 new PathPoint(robotPose.getTranslation(), position.heading, robotPose.getRotation()),
-                new PathPoint(translation2, position.heading, robotPose.getRotation().interpolate(position.offset.getRotation().div(1.7), 0.5)),
-                new PathPoint(targetPose, position.heading, position.offset.getRotation()));
+                new PathPoint(translation2.getTranslation(), position.heading, translation2.getRotation()),
+                new PathPoint(targetPose.getTranslation(), position.heading, position.offset.getRotation()));
 
         autoCommand = autoBuilder.followPath(path);
         autoCommand.schedule();
