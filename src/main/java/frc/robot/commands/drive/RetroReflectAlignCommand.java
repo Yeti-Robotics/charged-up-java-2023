@@ -12,14 +12,14 @@ import frc.robot.utils.Limelight;
 import java.util.function.DoubleSupplier;
 
 
-public class PIDAlignCommand extends CommandBase {
+public class RetroReflectAlignCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private PIDController yController;
 
     private DoubleSupplier xSupplier;
     private DoubleSupplier thetaSupplier;
 
-    public PIDAlignCommand(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier xSupplier, DoubleSupplier thetaSupplier) {
+    public RetroReflectAlignCommand(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier xSupplier, DoubleSupplier thetaSupplier) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         yController = new PIDController(AutoConstants.TAPE_P, AutoConstants.TAPE_I, AutoConstants.TAPE_D);
         this.xSupplier = xSupplier;

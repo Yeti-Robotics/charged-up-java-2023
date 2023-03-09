@@ -12,8 +12,10 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -205,7 +207,10 @@ public final class FieldConstants {
     }
 
     public static AprilTagFieldLayout aprilTagLayout;
-    public static Translation2d[] aprilTagTranslations = new Translation2d[8];
+    public static List<Pose2d> aprilTagPoses = new ArrayList<Pose2d>(8);
+    public static List<Pose2d> allianceAprilTags = new ArrayList<Pose2d>(4);
+    public static List<Pose2d> opposingAllianceAprilTags = new ArrayList<Pose2d>(4);
+
     static {
         try {
             aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
@@ -214,11 +219,25 @@ public final class FieldConstants {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static void updateAprilTagTranslations() {
         List<AprilTag> aprilTags = aprilTagLayout.getTags();
         for (int i = 0; i < aprilTags.size(); i++) {
-            aprilTagTranslations[i] = aprilTags.get(i).pose.getTranslation().toTranslation2d();
+            aprilTagPoses.add(i, aprilTags.get(i).pose.toPose2d());
+        }
+
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+            allianceAprilTags = aprilTagPoses.subList(5, 8);
+            allianceAprilTags.add( aprilTagPoses.get(3));
+
+            opposingAllianceAprilTags = aprilTagPoses.subList(0, 3);
+            opposingAllianceAprilTags.add(aprilTagPoses.get(4));
+        } else {
+            allianceAprilTags = aprilTagPoses.subList(0, 3);
+            allianceAprilTags.add(aprilTagPoses.get(4));
+
+            opposingAllianceAprilTags = aprilTagPoses.subList(5, 8);
+            opposingAllianceAprilTags.add(aprilTagPoses.get(3));
         }
     }
 }
