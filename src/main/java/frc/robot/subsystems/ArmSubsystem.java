@@ -47,6 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void setPosition(ArmPositions position) {
         if (isBrakeEngaged) {
             stop();
+            System.out.println("stopping setPosition");
             return;
         }
         armPosition = position;

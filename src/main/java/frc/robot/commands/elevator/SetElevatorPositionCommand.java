@@ -35,11 +35,10 @@ public class SetElevatorPositionCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return elevatorSubsystem.motionFinished();
+        return true;
     }
 
     @Override
     public void end(boolean interrupted) {
-        elevatorSubsystem.stop();
     }
 }
