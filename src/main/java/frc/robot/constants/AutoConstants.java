@@ -59,7 +59,7 @@ public final class AutoConstants {
         TESTING("testing", DEFAULT_CONSTRAINTS),
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
-        CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS),
+        CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
         TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         TWO_PIECE_ONE("twoPieceOne", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
