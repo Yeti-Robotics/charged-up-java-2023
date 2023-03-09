@@ -19,7 +19,7 @@ public final class AutoConstants {
      */
     public static final double MAX_ACCEL = MAX_VELOCITY * 0.75;
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
-    public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 0.75);
+    public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 1.5);
 
     public static final double X_CONTROLLER_P = 4.5; //2.9, 2.15
     public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
@@ -43,7 +43,7 @@ public final class AutoConstants {
 
     public static final double ALIGN_OFFSET = 2.0; //placeholder
     public static final double CONE_OFFSET = 2.0; //placeholder
-    public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 4.0); // 0.4445
+    public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
 
     public static final double TAPE_P = 0.02;
     public static final double TAPE_I = 0;
@@ -86,9 +86,9 @@ public final class AutoConstants {
         LEFT_DOUBLE_STATION(-CENTER_OFFSET, 0.5, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.5, 0.0, 0.0),
         SINGLE_STATION(0.0, -CENTER_OFFSET, 90.0, -90.0),
-        LEFT(CENTER_OFFSET + 0.1, -0.6, 180.0, -180.0),
+        LEFT(CENTER_OFFSET , -0.6, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 0.0),
-        RIGHT(CENTER_OFFSET + 0.1, 0.6, 180.0, 180.0);
+        RIGHT(CENTER_OFFSET, 0.6, 180.0, 180.0);
 
         public final Pose2d offset;
         public final Rotation2d heading;

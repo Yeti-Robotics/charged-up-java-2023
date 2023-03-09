@@ -55,7 +55,7 @@ public class AutoAlignCommand extends CommandBase
         }
         Pose2d targetPose = new Pose2d(targetX, targetY, position.offset.getRotation());
 
-        Pose2d translation2 = robotPose.interpolate(targetPose, 0.8);
+        Pose2d translation2 = robotPose.interpolate(targetPose, 0.8).plus(new Transform2d(new Translation2d(0.5, 0.0), new Rotation2d()));
         path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
                 new PathPoint(robotPose.getTranslation(), position.heading, robotPose.getRotation()),
                 new PathPoint(translation2.getTranslation(), position.heading, translation2.getRotation()),
