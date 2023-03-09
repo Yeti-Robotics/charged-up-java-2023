@@ -15,6 +15,7 @@ import frc.robot.constants.ArmConstants.ArmPositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.function.BooleanSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -114,8 +115,10 @@ public class ArmSubsystem extends SubsystemBase {
         return isBrakeEngaged;
     }
 
+    public boolean isArmDown() { return armPosition == ArmPositions.DOWN; }
+
     public boolean isUP(){
-        return getAngle() >= 90;
+        return armPosition == ArmPositions.UP;
     }
 
     private void motorsBrake() {

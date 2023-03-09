@@ -15,16 +15,14 @@ import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.CubeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
+import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.*;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.elevator.CycleElevatorPositionCommand;
-import frc.robot.commands.elevator.SetElevatorDownCommand;
+import frc.robot.commands.elevator.*;
 import frc.robot.commands.intake.*;
-import frc.robot.constants.AutoConstants;
-import frc.robot.constants.IntakeConstants;
-import frc.robot.constants.OIConstants;
+import frc.robot.constants.*;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
@@ -126,9 +124,8 @@ public class RobotContainer {
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(5, 0, new InstantCommand(() -> {
-            drivetrainSubsystem.resetOdometer(new Pose2d(0 ,0, Rotation2d.fromDegrees(0)));
-        }), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5, 0, new InstantCommand(() ->
+            drivetrainSubsystem.resetOdometer(new Pose2d(0 ,0, Rotation2d.fromDegrees(0)))), RunCondition.WHEN_PRESSED);
 
 //        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
 //                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
@@ -160,7 +157,7 @@ public class RobotContainer {
 //        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
-        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton).beforeStarting(new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN)), RunCondition.WHEN_PRESSED);
     }
 
 
