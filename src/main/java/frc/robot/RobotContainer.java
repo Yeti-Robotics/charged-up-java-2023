@@ -154,7 +154,7 @@ public class RobotContainer {
 //        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
-        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton).beforeStarting(new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN).alongWith(new WaitCommand(0.5))), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton).beforeStarting(new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOWN), elevatorSubsystem::stop).until(elevatorSubsystem::motionFinished)), RunCondition.WHEN_PRESSED);
     }
 
 
