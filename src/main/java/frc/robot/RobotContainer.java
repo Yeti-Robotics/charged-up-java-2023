@@ -13,40 +13,22 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.CubeHandoffCommand;
-import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
-import frc.robot.commands.drive.*;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.elevator.CycleElevatorPositionCommand;
-import frc.robot.commands.elevator.SetElevatorDownCommand;
-import frc.robot.commands.intake.*;
-import frc.robot.constants.AutoConstants;
-import frc.robot.constants.IntakeConstants;
-import frc.robot.constants.OIConstants;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.commands.ConeHandoffCommand;
-import frc.robot.commands.PoseWithVisionCommand;
-import frc.robot.commands.arm.DriverArmPositionCommand;
-import frc.robot.commands.drive.AutoAlignCommand;
-import frc.robot.commands.carriage.ConeInCubeOutCommand;
-import frc.robot.commands.carriage.ConeOutCubeInCommand;
-import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
+import frc.robot.commands.drive.PIDAlignCommand;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
-import frc.robot.commands.intake.*;
-import frc.robot.constants.AutoConstants;
+import frc.robot.commands.intake.IntakeRollInCommand;
+import frc.robot.commands.intake.IntakeRollOutCommand;
+import frc.robot.commands.intake.IntakeShootHighCommand;
+import frc.robot.commands.intake.ToggleIntakeCommand;
 import frc.robot.constants.IntakeConstants;
-import frc.robot.constants.OIConstants;
 import frc.robot.di.RobotComponent;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.Controller;
@@ -64,10 +46,12 @@ public class RobotContainer {
     public final IntakeSubsystem intakeSubsystem;
     public final CarriageSubsystem carriageSubsystem;
     public final DrivetrainSubsystem drivetrainSubsystem;
+    public final LEDSubsystem ledSubsystem;
 
     public final ButtonHelper buttonHelper;
     public final ControllerContainer controllerContainer;
     public final Controller primaryController;
+
 
     private final SwerveAutoBuilder autoBuilder;
 
@@ -78,6 +62,7 @@ public class RobotContainer {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
+            LEDSubsystem ledSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             SwerveAutoBuilder autoBuilder) {
@@ -86,6 +71,7 @@ public class RobotContainer {
         this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
+        this.ledSubsystem = ledSubsystem;
         this.controllerContainer = controllerContainer;
         this.buttonHelper = buttonHelper;
         this.autoBuilder = autoBuilder;

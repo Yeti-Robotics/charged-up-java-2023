@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.drive.PIDAlignCommand;
+import frc.robot.commands.led.SetRGBCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.ElevatorConstants;
@@ -46,11 +46,14 @@ public class Robot extends TimedRobot {
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
 
+    private SetRGBCommand setRGBCommand;
+
     private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
     private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
+
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
         robotComponent.inject(this);
         robotContainer.setRobotComponent(robotComponent);
@@ -90,7 +93,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
         SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
         SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
-
+        setRGBCommand = new SetRGBCommand(robotContainer.ledSubsystem, 255, 0, 0);
+        setRGBCommand.schedule();
     }
 
 
