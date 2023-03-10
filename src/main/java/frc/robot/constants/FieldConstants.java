@@ -214,7 +214,6 @@ public final class FieldConstants {
     static {
         try {
             aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
-            updateAprilTagTranslations();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -227,16 +226,16 @@ public final class FieldConstants {
         }
 
         if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
-            allianceAprilTags = aprilTagPoses.subList(5, 8);
-            allianceAprilTags.add( aprilTagPoses.get(3));
+            allianceAprilTags.addAll(aprilTagPoses.subList(5, 8));
+            allianceAprilTags.add(aprilTagPoses.get(3));
 
-            opposingAllianceAprilTags = aprilTagPoses.subList(0, 3);
+            opposingAllianceAprilTags.addAll(aprilTagPoses.subList(0, 3));
             opposingAllianceAprilTags.add(aprilTagPoses.get(4));
         } else {
-            allianceAprilTags = aprilTagPoses.subList(0, 3);
+            allianceAprilTags.addAll(aprilTagPoses.subList(0, 3));
             allianceAprilTags.add(aprilTagPoses.get(4));
 
-            opposingAllianceAprilTags = aprilTagPoses.subList(5, 8);
+            opposingAllianceAprilTags.addAll(aprilTagPoses.subList(5, 8));
             opposingAllianceAprilTags.add(aprilTagPoses.get(3));
         }
     }
