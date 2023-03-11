@@ -1,8 +1,6 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,14 +19,15 @@ public final class AutoConstants {
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
     public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 1.0);
 
-    public static final double X_CONTROLLER_P = 4.5; //2.9, 2.15
+    public static final double TRANSLATION_P = 3.0; //2.9, 2.15
     public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
     public static final double X_CONTROLLER_D = 0.5;
     public static final double Y_CONTROLLER_D = 0;
-    public static final double THETA_CONTROLLER_P = 3.7; //3
+    public static final double THETA_CONTROLLER_P = 2.4; //3
+    public static final double THETA_CONTROLLER_I = 0.01; //3
 
-    public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(X_CONTROLLER_P, 0, X_CONTROLLER_D);
-    public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, 0, 0);
+    public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(TRANSLATION_P, 0, X_CONTROLLER_D);
+    public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, THETA_CONTROLLER_I, 0);
     public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONTRAINTS = //
             new TrapezoidProfile.Constraints(
                     DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
@@ -56,7 +55,7 @@ public final class AutoConstants {
     public static final double ALIGN_TOLERANCE = 1.0;
 
     public enum AutoModes {
-        TESTING("testing", DEFAULT_CONSTRAINTS),
+        TESTING("testing", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS),
