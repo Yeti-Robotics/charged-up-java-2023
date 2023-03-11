@@ -41,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(getAngle());
+
     }
 
     public void setPosition(ArmPositions position) {

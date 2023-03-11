@@ -6,6 +6,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -83,6 +84,7 @@ public class RobotContainer {
         this.commands = commands;
         drivetrainSubsystem.setDefaultCommand(commands.get(FieldOrientedDrive.class));
         configureBindings();
+        SmartDashboard.putData(buttonHelper);
     }
 
 
@@ -135,7 +137,7 @@ public class RobotContainer {
 
 
         buttonHelper.createButton(4, 0, commands.get(AutoBalancingCommand.class), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(5, 0, commands.get(AprilTagAlignCommand.class), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(5, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0)), RunCondition.WHILE_HELD);
 
         /* Carriage command buttons -- UPDATE THESE */
         buttonHelper.createButton(2, 0, commands.get(CarriageInCommand.class), RunCondition.WHEN_PRESSED);
