@@ -97,21 +97,21 @@ public class RobotContainer {
         Trigger elevatorUpTrigger = new Trigger(() -> !elevatorSubsystem.isDown()){
             public Trigger onTrue(LEDSubsystem ledSubsystem, SetRGBCommand setRGBCommand) {
                 //place value numbers for led
-                return super.onTrue(new SetRGBCommand(ledSubsystem, 2, 3, 4));
+                return super.onTrue(new SetRGBCommand(ledSubsystem, 0, 255,0 ));
             }
         };
 
-        Trigger clawOpenTrigger = new Trigger(() -> intakeSubsystem.isClosed()){
+        Trigger clawClosedTrigger = new Trigger(() -> intakeSubsystem.isClosed()){
             public Trigger onTrue(LEDSubsystem ledSubsystem, SetRGBCommand setRGBCommand) {
                 //place value numbers for led
-                return super.onTrue(new SetRGBCommand(ledSubsystem, 2, 3, 4));
+                return super.onTrue(new SetRGBCommand(ledSubsystem, 0, 0, 255));
             }
         };
 
 
         //human player signalling buttons (all of the numebrs in both of these are placeholders)
-        buttonHelper.createButton(10, 0, new SetRGBCommand(ledSubsystem, 1, 2, 3), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(11, 0, new SetRGBCommand(ledSubsystem, 2, 3, 4), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(4, 0, new SetRGBCommand(ledSubsystem, 255, 0, 0), RunCondition.TOGGLE_WHEN_PRESSED);
+        buttonHelper.createButton(15, 0, new SetRGBCommand(ledSubsystem, 2, 3, 4), RunCondition.WHILE_HELD);
         //end of human player buttons
 
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
@@ -121,9 +121,9 @@ public class RobotContainer {
 
 //        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
 //                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(4,0,new CubeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem).unless(
+        /*buttonHelper.createButton(4,0,new CubeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem).unless(
                 () -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
-
+*/
         buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
                 .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
