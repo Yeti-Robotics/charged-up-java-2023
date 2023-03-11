@@ -46,11 +46,14 @@ public class GridAlignCommand extends CommandBase
         double targetY = tagLocation.getY() + position.offset.getY();
         Rotation2d targetTheta = position.offset.getRotation();
 
+
+        Pose2d thetaPoint = new Pose2d(robotPose.getX() - 0.1, robotPose.getY(), targetTheta);
         Pose2d midPoint = new Pose2d(targetX + 0.2, targetY, targetTheta);
         Pose2d targetPose = new Pose2d(targetX, targetY, targetTheta);
 
         path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
                 new PathPoint(robotPose.getTranslation(), position.heading, robotPose.getRotation()),
+                new PathPoint(thetaPoint.getTranslation(), position.heading, thetaPoint.getRotation()),
                 new PathPoint(midPoint.getTranslation(), position.heading, midPoint.getRotation()),
                 new PathPoint(targetPose.getTranslation(), position.heading, targetPose.getRotation()));
 
