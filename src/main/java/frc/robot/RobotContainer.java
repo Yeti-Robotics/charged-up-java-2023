@@ -97,8 +97,6 @@ public class RobotContainer {
         Trigger elevatorUpTrigger = new Trigger(() -> !elevatorSubsystem.isDown());
         elevatorUpTrigger.onTrue(new SetRGBCommand(ledSubsystem, 0, 255,0 ));
 
-        Trigger clawClosedTrigger = new Trigger(intakeSubsystem::isClosed);
-        clawClosedTrigger.onTrue(new SetRGBCommand(ledSubsystem, 0, 0, 255));
 
 
         //human player signalling buttons (all of the numebrs in both of these are placeholders)
