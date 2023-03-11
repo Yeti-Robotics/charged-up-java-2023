@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.led.SetRGBCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
@@ -25,6 +27,7 @@ import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.di.DaggerRobotComponent;
 import frc.robot.di.RobotComponent;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.utils.rests.restUtils.RESTHandler;
 
 import javax.inject.Inject;
@@ -120,6 +123,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        for (int i = 0; i < robotContainer.ledSubsystem.getBufferLength(); i++) {
+            robotContainer.ledSubsystem.setRGB(i, 255, 0, 0);
+        }
+        robotContainer.ledSubsystem.sendData();
     }
 
 

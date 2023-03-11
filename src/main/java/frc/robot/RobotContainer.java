@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.CubeHandoffCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
@@ -26,6 +27,7 @@ import frc.robot.commands.intake.IntakeRollInCommand;
 import frc.robot.commands.intake.IntakeRollOutCommand;
 import frc.robot.commands.intake.IntakeShootHighCommand;
 import frc.robot.commands.intake.ToggleIntakeCommand;
+import frc.robot.commands.led.SetRGBCommand;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.*;
@@ -35,8 +37,11 @@ import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
+import java.util.function.BooleanSupplier;
 
 import javax.inject.Inject;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 public class RobotContainer {
     private RobotComponent robotComponent;
@@ -84,9 +89,30 @@ public class RobotContainer {
                         primaryController::getRightX
                 ));
         configureBindings();
+
+
     }
 
     private void configureBindings(){
+        Trigger elevatorUpTrigger = new Trigger(() -> !elevatorSubsystem.isDown()){
+            public Trigger onTrue(LEDSubsystem ledSubsystem, SetRGBCommand setRGBCommand) {
+                //place value numbers for led
+                return super.onTrue(new SetRGBCommand(ledSubsystem, 2, 3, 4));
+            }
+        };
+
+        Trigger clawOpenTrigger = new Trigger(() -> intakeSubsystem.isClosed()){
+            public Trigger onTrue(LEDSubsystem ledSubsystem, SetRGBCommand setRGBCommand) {
+                //place value numbers for led
+                return super.onTrue(new SetRGBCommand(ledSubsystem, 2, 3, 4));
+            }
+        };
+
+
+        //human player signalling buttons (all of the numebrs in both of these are placeholders)
+        buttonHelper.createButton(10, 0, new SetRGBCommand(ledSubsystem, 1, 2, 3), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(11, 0, new SetRGBCommand(ledSubsystem, 2, 3, 4), RunCondition.WHILE_HELD);
+        //end of human player buttons
 
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
@@ -148,6 +174,7 @@ public class RobotContainer {
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton), RunCondition.WHEN_PRESSED);
     }
+
 
 
     /**

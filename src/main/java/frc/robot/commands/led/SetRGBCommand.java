@@ -11,6 +11,7 @@ public class SetRGBCommand extends CommandBase {
     private int g;
     private int b;
 
+
     public SetRGBCommand(LEDSubsystem ledSubsystem, int r, int g, int b) {
         this.ledSubsystem = ledSubsystem;
         // each subsystem used by the command must be passed into the
@@ -41,8 +42,6 @@ public class SetRGBCommand extends CommandBase {
         return false;
     }
 
-    @Override
-    public void end(boolean interrupted) {
 
-    }
+
 }
