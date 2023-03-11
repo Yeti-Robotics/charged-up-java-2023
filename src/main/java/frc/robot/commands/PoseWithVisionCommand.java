@@ -10,9 +10,11 @@ import frc.robot.utils.Limelight;
 
 public class PoseWithVisionCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
+    private final Timer timer = new Timer();
     public PoseWithVisionCommand(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
 
+        timer.start();
         addRequirements();
     }
 
@@ -26,13 +28,18 @@ public class PoseWithVisionCommand extends CommandBase {
             this.cancel();
             return;
         }
-        double[] botpose = Limelight.getBotPose();
-        drivetrainSubsystem.resetOdometer(new Pose2d(botpose[0], botpose[1], Rotation2d.fromDegrees(botpose[5])));
+        if (timer.hasElapsed(0.050)) {
+            double[] botpose = Limelight.getBotPose();
+            drivetrainSubsystem.updateOdometerWithVision(
+                    new Pose2d(botpose[0], botpose[1], Rotation2d.fromDegrees(botpose[5])),
+                    Timer.getFPGATimestamp() - botpose[6] / 1000.0);
+            timer.reset();
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
     @Override

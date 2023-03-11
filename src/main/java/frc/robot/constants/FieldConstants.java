@@ -220,6 +220,9 @@ public final class FieldConstants {
     }
 
     public static void updateAprilTagTranslations() {
+        aprilTagPoses.clear();
+        allianceAprilTags.clear();
+        opposingAllianceAprilTags.clear();
         List<AprilTag> aprilTags = aprilTagLayout.getTags();
         for (int i = 0; i < aprilTags.size(); i++) {
             aprilTagPoses.add(i, aprilTags.get(i).pose.toPose2d());

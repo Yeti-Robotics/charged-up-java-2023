@@ -54,7 +54,7 @@ public class HumanStationAlignCommand extends CommandBase
             targetTheta = position.offset.getRotation();
         }
 
-        Pose2d midPoint = new Pose2d(targetX, targetY + 0.2, targetTheta);
+        Pose2d midPoint = new Pose2d(targetX, targetY + 0.4, targetTheta);
         Pose2d targetPose = new Pose2d(targetX, targetY, targetTheta);
 
         path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
