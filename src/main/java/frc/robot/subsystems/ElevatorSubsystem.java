@@ -4,6 +4,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -14,9 +16,9 @@ import frc.robot.constants.ElevatorConstants.ElevatorPositions;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase implements Sendable {
     private final WPI_TalonFX elevatorMotor;
-    private ElevatorPositions position;
+    private ElevatorPositions position = ElevatorPositions.DOWN;
 
     private final DigitalInput magSwitch;
 
@@ -90,6 +92,11 @@ public class ElevatorSubsystem extends SubsystemBase {
         if (getMagSwitch() && position == ElevatorPositions.DOWN) {
             zeroEncoder();
         }
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("Elevator Position", () -> getPosition().toString(), null);
     }
 }
 

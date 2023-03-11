@@ -58,5 +58,23 @@ public final class ArmConstants {
             this.angle = angle;
             this.sensorUnits = angle / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
         }
+
+        public String toString() {
+            switch (this) {
+                case UP:
+                    return "UP";
+                case DOWN:
+                    return "DOWN";
+                case CONE_FLIP:
+                    return "CONE_FLIP";
+                case SHOOT:
+                    return "SHOOT";
+                case PORTAL:
+                    return "PORTAL";
+                case HANDOFF:
+                    return "HANDOFF";
+            }
+            return "";
+        }
     }
 }
