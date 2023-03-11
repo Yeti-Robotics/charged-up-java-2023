@@ -94,19 +94,11 @@ public class RobotContainer {
     }
 
     private void configureBindings(){
-        Trigger elevatorUpTrigger = new Trigger(() -> !elevatorSubsystem.isDown()){
-            public Trigger onTrue(LEDSubsystem ledSubsystem, SetRGBCommand setRGBCommand) {
-                //place value numbers for led
-                return super.onTrue(new SetRGBCommand(ledSubsystem, 0, 255,0 ));
-            }
-        };
+        Trigger elevatorUpTrigger = new Trigger(() -> !elevatorSubsystem.isDown());
+        elevatorUpTrigger.onTrue(new SetRGBCommand(ledSubsystem, 0, 255,0 ));
 
-        Trigger clawClosedTrigger = new Trigger(() -> intakeSubsystem.isClosed()){
-            public Trigger onTrue(LEDSubsystem ledSubsystem, SetRGBCommand setRGBCommand) {
-                //place value numbers for led
-                return super.onTrue(new SetRGBCommand(ledSubsystem, 0, 0, 255));
-            }
-        };
+        Trigger clawClosedTrigger = new Trigger(intakeSubsystem::isClosed);
+        clawClosedTrigger.onTrue(new SetRGBCommand(ledSubsystem, 0, 0, 255));
 
 
         //human player signalling buttons (all of the numebrs in both of these are placeholders)
