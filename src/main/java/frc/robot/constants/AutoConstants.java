@@ -21,11 +21,11 @@ public final class AutoConstants {
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
     public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 1.5);
 
-    public static final double X_CONTROLLER_P = 4.5; //2.9, 2.15
+    public static final double X_CONTROLLER_P = 3.5; //2.9, 2.15
     public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
     public static final double X_CONTROLLER_D = 0.5;
     public static final double Y_CONTROLLER_D = 0;
-    public static final double THETA_CONTROLLER_P = 3.7; //3
+    public static final double THETA_CONTROLLER_P = 2.0; //3
 
     public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(X_CONTROLLER_P, 0, X_CONTROLLER_D);
     public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, 0, 0);
