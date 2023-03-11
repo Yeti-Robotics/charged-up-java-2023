@@ -103,17 +103,11 @@ public class RobotContainer {
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)
                 .unless(() -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(8,0, new RetroReflectAlignCommand(drivetrainSubsystem,
-                primaryController::getLeftY, primaryController::getRightX), RunCondition.WHILE_HELD);
-
         buttonHelper.createButton(5, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
                 .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
-//        buttonHelper.createButton(5, 0, new InstantCommand(() -> {
-//            drivetrainSubsystem.resetOdometer(new Pose2d(2.5 ,4.5, Rotation2d.fromDegrees(180)));
-//        }), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUP()) {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
@@ -132,12 +126,12 @@ public class RobotContainer {
         })
                 .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(1, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(2, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(3, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(8, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(4, 1, new HumanStationAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(9, 1, new HumanStationAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(10, 1, new HumanStationAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
