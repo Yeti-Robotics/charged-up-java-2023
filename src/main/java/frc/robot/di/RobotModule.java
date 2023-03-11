@@ -80,7 +80,8 @@ public class RobotModule {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
-            CarriageSubsystem carriageSubsystem) {
+            CarriageSubsystem carriageSubsystem,
+            LEDSubsystem ledSubsystem) {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
         eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));
@@ -121,7 +122,7 @@ public class RobotModule {
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("coneAutoWait", new WaitCommand(7.0));
         eventMap.put("waitHalfSecond", new WaitCommand(0.5));
-        eventMap.put("handoff", new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem));
+        eventMap.put("handoff", new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem, ledSubsystem));
         return eventMap;
     }
 
