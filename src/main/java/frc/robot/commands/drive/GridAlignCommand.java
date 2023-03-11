@@ -33,7 +33,7 @@ public class GridAlignCommand extends CommandBase
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
         Pose2d tagLocation;
         if (!Limelight.hasTarget()) {

@@ -38,11 +38,6 @@ public class HumanStationAlignCommand extends CommandBase
 
     @Override
     public void initialize(){
-        if (!Limelight.hasTarget()) {
-            this.cancel();
-            return;
-        }
-
         Pose2d robotPose = drivetrainSubsystem.getPose();
         Pose2d tagLocation = FieldConstants.allianceAprilTags.get(3);
 
