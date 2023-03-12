@@ -23,10 +23,10 @@ public final class CarriageConstants {
     public static final double LOWER_FLIP_LIMIT = 0.0/ COUNTS_TO_DEGREES;
     public static final double UPPER_FLIP_LIMIT = 170 / COUNTS_TO_DEGREES;
     public static final double FLIP_TOLERANCE = 1.0 / COUNTS_TO_DEGREES;
-    public static final double FLIP_P = 0.4;
-    public static final double FLIP_I = 0;
-    public static final double FLIP_D = 0.1;
-    public static final double FLIP_F = 0.00;
+    public static final double FLIP_P = 0.12;
+    public static final double FLIP_I = 0.0;
+    public static final double FLIP_D = 0.5;
+    public static final double FLIP_F = 0.0;
 
     public static final double MAX_VELOCITY =  60 / COUNTS_TO_DEGREES;
     public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
@@ -35,7 +35,7 @@ public final class CarriageConstants {
     public static final String ROLLER_SPARK = "rollerMotor";
     public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
 
-    public static final double GRAVITY_FEEDFORWARD = 0.20;
+    public static final double GRAVITY_FEEDFORWARD = 0.65;
 
     public enum CarriagePositions {
         DOWN(0.0),
