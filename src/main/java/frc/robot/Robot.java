@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
         SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
         SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
-
     }
 
 

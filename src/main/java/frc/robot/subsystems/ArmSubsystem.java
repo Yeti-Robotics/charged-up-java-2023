@@ -40,8 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-    }
+    public void periodic() {}
 
     public void setPosition(ArmPositions position) {
         if (isBrakeEngaged) {
