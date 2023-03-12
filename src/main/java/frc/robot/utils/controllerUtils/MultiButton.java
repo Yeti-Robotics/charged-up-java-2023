@@ -41,7 +41,7 @@ public class MultiButton {
     }
 
     public MultiButton(BooleanSupplier trigger, byte buttonID) {
-        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED);
+        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED, null);
     }
 
     public static void syncLayers(int layer) {
@@ -97,10 +97,6 @@ public class MultiButton {
 
     public byte getButtonID() {
         return buttonID;
-    }
-
-    public boolean isPressed() {
-        return pressed;
     }
 
     @Override
