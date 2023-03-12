@@ -51,5 +51,6 @@ public class SetElevatorDownCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         elevatorSubsystem.stop();
+        carriageSubsystem.zeroFlip();
     }
 }
