@@ -6,12 +6,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
-import javax.inject.Inject;
-
 public class SwerveLockCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
 
-    @Inject
     public SwerveLockCommand(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
 
