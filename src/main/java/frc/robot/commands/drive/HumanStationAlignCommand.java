@@ -42,25 +42,18 @@ public class HumanStationAlignCommand extends CommandBase
         Pose2d tagLocation = FieldConstants.allianceAprilTags.get(3);
 
         double targetX = tagLocation.getX() + position.offset.getX();
-        double targetY;
-        Rotation2d targetTheta;
+        double targetY = tagLocation.getY() + position.offset.getY();
+        Rotation2d targetTheta = position.offset.getRotation();
         Rotation2d heading = position.heading;
-        if (position == ALIGNMENT_POSITION.SINGLE_STATION && DriverStation.getAlliance() == DriverStation.Alliance.Red) {
-            targetY = tagLocation.getY() - position.offset.getY();
-            targetTheta = position.offset.getRotation().rotateBy(flipRotation);
-            heading = heading.rotateBy(flipRotation);
-        } else {
-            targetY = tagLocation.getY() + position.offset.getY();
-            targetTheta = position.offset.getRotation();
-        }
 
         Pose2d midPoint = new Pose2d(targetX, targetY + 0.4, targetTheta);
         Pose2d targetPose = new Pose2d(targetX, targetY, targetTheta);
 
-        path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
+        path = PathPlannerTrajectory.transformTrajectoryForAlliance(PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
                 new PathPoint(robotPose.getTranslation(), heading, robotPose.getRotation()),
                 new PathPoint(midPoint.getTranslation(), heading, midPoint.getRotation()),
-                new PathPoint(targetPose.getTranslation(),heading, targetPose.getRotation()));
+                new PathPoint(targetPose.getTranslation(),heading, targetPose.getRotation())), DriverStation.getAlliance());
+
 
         autoCommand = autoBuilder.followPath(path);
         autoCommand.schedule();

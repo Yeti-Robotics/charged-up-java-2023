@@ -106,8 +106,8 @@ public class RobotContainer {
         buttonHelper.createButton(5, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
                 .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
-
+        buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+//        buttonHelper.createButton(10, 0, new StartEndCommand(carriageSubsystem::flipOut, carriageSubsystem::flipIn), RunCondition.WHILE_HELD);
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUP()) {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
