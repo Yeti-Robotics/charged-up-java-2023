@@ -23,10 +23,9 @@ public class CubeHandoffCommand extends SequentialCommandGroup {
             ElevatorSubsystem elevatorSubsystem,
             CarriageSubsystem carriageSubsystem) {
         addCommands(
-                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF),
                 new InstantCommand(intakeSubsystem::intakeOpen, intakeSubsystem),
-                new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED).withTimeout(1.0)
+                new IntakeRollOutCommand(intakeSubsystem, 0.2).withTimeout(1.0)
                         .alongWith(new ConeOutCubeInCommand(carriageSubsystem)).withTimeout(2.5)
         );
     }

@@ -88,7 +88,7 @@ public final class AutoConstants {
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.5, 0.0, 0.0),
         SINGLE_STATION(-2.5, CENTER_OFFSET, 90.0, -90.0),
         LEFT(CENTER_OFFSET , -0.6, 180.0, -180.0),
-        MIDDLE(CENTER_OFFSET, 0.0, 180.0, 0.0),
+        MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.6, 180.0, 180.0);
 
         public final Pose2d offset;
