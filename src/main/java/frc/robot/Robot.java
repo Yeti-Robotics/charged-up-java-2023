@@ -84,6 +84,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
+        SmartDashboard.putData(robotContainer.drivetrainSubsystem);
+        SmartDashboard.putData(robotContainer.armSubsystem);
+        SmartDashboard.putData(robotContainer.carriageSubsystem);
+        SmartDashboard.putData(robotContainer.elevatorSubsystem);
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
@@ -106,10 +110,7 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        SmartDashboard.putData(robotContainer.drivetrainSubsystem);
-        SmartDashboard.putData(robotContainer.armSubsystem);
-        SmartDashboard.putData(robotContainer.carriageSubsystem);
-        SmartDashboard.putData(robotContainer.elevatorSubsystem);
+
     }
 
 

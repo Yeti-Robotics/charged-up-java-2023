@@ -139,6 +139,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Arm Position", () -> getArmPosition().toString(), null);
+        builder.addStringProperty("Arm Angle", () -> String.format("%.2f", getAngle()), null);
     }
 }
 

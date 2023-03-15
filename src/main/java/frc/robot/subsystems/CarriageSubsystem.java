@@ -90,6 +90,8 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Carriage Position", () -> getCarriagePosition().toString(), null);
+        builder.addStringProperty("Carriage Angle", () -> String.format("%.2f", getAngle()), null);
+
     }
 }
 

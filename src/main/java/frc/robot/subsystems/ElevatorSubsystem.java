@@ -97,6 +97,7 @@ public class ElevatorSubsystem extends SubsystemBase implements Sendable {
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Elevator Position", () -> getPosition().toString(), null);
+        builder.addStringProperty("Elevator Distance", () -> String.format("%.2f", getDistance()), null);
     }
 }
 

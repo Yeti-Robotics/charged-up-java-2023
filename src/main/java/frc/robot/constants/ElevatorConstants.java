@@ -65,18 +65,5 @@ public final class ElevatorConstants {
             this.distance = distance;
             this.sensorUnits = (distance / STAGES) / ELEVATOR_DISTANCE_PER_PULSE;
         }
-        public String toString() {
-            switch (this) {
-                case DOWN:
-                    return "DOWN";
-                case CONE_HANDOFF:
-                    return "CONE_HANDOFF";
-                case LEVEL_TWO:
-                    return "LEVEL_TWO";
-                case UP:
-                    return "UP";
-            }
-            return "";
-        }
     }
 }

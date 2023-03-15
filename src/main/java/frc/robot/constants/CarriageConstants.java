@@ -48,14 +48,5 @@ public final class CarriageConstants {
             this.angle = angle;
             this.sensorUnits = angle / COUNTS_TO_DEGREES;
         }
-        public String toString() {
-            switch (this) {
-                case DOWN:
-                    return "DOWN";
-                case FLIPPED:
-                    return "FLIPPED";
-            }
-            return "";
-        }
     }
 }
