@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
 import frc.robot.utils.Limelight;
@@ -18,7 +20,7 @@ import frc.robot.constants.DriveConstants;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class DrivetrainSubsystem extends SubsystemBase {
+public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
     private final SwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
 
     private final SwerveModulePosition[] positions;
@@ -116,6 +118,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
         updateSwerveModulePositions();
         odometer.update(getGyroscopeHeading(), positions);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("pose", () -> String.format("Pose (x,y): (%.2f, %.2f) Rotation(deg): %.2f", getPose().getX(), getPose().getY(), getPose().getRotation().getDegrees()), null);
     }
 }
 

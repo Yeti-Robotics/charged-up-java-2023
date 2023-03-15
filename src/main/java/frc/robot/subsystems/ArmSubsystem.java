@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ArmConstants;
@@ -16,7 +18,7 @@ import frc.robot.constants.ArmConstants.ArmPositions;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase implements Sendable {
 
     private final WPI_TalonFX armMotor1;
     private final WPI_CANCoder encoder;
@@ -131,6 +133,12 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void stop() {
         armMotor1.stopMotor();
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("Arm Position", () -> getArmPosition().toString(), null);
+        builder.addStringProperty("Arm Angle", () -> String.format("%.2f", getAngle()), null);
     }
 }
 
