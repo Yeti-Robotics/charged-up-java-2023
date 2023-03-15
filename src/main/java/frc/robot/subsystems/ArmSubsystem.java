@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.CANCoderConstants;
-import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ArmConstants.ArmPositions;
 
 import javax.inject.Inject;
@@ -48,6 +47,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     public void setPosition(ArmPositions position) {
         if (isBrakeEngaged) {
             stop();
+            System.out.println("stopping setPosition");
             return;
         }
         armPosition = position;
@@ -116,7 +116,9 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
         return isBrakeEngaged;
     }
 
-    public boolean isUP(){
+    public boolean isArmDown() { return armPosition == ArmPositions.DOWN; }
+
+    public boolean isUp(){
         return getAngle() >= 90;
     }
 
