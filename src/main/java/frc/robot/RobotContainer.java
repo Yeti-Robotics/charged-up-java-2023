@@ -11,33 +11,19 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.CubeHandoffCommand;
-import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
-import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.*;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.elevator.*;
 import frc.robot.commands.intake.*;
 import frc.robot.constants.*;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.commands.ConeHandoffCommand;
-import frc.robot.commands.PoseWithVisionCommand;
-import frc.robot.commands.arm.DriverArmPositionCommand;
-import frc.robot.commands.drive.AutoAlignCommand;
-import frc.robot.commands.carriage.ConeInCubeOutCommand;
-import frc.robot.commands.carriage.ConeOutCubeInCommand;
-import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
-import frc.robot.commands.intake.*;
-import frc.robot.constants.AutoConstants;
 import frc.robot.constants.IntakeConstants;
-import frc.robot.constants.OIConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CarriageSubsystem;
@@ -106,7 +92,7 @@ public class RobotContainer {
 //        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
 //                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(4,0,new CubeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem).unless(
-                () -> !armSubsystem.isUP()), RunCondition.WHEN_PRESSED);
+                () -> !armSubsystem.isUp()), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
                 .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
@@ -128,22 +114,22 @@ public class RobotContainer {
 //                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
-            if (armSubsystem.isUP()) {
+            if (armSubsystem.isUp()) {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
             } else {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
             }
         })
-                .alongWith(new ToggleIntakeCommand(intakeSubsystem).unless(() -> armSubsystem.isUP())), RunCondition.WHEN_PRESSED);
+                .alongWith(new ToggleIntakeCommand(intakeSubsystem).unless(() -> armSubsystem.isUp())), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(11, 1, new InstantCommand(() -> {
-            if (armSubsystem.isUP()) {
+            if (armSubsystem.isUp()) {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
             } else {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
             }
         })
-                .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUP())), RunCondition.WHILE_HELD);
+                .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUp())), RunCondition.WHILE_HELD);
 
 //        buttonHelper.createButton(1, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
 //        buttonHelper.createButton(6, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
@@ -154,7 +140,7 @@ public class RobotContainer {
 //        buttonHelper.createButton(9, 1, new AutoAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
-        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton).beforeStarting(new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOWN), elevatorSubsystem::stop).until(elevatorSubsystem::motionFinished)), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton).beforeStarting(new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem).unless(elevatorSubsystem::isDown)), RunCondition.WHEN_PRESSED);
     }
 
 

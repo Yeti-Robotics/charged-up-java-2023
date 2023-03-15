@@ -10,12 +10,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.CANCoderConstants;
-import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ArmConstants.ArmPositions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.function.BooleanSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -118,8 +116,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     public boolean isArmDown() { return armPosition == ArmPositions.DOWN; }
 
-    public boolean isUP(){
-        return armPosition == ArmPositions.UP;
+    public boolean isUp(){
+        return getAngle() >= 90;
     }
 
     private void motorsBrake() {
