@@ -123,7 +123,8 @@ public class ButtonHelper implements NTSendable {
 
         MultiButton multiButton = new MultiButton(
                 supplier,
-                buttonID);
+                buttonID,
+                this);
 
         buttonMaps.get(controller).put(buttonID, multiButton);
         return multiButton;

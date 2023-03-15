@@ -40,8 +40,8 @@ public class MultiButton {
         updateNetworkTables();
     }
 
-    public MultiButton(BooleanSupplier trigger, byte buttonID) {
-        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED, null);
+    public MultiButton(BooleanSupplier trigger, byte buttonID, ButtonHelper parent) {
+        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED, parent);
     }
 
     public static void syncLayers(int layer) {
