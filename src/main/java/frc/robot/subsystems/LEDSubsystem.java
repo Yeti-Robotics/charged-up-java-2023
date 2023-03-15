@@ -22,7 +22,8 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     public void setRGB(int i, int red, int green, int blue) {
-        ledBuffer.setRGB(i, red, green, blue);
+        // Green and blue are swapped cause we use ws2811, wpi assumes ws2812
+        ledBuffer.setRGB(i, red, blue, green);
     }
 
     public int getBufferLength() {

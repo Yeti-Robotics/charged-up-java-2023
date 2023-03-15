@@ -1,7 +1,7 @@
 package frc.robot.constants;
 
 public class LEDConstants {
-    public static final int LED_COUNT = 0; //placeholder from aurora
+    public static final int LED_COUNT = 96; //placeholder from aurora
 
     public static final int ADDRESSABLE_LED = 0;
 

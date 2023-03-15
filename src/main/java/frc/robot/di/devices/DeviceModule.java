@@ -66,14 +66,6 @@ public class DeviceModule {
         AddressableLED led = new AddressableLED(LEDConstants.ADDRESSABLE_LED);
         led.setLength(LEDConstants.LED_COUNT);
 
-        // Set timings for our adafruit ws2811 controller
-        led.setBitTiming(
-                LEDConstants.LOW_0_NANOS,
-                LEDConstants.HIGH_0_NANOS,
-                LEDConstants.LOW_1_NANOS,
-                LEDConstants.HIGH_1_NANOS
-        );
-
         led.start();
         return led;
     }

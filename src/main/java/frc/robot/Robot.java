@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
         SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
         SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
-        robotContainer.ledSubsystem.setSolidRGB(0, 255, 0);
+        robotContainer.ledSubsystem.setSolidRGB(255, 0, 0);
     }
 
 
