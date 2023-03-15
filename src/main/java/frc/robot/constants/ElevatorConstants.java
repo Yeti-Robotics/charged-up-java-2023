@@ -28,7 +28,7 @@ public final class ElevatorConstants {
      * Number of elevator stages excluding the stationary stage
      */
     public static final int STAGES = 2;
-    public static final double STAGE_EXTENSION = 18.5;
+    public static final double STAGE_EXTENSION = 19.0;
     public static final double MAX_EXTENSION = STAGE_EXTENSION * STAGES;
 
     public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(
@@ -56,7 +56,7 @@ public final class ElevatorConstants {
         DOWN(0),
         CONE_HANDOFF(7.5),
         LEVEL_TWO(15.5),
-        UP(MAX_EXTENSION - 1.0);
+        UP(MAX_EXTENSION);
 
         public final double distance;
         public final double sensorUnits;

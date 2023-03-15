@@ -46,7 +46,7 @@ public final class ArmConstants {
     public enum ArmPositions {
         DOWN(0.0),
         CONE_FLIP(7.0),
-        SHOOT(60.0),
+        SHOOT(65.0),
         PORTAL(70.0),
         UP(100.0),
         HANDOFF(120.0);
