@@ -209,6 +209,8 @@ public final class FieldConstants {
     public static AprilTagFieldLayout aprilTagLayout;
     public static List<Pose2d> aprilTagPoses = new ArrayList<Pose2d>(8);
     public static List<Pose2d> allianceAprilTags = new ArrayList<Pose2d>(4);
+    public static List<Pose2d> gridAprilTags = new ArrayList<>(3);
+    public static Pose2d humanStationAprilTag;
     public static List<Pose2d> opposingAllianceAprilTags = new ArrayList<Pose2d>(4);
 
     static {
@@ -222,21 +224,25 @@ public final class FieldConstants {
     public static void updateAprilTagTranslations() {
         aprilTagPoses.clear();
         allianceAprilTags.clear();
+        gridAprilTags.clear();
         opposingAllianceAprilTags.clear();
-        List<AprilTag> aprilTags = aprilTagLayout.getTags();
-        for (int i = 0; i < aprilTags.size(); i++) {
-            aprilTagPoses.add(i, aprilTags.get(i).pose.toPose2d());
+        for (int i = 0; i < aprilTagLayout.getTags().size(); i++) {
+            aprilTagPoses.add(i, aprilTagLayout.getTagPose(i + 1).get().toPose2d());
         }
 
         if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
-            allianceAprilTags.addAll(aprilTagPoses.subList(5, 8));
-            allianceAprilTags.add(aprilTagPoses.get(3));
+            gridAprilTags.addAll(aprilTagPoses.subList(5, 8));
+            allianceAprilTags.addAll(gridAprilTags);
+            humanStationAprilTag = aprilTagPoses.get(3);
+            allianceAprilTags.add(humanStationAprilTag);
 
             opposingAllianceAprilTags.addAll(aprilTagPoses.subList(0, 3));
             opposingAllianceAprilTags.add(aprilTagPoses.get(4));
         } else {
-            allianceAprilTags.addAll(aprilTagPoses.subList(0, 3));
-            allianceAprilTags.add(aprilTagPoses.get(4));
+            gridAprilTags.addAll(aprilTagPoses.subList(0, 3));
+            allianceAprilTags.addAll(gridAprilTags);
+            humanStationAprilTag = aprilTagPoses.get(4);
+            allianceAprilTags.add(humanStationAprilTag);
 
             opposingAllianceAprilTags.addAll(aprilTagPoses.subList(5, 8));
             opposingAllianceAprilTags.add(aprilTagPoses.get(3));

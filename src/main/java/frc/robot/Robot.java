@@ -176,8 +176,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        System.out.println(robotContainer.carriageSubsystem.getAngle());
-        System.out.println(robotContainer.elevatorSubsystem.getDistance());
     }
 
 
