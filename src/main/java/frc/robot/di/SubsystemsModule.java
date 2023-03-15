@@ -159,14 +159,7 @@ public class SubsystemsModule {
     }
     @Provides
     @Singleton
-    public LEDSubsystem providesLEDSubsystem () {
-        AddressableLED led = new AddressableLED(LEDConstants.ADDRESSABLE_LED);
-        AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_COUNT);
-        led.setLength(ledBuffer.getLength());
-        led.setData(ledBuffer);
-        led.start();
-        return new LEDSubsystem(
-                led,
-                ledBuffer);
+    public LEDSubsystem providesLEDSubsystem(AddressableLED led) {
+        return new LEDSubsystem(led);
     }
 }

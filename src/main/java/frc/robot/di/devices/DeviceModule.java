@@ -4,9 +4,11 @@ package frc.robot.di.devices;
 import com.ctre.phoenix.sensors.*;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.ElevatorConstants;
+import frc.robot.constants.LEDConstants;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -58,4 +60,21 @@ public class DeviceModule {
         return new DigitalInput(ElevatorConstants.MAG_SWITCH_PORT);
     }
 
+    @Provides
+    @Singleton
+    public AddressableLED providesLED() {
+        AddressableLED led = new AddressableLED(LEDConstants.ADDRESSABLE_LED);
+        led.setLength(LEDConstants.LED_COUNT);
+
+        // Set timings for our adafruit ws2811 controller
+        led.setBitTiming(
+                LEDConstants.LOW_0_NANOS,
+                LEDConstants.HIGH_0_NANOS,
+                LEDConstants.LOW_1_NANOS,
+                LEDConstants.HIGH_1_NANOS
+        );
+
+        led.start();
+        return led;
+    }
 }

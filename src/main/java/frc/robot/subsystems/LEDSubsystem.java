@@ -13,11 +13,9 @@ public class LEDSubsystem extends SubsystemBase {
     private final AddressableLED led;
     private final AddressableLEDBuffer ledBuffer;
     @Inject
-    public LEDSubsystem(@Named(LEDConstants.LED) AddressableLED led, @Named(LEDConstants.LED_COUNT_NAME) AddressableLEDBuffer ledBuffer){
-        this.ledBuffer = ledBuffer;
+    public LEDSubsystem(AddressableLED led){
+        this.ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_COUNT);
         this.led = led;
-
-
     }
     public void setHSV(int i, int hue, int saturation, int value) {
         ledBuffer.setHSV(i, hue, saturation, value);
@@ -35,6 +33,11 @@ public class LEDSubsystem extends SubsystemBase {
         led.setData(ledBuffer);
     }
 
-
+    public void setSolidRGB(int r, int g, int b) {
+        for (int i = 0; i < getBufferLength(); i++) {
+            setRGB(i, r, g, b);
+        }
+        sendData();
+    }
 }
 

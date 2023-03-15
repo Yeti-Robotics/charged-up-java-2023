@@ -96,8 +96,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
         SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
         SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
-        setRGBCommand = new SetRGBCommand(robotContainer.ledSubsystem, 255, 0, 0);
-        setRGBCommand.schedule();
+        robotContainer.ledSubsystem.setSolidRGB(0, 255, 0);
     }
 
 
@@ -123,10 +122,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-        for (int i = 0; i < robotContainer.ledSubsystem.getBufferLength(); i++) {
-            robotContainer.ledSubsystem.setRGB(i, 255, 0, 0);
-        }
-        robotContainer.ledSubsystem.sendData();
     }
 
 

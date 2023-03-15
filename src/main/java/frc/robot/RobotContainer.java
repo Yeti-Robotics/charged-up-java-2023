@@ -37,11 +37,8 @@ import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
 import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
-import java.util.function.BooleanSupplier;
 
 import javax.inject.Inject;
-import java.util.Set;
-import java.util.function.BooleanSupplier;
 
 public class RobotContainer {
     private RobotComponent robotComponent;
