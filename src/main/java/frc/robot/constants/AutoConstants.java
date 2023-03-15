@@ -21,7 +21,7 @@ public final class AutoConstants {
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
     public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 1.5);
 
-    public static final double X_CONTROLLER_P = 3.5; //2.9, 2.15
+    public static final double X_CONTROLLER_P = 3.0; //2.9, 2.15
     public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
     public static final double X_CONTROLLER_D = 0.5;
     public static final double Y_CONTROLLER_D = 0;
@@ -61,8 +61,18 @@ public final class AutoConstants {
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
-        TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
-        TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
+        TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne",
+                new PathConstraints(0.75, 0.4),
+                DEFAULT_CONSTRAINTS,
+                DEFAULT_CONSTRAINTS,
+                new PathConstraints(0.75, 0.4),
+                DEFAULT_CONSTRAINTS),
+        TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo",
+                new PathConstraints(0.75, 0.4),
+                DEFAULT_CONSTRAINTS,
+                DEFAULT_CONSTRAINTS,
+                new PathConstraints(0.75, 0.4),
+                DEFAULT_CONSTRAINTS),
         TWO_PIECE_ONE("twoPieceOne", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),

@@ -13,9 +13,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ConeHandoffCommand;
+import frc.robot.commands.CubeHandoffCommand;
+import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.commands.carriage.CarriageFlipOutCommand;
+import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.SwerveLockCommand;
@@ -121,10 +124,18 @@ public class RobotModule {
                 new WaitCommand(1.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
+        eventMap.put("cubeHigh", Commands.sequence(
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
+                new WaitCommand(1.0),
+                new CarriageFlipOutCommand(carriageSubsystem),
+                new WaitCommand(1.0),
+                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.5)
+        ));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("coneAutoWait", new WaitCommand(7.0));
         eventMap.put("waitHalfSecond", new WaitCommand(0.5));
         eventMap.put("handoff", new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem));
+        eventMap.put("aprilTagAlign", new PoseWithVisionCommand(drivetrainSubsystem).withTimeout(0.5));
         return eventMap;
     }
 
