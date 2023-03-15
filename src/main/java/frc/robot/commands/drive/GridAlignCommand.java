@@ -35,12 +35,7 @@ public class GridAlignCommand extends CommandBase
     @Override
     public void initialize() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
-        Pose2d tagLocation;
-        if (!Limelight.hasTarget()) {
-            tagLocation = robotPose.nearest(FieldConstants.allianceAprilTags);
-        } else {
-            tagLocation = FieldConstants.aprilTagLayout.getTagPose((int) Limelight.getID()).get().toPose2d();
-        }
+        Pose2d tagLocation = robotPose.nearest(FieldConstants.gridAprilTags);
 
         double targetX = tagLocation.getX() + position.offset.getX();
         double targetY = tagLocation.getY() + position.offset.getY();

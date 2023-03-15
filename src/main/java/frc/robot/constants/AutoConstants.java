@@ -20,14 +20,14 @@ public final class AutoConstants {
     public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 1.5);
 
     public static final double TRANSLATION_P = 3.0; //2.9, 2.15
-    public static final double Y_CONTROLLER_P = 2.1; //2.9, 2.15
-    public static final double X_CONTROLLER_D = 0.5;
-    public static final double Y_CONTROLLER_D = 0;
+    public static final double TRANSLATION_I = 0.0;
+    public static final double TRANSLATION_D = 0.5;
     public static final double THETA_CONTROLLER_P = 2.4; //3
     public static final double THETA_CONTROLLER_I = 0.01; //3
+    public static final double THETA_CONTROLLER_D = 0.0;
 
-    public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(TRANSLATION_P, 0, X_CONTROLLER_D);
-    public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, THETA_CONTROLLER_I, 0);
+    public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(TRANSLATION_P, TRANSLATION_I, TRANSLATION_D);
+    public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, THETA_CONTROLLER_I, THETA_CONTROLLER_D);
     public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONTRAINTS = //
             new TrapezoidProfile.Constraints(
                     DriveConstants.MAX_VELOCITY_METERS_PER_SECOND,
@@ -37,22 +37,9 @@ public final class AutoConstants {
     public static final double PITCH_P = 0.02; //0.03
     public static final double PITCH_I = 0.0;
     public static final double PITCH_D = 0.001; //0.005
-    public static final double PITCH_F = 0.0;
     public static final double PITCH_TOLERANCE = 1.0;
 
-    public static final double ALIGN_OFFSET = 2.0; //placeholder
-    public static final double CONE_OFFSET = 2.0; //placeholder
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
-
-    public static final double TAPE_P = 0.02;
-    public static final double TAPE_I = 0;
-    public static final double TAPE_D = 0;
-    public static final double ROTATION_P = 0.01;
-    public static final double ROTATION_I = 0;
-    public static final double ROTATION_D = 0;
-    public static final double MAXIMUM_ANGLE = 180.0;
-    public static final double MINIMUM_ANGLE = -180.0;
-    public static final double ALIGN_TOLERANCE = 1.0;
 
     public enum AutoModes {
         TESTING("testing", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),

@@ -27,11 +27,11 @@ public class FieldOrientedDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double xSpeed = modifyAxis(translationXSupplier.getAsDouble()) *
+        double xSpeed = DrivetrainSubsystem.modifyAxis(translationXSupplier.getAsDouble()) *
                 DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
-        double ySpeed = modifyAxis(translationYSupplier.getAsDouble()) *
+        double ySpeed = DrivetrainSubsystem.modifyAxis(translationYSupplier.getAsDouble()) *
                 DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
-        double thetaSpeed = modifyAxis(rotationSupplier.getAsDouble()) *
+        double thetaSpeed = DrivetrainSubsystem.modifyAxis(rotationSupplier.getAsDouble()) *
                 DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
         drivetrainSubsystem.drive(
@@ -44,13 +44,6 @@ public class FieldOrientedDrive extends CommandBase {
         );
     }
 
-    private double modifyAxis(double value) {
-        if (Math.abs(value) <= OIConstants.DEADBAND) {
-            return 0.0;
-        }
-
-        return Math.copySign(value * value, value);
-    }
 
     @Override
     public boolean isFinished() {

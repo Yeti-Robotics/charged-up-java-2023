@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
+import frc.robot.constants.OIConstants;
 import frc.robot.utils.Limelight;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
@@ -103,6 +104,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         drive(
                 DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds())
         );
+    }
+
+    public static double modifyAxis(double value) {
+        if (Math.abs(value) <= OIConstants.DEADBAND) {
+            return 0.0;
+        }
+
+        return Math.copySign(value * value, value);
     }
 
     public void updateSwerveModulePositions() {
