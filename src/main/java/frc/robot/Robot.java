@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.led.PieceLEDCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.ElevatorConstants;
@@ -46,14 +45,11 @@ public class Robot extends TimedRobot {
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
 
-    private PieceLEDCommand setRGBCommand;
-
     private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
     private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
-
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
         robotComponent.inject(this);
         robotContainer.setRobotComponent(robotComponent);
@@ -87,6 +83,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 
+        SmartDashboard.putData(robotContainer.drivetrainSubsystem);
+        SmartDashboard.putData(robotContainer.armSubsystem);
+        SmartDashboard.putData(robotContainer.carriageSubsystem);
+        SmartDashboard.putData(robotContainer.elevatorSubsystem);
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);

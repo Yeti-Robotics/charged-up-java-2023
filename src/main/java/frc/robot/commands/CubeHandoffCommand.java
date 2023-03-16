@@ -15,16 +15,13 @@ public class CubeHandoffCommand extends SequentialCommandGroup {
             ArmSubsystem armSubsystem,
             IntakeSubsystem intakeSubsystem,
             ElevatorSubsystem elevatorSubsystem,
-            CarriageSubsystem carriageSubsystem,
-            LEDSubsystem ledSubsystem) {
+            CarriageSubsystem carriageSubsystem) {
         addCommands(
-                new InstantCommand(() -> ledSubsystem.setRGB(ledSubsystem.getBufferLength(), 92,33,254)),
-        new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF),
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF),
                 new InstantCommand(intakeSubsystem::intakeOpen, intakeSubsystem),
                 new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED).withTimeout(1.0)
-                        .alongWith(new ConeOutCubeInCommand(carriageSubsystem)).withTimeout(2.5));
-        new InstantCommand(() ->ledSubsystem.setRGB(ledSubsystem.getBufferLength(), LEDConstants.DEFAULT_R,LEDConstants.DEFAULT_G,LEDConstants.DEFAULT_B));
-
+                        .alongWith(new ConeOutCubeInCommand(carriageSubsystem)).withTimeout(2.5)
+        );
     }
 }
