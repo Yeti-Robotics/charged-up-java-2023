@@ -12,6 +12,7 @@ import javax.inject.Named;
 public class LEDSubsystem extends SubsystemBase {
     private final AddressableLED led;
     private final AddressableLEDBuffer ledBuffer;
+
     @Inject
     public LEDSubsystem(AddressableLED led){
         this.ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_COUNT);
@@ -39,6 +40,18 @@ public class LEDSubsystem extends SubsystemBase {
             setRGB(i, r, g, b);
         }
         sendData();
+    }
+
+    public void setYetiBlue() {
+        setSolidRGB(20, 120, 255);
+    }
+
+    public void setConeYellow() {
+        setSolidRGB(255, 100, 0);
+    }
+
+    public void setCubePurple() {
+        setSolidRGB(115, 0, 255);
     }
 }
 
