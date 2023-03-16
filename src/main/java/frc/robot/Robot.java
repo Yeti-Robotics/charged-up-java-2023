@@ -47,9 +47,11 @@ public class Robot extends TimedRobot {
 
     private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
-    private DriverStation.Alliance previousAlliance;
+    private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
+        FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
+        FieldConstants.updateAprilTagTranslations();
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
         robotComponent.inject(this);
         robotContainer.setRobotComponent(robotComponent);
