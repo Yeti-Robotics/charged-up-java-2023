@@ -95,7 +95,7 @@ public class MotorsModule {
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
         sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.setSmartCurrentLimit(30);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
@@ -114,7 +114,7 @@ public class MotorsModule {
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
         sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.setSmartCurrentLimit(30);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);

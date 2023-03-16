@@ -69,33 +69,37 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "intakeClose"
+          "intakeClose",
+          "intakeInOneSec",
+          "armUp"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "before",
         "waitTime": 0.2
       }
     },
     {
       "anchorPoint": {
-        "x": 3.3228355544367627,
-        "y": 4.631933271022177
+        "x": 3.4,
+        "y": 4.6
       },
       "prevControl": {
-        "x": 3.748443458991872,
-        "y": 4.631933271022177
+        "x": 3.8256079045551092,
+        "y": 4.6
       },
       "nextControl": {
-        "x": 2.877005419983713,
-        "y": 4.631933271022177
+        "x": 2.9541698655469504,
+        "y": 4.6
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 3.0,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "aprilTagAlign"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -104,15 +108,15 @@
     {
       "anchorPoint": {
         "x": 1.8,
-        "y": 3.84
+        "y": 3.85
       },
       "prevControl": {
         "x": 1.8,
-        "y": 4.377937650579643
+        "y": 4.169089632537225
       },
       "nextControl": {
         "x": 1.8,
-        "y": 3.302062349420355
+        "y": 3.3120623494203554
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -123,9 +127,9 @@
         "names": [
           "coneHigh"
         ],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
+        "executionBehavior": "sequential",
+        "waitBehavior": "minimum",
+        "waitTime": 1.5
       }
     },
     {
@@ -189,26 +193,25 @@
     {
       "position": 2.4,
       "names": [
-        "armUp"
+        "intakeStop"
       ]
     },
     {
-      "position": 1.5,
+      "position": 1.7,
       "names": [
         "armDown"
-      ]
-    },
-    {
-      "position": 2.7,
-      "names": [
-        "handoff",
-        "aprilTagAlign"
       ]
     },
     {
       "position": 4.01,
       "names": [
         "elevatorDown"
+      ]
+    },
+    {
+      "position": 2.95,
+      "names": [
+        "handoff"
       ]
     }
   ]

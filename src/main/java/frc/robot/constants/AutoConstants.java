@@ -42,7 +42,7 @@ public final class AutoConstants {
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
 
     public enum AutoModes {
-        TESTING("testing", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
+        TESTING("testing",  DEFAULT_CONSTRAINTS),
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
@@ -50,6 +50,7 @@ public final class AutoConstants {
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS,
                 DEFAULT_CONSTRAINTS,
+                ALIGNMENT_CONSTRAINTS,
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
         TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo",
@@ -58,7 +59,11 @@ public final class AutoConstants {
                 DEFAULT_CONSTRAINTS,
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
-        TWO_PIECE_ONE("twoPieceOne", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
+        TWO_PIECE_ONE("twoPieceOne", new PathConstraints(0.75, 0.4),
+                DEFAULT_CONSTRAINTS,
+                DEFAULT_CONSTRAINTS,
+                ALIGNMENT_CONSTRAINTS,
+                DEFAULT_CONSTRAINTS),
         TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
