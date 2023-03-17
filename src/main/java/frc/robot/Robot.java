@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.drive.PIDAlignCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.ElevatorConstants;
@@ -38,6 +37,7 @@ import java.util.List;
  * project.
  */
 public class Robot extends TimedRobot {
+    private static SendableChooser<AutoModes> autoChooser;
     @Inject
     RobotContainer robotContainer;
     @Inject
@@ -45,12 +45,12 @@ public class Robot extends TimedRobot {
     @Inject
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
-
-    private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
     private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
+        FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
+        FieldConstants.updateAprilTagTranslations();
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
         robotComponent.inject(this);
         robotContainer.setRobotComponent(robotComponent);
@@ -87,10 +87,13 @@ public class Robot extends TimedRobot {
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
-        SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
-        SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
-        SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
 
+        SmartDashboard.putData(robotContainer.drivetrainSubsystem);
+        SmartDashboard.putData(robotContainer.armSubsystem);
+        SmartDashboard.putData(robotContainer.carriageSubsystem);
+        SmartDashboard.putData(robotContainer.elevatorSubsystem);
+
+        robotContainer.ledSubsystem.setYetiBlue();
     }
 
 

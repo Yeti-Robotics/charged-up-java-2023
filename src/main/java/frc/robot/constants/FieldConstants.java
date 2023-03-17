@@ -12,8 +12,10 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -205,20 +207,45 @@ public final class FieldConstants {
     }
 
     public static AprilTagFieldLayout aprilTagLayout;
-    public static Translation2d[] aprilTagTranslations = new Translation2d[8];
+    public static List<Pose2d> aprilTagPoses = new ArrayList<Pose2d>(8);
+    public static List<Pose2d> allianceAprilTags = new ArrayList<Pose2d>(4);
+    public static List<Pose2d> gridAprilTags = new ArrayList<>(3);
+    public static Pose2d humanStationAprilTag;
+    public static List<Pose2d> opposingAllianceAprilTags = new ArrayList<Pose2d>(4);
+
     static {
         try {
             aprilTagLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
-            updateAprilTagTranslations();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static void updateAprilTagTranslations() {
-        List<AprilTag> aprilTags = aprilTagLayout.getTags();
-        for (int i = 0; i < aprilTags.size(); i++) {
-            aprilTagTranslations[i] = aprilTags.get(i).pose.getTranslation().toTranslation2d();
+        aprilTagPoses.clear();
+        allianceAprilTags.clear();
+        gridAprilTags.clear();
+        opposingAllianceAprilTags.clear();
+        for (int i = 0; i < aprilTagLayout.getTags().size(); i++) {
+            aprilTagPoses.add(i, aprilTagLayout.getTagPose(i + 1).get().toPose2d());
+        }
+
+        if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+            gridAprilTags.addAll(aprilTagPoses.subList(5, 8));
+            allianceAprilTags.addAll(gridAprilTags);
+            humanStationAprilTag = aprilTagPoses.get(3);
+            allianceAprilTags.add(humanStationAprilTag);
+
+            opposingAllianceAprilTags.addAll(aprilTagPoses.subList(0, 3));
+            opposingAllianceAprilTags.add(aprilTagPoses.get(4));
+        } else {
+            gridAprilTags.addAll(aprilTagPoses.subList(0, 3));
+            allianceAprilTags.addAll(gridAprilTags);
+            humanStationAprilTag = aprilTagPoses.get(4);
+            allianceAprilTags.add(humanStationAprilTag);
+
+            opposingAllianceAprilTags.addAll(aprilTagPoses.subList(5, 8));
+            opposingAllianceAprilTags.add(aprilTagPoses.get(3));
         }
     }
 }

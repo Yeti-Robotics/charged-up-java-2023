@@ -5,6 +5,7 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,22 +13,21 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ConeHandoffCommand;
+import frc.robot.commands.CubeHandoffCommand;
+import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.commands.carriage.CarriageFlipOutCommand;
+import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.SwerveLockCommand;
-import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
 import frc.robot.commands.intake.IntakeRollInCommand;
 import frc.robot.commands.intake.IntakeRollOutCommand;
 import frc.robot.commands.intake.IntakeShootHighCommand;
 import frc.robot.constants.*;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
@@ -47,6 +47,7 @@ public class RobotModule {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
+            LEDSubsystem ledSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             SwerveAutoBuilder autoBuilder) {
@@ -56,6 +57,7 @@ public class RobotModule {
                 intakeSubsystem,
                 armSubsystem,
                 elevatorSubsystem,
+                ledSubsystem,
                 controllerContainer,
                 buttonHelper,
                 autoBuilder
@@ -82,7 +84,8 @@ public class RobotModule {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
-            CarriageSubsystem carriageSubsystem) {
+            CarriageSubsystem carriageSubsystem,
+            LEDSubsystem ledSubsystem) {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
         eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));
@@ -90,25 +93,24 @@ public class RobotModule {
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
-        eventMap.put("intakeInOneSec", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED).withTimeout(1));
+        eventMap.put("intakeIn3Sec", Commands.runOnce(() -> intakeSubsystem.rollIn(IntakeConstants.INTAKE_SPEED), intakeSubsystem).withTimeout(3.0));
         eventMap.put("intakeOpen", Commands.runOnce(intakeSubsystem::intakeOpen, intakeSubsystem));
         eventMap.put("intakeClose", Commands.runOnce(intakeSubsystem::intakeClose, intakeSubsystem));
         eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
+        eventMap.put("elevatorStop", Commands.runOnce(elevatorSubsystem::stop, elevatorSubsystem));
         eventMap.put("elevatorDown", Commands.sequence(
                 new CarriageFlipInCommand(carriageSubsystem),
-                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
-                new WaitCommand(0.15),
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN),
-                new WaitCommand(1.3),
+                new WaitCommand(1.0),
                 new InstantCommand(elevatorSubsystem::stop, elevatorSubsystem)
-                ));
+                ).withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
         eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
         eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
         eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
         eventMap.put("coneHigh", Commands.sequence(
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
-                new WaitCommand(1.0),
+                new WaitCommand(.8),
                 new CarriageFlipOutCommand(carriageSubsystem),
                 new WaitCommand(1.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
@@ -120,10 +122,18 @@ public class RobotModule {
                 new WaitCommand(1.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
+        eventMap.put("cubeHigh", Commands.sequence(
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
+                new WaitCommand(1.0),
+                new CarriageFlipOutCommand(carriageSubsystem),
+                new WaitCommand(1.0),
+                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.5)
+        ));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("coneAutoWait", new WaitCommand(7.0));
         eventMap.put("waitHalfSecond", new WaitCommand(0.5));
-        eventMap.put("handoff", new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem));
+        eventMap.put("handoff", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP), new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)));
+        eventMap.put("aprilTagAlign", new PoseWithVisionCommand(drivetrainSubsystem).withTimeout(0.2));
         return eventMap;
     }
 
@@ -180,6 +190,7 @@ public class RobotModule {
     @Provides
     @Singleton
     public SwerveDrivePoseEstimator providesSwerveDrivePoserEstimator(WPI_Pigeon2 gyro, SwerveModulePosition[] positions) {
-        return new SwerveDrivePoseEstimator(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions, new Pose2d(0, 0, new Rotation2d()));
+        return new SwerveDrivePoseEstimator(DriveConstants.DRIVE_KINEMATICS, gyro.getRotation2d(), positions, new Pose2d(),
+                VecBuilder.fill(0.3, 0.3, 0.3), VecBuilder.fill(0.4, 0.4, 0.4));
     }
 }
