@@ -1,7 +1,9 @@
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.constants.ArmConstants;
@@ -18,8 +20,11 @@ public class SetElevatorDownCommand extends SequentialCommandGroup {
         addCommands(
                 new ConditionalCommand(new CarriageFlipInCommand(carriageSubsystem), new InstantCommand(), () -> carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
-                new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN), elevatorSubsystem::stop)
-                        .until(() -> elevatorSubsystem.getElevatorEncoder() < 500)
+                new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN), () -> {
+                    elevatorSubsystem.stop();
+                    carriageSubsystem.zeroFlip();
+                })
+                        .until(() -> elevatorSubsystem.getElevatorEncoder() < 500 && carriageSubsystem.getAngle() < 2.0)
         );
     }
 }

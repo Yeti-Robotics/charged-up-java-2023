@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 
 public class PieceLEDCommand extends CommandBase {
     private final LEDSubsystem ledSubsystem;
@@ -33,7 +31,8 @@ public class PieceLEDCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+    }
 
     @Override
     public boolean isFinished() {

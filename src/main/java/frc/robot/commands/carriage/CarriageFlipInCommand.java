@@ -30,9 +30,6 @@ public class CarriageFlipInCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        if (!interrupted) {
-            carriageSubsystem.zeroFlip();
-        }
         carriageSubsystem.stopFlipMechanism();
     }
 }

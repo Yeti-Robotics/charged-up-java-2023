@@ -42,7 +42,7 @@ public class SetArmPositionCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return armSubsystem.isMotionFinished() || timer.hasElapsed(2.0);
+        return armSubsystem.isMotionFinished() || timer.hasElapsed(1.2);
     }
 
     @Override

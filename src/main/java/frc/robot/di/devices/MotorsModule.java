@@ -95,7 +95,7 @@ public class MotorsModule {
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
         sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.setSmartCurrentLimit(30);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
@@ -114,7 +114,7 @@ public class MotorsModule {
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
         sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
+        sparkMax.setSmartCurrentLimit(30);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
         sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
@@ -167,7 +167,7 @@ public class MotorsModule {
         talonFX.configReverseSoftLimitEnable(true);
 
         talonFX.config_kP(0, CarriageConstants.FLIP_P);
-        talonFX.config_kI(0, CarriageConstants.FLIP_I);
+        talonFX.config_IntegralZone(0, CarriageConstants.FLIP_I);
         talonFX.config_kD(0, CarriageConstants.FLIP_D);
         talonFX.config_kF(0, CarriageConstants.FLIP_F);
         talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
@@ -189,6 +189,7 @@ public class MotorsModule {
         driveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
         driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+
         return driveMotor;
     }
 

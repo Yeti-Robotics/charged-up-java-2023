@@ -28,7 +28,7 @@ public final class ElevatorConstants {
      * Number of elevator stages excluding the stationary stage
      */
     public static final int STAGES = 2;
-    public static final double STAGE_EXTENSION = 18.5;
+    public static final double STAGE_EXTENSION = 19.0;
     public static final double MAX_EXTENSION = STAGE_EXTENSION * STAGES;
 
     public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(
@@ -42,10 +42,10 @@ public final class ElevatorConstants {
     public static final double ELEVATOR_F = 0.00;
     public static final double GRAVITY_FEEDFORWARD = 0.09; //experimental value
 
-    public static final double MAX_VELOCITY = 6.0 / ELEVATOR_DISTANCE_PER_PULSE;
+    public static final double MAX_VELOCITY = 6.5 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
-    public static final double ELEVATOR_TOLERANCE = 0.10 / ELEVATOR_DISTANCE_PER_PULSE;
+    public static final double ELEVATOR_TOLERANCE = 0.15 / ELEVATOR_DISTANCE_PER_PULSE;
 
     public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;
@@ -56,7 +56,8 @@ public final class ElevatorConstants {
         DOWN(0),
         CONE_HANDOFF(7.5),
         LEVEL_TWO(15.5),
-        UP(MAX_EXTENSION - 1.0);
+        DOUBLE_STATION(MAX_EXTENSION - 4.5),
+        UP(MAX_EXTENSION);
 
         public final double distance;
         public final double sensorUnits;
