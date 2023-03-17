@@ -50,7 +50,7 @@ public class AutoBalancingCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (timer.hasElapsed(0.75)) {
+        if (timer.hasElapsed(0.50)) {
             timer.reset();
             return Math.abs(drivetrainSubsystem.getPitch().getDegrees()) <= AutoConstants.PITCH_TOLERANCE;
         }

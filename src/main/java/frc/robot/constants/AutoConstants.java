@@ -11,7 +11,7 @@ public final class AutoConstants {
     /**
      * Max velocity in meters per second
      */
-    public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.8;
+    public static final double MAX_VELOCITY = DriveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.75;
     /**
      * Max acceleration in meters per second squared
      */
@@ -21,10 +21,10 @@ public final class AutoConstants {
 
     public static final double TRANSLATION_P = 3.0; //2.9, 2.15
     public static final double TRANSLATION_I = 0.0;
-    public static final double TRANSLATION_D = 0.5;
-    public static final double THETA_CONTROLLER_P = 2.4; //3
-    public static final double THETA_CONTROLLER_I = 0.01; //3
-    public static final double THETA_CONTROLLER_D = 0.0;
+    public static final double TRANSLATION_D = 0.3;
+    public static final double THETA_CONTROLLER_P = 3.3; //3
+    public static final double THETA_CONTROLLER_I = 0.00; //3
+    public static final double THETA_CONTROLLER_D = 0.3;
 
     public static final PIDConstants TRANSLATION_CONTROLLER = new PIDConstants(TRANSLATION_P, TRANSLATION_I, TRANSLATION_D);
     public static final PIDConstants THETA_CONTROLLER = new PIDConstants(THETA_CONTROLLER_P, THETA_CONTROLLER_I, THETA_CONTROLLER_D);
@@ -34,9 +34,9 @@ public final class AutoConstants {
                     DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     public static final double PITCH_SET_POINT = 0.0;
-    public static final double PITCH_P = 0.02; //0.03
+    public static final double PITCH_P = 0.04; //0.02
     public static final double PITCH_I = 0.0;
-    public static final double PITCH_D = 0.001; //0.005
+    public static final double PITCH_D = 0.005; //0.001
     public static final double PITCH_TOLERANCE = 1.0;
 
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
@@ -47,7 +47,7 @@ public final class AutoConstants {
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
         TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne",
-                new PathConstraints(0.75, 0.4),
+                new PathConstraints(0.9, 0.5),
                 DEFAULT_CONSTRAINTS,
                 DEFAULT_CONSTRAINTS,
                 ALIGNMENT_CONSTRAINTS,
@@ -59,10 +59,11 @@ public final class AutoConstants {
                 DEFAULT_CONSTRAINTS,
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
-        TWO_PIECE_ONE("twoPieceOne", new PathConstraints(0.75, 0.4),
+        TWO_PIECE_ONE("twoPieceOne",
+                new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS,
                 DEFAULT_CONSTRAINTS,
-                ALIGNMENT_CONSTRAINTS,
+                new PathConstraints(1.75, 0.75),
                 DEFAULT_CONSTRAINTS),
         TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
