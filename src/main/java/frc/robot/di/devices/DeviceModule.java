@@ -2,15 +2,13 @@ package frc.robot.di.devices;
 
 
 import com.ctre.phoenix.sensors.*;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
 import dagger.Module;
 import dagger.Provides;
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.constants.ArmConstants;
-import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ElevatorConstants;
-import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.LEDConstants;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -60,5 +58,15 @@ public class DeviceModule {
     @Named(ElevatorConstants.ELEVATOR_MAG_SWITCH)
     public DigitalInput providesElevatorMagSwitch(){
         return new DigitalInput(ElevatorConstants.MAG_SWITCH_PORT);
+    }
+
+    @Provides
+    @Singleton
+    public AddressableLED providesLED() {
+        AddressableLED led = new AddressableLED(LEDConstants.ADDRESSABLE_LED);
+        led.setLength(LEDConstants.LED_COUNT);
+
+        led.start();
+        return led;
     }
 }

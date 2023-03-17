@@ -22,16 +22,12 @@ import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.SwerveLockCommand;
-import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
 import frc.robot.commands.intake.IntakeRollInCommand;
 import frc.robot.commands.intake.IntakeRollOutCommand;
 import frc.robot.commands.intake.IntakeShootHighCommand;
 import frc.robot.constants.*;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.ControllerContainer;
@@ -51,6 +47,7 @@ public class RobotModule {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
+            LEDSubsystem ledSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             SwerveAutoBuilder autoBuilder) {
@@ -60,6 +57,7 @@ public class RobotModule {
                 intakeSubsystem,
                 armSubsystem,
                 elevatorSubsystem,
+                ledSubsystem,
                 controllerContainer,
                 buttonHelper,
                 autoBuilder
@@ -86,7 +84,8 @@ public class RobotModule {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
-            CarriageSubsystem carriageSubsystem) {
+            CarriageSubsystem carriageSubsystem,
+            LEDSubsystem ledSubsystem) {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
         eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));

@@ -21,7 +21,7 @@ public class SetElevatorPositionCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        if (!armSubsystem.isUP() && position != ElevatorPositions.DOWN) {
+        if (!armSubsystem.isUp() && position != ElevatorPositions.DOWN) {
             this.cancel();
             return;
         }

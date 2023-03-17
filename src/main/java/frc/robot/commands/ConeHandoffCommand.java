@@ -10,10 +10,8 @@ import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
 import frc.robot.constants.ElevatorConstants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.constants.LEDConstants;
+import frc.robot.subsystems.*;
 
 public class ConeHandoffCommand extends SequentialCommandGroup {
     public ConeHandoffCommand(
@@ -22,6 +20,8 @@ public class ConeHandoffCommand extends SequentialCommandGroup {
             ElevatorSubsystem elevatorSubsystem,
             CarriageSubsystem carriageSubsystem) {
         addCommands(
+                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN),
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF)
                         .alongWith(new WaitCommand(0.5)),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF)
