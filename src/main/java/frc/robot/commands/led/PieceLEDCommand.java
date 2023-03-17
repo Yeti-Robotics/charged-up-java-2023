@@ -10,29 +10,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PieceLEDCommand extends CommandBase {
     private final LEDSubsystem ledSubsystem;
     private final ElevatorSubsystem elevatorSubsystem;
-    private AtomicBoolean lastShownYellow;
 
 
     public PieceLEDCommand(
             LEDSubsystem ledSubsystem,
-            ElevatorSubsystem elevatorSubsystem,
-            AtomicBoolean lastShownYellow
+            ElevatorSubsystem elevatorSubsystem
     ) {
         this.ledSubsystem = ledSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
-        this.lastShownYellow = lastShownYellow;
 
         addRequirements(ledSubsystem);
     }
 
     @Override
     public void initialize() {
-        if (lastShownYellow.get()) {
+        if (ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CONE) {
+            // These methods also update the piece target
             ledSubsystem.setCubePurple();
-            lastShownYellow.set(false);
         } else {
             ledSubsystem.setConeYellow();
-            lastShownYellow.set(true);
         }
     }
 

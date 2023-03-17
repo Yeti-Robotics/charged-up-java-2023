@@ -90,14 +90,13 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        // So that PieceLEDCommand can know that yellow was last shown and can edit it safely
-        AtomicBoolean lastShownYellow = new AtomicBoolean(true);
         // Sets led color to yeti blue when the elevator is down & to cone when it is up
         new Trigger(elevatorSubsystem::isDown)
                 .onTrue(new InstantCommand(() -> {
-                        ledSubsystem.setYetiBlue();
-                        // Reset so that, first PieceLEDCommand is always yellow
-                        lastShownYellow.set(false);
+                            // this method DOES NOT CHANGE PIECE TARGET
+                            ledSubsystem.setYetiBlue();
+                            // Reset piece target
+                            ledSubsystem.setPieceTarget(LEDSubsystem.PieceTarget.NONE);
                         }, ledSubsystem));
 
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
@@ -119,7 +118,7 @@ public class RobotContainer {
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
         // Toggle the piece LEDs unless elevator is down
-        buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem, lastShownYellow), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 

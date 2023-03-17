@@ -10,14 +10,30 @@ import javax.inject.Named;
 
 
 public class LEDSubsystem extends SubsystemBase {
+    public enum PieceTarget {
+        CONE,
+        CUBE,
+        NONE
+    }
+
     private final AddressableLED led;
     private final AddressableLEDBuffer ledBuffer;
+    private PieceTarget pieceTarget = PieceTarget.NONE;
 
     @Inject
     public LEDSubsystem(AddressableLED led){
         this.ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_COUNT);
         this.led = led;
     }
+
+    public PieceTarget getPieceTarget() {
+        return pieceTarget;
+    }
+
+    public void setPieceTarget(PieceTarget pieceTarget) {
+        this.pieceTarget = pieceTarget;
+    }
+
     public void setHSV(int i, int hue, int saturation, int value) {
         ledBuffer.setHSV(i, hue, saturation, value);
     }
@@ -47,10 +63,12 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     public void setConeYellow() {
+        setPieceTarget(PieceTarget.CONE);
         setSolidRGB(255, 100, 0);
     }
 
     public void setCubePurple() {
+        setPieceTarget(PieceTarget.CUBE);
         setSolidRGB(115, 0, 255);
     }
 }
