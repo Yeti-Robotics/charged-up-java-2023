@@ -4,27 +4,25 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.AutoConstants;
-import frc.robot.constants.FieldConstants;
 import frc.robot.constants.AutoConstants.ALIGNMENT_POSITION;
+import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.Limelight;
 
-public class GridAlignCommand extends CommandBase
-{
+public class GridAlignCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final SwerveAutoBuilder autoBuilder;
+    private final Timer timer;
+    private final ALIGNMENT_POSITION position;
     private PathPlannerTrajectory path;
     private Command autoCommand;
-    private final Timer timer;
 
-    private final ALIGNMENT_POSITION position;
-
-    public GridAlignCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveAutoBuilder autoBuilder, ALIGNMENT_POSITION position){
+    public GridAlignCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveAutoBuilder autoBuilder, ALIGNMENT_POSITION position) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.autoBuilder = autoBuilder;
         this.position = position;

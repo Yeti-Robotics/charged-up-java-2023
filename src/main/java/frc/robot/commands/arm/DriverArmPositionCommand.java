@@ -3,7 +3,6 @@ package frc.robot.commands.arm;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.ArmConstants;
-import frc.robot.constants.ElevatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.utils.controllerUtils.MultiButton;

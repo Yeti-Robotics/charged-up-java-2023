@@ -42,7 +42,7 @@ public final class AutoConstants {
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
 
     public enum AutoModes {
-        TESTING("testing",  DEFAULT_CONSTRAINTS),
+        TESTING("testing", DEFAULT_CONSTRAINTS),
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
@@ -68,7 +68,7 @@ public final class AutoConstants {
         TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
-        CONE_ONE("coneOne", new PathConstraints(0,0), new PathConstraints(0,0)),
+        CONE_ONE("coneOne", new PathConstraints(0, 0), new PathConstraints(0, 0)),
         CONE_THREE("coneThree", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
@@ -77,6 +77,7 @@ public final class AutoConstants {
         public final String name;
         public final PathConstraints initConstraint;
         public final PathConstraints[] pathConstraints;
+
         AutoModes(String name, PathConstraints initConstraint, PathConstraints... pathConstraints) {
             this.name = name;
             this.initConstraint = initConstraint;
@@ -88,12 +89,13 @@ public final class AutoConstants {
         LEFT_DOUBLE_STATION(-CENTER_OFFSET, 1.0, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.4, 0.0, 0.0),
         SINGLE_STATION(-2.5, CENTER_OFFSET, 90.0, -90.0),
-        LEFT(CENTER_OFFSET , -0.53, 180.0, -180.0),
+        LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);
 
         public final Pose2d offset;
         public final Rotation2d heading;
+
         ALIGNMENT_POSITION(double x, double y, double heading, double rotation) {
             this.offset = new Pose2d(x, y, Rotation2d.fromDegrees(rotation));
             this.heading = Rotation2d.fromDegrees(heading);
