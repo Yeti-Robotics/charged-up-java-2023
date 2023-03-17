@@ -60,7 +60,7 @@ public final class AutoConstants {
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
         TWO_PIECE_ONE("twoPieceOne",
-                new PathConstraints(0.75, 0.4),
+                new PathConstraints(0.8, 0.6),
                 DEFAULT_CONSTRAINTS,
                 DEFAULT_CONSTRAINTS,
                 new PathConstraints(1.75, 0.75),
