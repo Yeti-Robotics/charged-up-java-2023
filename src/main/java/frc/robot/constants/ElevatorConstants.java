@@ -56,6 +56,7 @@ public final class ElevatorConstants {
         DOWN(0),
         CONE_HANDOFF(7.5),
         LEVEL_TWO(15.5),
+        DOUBLE_STATION(MAX_EXTENSION - 4.5),
         UP(MAX_EXTENSION);
 
         public final double distance;

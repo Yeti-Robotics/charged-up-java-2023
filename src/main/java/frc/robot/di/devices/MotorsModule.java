@@ -190,7 +190,6 @@ public class MotorsModule {
         driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
 
-        driveMotor.configOpenloopRamp(0.5);
         return driveMotor;
     }
 

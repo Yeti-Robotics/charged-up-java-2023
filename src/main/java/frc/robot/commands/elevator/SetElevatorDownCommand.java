@@ -30,7 +30,7 @@ public class SetElevatorDownCommand extends CommandBase {
     @Override
     public void initialize() {
         timer.reset();
-        if (carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED) {
+        if (carriageSubsystem.getCarriagePosition() != CarriageConstants.CarriagePositions.DOWN) {
             new CarriageFlipInCommand(carriageSubsystem).schedule();
         }
         new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP).schedule();
@@ -45,7 +45,7 @@ public class SetElevatorDownCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return elevatorSubsystem.getElevatorEncoder() < 500;
+        return elevatorSubsystem.getElevatorEncoder() < 500 && carriageSubsystem.getAngle() <= 2.0;
     }
 
     @Override
