@@ -94,11 +94,11 @@ public class RobotContainer {
         AtomicBoolean lastShownYellow = new AtomicBoolean(true);
         // Sets led color to yeti blue when the elevator is down & to cone when it is up
         new Trigger(elevatorSubsystem::isDown)
-                .onTrue(new InstantCommand(ledSubsystem::setYetiBlue, ledSubsystem))
-                .onFalse(new InstantCommand(() -> {
-                        ledSubsystem.setConeYellow();
-                        lastShownYellow.set(true);
-                    }, ledSubsystem));
+                .onTrue(new InstantCommand(() -> {
+                        ledSubsystem.setYetiBlue();
+                        // Reset so that, first PieceLEDCommand is always yellow
+                        lastShownYellow.set(false);
+                        }, ledSubsystem));
 
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
@@ -119,7 +119,7 @@ public class RobotContainer {
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
         // Toggle the piece LEDs unless elevator is down
-        buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem, lastShownYellow).unless(elevatorSubsystem::isDown), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem, lastShownYellow), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
