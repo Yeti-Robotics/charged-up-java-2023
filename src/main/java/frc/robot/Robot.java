@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.drive.PIDAlignCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.ElevatorConstants;
@@ -91,8 +90,10 @@ public class Robot extends TimedRobot {
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
-
-
+        SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
+        SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
+        SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
+        robotContainer.ledSubsystem.setYetiBlue();
     }
 
 
@@ -110,7 +111,6 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-
     }
 
 

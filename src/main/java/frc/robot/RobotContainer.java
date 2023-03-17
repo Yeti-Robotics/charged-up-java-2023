@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.CubeHandoffCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
@@ -23,12 +24,14 @@ import frc.robot.commands.drive.FieldOrientedDrive;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
+import frc.robot.commands.intake.IntakeRollInCommand;
+import frc.robot.commands.intake.IntakeRollOutCommand;
+import frc.robot.commands.intake.IntakeShootHighCommand;
+import frc.robot.commands.intake.ToggleIntakeCommand;
+import frc.robot.commands.led.PieceLEDCommand;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.di.RobotComponent;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.Controller;
@@ -37,6 +40,7 @@ import frc.robot.utils.controllerUtils.MultiButton;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RobotContainer {
     private RobotComponent robotComponent;
@@ -46,6 +50,7 @@ public class RobotContainer {
     public final IntakeSubsystem intakeSubsystem;
     public final CarriageSubsystem carriageSubsystem;
     public final DrivetrainSubsystem drivetrainSubsystem;
+    public final LEDSubsystem ledSubsystem;
 
     public final ButtonHelper buttonHelper;
     public final ControllerContainer controllerContainer;
@@ -60,6 +65,7 @@ public class RobotContainer {
             IntakeSubsystem intakeSubsystem,
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
+            LEDSubsystem ledSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             SwerveAutoBuilder autoBuilder) {
@@ -68,6 +74,7 @@ public class RobotContainer {
         this.intakeSubsystem = intakeSubsystem;
         this.armSubsystem = armSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
+        this.ledSubsystem = ledSubsystem;
         this.controllerContainer = controllerContainer;
         this.buttonHelper = buttonHelper;
         this.autoBuilder = autoBuilder;
@@ -82,7 +89,15 @@ public class RobotContainer {
         configureBindings();
     }
 
-    private void configureBindings(){
+    private void configureBindings() {
+        // Sets led color to yeti blue when the elevator is down & to cone when it is up
+        new Trigger(elevatorSubsystem::isDown)
+                .onTrue(new InstantCommand(() -> {
+                            // this method DOES NOT CHANGE PIECE TARGET
+                            ledSubsystem.setYetiBlue();
+                            // Reset piece target
+                            ledSubsystem.setPieceTarget(LEDSubsystem.PieceTarget.NONE);
+                        }, ledSubsystem));
 
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
@@ -102,8 +117,8 @@ public class RobotContainer {
 
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(8,0, new PIDAlignCommand(drivetrainSubsystem,
-                primaryController::getLeftY, primaryController::getRightX), RunCondition.WHILE_HELD);
+        // Toggle the piece LEDs unless elevator is down
+        buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem).alongWith(new StartEndCommand(carriageSubsystem::coneInCubeOut, carriageSubsystem::rollerStop).withTimeout(0.5)), RunCondition.WHEN_PRESSED);
 
