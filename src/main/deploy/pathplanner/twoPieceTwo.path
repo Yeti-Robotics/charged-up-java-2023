@@ -155,16 +155,16 @@
     },
     {
       "anchorPoint": {
-        "x": 2.209463819783559,
-        "y": 3.2362346037102916
+        "x": 3.478799653747666,
+        "y": 4.688537765092648
       },
       "prevControl": {
-        "x": 1.8967686915960793,
-        "y": 3.498616970443338
+        "x": 2.5636771748631313,
+        "y": 4.688537765092648
       },
       "nextControl": {
-        "x": 2.595304836490482,
-        "y": 2.9124755488984464
+        "x": 4.116772999082234,
+        "y": 4.688537765092648
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -180,14 +180,17 @@
     },
     {
       "anchorPoint": {
-        "x": 5.35,
-        "y": 3.2
+        "x": 6.017471321675882,
+        "y": 4.71140868101993
       },
       "prevControl": {
-        "x": 4.644270540881843,
-        "y": 3.2
+        "x": 5.311741862557725,
+        "y": 4.71140868101993
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 6.723200780794039,
+        "y": 4.71140868101993
+      },
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
@@ -199,6 +202,28 @@
           "swerveLock"
         ],
         "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.9946004057486,
+        "y": 3.7737011280013992
+      },
+      "prevControl": {
+        "x": 6.3474651353076785,
+        "y": 3.7737011280013992
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -220,15 +245,9 @@
       ]
     },
     {
-      "position": 0.02,
+      "position": 0.01,
       "names": [
         "elevatorDown"
-      ]
-    },
-    {
-      "position": 5.027272727272719,
-      "names": [
-        "armUp"
       ]
     }
   ]

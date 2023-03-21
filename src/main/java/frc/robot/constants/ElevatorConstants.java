@@ -54,9 +54,10 @@ public final class ElevatorConstants {
 
     public enum ElevatorPositions {
         DOWN(0),
-        CONE_HANDOFF(7.5),
+        CONE_HANDOFF(4.5),
         LEVEL_TWO(15.5),
-        DOUBLE_STATION(MAX_EXTENSION - 4.5),
+        DOUBLE_STATION_CONE(MAX_EXTENSION - 4.5),
+        DOUBLE_STATION_CUBE(MAX_EXTENSION - 6),
         UP(MAX_EXTENSION);
 
         public final double distance;

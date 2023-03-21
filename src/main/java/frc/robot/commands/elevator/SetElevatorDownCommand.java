@@ -18,13 +18,14 @@ public class SetElevatorDownCommand extends SequentialCommandGroup {
 
         addRequirements(elevatorSubsystem, armSubsystem, carriageSubsystem);
         addCommands(
-                new ConditionalCommand(new CarriageFlipInCommand(carriageSubsystem), new InstantCommand(), () -> carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED),
-                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
+                new ConditionalCommand(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP), new InstantCommand(), () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.UP),
                 new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN), () -> {
                     elevatorSubsystem.stop();
-                    carriageSubsystem.zeroFlip();
                 })
-                        .until(() -> elevatorSubsystem.getElevatorEncoder() < 500 && carriageSubsystem.getAngle() < 2.0)
-        );
+                        .until(() -> elevatorSubsystem.getElevatorEncoder() < 500),
+                new ConditionalCommand(new CarriageFlipInCommand(carriageSubsystem), new InstantCommand(), () -> carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED),
+                new InstantCommand(carriageSubsystem::zeroFlip)
+
+                );
     }
 }
