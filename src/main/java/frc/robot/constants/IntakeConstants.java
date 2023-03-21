@@ -17,9 +17,9 @@ public final class IntakeConstants {
     public static final double GEAR_RATIO = 1.0 / 7.0;
     public static final double VELOCITY_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
 
-    public static final double INTAKE_SPEED = 0.3; //placeholder
+    public static final double INTAKE_SPEED = 0.27; //placeholder
     public static final double SHOOT_MID_SPEED = 0.35;
-    public static final double SHOOT_HIGH_SPEED = 0.9;
+    public static final double SHOOT_HIGH_SPEED = 1.0;
 
     public static final double INTAKE_P = 0.00; //placeholder
     public static final double INTAKE_I = 0.0; //placeholder

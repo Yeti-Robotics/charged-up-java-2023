@@ -11,6 +11,7 @@ import frc.robot.constants.*;
 import frc.robot.constants.AutoConstants.ALIGNMENT_POSITION;
 import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -29,10 +30,13 @@ public class DoubleStationAlignCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
     private final CarriageSubsystem carriageSubsystem;
 
-    public DoubleStationAlignCommand(DrivetrainSubsystem drivetrainSubsystem, ElevatorSubsystem elevatorSubsystem, CarriageSubsystem carriageSubsystem, DoubleSupplier xSpeed, ALIGNMENT_POSITION position) {
+    private final LEDSubsystem ledSubsystem;
+
+    public DoubleStationAlignCommand(DrivetrainSubsystem drivetrainSubsystem, ElevatorSubsystem elevatorSubsystem, LEDSubsystem ledSubsystem, CarriageSubsystem carriageSubsystem, DoubleSupplier xSpeed, ALIGNMENT_POSITION position) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
         this.carriageSubsystem = carriageSubsystem;
+        this.ledSubsystem = ledSubsystem;
         this.xSupplier = xSpeed;
         this.yController = new PIDController(AutoConstants.TRANSLATION_P, AutoConstants.TRANSLATION_I, AutoConstants.TRANSLATION_D);
         this.thetaController = new PIDController(AutoConstants.THETA_CONTROLLER_P, AutoConstants.THETA_CONTROLLER_I, AutoConstants.THETA_CONTROLLER_D);
@@ -58,7 +62,11 @@ public class DoubleStationAlignCommand extends CommandBase {
 
         yController.setSetpoint(targetY);
         thetaController.setSetpoint(targetTheta.getRadians());
-        elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION);
+        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
+            elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CUBE);
+        } else {
+            elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
+        }
         carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
     }
 
