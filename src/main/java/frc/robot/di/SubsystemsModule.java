@@ -50,15 +50,6 @@ public class SubsystemsModule {
         );
     }
 
-    @Provides
-    @Singleton
-    public CarriageSubsystem provideCarriageSubsystem(
-            @Named(CarriageConstants.ROLLER_SPARK) CANSparkMax rollerMotor,
-            @Named(CarriageConstants.FLIP_MOTOR_NAME) TalonFX flipMotor)
-          {
-
-        return new CarriageSubsystem(rollerMotor, flipMotor);
-    }
 
     @Provides
     @Singleton

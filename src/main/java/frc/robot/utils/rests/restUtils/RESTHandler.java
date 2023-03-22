@@ -112,6 +112,7 @@ public class RESTHandler implements Sendable, AutoCloseable {
         advanceSchedule();
     }
 
+
     /**
      * Advances the schedule. Should be called at the end of RESTs or when a new schedule is added.
      * If there are no more RESTs or RESTContainers, it will return.

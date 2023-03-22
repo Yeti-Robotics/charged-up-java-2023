@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.*;
 import frc.robot.constants.AutoConstants.ALIGNMENT_POSITION;
-import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
@@ -28,14 +27,12 @@ public class DoubleStationAlignCommand extends CommandBase {
 
     private final ALIGNMENT_POSITION position;
     private final ElevatorSubsystem elevatorSubsystem;
-    private final CarriageSubsystem carriageSubsystem;
 
     private final LEDSubsystem ledSubsystem;
 
-    public DoubleStationAlignCommand(DrivetrainSubsystem drivetrainSubsystem, ElevatorSubsystem elevatorSubsystem, LEDSubsystem ledSubsystem, CarriageSubsystem carriageSubsystem, DoubleSupplier xSpeed, ALIGNMENT_POSITION position) {
+    public DoubleStationAlignCommand(DrivetrainSubsystem drivetrainSubsystem, ElevatorSubsystem elevatorSubsystem, LEDSubsystem ledSubsystem, DoubleSupplier xSpeed, ALIGNMENT_POSITION position) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
-        this.carriageSubsystem = carriageSubsystem;
         this.ledSubsystem = ledSubsystem;
         this.xSupplier = xSpeed;
         this.yController = new PIDController(AutoConstants.TRANSLATION_P, AutoConstants.TRANSLATION_I, AutoConstants.TRANSLATION_D);
@@ -67,7 +64,6 @@ public class DoubleStationAlignCommand extends CommandBase {
         } else {
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
         }
-        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
     }
 
     @Override

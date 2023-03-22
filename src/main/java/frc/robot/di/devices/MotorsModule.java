@@ -125,60 +125,9 @@ public class MotorsModule {
 
     }
 
-    /***** Carriage Motors *****/
-    @Provides
-    @Singleton
-    @Named(CarriageConstants.ROLLER_SPARK)
-    public CANSparkMax rollerMotor() {
-        CANSparkMax sparkMax = new CANSparkMax(CarriageConstants.ROLLER_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
-        sparkMax.setSmartCurrentLimit(SparkMaxConstants.NEO550_CURRENT_LIM);
-        sparkMax.enableVoltageCompensation(CarriageConstants.CARRIAGE_VOLTAGE_COMP);
-
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
-
-        return sparkMax;
-    }
-
     //Check if implementation of each method
-    @Provides
-    @Singleton
-    @Named(CarriageConstants.FLIP_MOTOR_NAME)
-    public TalonFX flipMotor() {
-        TalonFX talonFX = new TalonFX(CarriageConstants.FLIP_TALON_ID);
 
-        talonFX.setNeutralMode(NeutralMode.Brake);
-        talonFX.setInverted(TalonFXInvertType.Clockwise);
 
-        talonFX.configSupplyCurrentLimit(CarriageConstants.FLIP_SUPPLY_CURRENT_LIMIT);
-        talonFX.configStatorCurrentLimit(CarriageConstants.FLIP_STATOR_CURRENT_LIMIT);
-
-        talonFX.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-        talonFX.setSelectedSensorPosition(0.0);
-
-        talonFX.configForwardSoftLimitThreshold(CarriageConstants.UPPER_FLIP_LIMIT);
-        talonFX.configForwardSoftLimitEnable(true);
-        talonFX.configReverseSoftLimitThreshold(CarriageConstants.LOWER_FLIP_LIMIT);
-        talonFX.configReverseSoftLimitEnable(true);
-
-        talonFX.config_kP(0, CarriageConstants.FLIP_P);
-        talonFX.config_IntegralZone(0, CarriageConstants.FLIP_I);
-        talonFX.config_kD(0, CarriageConstants.FLIP_D);
-        talonFX.config_kF(0, CarriageConstants.FLIP_F);
-        talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
-        talonFX.configMotionAcceleration(CarriageConstants.MAX_ACCEL);
-        talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE);
-
-        talonFX.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
-        talonFX.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);
-
-        return talonFX;
-    }
 
     public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {
         WPI_TalonFX driveMotor = new WPI_TalonFX(id, "canivoreBus");

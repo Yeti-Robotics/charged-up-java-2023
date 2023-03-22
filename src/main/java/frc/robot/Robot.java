@@ -88,7 +88,6 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(robotContainer.drivetrainSubsystem);
         SmartDashboard.putData(robotContainer.armSubsystem);
-        SmartDashboard.putData(robotContainer.carriageSubsystem);
         SmartDashboard.putData(robotContainer.elevatorSubsystem);
 
         robotContainer.ledSubsystem.setYetiBlue();
