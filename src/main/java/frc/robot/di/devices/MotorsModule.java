@@ -159,7 +159,6 @@ public class MotorsModule {
         talonFX.configStatorCurrentLimit(CarriageConstants.FLIP_STATOR_CURRENT_LIMIT);
 
         talonFX.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-        talonFX.setSelectedSensorPosition(0.0);
 
         talonFX.configForwardSoftLimitThreshold(CarriageConstants.UPPER_FLIP_LIMIT);
         talonFX.configForwardSoftLimitEnable(true);

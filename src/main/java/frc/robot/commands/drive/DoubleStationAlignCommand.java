@@ -63,11 +63,12 @@ public class DoubleStationAlignCommand extends CommandBase {
         yController.setSetpoint(targetY);
         thetaController.setSetpoint(targetTheta.getRadians());
         if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE_STATION);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CUBE);
         } else {
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
         }
-        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
     }
 
     @Override

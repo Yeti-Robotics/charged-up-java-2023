@@ -29,6 +29,7 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
 
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
+        zeroFlip();
     }
 
     @Override
@@ -88,7 +89,7 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
     }
 
     public void zeroFlip() {
-        flipMotor.setSelectedSensorPosition(0.0);
+        flipMotor.setSelectedSensorPosition(-30.0 / CarriageConstants.COUNTS_TO_DEGREES);
     }
     @Override
     public void initSendable(SendableBuilder builder) {
