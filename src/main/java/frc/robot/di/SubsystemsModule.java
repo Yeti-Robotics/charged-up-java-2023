@@ -1,6 +1,5 @@
 package frc.robot.di;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
@@ -10,7 +9,6 @@ import dagger.Provides;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.constants.*;
@@ -40,13 +38,9 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public IntakeSubsystem providesIntakeSubsystem(
-            @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
-            @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
-            @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
+            @Named(IntakeConstants.SPARK) CANSparkMax spark) {
         return new IntakeSubsystem(
-                leftSpark,
-                rightSpark,
-                intakePiston
+                spark
         );
     }
 

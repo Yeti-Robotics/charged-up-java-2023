@@ -18,7 +18,6 @@ import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
 import frc.robot.commands.intake.IntakeRollInCommand;
 import frc.robot.commands.intake.IntakeRollOutCommand;
-import frc.robot.commands.intake.IntakeShootHighCommand;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
@@ -85,8 +84,6 @@ public class RobotModule {
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn3Sec", Commands.runOnce(() -> intakeSubsystem.rollIn(IntakeConstants.INTAKE_SPEED), intakeSubsystem).withTimeout(3.5));
-        eventMap.put("intakeOpen", Commands.runOnce(intakeSubsystem::intakeOpen, intakeSubsystem));
-        eventMap.put("intakeClose", Commands.runOnce(intakeSubsystem::intakeClose, intakeSubsystem));
         eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
         eventMap.put("zeroElevator", Commands.runOnce(() -> {
             elevatorSubsystem.stop();
@@ -115,7 +112,6 @@ public class RobotModule {
                 new WaitCommand(1.0),
                 new WaitCommand(1.0)
         ));
-        eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("coneAutoWait", new WaitCommand(7.0));
         eventMap.put("waitHalfSecond", new WaitCommand(0.5));
         eventMap.put("handoff", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP)));

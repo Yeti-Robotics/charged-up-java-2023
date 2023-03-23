@@ -75,12 +75,6 @@ public class RobotContainer {
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
-                () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
-
-        buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
-                .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
-
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
 
@@ -97,8 +91,7 @@ public class RobotContainer {
             } else {
                 buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
             }
-        })
-                .alongWith(new ToggleIntakeCommand(intakeSubsystem).unless(() -> armSubsystem.isUp())), RunCondition.WHEN_PRESSED);
+        }),RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(11, 1, new InstantCommand(() -> {
             if (armSubsystem.isUp()) {

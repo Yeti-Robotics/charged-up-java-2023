@@ -1,7 +1,6 @@
 package frc.robot.di.devices;
 
 import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
@@ -88,9 +87,9 @@ public class MotorsModule {
     /****** IntakeMotors ******/
     @Provides
     @Singleton
-    @Named(IntakeConstants.LEFT_SPARK)
+    @Named(IntakeConstants.SPARK)
     public CANSparkMax providesLeftIntakeSpark() {
-        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         sparkMax.setInverted(false);
         sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
         sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
@@ -105,25 +104,7 @@ public class MotorsModule {
         return sparkMax;
     }
 
-    @Provides
-    @Singleton
-    @Named(IntakeConstants.RIGHT_SPARK)
-    public CANSparkMax providesRightIntakeSpark(@Named(IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero) {
-        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        sparkMax.follow(sparkMaxZero, true);
-        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
 
-        sparkMax.setSmartCurrentLimit(30);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
-
-        return sparkMax;
-
-    }
 
     //Check if implementation of each method
 

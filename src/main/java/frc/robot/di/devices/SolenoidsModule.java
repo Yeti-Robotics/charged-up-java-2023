@@ -24,15 +24,4 @@ public class SolenoidsModule {
                 ArmConstants.AIR_BRAKE_PORTS[0],
                 ArmConstants.AIR_BRAKE_PORTS[1]);
     }
-
-    /****** IntakeSolenoid ******/
-    @Provides
-    @Singleton
-    @Named(IntakeConstants.INTAKE_PISTON_NAME)
-    public DoubleSolenoid providesIntakePiston() {
-        return new DoubleSolenoid(
-                PneumaticsModuleType.CTREPCM,
-                IntakeConstants.INTAKE_PISTON[0],
-                IntakeConstants.INTAKE_PISTON[1]);
-    }
 }
