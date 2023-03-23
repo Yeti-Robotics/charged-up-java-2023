@@ -172,7 +172,7 @@ public class MotorsModule {
         talonFX.config_kF(0, CarriageConstants.FLIP_F);
         talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
         talonFX.configMotionAcceleration(CarriageConstants.MAX_ACCEL);
-        talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE);
+        talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE / CarriageConstants.COUNTS_TO_DEGREES);
 
         talonFX.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
         talonFX.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);

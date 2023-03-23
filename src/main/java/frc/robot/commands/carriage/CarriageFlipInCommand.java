@@ -15,17 +15,16 @@ public class CarriageFlipInCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.DOWN);
     }
 
     @Override
     public void execute() {
-
+        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.DOWN);
     }
 
     @Override
     public boolean isFinished() {
-        return carriageSubsystem.getAngle() < 2.0;
+        return carriageSubsystem.atSetpoint();
     }
 
     @Override

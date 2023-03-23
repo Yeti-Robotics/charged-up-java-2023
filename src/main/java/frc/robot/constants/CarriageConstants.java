@@ -22,7 +22,7 @@ public final class CarriageConstants {
     public static final double COUNTS_TO_DEGREES = 360.0 / TalonFXConstants.COUNTS_PER_REV * FLIP_RATIO;
     public static final double LOWER_FLIP_LIMIT = 0.0/ COUNTS_TO_DEGREES;
     public static final double UPPER_FLIP_LIMIT = 170 / COUNTS_TO_DEGREES;
-    public static final double FLIP_TOLERANCE = 1.0 / COUNTS_TO_DEGREES;
+    public static final double FLIP_TOLERANCE = 1.0;
     public static final double FLIP_P = 0.12;
     public static final double FLIP_I = 0.0;
     public static final double FLIP_D = 0.5;

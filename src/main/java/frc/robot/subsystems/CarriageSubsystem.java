@@ -65,6 +65,9 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
         flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, FLIP_FEED_FORWARD);
     }
 
+    public boolean atSetpoint() {
+        return Math.abs(carriagePosition.angle - getAngle()) <= CarriageConstants.FLIP_TOLERANCE;
+    }
     //Check if correct method used
     public void flipOut() {
         flipMotor.set(TalonFXControlMode.PercentOutput, CarriageConstants.FLIP_SPEED);

@@ -61,7 +61,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-
         autoChooser = new SendableChooser<>();
         autoChooser.setDefaultOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
         autoChooser.addOption(AutoModes.MIDDLE_BALANCE.name, AutoModes.MIDDLE_BALANCE);
