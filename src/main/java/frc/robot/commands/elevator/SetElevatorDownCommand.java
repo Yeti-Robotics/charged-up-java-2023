@@ -28,7 +28,7 @@ public class SetElevatorDownCommand extends SequentialCommandGroup {
                                 new ConditionalCommand(
                                         new CarriageFlipInCommand(carriageSubsystem),
                                         new InstantCommand(),
-                                        () -> carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED))
+                                        () -> carriageSubsystem.getCarriagePosition() != CarriageConstants.CarriagePositions.DOWN))
                 );
     }
 }
