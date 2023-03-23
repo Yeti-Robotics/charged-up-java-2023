@@ -1,9 +1,6 @@
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.carriage.CarriageFlipInCommand;
 import frc.robot.constants.ArmConstants;
@@ -18,14 +15,20 @@ public class SetElevatorDownCommand extends SequentialCommandGroup {
 
         addRequirements(elevatorSubsystem, armSubsystem, carriageSubsystem);
         addCommands(
-                new ConditionalCommand(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP), new InstantCommand(), () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.UP),
-                new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN), () -> {
-                    elevatorSubsystem.stop();
-                })
-                        .until(() -> elevatorSubsystem.getElevatorEncoder() < 500),
-                new ConditionalCommand(new CarriageFlipInCommand(carriageSubsystem), new InstantCommand(), () -> carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED),
-                new InstantCommand(carriageSubsystem::zeroFlip)
-
+                new ConditionalCommand(
+                        new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
+                        new InstantCommand(),
+                        () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.UP),
+                new StartEndCommand(
+                        () -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN),
+                        elevatorSubsystem::stop)
+                        .until(() -> elevatorSubsystem.getElevatorEncoder() < 500)
+                        .alongWith(
+                                new WaitCommand(0.1),
+                                new ConditionalCommand(
+                                        new CarriageFlipInCommand(carriageSubsystem),
+                                        new InstantCommand(),
+                                        () -> carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.FLIPPED))
                 );
     }
 }
