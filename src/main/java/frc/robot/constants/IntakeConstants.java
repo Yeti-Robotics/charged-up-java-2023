@@ -3,10 +3,9 @@ package frc.robot.constants;
 import edu.wpi.first.math.util.Units;
 
 public final class IntakeConstants {
-    public static final String TALON = "intake spark 1";
+    public static final String TALON = "intake talon";
     public static final int LEFT_SPARK_ID = 1;
-    public static final String RIGHT_SPARK = "intake spark 2";
-    public static final int RIGHT_SPARK_ID = 2;
+
 
     public static final String INTAKE_PISTON_NAME = "intake piston";
     public static final int[] INTAKE_PISTON = {4, 5};

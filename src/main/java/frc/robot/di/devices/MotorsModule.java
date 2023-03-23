@@ -94,6 +94,9 @@ public class MotorsModule {
         talon.setInverted(false);
         talon.setNeutralMode(NeutralMode.Brake);
 
+        talon.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
+        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);
+
         return talon;
     }
 

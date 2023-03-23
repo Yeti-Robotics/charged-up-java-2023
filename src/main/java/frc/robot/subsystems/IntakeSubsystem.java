@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
@@ -12,33 +11,33 @@ import javax.inject.Named;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private final WPI_TalonFX talon;
+    private final WPI_TalonFX intakeMotor;
     private final DoubleSolenoid intakePiston;
 
     @Inject
     public IntakeSubsystem(
-            @Named(IntakeConstants.TALON) WPI_TalonFX talon,
+            @Named(IntakeConstants.TALON) WPI_TalonFX intakeMotor,
             @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
         this.intakePiston = intakePiston;
-        this.talon = talon;
+        this.intakeMotor = intakeMotor;
 
         intakeOpen();
     }
 
     public void rollIn(double speed) {
-        talon.set(Math.abs(speed));
+        intakeMotor.set(Math.abs(speed));
     }
 
     public void rollOut(double speed) {
-        talon.set(-Math.abs(speed));
+        intakeMotor.set(-Math.abs(speed));
     }
 
     public void roll(double speed){
-        talon.set(speed);
+        intakeMotor.set(speed);
     }
 
     public void stop() {
-        talon.stopMotor();
+        intakeMotor.stopMotor();
     }
 
     public void intakeClose() {
@@ -58,10 +57,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void setCoastMode(){
-        talon.setNeutralMode(NeutralMode.Coast);
+        intakeMotor.setNeutralMode(NeutralMode.Coast);
     }
 
     public void setBrakeMode(){
-        talon.setNeutralMode(NeutralMode.Coast);
+        intakeMotor.setNeutralMode(NeutralMode.Coast);
     }
 }
