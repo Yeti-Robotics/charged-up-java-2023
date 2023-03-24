@@ -60,7 +60,7 @@ public class ChuteAlignCommand extends CommandBase {
 
         xController.setSetpoint(targetX);
         thetaController.setSetpoint(targetTheta.getRadians());
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+//            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
         }
 
 
@@ -68,16 +68,16 @@ public class ChuteAlignCommand extends CommandBase {
     @Override
     public void execute() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
-        double xSpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
-        double ySupplier = 0.0;
+        double xSpeed = 0.0;
+        double ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
                 -AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity,
                 AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity);
 
         if (!xController.atSetpoint()) {
-            ySupplier = MathUtil.clamp(
-                    xController.calculate(robotPose.getY()),
+            xSpeed = MathUtil.clamp(
+                    xController.calculate(robotPose.getX()),
                     -1.0,
                     1.0);
         }
@@ -86,7 +86,7 @@ public class ChuteAlignCommand extends CommandBase {
                 DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                         ChassisSpeeds.fromFieldRelativeSpeeds(
                                 xSpeed,
-                                ySupplier,
+                                ySpeed,
                                 thetaSpeed,
                                 robotPose.getRotation()
                         )
