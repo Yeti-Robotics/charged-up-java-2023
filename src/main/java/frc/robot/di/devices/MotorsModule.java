@@ -88,41 +88,16 @@ public class MotorsModule {
     /****** IntakeMotors ******/
     @Provides
     @Singleton
-    @Named(IntakeConstants.LEFT_SPARK)
-    public CANSparkMax providesLeftIntakeSpark() {
-        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        sparkMax.setInverted(false);
-        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
+    @Named(IntakeConstants.TALON)
+    public WPI_TalonFX providesIntakeTalon() {
+        WPI_TalonFX talon = new WPI_TalonFX(IntakeConstants.LEFT_SPARK_ID);
+        talon.setInverted(false);
+        talon.setNeutralMode(NeutralMode.Brake);
 
-        sparkMax.setSmartCurrentLimit(30);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
+        talon.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
+        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);
 
-        return sparkMax;
-    }
-
-    @Provides
-    @Singleton
-    @Named(IntakeConstants.RIGHT_SPARK)
-    public CANSparkMax providesRightIntakeSpark(@Named(IntakeConstants.LEFT_SPARK) CANSparkMax sparkMaxZero) {
-        CANSparkMax sparkMax = new CANSparkMax(IntakeConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        sparkMax.follow(sparkMaxZero, true);
-        sparkMax.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        sparkMax.enableVoltageCompensation(IntakeConstants.VOLTAGE_COMP);
-
-        sparkMax.setSmartCurrentLimit(30);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, SparkMaxConstants.HIGH_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, SparkMaxConstants.MEDIUM_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, SparkMaxConstants.LOW_PRIORITY_MS);
-        sparkMax.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus4, SparkMaxConstants.LOW_PRIORITY_MS);
-
-        return sparkMax;
-
+        return talon;
     }
 
     /***** Carriage Motors *****/

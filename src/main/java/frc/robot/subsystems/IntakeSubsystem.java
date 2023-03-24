@@ -1,46 +1,43 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
-import org.opencv.core.Mat;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final CANSparkMax leftSpark;
-    private final CANSparkMax rightSpark;
+
+    private final WPI_TalonFX intakeMotor;
     private final DoubleSolenoid intakePiston;
 
     @Inject
     public IntakeSubsystem(
-            @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
-            @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(IntakeConstants.TALON) WPI_TalonFX intakeMotor,
             @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
         this.intakePiston = intakePiston;
-        this.leftSpark = leftSpark;
-        this.rightSpark = rightSpark;
+        this.intakeMotor = intakeMotor;
 
         intakeOpen();
     }
 
     public void rollIn(double speed) {
-        leftSpark.set(Math.abs(speed));
+        intakeMotor.set(Math.abs(speed));
     }
 
     public void rollOut(double speed) {
-        leftSpark.set(-Math.abs(speed));
+        intakeMotor.set(-Math.abs(speed));
     }
 
     public void roll(double speed){
-        leftSpark.set(speed);
+        intakeMotor.set(speed);
     }
 
     public void stop() {
-        leftSpark.stopMotor();
+        intakeMotor.stopMotor();
     }
 
     public void intakeClose() {
@@ -60,12 +57,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void setCoastMode(){
-        leftSpark.setIdleMode(CANSparkMax.IdleMode.kCoast);
-        rightSpark.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        intakeMotor.setNeutralMode(NeutralMode.Coast);
     }
 
     public void setBrakeMode(){
-        leftSpark.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        rightSpark.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        intakeMotor.setNeutralMode(NeutralMode.Coast);
     }
 }

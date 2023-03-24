@@ -10,7 +10,6 @@ import dagger.Provides;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.constants.*;
@@ -40,12 +39,10 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public IntakeSubsystem providesIntakeSubsystem(
-            @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
-            @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(IntakeConstants.TALON) WPI_TalonFX talon,
             @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
         return new IntakeSubsystem(
-                leftSpark,
-                rightSpark,
+                talon,
                 intakePiston
         );
     }
