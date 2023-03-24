@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
     @Provides
     @Singleton
     @Named(ArmConstants.ARM_MOTOR)
@@ -146,6 +147,7 @@ public class MotorsModule {
         talonFX.config_kF(0, CarriageConstants.FLIP_F);
         talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
         talonFX.configMotionAcceleration(CarriageConstants.MAX_ACCEL);
+        talonFX.configMotionSCurveStrength(CarriageConstants.FLIP_MOTION_SMOOTHING);
         talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE / CarriageConstants.COUNTS_TO_DEGREES);
 
         talonFX.setStatusFramePeriod(StatusFrame.Status_1_General, 50);

@@ -36,6 +36,7 @@ public final class CarriageConstants {
     public static final String FLIP_MOTOR_PID_NAME = "flipMotorPIDController";
 
     public static final double GRAVITY_FEEDFORWARD = 1.0;
+    public static final int FLIP_MOTION_SMOOTHING = 0;
 
     public enum CarriagePositions {
         DOWN(-30.0),
