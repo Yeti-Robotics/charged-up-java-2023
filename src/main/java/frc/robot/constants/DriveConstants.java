@@ -5,13 +5,16 @@
 
 package frc.robot.constants;
 
+import com.ctre.phoenix.WPI_CallbackHelper;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import org.opencv.core.Mat;
 
 import java.util.Map;
 
@@ -63,26 +66,29 @@ public class DriveConstants {
     public static final double DRIVE_MOTOR_P = 2.0; //placeholder from borealis
     public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis
     public static final double DRIVE_MOTOR_D = 0.0; //placeholder from borealis
-    public static final double DRIVE_MOTOR_KS = 0.743; //placeholder from borealis
-    public static final double DRIVE_MOTOR_KV = 2.178; //placeholder from borealis
-    public static final double DRIVE_MOTOR_KA = 0.406; //placeholder from borealis
+    public static final double DRIVE_MOTOR_F = 0.0;
 
     public static final double AZIMUTH_MOTOR_P = 5.0; //placeholder from borealis 3
     public static final double AZIMUTH_MOTOR_I = 0.0; //placeholder from borealis
     public static final double AZIMUTH_MOTOR_D = 0.00; //placeholder from borealis 0.01
-    public static final double AZIMUTH_MOTOR_KS = 0.50; //placeholder from borealis 0.75
-    public static final double AZIMUTH_MOTOR_KV = 0.35; //placeholder from borealis 0.7
-    public static final double AZIMUTH_MOTOR_KA = 0.0; //placeholder from borealis
+    public static final double AZIMUTH_MOTOR_F = 0.0;
+    public static final double AZIMUTH_MAX_VEL = Math.toDegrees(Math.PI * 3) * CANCoderConstants.COUNTS_PER_DEG;
+    public static final double AZIMUTH_MAX_ACCEL = Math.toDegrees(Math.PI * 6) * CANCoderConstants.COUNTS_PER_DEG;
+    public static final int AZIMUTH_MOTION_SMOOTHING = 0;
+    public static final double AZIMUTH_TOLERANCE = 0.5 * CANCoderConstants.COUNTS_PER_DEG;
 
-    public static final double DEGREES_TO_FALCON = 20.64 * 2048 / 360.0;
     public static final double SWERVE_X_REDUCTION = 1.0 / 6.75;
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); //0.1016
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SWERVE_X_REDUCTION * WHEEL_DIAMETER * Math.PI; //placeholder
+    public static final double WHEEL_CIRCUMFERENCE =  WHEEL_DIAMETER * Math.PI;
 
     public static final double FRAME_PERIMETER = 27.0;
     private static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(22.25); //PLACEHOLDER
     private static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(22.25); //PLACEHOLDER
+
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * SWERVE_X_REDUCTION * WHEEL_CIRCUMFERENCE; //placeholder
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2, DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2); //PLACEHOLDER
+
+    public static final double COUNTS_TO_METERS = TalonFXConstants.COUNTS_PER_REV * SWERVE_X_REDUCTION / WHEEL_CIRCUMFERENCE;
 
     public static final SwerveDriveKinematics DRIVE_KINEMATICS =
             new SwerveDriveKinematics(

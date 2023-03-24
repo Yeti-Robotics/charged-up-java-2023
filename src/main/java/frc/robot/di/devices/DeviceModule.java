@@ -31,8 +31,9 @@ public class DeviceModule {
         absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         absoluteEncoder.configMagnetOffset(degreesOffset);
         absoluteEncoder.configSensorDirection(reversed);
-        absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
+        absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10);
         absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
+        absoluteEncoder.setPositionToAbsolute();
         return absoluteEncoder;
     }
 

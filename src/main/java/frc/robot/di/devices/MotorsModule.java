@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
     @Provides
     @Singleton
     @Named(ArmConstants.ARM_MOTOR)
@@ -159,25 +160,45 @@ public class MotorsModule {
         WPI_TalonFX driveMotor = new WPI_TalonFX(id, "canivoreBus");
         driveMotor.setNeutralMode(NeutralMode.Brake);
         driveMotor.setInverted(driveInverted);
+
         driveMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 60, 65, 0.1));
         driveMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 65, 0.1));
         driveMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+
+        driveMotor.config_kP(0, DriveConstants.DRIVE_MOTOR_P);
+        driveMotor.config_kI(0, DriveConstants.DRIVE_MOTOR_I);
+        driveMotor.config_kD(0, DriveConstants.DRIVE_MOTOR_D);
+        driveMotor.config_kF(0, DriveConstants.DRIVE_MOTOR_F);
+
         driveMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
-        driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
         driveMotor.configOpenloopRamp(0.0);
 
         return driveMotor;
     }
 
-    public static WPI_TalonFX azimuthMotorFactory(int id) {
+    public static WPI_TalonFX azimuthMotorFactory(int id, WPI_CANCoder canCoder) {
         WPI_TalonFX steerMotor = new WPI_TalonFX(id, "canivoreBus");
         steerMotor.setNeutralMode(NeutralMode.Brake);
+
+        steerMotor.setSensorPhase(true);
         steerMotor.setInverted(true);
+
         steerMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 60, 65, 0.1));
         steerMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 65, 0.1));
 
-        steerMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        steerMotor.configRemoteFeedbackFilter(canCoder, 0, 10);
+        steerMotor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
 
+        steerMotor.config_kP(0, DriveConstants.AZIMUTH_MOTOR_P);
+        steerMotor.config_kI(0, DriveConstants.AZIMUTH_MOTOR_I);
+        steerMotor.config_kD(0, DriveConstants.AZIMUTH_MOTOR_D);
+        steerMotor.config_kF(0, DriveConstants.AZIMUTH_MOTOR_F);
+        steerMotor.configFeedbackNotContinuous(false, 10);
+        steerMotor.configMotionCruiseVelocity(DriveConstants.AZIMUTH_MAX_VEL);
+        steerMotor.configMotionAcceleration(DriveConstants.AZIMUTH_MAX_ACCEL);
+        steerMotor.configMotionSCurveStrength(DriveConstants.AZIMUTH_MOTION_SMOOTHING);
+        steerMotor.configAllowableClosedloopError(0, DriveConstants.AZIMUTH_TOLERANCE);
 
         steerMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         steerMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 250);

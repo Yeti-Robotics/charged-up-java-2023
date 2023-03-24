@@ -70,10 +70,13 @@ public class SubsystemsModule {
     private static SwerveModule swerveModuleFactory(
             int driveMotorID, int steerMotorID, int CANcoderID, boolean driveInverted, double encoderOffset, boolean encoderReversed
     ) {
+        WPI_CANCoder encoder = DeviceModule.absoluteEncoderFactory(CANcoderID, encoderOffset, encoderReversed);
+        WPI_TalonFX driveMotor = MotorsModule.driveMotorFactory(driveMotorID, driveInverted);
+        WPI_TalonFX azimuthMotor = MotorsModule.azimuthMotorFactory(steerMotorID, encoder);
         return new SwerveModule(
-                MotorsModule.driveMotorFactory(driveMotorID, driveInverted),
-                MotorsModule.azimuthMotorFactory(steerMotorID),
-                DeviceModule.absoluteEncoderFactory(CANcoderID, encoderOffset, encoderReversed)
+                driveMotor,
+                azimuthMotor,
+                encoder
         );
     }
 
