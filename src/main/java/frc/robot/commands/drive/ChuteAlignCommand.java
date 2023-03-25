@@ -42,7 +42,7 @@ public class ChuteAlignCommand extends CommandBase {
         this.timer = new Timer();
         this.timer.start();
 
-        xController.setTolerance(0.2);
+        xController.setTolerance(0.1);
         thetaController.setTolerance(0.01);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -96,6 +96,10 @@ public class ChuteAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        if (timer.hasElapsed(.2)) {
+            return carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.DOWN;
+        }
+
         return false;
     }
 
