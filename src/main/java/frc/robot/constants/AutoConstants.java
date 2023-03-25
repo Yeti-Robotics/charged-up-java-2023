@@ -72,7 +72,8 @@ public final class AutoConstants {
         CONE_THREE("coneThree", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
-        CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS);
+        CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS),
+        THREE_CUBE_TWO("threeCubeTwo", DEFAULT_CONSTRAINTS);
 
         public final String name;
         public final PathConstraints initConstraint;
