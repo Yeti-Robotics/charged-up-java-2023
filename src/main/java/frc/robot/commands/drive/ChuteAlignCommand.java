@@ -1,10 +1,13 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.hal.simulation.DriverStationDataJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.*;
@@ -56,11 +59,21 @@ public class ChuteAlignCommand extends CommandBase {
         thetaController.reset();
 
         targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+
         targetTheta = position.offset.getRotation();
+
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+            targetTheta = position.offset.getRotation().plus(Rotation2d.fromDegrees(180));
+        }
+
+        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
+            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
+        } else {
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+        }
 
         xController.setSetpoint(targetX);
         thetaController.setSetpoint(targetTheta.getRadians());
-//            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
         }
 
 
@@ -96,10 +109,6 @@ public class ChuteAlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (timer.hasElapsed(.2)) {
-            return carriageSubsystem.getCarriagePosition() == CarriageConstants.CarriagePositions.DOWN;
-        }
-
         return false;
     }
 

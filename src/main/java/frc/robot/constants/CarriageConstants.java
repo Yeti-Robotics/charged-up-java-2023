@@ -23,10 +23,11 @@ public final class CarriageConstants {
     public static final double LOWER_FLIP_LIMIT = 0.0 / COUNTS_TO_DEGREES;
     public static final double UPPER_FLIP_LIMIT = 170 / COUNTS_TO_DEGREES;
     public static final double FLIP_TOLERANCE = 1.0;
-    public static final double FLIP_P = 0.4;
-    public static final double FLIP_I = 0.0;
+    public static final double FLIP_P = 0.35;
+    public static final double FLIP_I = 0.000;
     public static final double FLIP_D = 0.3;
     public static final double FLIP_F = 0.0;
+    public static final double FLIP_IZONE = 5.0 / COUNTS_TO_DEGREES;
 
     public static final double MAX_VELOCITY = 100 / COUNTS_TO_DEGREES;
     public static final double MAX_ACCEL = MAX_VELOCITY / 1.2;
@@ -39,9 +40,9 @@ public final class CarriageConstants {
     public static final int FLIP_MOTION_SMOOTHING = 0;
 
     public enum CarriagePositions {
-        DOWN(-30.0),
-        CHUTE(127.0),
-        CUBE_STATION(118.0),
+        DOWN(2.0),
+        CHUTE(120.0),
+        CUBE_STATION(123.0),
         FLIPPED(145.0);
 
         public final double angle;

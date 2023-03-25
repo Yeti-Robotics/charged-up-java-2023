@@ -89,7 +89,7 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
     }
 
     public void zeroFlip() {
-        flipMotor.setSelectedSensorPosition(-30.0 / CarriageConstants.COUNTS_TO_DEGREES);
+        flipMotor.setSelectedSensorPosition(2 / CarriageConstants.COUNTS_TO_DEGREES);
     }
     @Override
     public void initSendable(SendableBuilder builder) {

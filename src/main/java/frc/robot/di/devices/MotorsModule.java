@@ -142,7 +142,8 @@ public class MotorsModule {
         talonFX.configReverseSoftLimitEnable(true);
 
         talonFX.config_kP(0, CarriageConstants.FLIP_P);
-        talonFX.config_IntegralZone(0, CarriageConstants.FLIP_I);
+        talonFX.config_kI(0, CarriageConstants.FLIP_I);
+        talonFX.config_IntegralZone(0, CarriageConstants.FLIP_IZONE);
         talonFX.config_kD(0, CarriageConstants.FLIP_D);
         talonFX.config_kF(0, CarriageConstants.FLIP_F);
         talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
