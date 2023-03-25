@@ -41,7 +41,7 @@ public final class CarriageConstants {
     public enum CarriagePositions {
         DOWN(-30.0),
         CHUTE(127.0),
-        CUBE_STATION(113.0),
+        CUBE_STATION(118.0),
         FLIPPED(145.0);
 
         public final double angle;

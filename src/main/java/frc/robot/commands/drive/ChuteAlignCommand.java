@@ -43,7 +43,7 @@ public class ChuteAlignCommand extends CommandBase {
         this.timer.start();
 
         xController.setTolerance(0.1);
-        thetaController.setTolerance(0.01);
+        thetaController.setTolerance(0.008);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         addRequirements(drivetrainSubsystem);
