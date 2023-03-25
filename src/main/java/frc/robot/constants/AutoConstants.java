@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public final class AutoConstants {
     /**
@@ -86,7 +87,7 @@ public final class AutoConstants {
     public enum ALIGNMENT_POSITION {
         LEFT_DOUBLE_STATION(-CENTER_OFFSET, 0.9, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
-        SINGLE_STATION(-2.5, CENTER_OFFSET, 90.0, -90.0),
+        SINGLE_STATION(-1.75, CENTER_OFFSET, 90.0, 90),
         LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);

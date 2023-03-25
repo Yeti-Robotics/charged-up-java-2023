@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 
 @Module
 public class MotorsModule {
+
     @Provides
     @Singleton
     @Named(ArmConstants.ARM_MOTOR)
@@ -134,7 +135,6 @@ public class MotorsModule {
         talonFX.configStatorCurrentLimit(CarriageConstants.FLIP_STATOR_CURRENT_LIMIT);
 
         talonFX.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-        talonFX.setSelectedSensorPosition(0.0);
 
         talonFX.configForwardSoftLimitThreshold(CarriageConstants.UPPER_FLIP_LIMIT);
         talonFX.configForwardSoftLimitEnable(true);
@@ -142,12 +142,14 @@ public class MotorsModule {
         talonFX.configReverseSoftLimitEnable(true);
 
         talonFX.config_kP(0, CarriageConstants.FLIP_P);
-        talonFX.config_IntegralZone(0, CarriageConstants.FLIP_I);
+        talonFX.config_kI(0, CarriageConstants.FLIP_I);
+        talonFX.config_IntegralZone(0, CarriageConstants.FLIP_IZONE);
         talonFX.config_kD(0, CarriageConstants.FLIP_D);
         talonFX.config_kF(0, CarriageConstants.FLIP_F);
         talonFX.configMotionCruiseVelocity(CarriageConstants.MAX_VELOCITY);
         talonFX.configMotionAcceleration(CarriageConstants.MAX_ACCEL);
-        talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE);
+        talonFX.configMotionSCurveStrength(CarriageConstants.FLIP_MOTION_SMOOTHING);
+        talonFX.configAllowableClosedloopError(0, CarriageConstants.FLIP_TOLERANCE / CarriageConstants.COUNTS_TO_DEGREES);
 
         talonFX.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
         talonFX.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10);

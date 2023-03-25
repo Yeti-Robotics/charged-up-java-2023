@@ -119,7 +119,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     public boolean isArmDown() { return armPosition == ArmPositions.DOWN; }
 
     public boolean isUp(){
-        return getAngle() >= 90;
+        return getAngle() >= 60.0;
     }
 
     private void motorsBrake() {

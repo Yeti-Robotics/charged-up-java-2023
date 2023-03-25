@@ -33,11 +33,11 @@ public class SetArmPositionCommand extends CommandBase {
 
         timer.reset();
         armSubsystem.disengageBrake();
-        armSubsystem.setPosition(position);
     }
 
     @Override
     public void execute() {
+        armSubsystem.setPosition(position);
     }
 
     @Override
