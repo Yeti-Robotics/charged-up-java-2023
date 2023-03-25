@@ -1,10 +1,13 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.hal.simulation.DriverStationDataJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.*;
@@ -16,74 +19,78 @@ import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class DoubleStationAlignCommand extends CommandBase {
+public class ChuteAlignCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
-    private final DoubleSupplier xSupplier;
-    private final PIDController yController;
+    private final DoubleSupplier ySupplier;
+    private final PIDController xController;
     private final PIDController thetaController;
     private final Timer timer;
 
-    private double targetY;
+    private double targetX;
     private Rotation2d targetTheta;
 
     private final ALIGNMENT_POSITION position;
-    private final ElevatorSubsystem elevatorSubsystem;
     private final CarriageSubsystem carriageSubsystem;
 
     private final LEDSubsystem ledSubsystem;
 
-    public DoubleStationAlignCommand(DrivetrainSubsystem drivetrainSubsystem, ElevatorSubsystem elevatorSubsystem, LEDSubsystem ledSubsystem, CarriageSubsystem carriageSubsystem, DoubleSupplier xSpeed, ALIGNMENT_POSITION position) {
+    public ChuteAlignCommand(DrivetrainSubsystem drivetrainSubsystem, LEDSubsystem ledSubsystem, CarriageSubsystem carriageSubsystem, DoubleSupplier ySpeed, ALIGNMENT_POSITION position) {
         this.drivetrainSubsystem = drivetrainSubsystem;
-        this.elevatorSubsystem = elevatorSubsystem;
         this.carriageSubsystem = carriageSubsystem;
         this.ledSubsystem = ledSubsystem;
-        this.xSupplier = xSpeed;
-        this.yController = new PIDController(AutoConstants.TRANSLATION_P, AutoConstants.TRANSLATION_I, AutoConstants.TRANSLATION_D);
+        this.ySupplier = ySpeed;
+        this.xController = new PIDController(AutoConstants.TRANSLATION_P, AutoConstants.TRANSLATION_I, AutoConstants.TRANSLATION_D);
         this.thetaController = new PIDController(AutoConstants.THETA_CONTROLLER_P, AutoConstants.THETA_CONTROLLER_I, AutoConstants.THETA_CONTROLLER_D);
         this.position = position;
         this.timer = new Timer();
         this.timer.start();
 
-        yController.setTolerance(0.2);
-        thetaController.setTolerance(0.01);
+        xController.setTolerance(0.1);
+        thetaController.setTolerance(0.008);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        addRequirements(drivetrainSubsystem, elevatorSubsystem);
+        addRequirements(drivetrainSubsystem);
     }
 
     @Override
     public void initialize() {
         timer.reset();
-        yController.reset();
+        xController.reset();
         thetaController.reset();
 
-        targetY = FieldConstants.humanStationAprilTag.getY() + position.offset.getY();
+        targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+
         targetTheta = position.offset.getRotation();
 
-        yController.setSetpoint(targetY);
-        thetaController.setSetpoint(targetTheta.getRadians());
-        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE_STATION);
-            elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CUBE);
-        } else {
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
-            elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
+        if(DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+            targetTheta = position.offset.getRotation().plus(Rotation2d.fromDegrees(180));
         }
-    }
+
+        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
+            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
+        } else {
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+        }
+
+        xController.setSetpoint(targetX);
+        thetaController.setSetpoint(targetTheta.getRadians());
+        }
+
+
 
     @Override
     public void execute() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
-        double xSpeed = DrivetrainSubsystem.modifyAxis(xSupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
-        double ySpeed = 0.0;
+        double xSpeed = 0.0;
+        double ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
                 -AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity,
                 AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity);
 
-        if (!yController.atSetpoint()) {
-            ySpeed = MathUtil.clamp(
-                    yController.calculate(robotPose.getY()),
+        if (!xController.atSetpoint()) {
+            xSpeed = MathUtil.clamp(
+                    xController.calculate(robotPose.getX()),
                     -1.0,
                     1.0);
         }
@@ -110,3 +117,4 @@ public class DoubleStationAlignCommand extends CommandBase {
         drivetrainSubsystem.stop();
     }
 }
+

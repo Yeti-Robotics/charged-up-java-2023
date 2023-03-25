@@ -89,21 +89,26 @@ public class RobotModule {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
         eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));
-        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN)));
+        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN))
+                .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
-        eventMap.put("intakeIn3Sec", Commands.runOnce(() -> intakeSubsystem.rollIn(IntakeConstants.INTAKE_SPEED), intakeSubsystem).withTimeout(3.0));
+        eventMap.put("intakeIn3Sec", Commands.runOnce(() -> intakeSubsystem.rollIn(IntakeConstants.INTAKE_SPEED), intakeSubsystem).withTimeout(3.5));
         eventMap.put("intakeOpen", Commands.runOnce(intakeSubsystem::intakeOpen, intakeSubsystem));
         eventMap.put("intakeClose", Commands.runOnce(intakeSubsystem::intakeClose, intakeSubsystem));
         eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
+        eventMap.put("zeroElevator", Commands.runOnce(() -> {
+            elevatorSubsystem.stop();
+            elevatorSubsystem.zeroEncoder();
+        }, elevatorSubsystem));
         eventMap.put("elevatorStop", Commands.runOnce(elevatorSubsystem::stop, elevatorSubsystem));
         eventMap.put("elevatorDown", Commands.sequence(
                 new CarriageFlipInCommand(carriageSubsystem),
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN),
                 new WaitCommand(1.0),
                 new InstantCommand(elevatorSubsystem::stop, elevatorSubsystem)
-                ).withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
+                ));
         eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
         eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));

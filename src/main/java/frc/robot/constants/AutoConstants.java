@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public final class AutoConstants {
     /**
@@ -34,9 +35,9 @@ public final class AutoConstants {
                     DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     public static final double PITCH_SET_POINT = 0.0;
-    public static final double PITCH_P = 0.04; //0.02
+    public static final double PITCH_P = 0.02; //0.03
     public static final double PITCH_I = 0.0;
-    public static final double PITCH_D = 0.005; //0.001
+    public static final double PITCH_D = 0.001; //0.00579 0.001
     public static final double PITCH_TOLERANCE = 1.0;
 
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
@@ -45,7 +46,9 @@ public final class AutoConstants {
         TESTING("testing", DEFAULT_CONSTRAINTS),
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
-        CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
+        CONE_MOBILITY_BALANCE_TWO("coneMobilityBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
+        CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS),
+
         TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne",
                 new PathConstraints(0.9, 0.5),
                 DEFAULT_CONSTRAINTS,
@@ -54,13 +57,9 @@ public final class AutoConstants {
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
         TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo",
-                new PathConstraints(0.75, 0.4),
-                DEFAULT_CONSTRAINTS,
-                DEFAULT_CONSTRAINTS,
-                new PathConstraints(0.75, 0.4),
-                DEFAULT_CONSTRAINTS),
+                new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         TWO_PIECE_ONE("twoPieceOne",
-                new PathConstraints(0.75, 0.4),
+                new PathConstraints(0.8, 0.6),
                 DEFAULT_CONSTRAINTS,
                 DEFAULT_CONSTRAINTS,
                 new PathConstraints(1.75, 0.75),
@@ -87,9 +86,9 @@ public final class AutoConstants {
     }
 
     public enum ALIGNMENT_POSITION {
-        LEFT_DOUBLE_STATION(-CENTER_OFFSET, 1.0, 0.0, 0.0),
-        RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.4, 0.0, 0.0),
-        SINGLE_STATION(-2.5, CENTER_OFFSET, 90.0, -90.0),
+        LEFT_DOUBLE_STATION(-CENTER_OFFSET, 0.9, 0.0, 0.0),
+        RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
+        SINGLE_STATION(-1.75, CENTER_OFFSET, 90.0, 90),
         LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);

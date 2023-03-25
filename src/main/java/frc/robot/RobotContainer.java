@@ -16,10 +16,7 @@ import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
-import frc.robot.commands.drive.DoubleStationAlignCommand;
-import frc.robot.commands.drive.FieldOrientedDrive;
-import frc.robot.commands.drive.GridAlignCommand;
-import frc.robot.commands.drive.SwerveLockCommand;
+import frc.robot.commands.drive.*;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
 import frc.robot.commands.intake.*;
@@ -82,18 +79,9 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        // Sets led color to yeti blue when the elevator is down & to cone when it is up
-        new Trigger(elevatorSubsystem::isDown)
-                .onTrue(new InstantCommand(() -> {
-                    // this method DOES NOT CHANGE PIECE TARGET
-                    ledSubsystem.setYetiBlue();
-                    // Reset piece target
-                    ledSubsystem.setPieceTarget(LEDSubsystem.PieceTarget.NONE);
-                }, ledSubsystem));
-
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
-        buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
+        buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_OUT_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(4, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
@@ -103,7 +91,7 @@ public class RobotContainer {
                 .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
@@ -114,23 +102,7 @@ public class RobotContainer {
 
         buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(11, 0, new InstantCommand(() -> {
-            if (armSubsystem.isUp()) {
-                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
-            } else {
-                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
-            }
-        })
-                .alongWith(new ToggleIntakeCommand(intakeSubsystem).unless(() -> armSubsystem.isUp())), RunCondition.WHEN_PRESSED);
-
-        buttonHelper.createButton(11, 1, new InstantCommand(() -> {
-            if (armSubsystem.isUp()) {
-                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 1);
-            } else {
-                buttonHelper.setButtonLayer(0, buttonHelper.getButtonID(11), 0);
-            }
-        })
-                .alongWith(new SwerveLockCommand(drivetrainSubsystem).unless(() -> !armSubsystem.isUp())), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(11, 0, new SwerveLockCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(1, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(6, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
@@ -138,8 +110,9 @@ public class RobotContainer {
         buttonHelper.createButton(7, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(3, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(8, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(9, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(10, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(4, 1, new ChuteAlignCommand(drivetrainSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftX, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(9, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(10, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
 
         MultiButton rightJoystickButton = buttonHelper.createButton(12);
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton)
