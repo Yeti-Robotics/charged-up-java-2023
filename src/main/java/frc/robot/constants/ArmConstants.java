@@ -27,7 +27,7 @@ public final class ArmConstants {
      */
     public static final double GEAR_RATIO = 1.0 / (32.0 / 12.0); // ~2.6667
     // (real world output) / (gear ratio) * (CANCoder raw units) = (encoder limit in raw units)
-    public static final double UPPER_LIMIT = 85.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
+    public static final double UPPER_LIMIT = 100.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
     public static final double LOWER_LIMIT = -20.0 / GEAR_RATIO * CANCoderConstants.COUNTS_PER_DEG;
 
     public static final double ANGLE_TOLERANCE = 1.0;
@@ -36,8 +36,8 @@ public final class ArmConstants {
     public static final double ARM_I = 0.0;
     public static final double ARM_D = 0.005;
     public static final double ARM_F = 0.0;
-    public static final double GRAVITY_FEEDFORWARD = 0.03;
-    public static final double MAX_VELOCITY = 900.0; //600
+    public static final double GRAVITY_FEEDFORWARD = 0.05;
+    public static final double MAX_VELOCITY = 2000.0; //600
     public static final double MAX_ACCELERATION = MAX_VELOCITY / 1.25;
 
     // [0, 8]
@@ -46,9 +46,9 @@ public final class ArmConstants {
     public enum ArmPositions {
         DOWN(-19.0),
         CONE_FLIP(21.0),
-        SHOOT(73.0),
-        PORTAL(40.0),
-        UP(75.0),
+        SHOOT(70.0), //67 60
+        PORTAL(70.0),
+        UP(88.0),
         HANDOFF(60.0);
 
         public final double angle;

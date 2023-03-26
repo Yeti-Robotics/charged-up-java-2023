@@ -11,19 +11,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.AutoConstants.ALIGNMENT_POSITION;
+import frc.robot.constants.CarriageConstants;
 import frc.robot.constants.FieldConstants;
+import frc.robot.subsystems.CarriageSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 public class GridAlignCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
+    private final CarriageSubsystem carriageSubsystem;
+    private final LEDSubsystem ledSubsystem;
     private final SwerveAutoBuilder autoBuilder;
     private final Timer timer;
     private final ALIGNMENT_POSITION position;
     private PathPlannerTrajectory path;
     private Command autoCommand;
 
-    public GridAlignCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveAutoBuilder autoBuilder, ALIGNMENT_POSITION position) {
+    public GridAlignCommand(DrivetrainSubsystem drivetrainSubsystem, CarriageSubsystem carriageSubsystem, LEDSubsystem ledSubsystem, SwerveAutoBuilder autoBuilder, ALIGNMENT_POSITION position) {
         this.drivetrainSubsystem = drivetrainSubsystem;
+        this.carriageSubsystem = carriageSubsystem;
+        this.ledSubsystem = ledSubsystem;
         this.autoBuilder = autoBuilder;
         this.position = position;
         timer = new Timer();
@@ -39,16 +46,20 @@ public class GridAlignCommand extends CommandBase {
         double targetY = tagLocation.getY() + position.offset.getY();
         Rotation2d targetTheta = position.offset.getRotation();
 
-
-        Pose2d thetaPoint = new Pose2d(robotPose.getX() - 0.1, robotPose.getY(), targetTheta);
         Pose2d midPoint = new Pose2d(targetX + 0.2, targetY, targetTheta);
         Pose2d targetPose = new Pose2d(targetX, targetY, targetTheta);
 
         path = PathPlanner.generatePath(AutoConstants.ALIGNMENT_CONSTRAINTS,
                 new PathPoint(robotPose.getTranslation(), position.heading, robotPose.getRotation()),
-                new PathPoint(thetaPoint.getTranslation(), position.heading, thetaPoint.getRotation()),
                 new PathPoint(midPoint.getTranslation(), position.heading, midPoint.getRotation()),
                 new PathPoint(targetPose.getTranslation(), position.heading, targetPose.getRotation()));
+
+        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
+        if (ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
+            carriageSubsystem.coneOutCubeIn();
+        } else {
+            carriageSubsystem.coneInCubeOut();
+        }
 
         autoCommand = autoBuilder.followPath(path);
         autoCommand.schedule();
@@ -57,6 +68,9 @@ public class GridAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
+        if (timer.hasElapsed(0.5)) {
+            carriageSubsystem.rollerStop();
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 
-public class LEDSubsystem extends SubsystemBase {
+public class LEDSubsystem extends SubsystemBase implements Sendable {
     public enum PieceTarget {
         CONE,
         CUBE,
@@ -70,6 +72,11 @@ public class LEDSubsystem extends SubsystemBase {
     public void setCubePurple() {
         setPieceTarget(PieceTarget.CUBE);
         setSolidRGB(115, 0, 255);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("Piece Target", () -> getPieceTarget().toString(), null);
     }
 }
 

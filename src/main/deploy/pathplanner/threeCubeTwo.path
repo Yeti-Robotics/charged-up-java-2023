@@ -17,11 +17,11 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "waitHalfSecond"
+          "shootLow"
         ],
         "executionBehavior": "sequential",
-        "waitBehavior": "minimum",
-        "waitTime": 0.5
+        "waitBehavior": "none",
+        "waitTime": 1.0
       }
     },
     {
@@ -228,25 +228,37 @@
     {
       "position": 2.8581818181817145,
       "names": [
-        "waitHalfSecond"
+        "intakeInOneSec"
       ]
     },
     {
-      "position": 0.86,
+      "position": 4.8,
       "names": [
-        "waitHalfSecond"
+        "shootLow"
       ]
     },
     {
-      "position": 1.8545454545453566,
+      "position": 5.8,
       "names": [
-        "waitHalfSecond"
+        "intakeInOneSec"
       ]
     },
     {
-      "position": 3.985454545454389,
+      "position": 7.796363636363477,
       "names": [
-        "waitHalfSecond"
+        "shootLow"
+      ]
+    },
+    {
+      "position": 0.01,
+      "names": [
+        "armDown"
+      ]
+    },
+    {
+      "position": 5.01,
+      "names": [
+        "armDown"
       ]
     }
   ]

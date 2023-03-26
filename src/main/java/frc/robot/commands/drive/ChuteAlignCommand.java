@@ -85,8 +85,8 @@ public class ChuteAlignCommand extends CommandBase {
         double ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
-                -AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity,
-                AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity);
+                -3.0,
+                3.0);
 
         if (!xController.atSetpoint()) {
             xSpeed = MathUtil.clamp(
