@@ -36,16 +36,16 @@ public final class ElevatorConstants {
     public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(
             true, 40, 50, 0.1);
 
-    public static final double ELEVATOR_P = 0.08;
-    public static final double ELEVATOR_I = 0.007;
-    public static final double ELEVATOR_D = 0.02;
+    public static final double ELEVATOR_P = 0.1;
+    public static final double ELEVATOR_I = 0.00;
+    public static final double ELEVATOR_D = 0.04;
     public static final double ELEVATOR_F = 0.00;
-    public static final double GRAVITY_FEEDFORWARD = 0.09; //experimental value
+    public static final double GRAVITY_FEEDFORWARD = 0.05; //experimental value
 
     public static final double MAX_VELOCITY = 6.5 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
-    public static final double ELEVATOR_TOLERANCE = 0.15 / ELEVATOR_DISTANCE_PER_PULSE;
+    public static final double ELEVATOR_TOLERANCE = 0.5 / ELEVATOR_DISTANCE_PER_PULSE;
 
     public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;

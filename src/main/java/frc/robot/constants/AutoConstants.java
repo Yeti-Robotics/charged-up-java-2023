@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public final class AutoConstants {
     /**
@@ -35,9 +34,9 @@ public final class AutoConstants {
                     DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     public static final double PITCH_SET_POINT = 0.0;
-    public static final double PITCH_P = 0.02; //0.03
+    public static final double PITCH_P = 0.03; //0.02
     public static final double PITCH_I = 0.0;
-    public static final double PITCH_D = 0.001; //0.00579 0.001
+    public static final double PITCH_D = 0.00579; //0.00579 0.001
     public static final double PITCH_TOLERANCE = 1.0;
 
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
@@ -56,15 +55,9 @@ public final class AutoConstants {
                 ALIGNMENT_CONSTRAINTS,
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
-        TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo",
-                new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
-        TWO_PIECE_ONE("twoPieceOne",
-                new PathConstraints(0.8, 0.6),
-                DEFAULT_CONSTRAINTS,
-                DEFAULT_CONSTRAINTS,
-                new PathConstraints(1.75, 0.75),
+        MID_TWO_PIECE_BALANCE_TWO("midTwoPieceBalanceTwo",
+                new PathConstraints(2.0, 1.7),
                 DEFAULT_CONSTRAINTS),
-        TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE("coneOne", new PathConstraints(0, 0), new PathConstraints(0, 0)),
