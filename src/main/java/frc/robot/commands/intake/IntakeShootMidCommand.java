@@ -11,8 +11,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeShootMidCommand extends SequentialCommandGroup {
     public IntakeShootMidCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem) {
         addCommands(
-                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SHOOT),
-                new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_MID_SPEED).withTimeout(0.5)
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SHOOT).withTimeout(0.3),
+                new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_MID_SPEED).withTimeout(0.3)
         );
     }
 }

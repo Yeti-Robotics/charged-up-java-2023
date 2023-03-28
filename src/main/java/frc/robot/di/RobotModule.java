@@ -124,9 +124,9 @@ public class RobotModule {
         eventMap.put("coneMid", Commands.sequence(
                 new CarriageFlipOutCommand(carriageSubsystem)
                         .alongWith(
-                                new WaitCommand(0.2),
+                                new WaitCommand(0.1),
                                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO)),
-                new WaitCommand(0.6),
+                new WaitCommand(0.4),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("cubeHigh", Commands.sequence(
