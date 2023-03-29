@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.CONE_BALANCE_TWO.name, AutoModes.CONE_BALANCE_TWO);
         autoChooser.addOption(AutoModes.CONE_BALANCE_THREE.name, AutoModes.CONE_BALANCE_THREE);
         autoChooser.addOption(AutoModes.MID_TWO_PIECE_BALANCE_ONE.name, AutoModes.MID_TWO_PIECE_BALANCE_ONE);
+        autoChooser.addOption(AutoModes.MID_TWO_PICKUP_ONE.name, AutoModes.MID_TWO_PICKUP_ONE);
         autoChooser.addOption(AutoModes.MID_TWO_PIECE_BALANCE_TWO.name, AutoModes.MID_TWO_PIECE_BALANCE_TWO);
         autoChooser.addOption(AutoModes.MID_TWO_PICKUP_BALANCE_TWO.name, AutoModes.MID_TWO_PICKUP_BALANCE_TWO);
         autoChooser.addOption(AutoModes.MID_TWO_LOW_TWO.name, AutoModes.MID_TWO_LOW_TWO);
