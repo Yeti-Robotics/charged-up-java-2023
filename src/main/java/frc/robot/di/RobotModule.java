@@ -109,7 +109,7 @@ public class RobotModule {
                 new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem),
                 new WaitCommand(1.0),
                 new InstantCommand(elevatorSubsystem::stop, elevatorSubsystem)
-                ));
+        ));
         eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
         eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
@@ -135,6 +135,10 @@ public class RobotModule {
                 new CarriageFlipOutCommand(carriageSubsystem),
                 new WaitCommand(1.0),
                 new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.5)
+        ));
+        eventMap.put("shootLow", Commands.sequence(
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.CONE_FLIP).withTimeout(0.3),
+                new IntakeRollOutCommand(intakeSubsystem, 0.5).withTimeout(1.0)
         ));
         eventMap.put("shootMid", new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
