@@ -94,7 +94,9 @@
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "aprilTagAlign"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -126,5 +128,20 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 2.559999999999938,
+      "names": [
+        "armDown",
+        "intakeIn"
+      ]
+    },
+    {
+      "position": 3.490909090909035,
+      "names": [
+        "armUp",
+        "intakeStop"
+      ]
+    }
+  ]
 }

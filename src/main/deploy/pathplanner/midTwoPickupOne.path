@@ -228,12 +228,12 @@
     },
     {
       "anchorPoint": {
-        "x": 7.343984445458192,
-        "y": 2.355704340509964
+        "x": 7.446903567130958,
+        "y": 2.435752546255449
       },
       "prevControl": {
-        "x": 7.124169683662462,
-        "y": 2.1935606026593066
+        "x": 7.227088805335228,
+        "y": 2.2736088084047914
       },
       "nextControl": null,
       "holonomicAngle": -140.0,
@@ -244,8 +244,8 @@
       "stopEvent": {
         "names": [
           "intakeInOneSec",
-          "armUp",
-          "intakeStop"
+          "intakeStop",
+          "armUp"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "before",

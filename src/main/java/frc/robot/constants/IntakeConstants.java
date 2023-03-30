@@ -18,7 +18,7 @@ public final class IntakeConstants {
     public static final double INTAKE_SPEED = 0.2; //placeholder
     public static final double INTAKE_OUT_SPEED = 0.21; //placeholder
     public static final double SHOOT_MID_SPEED = 0.3;
-    public static final double SHOOT_HIGH_SPEED = 0.5;
+    public static final double SHOOT_HIGH_SPEED = 0.75;
 
     public static final double INTAKE_P = 0.00; //placeholder
     public static final double INTAKE_I = 0.0; //placeholder
