@@ -87,7 +87,7 @@
         "x": 4.440283847750336,
         "y": 5.0
       },
-      "holonomicAngle": -19.746836605426115,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -178,16 +178,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.649796913189533,
-        "y": 3.6854701258597515
+        "x": 6.65,
+        "y": 3.69
       },
       "prevControl": {
-        "x": 6.952899951432044,
-        "y": 4.079569895995919
+        "x": 6.907996892101973,
+        "y": 4.114998452090056
       },
       "nextControl": {
-        "x": 6.612115135785193,
-        "y": 3.6364756324377128
+        "x": 6.6179258198282405,
+        "y": 3.6371641816535227
       },
       "holonomicAngle": 135.0,
       "isReversal": false,
@@ -245,9 +245,7 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "shootLow"
-        ],
+        "names": [],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -262,41 +260,47 @@
       ]
     },
     {
-      "position": 1.35,
+      "position": 1.3,
       "names": [
         "armDown",
         "intakeIn"
       ]
     },
     {
-      "position": 2.3,
+      "position": 2.6,
       "names": [
         "armUp"
       ]
     },
     {
-      "position": 2.8,
+      "position": 3.0,
       "names": [
         "intakeStop"
       ]
     },
     {
-      "position": 6.4,
+      "position": 6.15,
       "names": [
         "armDown",
         "intakeIn"
       ]
     },
     {
-      "position": 7.3,
+      "position": 7.6,
       "names": [
-        "armUp"
+        "armMid"
       ]
     },
     {
-      "position": 7.6,
+      "position": 8.901818181818141,
       "names": [
-        "armUp"
+        "shootLow"
+      ]
+    },
+    {
+      "position": 7.61,
+      "names": [
+        "intakeStop"
       ]
     }
   ]

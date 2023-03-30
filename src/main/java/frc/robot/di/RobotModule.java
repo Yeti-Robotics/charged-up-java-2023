@@ -94,6 +94,7 @@ public class RobotModule {
         eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN))
                 .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
+        eventMap.put("armMid", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.CONE_FLIP));
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn3Sec", Commands.runOnce(() -> intakeSubsystem.rollIn(IntakeConstants.INTAKE_SPEED), intakeSubsystem).withTimeout(3.5));
@@ -138,7 +139,7 @@ public class RobotModule {
         ));
         eventMap.put("shootLow", Commands.sequence(
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.CONE_FLIP).withTimeout(0.3),
-                new IntakeRollOutCommand(intakeSubsystem, 0.5).withTimeout(1.0)
+                new IntakeRollOutCommand(intakeSubsystem, 0.35).withTimeout(1.0)
         ));
         eventMap.put("shootMid", new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
