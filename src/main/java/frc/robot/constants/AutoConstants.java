@@ -80,7 +80,7 @@ public final class AutoConstants {
         SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
         CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS),
-        THREE_CUBE_TWO("threeCubeTwo", DEFAULT_CONSTRAINTS);
+        THREE_CUBE_TWO("threeCubeTwo", new PathConstraints(4.0, 2.8));
 
         public final String name;
         public final PathConstraints initConstraint;
@@ -96,7 +96,7 @@ public final class AutoConstants {
     public enum ALIGNMENT_POSITION {
         LEFT_DOUBLE_STATION(-CENTER_OFFSET, 0.9, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
-        SINGLE_STATION(-1.75, CENTER_OFFSET, 90.0, 90),
+        SINGLE_STATION(-1.72, CENTER_OFFSET, 90.0, 90),
         LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);
