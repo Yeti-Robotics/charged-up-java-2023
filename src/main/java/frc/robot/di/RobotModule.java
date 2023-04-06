@@ -139,7 +139,7 @@ public class RobotModule {
         ));
         eventMap.put("shootLow", Commands.sequence(
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.CONE_FLIP).withTimeout(0.3),
-                new IntakeRollOutCommand(intakeSubsystem, 0.35).withTimeout(1.0)
+                new IntakeRollOutCommand(intakeSubsystem, 0.2).withTimeout(1.0)
         ));
         eventMap.put("shootMid", new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
