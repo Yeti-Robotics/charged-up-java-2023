@@ -34,9 +34,9 @@ public final class AutoConstants {
                     DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     public static final double PITCH_SET_POINT = 0.0;
-    public static final double PITCH_P = 0.03; //0.02
-    public static final double PITCH_I = 0.0;
-    public static final double PITCH_D = 0.00579; //0.00579 0.001
+    public static final double PITCH_P = 0.02; //0.02
+    public static final double PITCH_I = 0.00;
+    public static final double PITCH_D = 0.001; //0.00579 0.001
     public static final double PITCH_TOLERANCE = 1.0;
 
     public static final double CENTER_OFFSET = Units.inchesToMeters(DriveConstants.FRAME_PERIMETER / 2.0 + 15.0); // 0.4445
@@ -94,7 +94,7 @@ public final class AutoConstants {
     }
 
     public enum ALIGNMENT_POSITION {
-        LEFT_DOUBLE_STATION(-CENTER_OFFSET, 0.9, 0.0, 0.0),
+        LEFT_DOUBLE_STATION(-CENTER_OFFSET, 1.1, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
         SINGLE_STATION(-1.72, CENTER_OFFSET, 90.0, 90),
         LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
