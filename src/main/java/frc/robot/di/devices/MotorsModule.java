@@ -92,7 +92,7 @@ public class MotorsModule {
     @Named(IntakeConstants.TALON)
     public WPI_TalonFX providesIntakeTalon() {
         WPI_TalonFX talon = new WPI_TalonFX(IntakeConstants.LEFT_SPARK_ID);
-        talon.setInverted(false);
+        talon.setInverted(true);
         talon.setNeutralMode(NeutralMode.Brake);
 
         talon.setStatusFramePeriod(StatusFrame.Status_1_General, 50);
