@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 
 import static frc.robot.constants.DriveConstants.GYRO;
 
-@Module(includes = {MotorsModule.class, SolenoidsModule.class})
+@Module(includes = {MotorsModule.class})
 public class DeviceModule {
     @Provides
     @Singleton

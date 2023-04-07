@@ -23,7 +23,6 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     private final WPI_CANCoder encoder;
 
 
-    private final DoubleSolenoid airBrake;
 
     private ArmPositions armPosition = ArmPositions.UP;
     private boolean isBrakeEngaged;
@@ -31,13 +30,9 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     @Inject
     public ArmSubsystem(
             @Named(ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
-            @Named(ArmConstants.ARM_ENCODER) WPI_CANCoder encoder,
-            @Named(ArmConstants.AIR_BRAKE) DoubleSolenoid airBrake) {
-        this.armMotor1 = armMotor1;
+            @Named(ArmConstants.ARM_ENCODER) WPI_CANCoder encoder){
+        this.armMotor1=armMotor1;
         this.encoder = encoder;
-        this.airBrake = airBrake;
-
-        engageBrake();
     }
 
     @Override
@@ -93,13 +88,11 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
 
     public void engageBrake() {
         stop();
-        airBrake.set(DoubleSolenoid.Value.kReverse);
         isBrakeEngaged = true;
         motorsCoast();
     }
 
     public void disengageBrake() {
-        airBrake.set(DoubleSolenoid.Value.kForward);
         isBrakeEngaged = false;
         motorsBrake();
     }
