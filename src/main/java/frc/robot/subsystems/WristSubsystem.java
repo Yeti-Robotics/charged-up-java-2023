@@ -19,7 +19,7 @@ public class WristSubsystem extends SubsystemBase implements Sendable {
     private final WPI_TalonFX wristMotor;
     private final WPI_CANCoder wristEncoder;
 
-    private WristPositions wristPosition = WristConstants.WristPositions.SCORE_CONE;
+    private WristPositions wristPosition = WristPositions.INTAKE_CONE_DOUBLE;
     private boolean isBrakeEngaged;
 
     public WristSubsystem(@Named(WristConstants.WRIST_MOTOR) WPI_TalonFX wristMotor,
@@ -103,7 +103,7 @@ public class WristSubsystem extends SubsystemBase implements Sendable {
     }
 
     public boolean isWristDown() {
-        return wristPosition == WristPositions.SCORE_CONE;
+        return wristPosition == WristPositions.INTAKE_CONE_UPRIGHT_GROUND;
     }
 
     public boolean isUp() {

@@ -108,9 +108,35 @@ public class MotorsModule {
     @Singleton
     @Named(WristConstants.WRIST_MOTOR)
     public WPI_TalonFX providesWristMotor(@Named(WristConstants.WRIST_ENCODER) WPI_CANCoder wristEncoder) {
-        WPI_TalonFX motor = new WPI_TalonFX(WristConstants.WRIST_MOTOR_ID, "canivoreBus");
-        //motor.setSelectedSensorPosition();
+        WPI_TalonFX motor = new WPI_TalonFX(WristConstants.WRIST_MOTOR_ID);
         motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
+        motor.setSensorPhase(true);
+        motor.setInverted(TalonFXInvertType.Clockwise);
+
+        motor.configSupplyCurrentLimit(WristConstants.SUPPLY_CURRENT_LIMIT);
+        motor.configStatorCurrentLimit(WristConstants.STATOR_CURRENT_LIMIT);
+
+        motor.configRemoteFeedbackFilter(wristEncoder, 0, 10);
+        motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
+
+        motor.configForwardSoftLimitThreshold(WristConstants.UPPER_LIMIT);
+        motor.configForwardSoftLimitEnable(true);
+        motor.configReverseSoftLimitThreshold(WristConstants.LOWER_LIMIT);
+        motor.configReverseSoftLimitEnable(true);
+
+        motor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
+        motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+
+        motor.config_kP(0, WristConstants.WRIST_P);
+        motor.config_kI(0, WristConstants.WRIST_I);
+        motor.config_kD(0, WristConstants.WRIST_D);
+        motor.config_kF(0, WristConstants.WRIST_F);
+        motor.configMotionCruiseVelocity(WristConstants.MAX_VELOCITY);
+        motor.configMotionAcceleration(WristConstants.MAX_ACCELERATION);
+        motor.configMotionSCurveStrength(WristConstants.MOTION_SMOOTHING);
+        motor.configAllowableClosedloopError(0,
+                (WristConstants.ANGLE_TOLERANCE)
+                        * CANCoderConstants.COUNTS_PER_DEG);
 
         return motor;
     }

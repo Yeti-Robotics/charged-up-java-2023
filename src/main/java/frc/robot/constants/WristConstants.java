@@ -43,14 +43,19 @@ public final class WristConstants {
 
     public enum WristPositions {
 
-        SCORE_CUBE(0.0),
-        SCORE_CONE(0.0),
-        INTAKE_CONE_DOUBLE(0),
-        INTAKE_CONE_SINGLE(0),
-        INTAKE_CUBE_DOUBLE(0),
-        INTAKE_CUBE_SINGLE(0),
-        INTAKE_CONE_TIPPED_GROUND(0.0),
-        INTAKE_CUBE_GROUND(0.0);
+        SCORE_CUBE_LOW(30.0),
+        SCORE_CUBE_MID(80.0),
+        SCORE_CUBE_HIGH(90.0),
+        SCORE_CONE_LOW(0.0),
+        SCORE_CONE_MID(10.0),
+        SCORE_CONE_HIGH(0),
+        INTAKE_CONE_DOUBLE(90),
+        INTAKE_CONE_SINGLE(135),
+        INTAKE_CUBE_DOUBLE(170),
+        INTAKE_CUBE_SINGLE(180),
+        INTAKE_CONE_TIPPED_GROUND(90.0),
+        INTAKE_CONE_UPRIGHT_GROUND(0.0),
+        INTAKE_CUBE_GROUND(180.0);
 
 
 
