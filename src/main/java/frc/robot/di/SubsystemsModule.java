@@ -53,6 +53,16 @@ public class SubsystemsModule {
                 elevatorMagSwitch);
     }
 
+    @Provides
+    @Singleton
+    public WristSubsystem providesWristSubsystem (
+            @Named(WristConstants.WRIST_MOTOR) WPI_TalonFX wristMotor,
+            @Named(WristConstants.WRIST_ENCODER) WPI_CANCoder wristEncoder) {
+        return new WristSubsystem(
+                wristMotor,
+                wristEncoder);
+    }
+
     private static SwerveModule swerveModuleFactory(
             int driveMotorID, int steerMotorID, int CANcoderID, boolean driveInverted, double encoderOffset, boolean encoderReversed
     ) {

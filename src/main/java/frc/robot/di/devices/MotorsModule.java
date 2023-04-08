@@ -104,10 +104,19 @@ public class MotorsModule {
         return sparkMax;
     }
 
+    @Provides
+    @Singleton
+    @Named(WristConstants.WRIST_MOTOR)
+    public WPI_TalonFX providesWristMotor(@Named(WristConstants.WRIST_ENCODER) WPI_CANCoder wristEncoder) {
+        WPI_TalonFX motor = new WPI_TalonFX(WristConstants.WRIST_MOTOR_ID, "canivoreBus");
+        //motor.setSelectedSensorPosition();
+        motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
+
+        return motor;
+    }
 
 
     //Check if implementation of each method
-
 
 
     public static WPI_TalonFX driveMotorFactory(int id, boolean driveInverted) {

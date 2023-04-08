@@ -8,62 +8,55 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.ArmConstants;
 import frc.robot.constants.CANCoderConstants;
-import frc.robot.constants.ArmConstants.ArmPositions;
+import frc.robot.constants.WristConstants;
+import frc.robot.constants.WristConstants.WristPositions;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ArmSubsystem extends SubsystemBase implements Sendable {
+public class WristSubsystem extends SubsystemBase implements Sendable {
+    private final WPI_TalonFX wristMotor;
+    private final WPI_CANCoder wristEncoder;
 
-    private final WPI_TalonFX armMotor1;
-    private final WPI_CANCoder encoder;
-
-
-
-    private ArmPositions armPosition = ArmPositions.UP;
+    private WristPositions wristPosition = WristConstants.WristPositions.SCORE_CONE;
     private boolean isBrakeEngaged;
 
-    @Inject
-    public ArmSubsystem(
-            @Named(ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
-            @Named(ArmConstants.ARM_ENCODER) WPI_CANCoder encoder){
-        this.armMotor1=armMotor1;
-        this.encoder = encoder;
+    public WristSubsystem(@Named(WristConstants.WRIST_MOTOR) WPI_TalonFX wristMotor,
+                          @Named(WristConstants.WRIST_ENCODER) WPI_CANCoder wristEncoder) {
+        this.wristMotor = wristMotor;
+        this.wristEncoder = wristEncoder;
     }
 
     @Override
     public void periodic() {
     }
 
-    public void setPosition(ArmPositions position) {
+    public void setPosition(WristPositions position) {
         if (isBrakeEngaged) {
             stop();
             System.out.println("stopping setPosition");
             return;
         }
-        armPosition = position;
+        wristPosition = position;
         motorsBrake();
 
         double radians = Math.toRadians(getAngle());
         double cosineScalar = Math.cos(radians);
 
-        armMotor1.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, ArmConstants.GRAVITY_FEEDFORWARD * cosineScalar);
+        wristMotor.set(ControlMode.MotionMagic, position.sensorUnits, DemandType.ArbitraryFeedForward, WristConstants.GRAVITY_FEEDFORWARD * cosineScalar);
     }
 
     public double getAngle() {
-        return armMotor1.getSelectedSensorPosition() / CANCoderConstants.COUNTS_PER_DEG;
+        return wristMotor.getSelectedSensorPosition() / CANCoderConstants.COUNTS_PER_DEG;
     }
 
-    public ArmPositions getArmPosition() {
-        return armPosition;
+    public WristPositions getWristPosition() {
+        return wristPosition;
     }
 
     public boolean isMotionFinished() {
-        return Math.abs(getAngle() - armPosition.angle) < ArmConstants.ANGLE_TOLERANCE;
+        return Math.abs(getAngle() - wristPosition.angle) < WristConstants.ANGLE_TOLERANCE;
     }
 
     public void moveUp(double speed) {
@@ -73,7 +66,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
         }
         motorsBrake();
 
-        armMotor1.set(ControlMode.PercentOutput, Math.abs(speed));
+        wristMotor.set(ControlMode.PercentOutput, Math.abs(speed));
     }
 
     public void moveDown(double speed) {
@@ -83,7 +76,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
         }
         motorsBrake();
 
-        armMotor1.set(ControlMode.PercentOutput, -Math.abs(speed));
+        wristMotor.set(ControlMode.PercentOutput, -Math.abs(speed));
     }
 
     public void engageBrake() {
@@ -109,32 +102,36 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
         return isBrakeEngaged;
     }
 
-    public boolean isArmDown() { return armPosition == ArmPositions.DOWN; }
+    public boolean isWristDown() {
+        return wristPosition == WristPositions.SCORE_CONE;
+    }
 
-    public boolean isUp(){
+    public boolean isUp() {
         return getAngle() >= 90;
     }
 
     private void motorsBrake() {
-        armMotor1.setNeutralMode(NeutralMode.Brake);
+        wristMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     private void motorsCoast() {
-        armMotor1.setNeutralMode(NeutralMode.Coast);
+        wristMotor.setNeutralMode(NeutralMode.Coast);
     }
 
-    public double getSuppliedCurrent(){
-        return armMotor1.getSupplyCurrent();
+    public double getSuppliedCurrent() {
+        return wristMotor.getSupplyCurrent();
     }
 
     public void stop() {
-        armMotor1.stopMotor();
+        wristMotor.stopMotor();
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addStringProperty("Arm Position", () -> getArmPosition().toString(), null);
-        builder.addStringProperty("Arm Angle", () -> String.format("%.2f", getAngle()), null);
+        builder.addStringProperty("Wrist Position", () -> getWristPosition().toString(), null);
+        builder.addStringProperty("Wrist Angle", () -> String.format("%.2f", getAngle()), null);
     }
+
 }
+
 
