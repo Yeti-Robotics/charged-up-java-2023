@@ -17,7 +17,7 @@ public final class AutoConstants {
      */
     public static final double MAX_ACCEL = MAX_VELOCITY * 0.75;
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
-    public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 1.5);
+    public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 2.0);
 
     public static final double TRANSLATION_P = 3.0; //2.9, 2.15
     public static final double TRANSLATION_I = 0.0;
@@ -34,8 +34,8 @@ public final class AutoConstants {
                     DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
     public static final double PITCH_SET_POINT = 0.0;
-    public static final double PITCH_P = 0.02; //0.03
-    public static final double PITCH_I = 0.0;
+    public static final double PITCH_P = 0.02; //0.02
+    public static final double PITCH_I = 0.00;
     public static final double PITCH_D = 0.001; //0.00579 0.001
     public static final double PITCH_TOLERANCE = 1.0;
 
@@ -55,22 +55,32 @@ public final class AutoConstants {
                 ALIGNMENT_CONSTRAINTS,
                 new PathConstraints(0.75, 0.4),
                 DEFAULT_CONSTRAINTS),
-        TWO_PIECE_BALANCE_TWO("twoPieceBalanceTwo",
-                new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
-        TWO_PIECE_ONE("twoPieceOne",
-                new PathConstraints(0.8, 0.6),
-                DEFAULT_CONSTRAINTS,
-                DEFAULT_CONSTRAINTS,
-                new PathConstraints(1.75, 0.75),
+        MID_TWO_PIECE_BALANCE_ONE("midTwoPieceBalanceOne",
+                new PathConstraints(1.5, 1.5),
                 DEFAULT_CONSTRAINTS),
-        TWO_PIECE_TWO("twoPieceTwo", new PathConstraints(0.75, 0.4), DEFAULT_CONSTRAINTS),
+        MID_TWO_PICKUP_ONE("midTwoPickupOne",
+                new PathConstraints(1.5, 1.5),
+                DEFAULT_CONSTRAINTS),
+        MID_TWO_PIECE_BALANCE_TWO("midTwoPieceBalanceTwo",
+                new PathConstraints(2.0, 1.7),
+                DEFAULT_CONSTRAINTS),
+        MID_TWO_PICKUP_BALANCE_TWO("midTwoPickupBalanceTwo",
+                new PathConstraints(3.0, 2.9),
+                DEFAULT_CONSTRAINTS),
+        HIGH_TWO_BALANCE("highTwoBalance",
+                new PathConstraints(3.0, 2.9),
+                DEFAULT_CONSTRAINTS),
+        MID_TWO_LOW_TWO("midTwoLowTwo",
+                new PathConstraints(3.0, 2.9),
+                DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE("coneOne", new PathConstraints(0, 0), new PathConstraints(0, 0)),
         CONE_THREE("coneThree", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
-        CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS);
+        CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS),
+        THREE_CUBE_TWO("threeCubeTwo", new PathConstraints(4.0, 2.8));
 
         public final String name;
         public final PathConstraints initConstraint;
@@ -84,9 +94,9 @@ public final class AutoConstants {
     }
 
     public enum ALIGNMENT_POSITION {
-        LEFT_DOUBLE_STATION(-CENTER_OFFSET, 0.9, 0.0, 0.0),
+        LEFT_DOUBLE_STATION(-CENTER_OFFSET, 1.1, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
-        SINGLE_STATION(-2.5, CENTER_OFFSET, 90.0, -90.0),
+        SINGLE_STATION(-1.72, CENTER_OFFSET, 90.0, 90),
         LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);

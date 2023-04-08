@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "coneHigh"
+          "coneMid"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -26,26 +26,24 @@
     },
     {
       "anchorPoint": {
-        "x": 3.13,
+        "x": 3.0,
         "y": 4.88132733408324
       },
       "prevControl": {
-        "x": 2.709927290493032,
+        "x": 2.579927290493032,
         "y": 4.912832787296263
       },
       "nextControl": {
-        "x": 3.702589716608004,
+        "x": 3.5725897166080043,
         "y": 4.838383105337639
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": 1.0,
+      "velOverride": 2.0,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [
-          "zeroElevator"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -53,16 +51,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.3,
-        "y": 4.77
+        "x": 6.5,
+        "y": 4.65
       },
       "prevControl": {
-        "x": 5.182624507254002,
-        "y": 4.77
+        "x": 5.382624507254002,
+        "y": 4.65
       },
       "nextControl": {
-        "x": 6.558062697879192,
-        "y": 4.77
+        "x": 6.7580626978791924,
+        "y": 4.65
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -72,22 +70,22 @@
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
-        "waitBehavior": "before",
+        "waitBehavior": "deadline",
         "waitTime": 0.2
       }
     },
     {
       "anchorPoint": {
         "x": 5.205553806257399,
-        "y": 4.905811466401819
+        "y": 5.0
       },
       "prevControl": {
         "x": 5.829190494766229,
-        "y": 4.905811466401819
+        "y": 5.0
       },
       "nextControl": {
         "x": 4.440283847750336,
-        "y": 4.905811466401819
+        "y": 5.0
       },
       "holonomicAngle": -19.746836605426115,
       "isReversal": false,
@@ -128,25 +126,25 @@
     },
     {
       "anchorPoint": {
-        "x": 1.6,
-        "y": 4.37
+        "x": 1.65,
+        "y": 4.47
       },
       "prevControl": {
-        "x": 1.6206582490197787,
-        "y": 4.821505092510899
+        "x": 1.6706582490197786,
+        "y": 4.921505092510898
       },
       "nextControl": {
-        "x": 1.566276002737284,
-        "y": 3.632930924621844
+        "x": 1.6162760027372838,
+        "y": 3.7329309246218436
       },
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "shootHigh"
+          "shootMid"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -180,11 +178,11 @@
     },
     {
       "anchorPoint": {
-        "x": 5.0,
+        "x": 5.5,
         "y": 3.2
       },
       "prevControl": {
-        "x": 4.294270540881843,
+        "x": 4.794270540881843,
         "y": 3.2
       },
       "nextControl": null,
@@ -206,29 +204,40 @@
   ],
   "markers": [
     {
-      "position": 1.4,
-      "names": [
-        "armDown",
-        "intakeIn3Sec"
-      ]
-    },
-    {
-      "position": 2.6,
-      "names": [
-        "armUp",
-        "intakeStop"
-      ]
-    },
-    {
-      "position": 0.02,
+      "position": 0.01,
       "names": [
         "elevatorDown"
       ]
     },
     {
-      "position": 5.027272727272719,
+      "position": 1.3,
+      "names": [
+        "armDown",
+        "intakeIn"
+      ]
+    },
+    {
+      "position": 3.0,
+      "names": [
+        "intakeStop"
+      ]
+    },
+    {
+      "position": 5.01,
       "names": [
         "armUp"
+      ]
+    },
+    {
+      "position": 2.6,
+      "names": [
+        "armUp"
+      ]
+    },
+    {
+      "position": 2.01,
+      "names": [
+        "intakeIn"
       ]
     }
   ]

@@ -25,7 +25,7 @@ public class SetArmPositionCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        if (!elevatorSubsystem.isDown() && (position.angle <= 95.00)) {
+        if (!elevatorSubsystem.isDown() && (position.angle <= 70.00)) {
             this.cancel();
             System.out.println("cancelled the set arm pos");
             return;
@@ -33,11 +33,11 @@ public class SetArmPositionCommand extends CommandBase {
 
         timer.reset();
         armSubsystem.disengageBrake();
-        armSubsystem.setPosition(position);
     }
 
     @Override
     public void execute() {
+        armSubsystem.setPosition(position);
     }
 
     @Override
