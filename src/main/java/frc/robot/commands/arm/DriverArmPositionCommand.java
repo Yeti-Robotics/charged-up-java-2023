@@ -34,10 +34,10 @@ public class DriverArmPositionCommand extends CommandBase {
 
         ArmConstants.ArmPositions currentPosition = armSubsystem.getArmPosition();
 
-        if (currentPosition == ArmConstants.ArmPositions.UP) {
-            position = ArmConstants.ArmPositions.DOWN;
+        if (currentPosition == ArmConstants.ArmPositions.STOWED) {
+            position = ArmConstants.ArmPositions.GROUND;
         } else {
-            position = ArmConstants.ArmPositions.UP;
+            position = ArmConstants.ArmPositions.STOWED;
         }
     }
 
@@ -45,20 +45,20 @@ public class DriverArmPositionCommand extends CommandBase {
     public void execute() {
         if (timer.hasElapsed(0.25) && !isSet) {
             isHeld = button.isPressed();
-            if (armSubsystem.getArmPosition() == ArmConstants.ArmPositions.UP) {
-                position = ArmConstants.ArmPositions.PORTAL;
+            if (armSubsystem.getArmPosition() == ArmConstants.ArmPositions.STOWED) {
+                position = ArmConstants.ArmPositions.SINGLE_STATION;
             } else {
-                position = ArmConstants.ArmPositions.DUMP;
+                position = ArmConstants.ArmPositions.SCORING;
             }
         }
 
         if (isHeld && !isSet) {
             new SetArmPositionCommand(armSubsystem, elevatorSubsystem, position).schedule();
             isSet = true;
-            if (position == ArmConstants.ArmPositions.PORTAL) {
-                position = ArmConstants.ArmPositions.UP;
+            if (position == ArmConstants.ArmPositions.SINGLE_STATION) {
+                position = ArmConstants.ArmPositions.STOWED;
             } else {
-                position = ArmConstants.ArmPositions.DOWN;
+                position = ArmConstants.ArmPositions.SCORING;
             }
         }
     }

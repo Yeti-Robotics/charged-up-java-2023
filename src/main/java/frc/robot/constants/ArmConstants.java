@@ -44,12 +44,12 @@ public final class ArmConstants {
     public static final int MOTION_SMOOTHING = 0;
 
     public enum ArmPositions {
-        DOWN(0.0),
-        DUMP(7.0),
-        DOUBLE(65.0),
-        PORTAL(70.0),
-        UP(100.0),
-        HANDOFF(120.0);
+        STOWED(45),
+        SCORING(20),
+        SINGLE_STATION(10),
+        DOUBLE_STATION(30),
+        GROUND(150)
+        ;
 
         public final double angle;
         public final double sensorUnits;

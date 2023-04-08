@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.CANCoderConstants;
@@ -24,7 +23,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
 
 
 
-    private ArmPositions armPosition = ArmPositions.UP;
+    private ArmPositions armPosition = ArmPositions.STOWED;
     private boolean isBrakeEngaged;
 
     @Inject
@@ -109,7 +108,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
         return isBrakeEngaged;
     }
 
-    public boolean isArmDown() { return armPosition == ArmPositions.DOWN; }
+    public boolean isArmDown() { return armPosition == ArmPositions.GROUND; }
 
     public boolean isUp(){
         return getAngle() >= 90;

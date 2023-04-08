@@ -15,7 +15,7 @@ public class SetElevatorDownCommand extends SequentialCommandGroup {
 
         addRequirements(elevatorSubsystem, armSubsystem);
         addCommands(
-                new ConditionalCommand(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP), new InstantCommand(), () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.UP),
+                new ConditionalCommand(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.STOWED), new InstantCommand(), () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.STOWED),
                 new StartEndCommand(() -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN), elevatorSubsystem::stop)
                         .until(() -> elevatorSubsystem.getElevatorEncoder() < 500)
 

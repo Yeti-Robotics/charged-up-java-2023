@@ -20,7 +20,7 @@ public class HighScoreCommandGroup extends SequentialCommandGroup {
         // TODO: Add your sequential commands in the super() call, e.g.
         //           super(new OpenClawCommand(), new MoveArmCommand());
         super(
-                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF),
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SCORING),
                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
                 ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CONE ?
                         new SetWristPositionCommand(wristSubsystem, WristConstants.WristPositions.SCORE_CONE_HIGH) :

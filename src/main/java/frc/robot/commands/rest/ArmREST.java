@@ -39,7 +39,7 @@ public class ArmREST extends RESTContainer {
         init(()->{
         });
         execute(()->{
-            armSubsystem.setPosition(ArmConstants.ArmPositions.DOWN);
+            armSubsystem.setPosition(ArmConstants.ArmPositions.GROUND);
         });
         double current = armSubsystem.getSuppliedCurrent();
         isFinished(()->{return hasElapsed(5);});
