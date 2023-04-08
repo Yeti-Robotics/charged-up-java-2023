@@ -5,22 +5,17 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.SparkMaxPIDController;
 import dagger.Module;
 import dagger.Provides;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.constants.*;
 import frc.robot.di.devices.DeviceModule;
 import frc.robot.di.devices.MotorsModule;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CarriageSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 import frc.robot.subsystems.drivetrain.SwerveModule;
 
@@ -44,12 +39,10 @@ public class SubsystemsModule {
     @Provides
     @Singleton
     public IntakeSubsystem providesIntakeSubsystem(
-            @Named(IntakeConstants.LEFT_SPARK) CANSparkMax leftSpark,
-            @Named(IntakeConstants.RIGHT_SPARK) CANSparkMax rightSpark,
+            @Named(IntakeConstants.TALON) WPI_TalonFX talon,
             @Named(IntakeConstants.INTAKE_PISTON_NAME) DoubleSolenoid intakePiston) {
         return new IntakeSubsystem(
-                leftSpark,
-                rightSpark,
+                talon,
                 intakePiston
         );
     }
@@ -160,5 +153,10 @@ public class SubsystemsModule {
                 odometer,
                 gyro
         );
+    }
+    @Provides
+    @Singleton
+    public LEDSubsystem providesLEDSubsystem(AddressableLED led) {
+        return new LEDSubsystem(led);
     }
 }

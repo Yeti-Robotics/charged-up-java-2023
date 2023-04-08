@@ -36,8 +36,7 @@ public class DriverArmPositionCommand extends CommandBase {
 
         if (currentPosition == ArmConstants.ArmPositions.UP) {
             position = ArmConstants.ArmPositions.DOWN;
-        }
-        else {
+        } else {
             position = ArmConstants.ArmPositions.UP;
         }
     }

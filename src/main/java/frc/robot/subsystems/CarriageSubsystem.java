@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.CarriageConstants;
 import frc.robot.constants.CarriageConstants.CarriagePositions;
@@ -14,11 +16,11 @@ import frc.robot.constants.ElevatorConstants;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class CarriageSubsystem extends SubsystemBase {
+public class CarriageSubsystem extends SubsystemBase implements Sendable {
     private final CANSparkMax rollerMotor;
     private final TalonFX flipMotor;
 
-    private CarriagePositions carriagePosition;
+    private CarriagePositions carriagePosition = CarriagePositions.DOWN;
 
     @Inject
     public CarriageSubsystem(
@@ -27,6 +29,7 @@ public class CarriageSubsystem extends SubsystemBase {
 
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
+        zeroFlip();
     }
 
     @Override
@@ -63,6 +66,9 @@ public class CarriageSubsystem extends SubsystemBase {
         flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, FLIP_FEED_FORWARD);
     }
 
+    public boolean atSetpoint() {
+        return Math.abs(carriagePosition.angle - getAngle()) <= CarriageConstants.FLIP_TOLERANCE;
+    }
     //Check if correct method used
     public void flipOut() {
         flipMotor.set(TalonFXControlMode.PercentOutput, CarriageConstants.FLIP_SPEED);
@@ -83,7 +89,13 @@ public class CarriageSubsystem extends SubsystemBase {
     }
 
     public void zeroFlip() {
-        flipMotor.setSelectedSensorPosition(0.0);
+        flipMotor.setSelectedSensorPosition(2 / CarriageConstants.COUNTS_TO_DEGREES);
+    }
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("Carriage Position", () -> getCarriagePosition().toString(), null);
+        builder.addStringProperty("Carriage Angle", () -> String.format("%.2f", getAngle()), null);
+
     }
 }
 
