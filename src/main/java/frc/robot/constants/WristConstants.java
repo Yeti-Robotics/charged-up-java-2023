@@ -67,5 +67,10 @@ public final class WristConstants {
             this.angle = angle;
             this.sensorUnits = angle / CANCoderConstants.COUNTS_PER_DEG;
         }
+
+        public boolean isScoring(){
+            return this == SCORE_CONE_HIGH || this == SCORE_CUBE_HIGH || this == SCORE_CONE_MID || this == SCORE_CUBE_MID;
+        }
+
     }
 }

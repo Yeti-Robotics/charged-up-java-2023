@@ -48,7 +48,7 @@ public class DriverArmPositionCommand extends CommandBase {
             if (armSubsystem.getArmPosition() == ArmConstants.ArmPositions.UP) {
                 position = ArmConstants.ArmPositions.PORTAL;
             } else {
-                position = ArmConstants.ArmPositions.CONE_FLIP;
+                position = ArmConstants.ArmPositions.DUMP;
             }
         }
 

@@ -16,8 +16,8 @@ import frc.robot.commands.arm.SetArmPositionCommand;
 import frc.robot.commands.drive.AutoBalancingCommand;
 import frc.robot.commands.drive.SwerveLockCommand;
 import frc.robot.commands.elevator.SetElevatorPositionCommand;
-import frc.robot.commands.intake.IntakeRollInCommand;
-import frc.robot.commands.intake.IntakeRollOutCommand;
+import frc.robot.commands.intake.ConeInCubeOutCommand;
+import frc.robot.commands.intake.CubeInConeOutCommand;
 import frc.robot.constants.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
@@ -39,6 +39,7 @@ public class RobotModule {
             ArmSubsystem armSubsystem,
             ElevatorSubsystem elevatorSubsystem,
             LEDSubsystem ledSubsystem,
+            WristSubsystem wristSubsystem,
             ControllerContainer controllerContainer,
             ButtonHelper buttonHelper,
             SwerveAutoBuilder autoBuilder) {
@@ -48,6 +49,7 @@ public class RobotModule {
                 armSubsystem,
                 elevatorSubsystem,
                 ledSubsystem,
+                wristSubsystem,
                 controllerContainer,
                 buttonHelper,
                 autoBuilder
@@ -81,8 +83,8 @@ public class RobotModule {
         eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN))
                 .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
-        eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
-        eventMap.put("intakeIn", new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
+        eventMap.put("intakeOut", new CubeInConeOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
+        eventMap.put("intakeIn", new ConeInCubeOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
         eventMap.put("intakeIn3Sec", Commands.runOnce(() -> intakeSubsystem.rollIn(IntakeConstants.INTAKE_SPEED), intakeSubsystem).withTimeout(3.5));
         eventMap.put("intakeStop", Commands.runOnce(intakeSubsystem::stop, intakeSubsystem));
         eventMap.put("zeroElevator", Commands.runOnce(() -> {

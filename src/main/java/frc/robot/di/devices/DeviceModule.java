@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.ElevatorConstants;
 import frc.robot.constants.LEDConstants;
+import frc.robot.constants.WristConstants;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -46,6 +47,23 @@ public class DeviceModule {
         encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
         encoder.configMagnetOffset(ArmConstants.ENCODER_OFFSET);
         encoder.configSensorDirection(ArmConstants.ARM_ENCODER_REVERSE);
+        encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
+        encoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
+        encoder.setPositionToAbsolute();
+
+        return encoder;
+    }
+
+    @Provides
+    @Singleton
+    @Named(WristConstants.WRIST_ENCODER)
+    public WPI_CANCoder providesWristEncoder() {
+        WPI_CANCoder encoder = new WPI_CANCoder(WristConstants.WRIST_ENCODER_ID);
+
+        encoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+        encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        encoder.configMagnetOffset(WristConstants.ENCODER_OFFSET);
+        encoder.configSensorDirection(WristConstants.WRIST_ENCODER_REVERSE);
         encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
         encoder.setStatusFramePeriod(CANCoderStatusFrame.VbatAndFaults, 250);
         encoder.setPositionToAbsolute();
