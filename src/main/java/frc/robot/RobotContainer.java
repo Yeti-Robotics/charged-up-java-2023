@@ -92,7 +92,7 @@ public class RobotContainer {
                         new CubeInConeOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED) : new ConeInCubeOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, new StartEndCommand(elevatorSubsystem::elevatorUp, elevatorSubsystem::stop, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(3, 0, new MidScoreCommandGroup(armSubsystem, elevatorSubsystem, ledSubsystem, wristSubsystem),
         RunCondition.WHEN_PRESSED);
@@ -100,21 +100,18 @@ public class RobotContainer {
         buttonHelper.createButton(8, 0, new HighScoreCommandGroup(armSubsystem, elevatorSubsystem, ledSubsystem, wristSubsystem),
                 RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(10, 0, new LowDumpCommandGroup(armSubsystem, elevatorSubsystem, ledSubsystem, wristSubsystem),
-                RunCondition.WHEN_PRESSED);
-
-
-
-        buttonHelper.createButton(12, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
-
-        buttonHelper.createButton(5, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
-                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
-
+        MultiButton rightJoystickButton = buttonHelper.createButton(4);
+        buttonHelper.createButton(4, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton)
+                .beforeStarting(new SetElevatorDownCommand(elevatorSubsystem, armSubsystem).unless(elevatorSubsystem::isDown)), RunCondition.WHEN_PRESSED);
         MultiButton buttonNine = buttonHelper.createButton(9);
         buttonHelper.createButton(9, 0, new DriverWristPositionCommand(wristSubsystem, ledSubsystem, buttonNine), RunCondition.WHEN_PRESSED);
 
+        buttonHelper.createButton(5, 0, new StartEndCommand(() -> drivetrainSubsystem.zeroGyroscope(), () -> buttonHelper.setAllLayers(0))
+                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(10, 0, new LowDumpCommandGroup(armSubsystem, elevatorSubsystem, ledSubsystem, wristSubsystem),
+                RunCondition.WHEN_PRESSED);
 
-
+        buttonHelper.createButton(12, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(11, 0, new InstantCommand(() -> {
             if (armSubsystem.isUp()) {
@@ -141,10 +138,6 @@ public class RobotContainer {
         buttonHelper.createButton(8, 1, new GridAlignCommand(drivetrainSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(9, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(10, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
-
-        MultiButton rightJoystickButton = buttonHelper.createButton(4);
-        buttonHelper.createButton(4, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton)
-                .beforeStarting(new SetElevatorDownCommand(elevatorSubsystem, armSubsystem).unless(elevatorSubsystem::isDown)), RunCondition.WHEN_PRESSED);
     }
 
 
@@ -163,5 +156,9 @@ public class RobotContainer {
 
     public void setRobotComponent(RobotComponent robotComponent) {
         this.robotComponent = robotComponent;
+    }
+
+    public double getAdjustedWristAngle(){
+        return armSubsystem.getAngle() + wristSubsystem.getAngle();
     }
 }

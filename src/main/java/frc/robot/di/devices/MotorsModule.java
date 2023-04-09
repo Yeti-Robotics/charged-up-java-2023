@@ -2,6 +2,7 @@ package frc.robot.di.devices;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -18,9 +19,10 @@ public class MotorsModule {
     @Singleton
     @Named(ArmConstants.ARM_MOTOR)
     public WPI_TalonFX providesArmMotor1(@Named(ArmConstants.ARM_ENCODER) WPI_CANCoder armEncoder) {
-        WPI_TalonFX motor = new WPI_TalonFX(ArmConstants.ARM_MOTOR_ID, "canivoreBus");
+        WPI_TalonFX motor = new WPI_TalonFX(ArmConstants.ARM_MOTOR_ID);
         motor.setSensorPhase(true);
         motor.setInverted(TalonFXInvertType.Clockwise);
+        motor.setNeutralMode(NeutralMode.Brake);
 
         motor.configSupplyCurrentLimit(ArmConstants.SUPPLY_CURRENT_LIMIT);
         motor.configStatorCurrentLimit(ArmConstants.STATOR_CURRENT_LIMIT);
@@ -29,9 +31,9 @@ public class MotorsModule {
         motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
 
         motor.configForwardSoftLimitThreshold(ArmConstants.UPPER_LIMIT);
-        motor.configForwardSoftLimitEnable(true);
+        motor.configForwardSoftLimitEnable(false);
         motor.configReverseSoftLimitThreshold(ArmConstants.LOWER_LIMIT);
-        motor.configReverseSoftLimitEnable(true);
+        motor.configReverseSoftLimitEnable(false);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
@@ -109,9 +111,9 @@ public class MotorsModule {
     @Named(WristConstants.WRIST_MOTOR)
     public WPI_TalonFX providesWristMotor(@Named(WristConstants.WRIST_ENCODER) WPI_CANCoder wristEncoder) {
         WPI_TalonFX motor = new WPI_TalonFX(WristConstants.WRIST_MOTOR_ID);
-        motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
         motor.setSensorPhase(true);
         motor.setInverted(TalonFXInvertType.Clockwise);
+        motor.setNeutralMode(NeutralMode.Brake);
 
         motor.configSupplyCurrentLimit(WristConstants.SUPPLY_CURRENT_LIMIT);
         motor.configStatorCurrentLimit(WristConstants.STATOR_CURRENT_LIMIT);
@@ -120,9 +122,9 @@ public class MotorsModule {
         motor.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0, 0, 10);
 
         motor.configForwardSoftLimitThreshold(WristConstants.UPPER_LIMIT);
-        motor.configForwardSoftLimitEnable(true);
+        motor.configForwardSoftLimitEnable(false);
         motor.configReverseSoftLimitThreshold(WristConstants.LOWER_LIMIT);
-        motor.configReverseSoftLimitEnable(true);
+        motor.configReverseSoftLimitEnable(false);
 
         motor.setStatusFramePeriod(StatusFrame.Status_1_General, 250);
         motor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);

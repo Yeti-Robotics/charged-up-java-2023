@@ -13,6 +13,7 @@ import frc.robot.constants.CANCoderConstants;
 import frc.robot.constants.WristConstants;
 import frc.robot.constants.WristConstants.WristPositions;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 public class WristSubsystem extends SubsystemBase implements Sendable {
@@ -22,6 +23,7 @@ public class WristSubsystem extends SubsystemBase implements Sendable {
     private WristPositions wristPosition = WristPositions.INTAKE_CONE_DOUBLE;
     private boolean isBrakeEngaged;
 
+    @Inject
     public WristSubsystem(@Named(WristConstants.WRIST_MOTOR) WPI_TalonFX wristMotor,
                           @Named(WristConstants.WRIST_ENCODER) WPI_CANCoder wristEncoder) {
         this.wristMotor = wristMotor;

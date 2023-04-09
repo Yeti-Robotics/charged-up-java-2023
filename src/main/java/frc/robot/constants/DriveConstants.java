@@ -29,28 +29,28 @@ public class DriveConstants {
     public static final int FRONT_LEFT_AZIMUTH = 1;
     public static final int FRONT_LEFT_ENCODER = 1;
     public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
-    public static final double FRONT_LEFT_ENCODER_OFFSET = -18.809;
+    public static final double FRONT_LEFT_ENCODER_OFFSET = -30.85;
     public static final boolean FRONT_LEFT_ENCODER_REVERSED = false;
 
     public static final int FRONT_RIGHT_DRIVE = 4;
     public static final int FRONT_RIGHT_AZIMUTH = 3;
     public static final int FRONT_RIGHT_ENCODER = 2;
     public static final boolean FRONT_RIGHT_DRIVE_REVERSED = false;
-    public static final double FRONT_RIGHT_ENCODER_OFFSET = 153.545;
+    public static final double FRONT_RIGHT_ENCODER_OFFSET = -295.225;
     public static final boolean FRONT_RIGHT_ENCODER_REVERSED = false;
 
     public static final int BACK_LEFT_DRIVE = 8;
     public static final int BACK_LEFT_AZIMUTH = 7;
     public static final int BACK_LEFT_ENCODER = 4;
     public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
-    public static final double BACK_LEFT_ENCODER_OFFSET = 21.973;
+    public static final double BACK_LEFT_ENCODER_OFFSET = -339.082;
     public static final boolean BACK_LEFT_ENCODER_REVERSED = false;
 
     public static final int BACK_RIGHT_DRIVE = 6;
     public static final int BACK_RIGHT_AZIMUTH = 5;
     public static final int BACK_RIGHT_ENCODER = 3;
     public static final boolean BACK_RIGHT_DRIVE_REVERSED = false;
-    public static final double BACK_RIGHT_ENCODER_OFFSET = -23.730;
+    public static final double BACK_RIGHT_ENCODER_OFFSET = -17.754;
     public static final boolean BACK_RIGHT_ENCODER_REVERSED = false;
 
     public static final String FRONT_LEFT_MODULE_NAME = "front left";
@@ -58,7 +58,7 @@ public class DriveConstants {
     public static final String BACK_LEFT_MODULE_NAME = "back left";
     public static final String BACK_RIGHT_MODULE_NAME = "back right";
 
-    public static final int GYRO = 1; //placeholder value
+    public static final int GYRO = 1;
 
     public static final double DRIVE_MOTOR_P = 2.0; //placeholder from borealis
     public static final double DRIVE_MOTOR_I = 0.0; //placeholder from borealis

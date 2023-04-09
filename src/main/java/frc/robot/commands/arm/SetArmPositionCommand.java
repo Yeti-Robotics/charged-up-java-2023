@@ -46,7 +46,5 @@ public class SetArmPositionCommand extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        armSubsystem.engageBrake();
-    }
+    public void end(boolean interrupted) {}
 }

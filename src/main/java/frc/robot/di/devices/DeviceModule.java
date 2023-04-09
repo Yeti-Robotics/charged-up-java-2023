@@ -29,7 +29,7 @@ public class DeviceModule {
 
     public static WPI_CANCoder absoluteEncoderFactory(int id, double degreesOffset, boolean reversed) {
         WPI_CANCoder absoluteEncoder = new WPI_CANCoder(id, "canivoreBus");
-        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
+        absoluteEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
         absoluteEncoder.configMagnetOffset(degreesOffset);
         absoluteEncoder.configSensorDirection(reversed);
         absoluteEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
@@ -41,10 +41,10 @@ public class DeviceModule {
     @Singleton
     @Named(ArmConstants.ARM_ENCODER)
     public WPI_CANCoder providesArmEncoder() {
-        WPI_CANCoder encoder = new WPI_CANCoder(ArmConstants.ARM_ENCODER_ID, "canivoreBus");
+        WPI_CANCoder encoder = new WPI_CANCoder(ArmConstants.ARM_ENCODER_ID);
 
         encoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         encoder.configMagnetOffset(ArmConstants.ENCODER_OFFSET);
         encoder.configSensorDirection(ArmConstants.ARM_ENCODER_REVERSE);
         encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);
@@ -61,7 +61,7 @@ public class DeviceModule {
         WPI_CANCoder encoder = new WPI_CANCoder(WristConstants.WRIST_ENCODER_ID);
 
         encoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        encoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         encoder.configMagnetOffset(WristConstants.ENCODER_OFFSET);
         encoder.configSensorDirection(WristConstants.WRIST_ENCODER_REVERSE);
         encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 20);

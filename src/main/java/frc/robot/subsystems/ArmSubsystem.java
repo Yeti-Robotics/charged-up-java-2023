@@ -21,8 +21,6 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     private final WPI_TalonFX armMotor1;
     private final WPI_CANCoder encoder;
 
-
-
     private ArmPositions armPosition = ArmPositions.STOWED;
     private boolean isBrakeEngaged;
 
@@ -30,7 +28,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     public ArmSubsystem(
             @Named(ArmConstants.ARM_MOTOR) WPI_TalonFX armMotor1,
             @Named(ArmConstants.ARM_ENCODER) WPI_CANCoder encoder){
-        this.armMotor1=armMotor1;
+        this.armMotor1 = armMotor1;
         this.encoder = encoder;
     }
 
@@ -66,46 +64,16 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     }
 
     public void moveUp(double speed) {
-        if (isBrakeEngaged) {
-            stop();
-            return;
-        }
-        motorsBrake();
-
         armMotor1.set(ControlMode.PercentOutput, Math.abs(speed));
     }
 
     public void moveDown(double speed) {
-        if (isBrakeEngaged) {
-            stop();
-            return;
-        }
-        motorsBrake();
-
         armMotor1.set(ControlMode.PercentOutput, -Math.abs(speed));
-    }
-
-    public void engageBrake() {
-        stop();
-        isBrakeEngaged = true;
-        motorsCoast();
     }
 
     public void disengageBrake() {
         isBrakeEngaged = false;
         motorsBrake();
-    }
-
-    public void toggleBrake() {
-        if (isBrakeEngaged) {
-            disengageBrake();
-            return;
-        }
-        engageBrake();
-    }
-
-    public boolean isBrakeEngaged() {
-        return isBrakeEngaged;
     }
 
     public boolean isArmDown() { return armPosition == ArmPositions.GROUND; }
@@ -116,10 +84,6 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
 
     private void motorsBrake() {
         armMotor1.setNeutralMode(NeutralMode.Brake);
-    }
-
-    private void motorsCoast() {
-        armMotor1.setNeutralMode(NeutralMode.Coast);
     }
 
     public double getSuppliedCurrent(){

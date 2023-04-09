@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     @Inject
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
-    private AutoModes previousSelectedAuto;
+    private AutoModes previousSelectedAuto = AutoModes.TESTING;
     private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.CONE_ONE_WAIT.name, AutoModes.CONE_ONE_WAIT);
         autoChooser.addOption(AutoModes.CONE_THREE_WAIT.name, AutoModes.CONE_THREE_WAIT);
         SmartDashboard.putData("Auto Chooser", autoChooser);
-        previousSelectedAuto = autoChooser.getSelected();
+        //previousSelectedAuto = autoChooser.getSelected();
 
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
@@ -88,7 +88,9 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(robotContainer.drivetrainSubsystem);
         SmartDashboard.putData(robotContainer.armSubsystem);
+        SmartDashboard.putData(robotContainer.wristSubsystem);
         SmartDashboard.putData(robotContainer.elevatorSubsystem);
+        SmartDashboard.putData(robotContainer.ledSubsystem);
 
         robotContainer.ledSubsystem.setYetiBlue();
     }
@@ -107,6 +109,7 @@ public class Robot extends TimedRobot {
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
+        SmartDashboard.putNumber("adjWrist", robotContainer.getAdjustedWristAngle());
         CommandScheduler.getInstance().run();
     }
 
@@ -121,13 +124,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        if (previousSelectedAuto != autoChooser.getSelected()) {
-            previousSelectedAuto = autoChooser.getSelected();
-
-            List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-                    previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
-            autonomousCommand = autoBuilder.fullAuto(trajectory);
-        }
+//        if (previousSelectedAuto != autoChooser.getSelected()) {
+//            previousSelectedAuto = autoChooser.getSelected();
+//
+//            List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
+//                    previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
+//            autonomousCommand = autoBuilder.fullAuto(trajectory);
+//        }
 
         if (DriverStation.getAlliance() != previousAlliance) {
             previousAlliance = DriverStation.getAlliance();
