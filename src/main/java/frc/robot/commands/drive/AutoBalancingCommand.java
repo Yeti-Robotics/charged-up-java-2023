@@ -42,12 +42,18 @@ public class AutoBalancingCommand extends CommandBase {
             multiplier = -1;
         }
 
-        if(drivetrainSubsystem.getPitch().getDegrees()<= 12){
+        if (drivetrainSubsystem.getPitch().getDegrees() <= 12) {
             drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     ChassisSpeeds.fromFieldRelativeSpeeds(0.3 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
-        }else{
+        }else if(drivetrainSubsystem.getPitch().getDegrees() >= -12){
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.3 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if(drivetrainSubsystem.getPitch().getDegrees() >= 12){
             drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     ChassisSpeeds.fromFieldRelativeSpeeds(0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else{
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
         }
 
     }
