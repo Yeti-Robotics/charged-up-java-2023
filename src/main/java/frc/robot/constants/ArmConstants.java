@@ -18,7 +18,7 @@ public final class ArmConstants {
     public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT =
             new StatorCurrentLimitConfiguration(true, 55, 65, 0.1);
 
-    public static final double ENCODER_OFFSET = -166.50;
+    public static final double ENCODER_OFFSET = -2.50;
     public static final boolean ARM_ENCODER_REVERSE = false;
 
     /*
@@ -37,7 +37,7 @@ public final class ArmConstants {
     public static final double ARM_D = 0.005;
     public static final double ARM_F = 0.0;
     public static final double GRAVITY_FEEDFORWARD = 0.05;
-    public static final double MAX_VELOCITY = 2000.0; //600
+    public static final double MAX_VELOCITY = 2600; //600
     public static final double MAX_ACCELERATION = MAX_VELOCITY / 1.25;
 
     // [0, 8]

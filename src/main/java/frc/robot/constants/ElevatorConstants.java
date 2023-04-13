@@ -19,7 +19,7 @@ public final class ElevatorConstants {
      * Multiply encoder value; divide output
      */
     public static final double ELEVATOR_GEAR_RATIO = 1.0 / 7.75;
-    public static final double SPROCKET_DIAMETER = 1.344;
+    public static final double SPROCKET_DIAMETER = 1.114;
     public static final double SPROCKET_CIRCUMFERENCE = SPROCKET_DIAMETER * Math.PI;
     public static final double ELEVATOR_DISTANCE_PER_PULSE = SPROCKET_CIRCUMFERENCE /
             (TalonFXConstants.COUNTS_PER_REV / ELEVATOR_GEAR_RATIO);
@@ -42,7 +42,7 @@ public final class ElevatorConstants {
     public static final double ELEVATOR_F = 0.00;
     public static final double GRAVITY_FEEDFORWARD = 0.05; //experimental value
 
-    public static final double MAX_VELOCITY = 6.5 / ELEVATOR_DISTANCE_PER_PULSE;
+    public static final double MAX_VELOCITY = 9 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
     public static final double ELEVATOR_TOLERANCE = 0.5 / ELEVATOR_DISTANCE_PER_PULSE;
