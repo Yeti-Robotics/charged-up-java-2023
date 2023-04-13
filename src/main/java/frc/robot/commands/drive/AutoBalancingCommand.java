@@ -36,15 +36,19 @@ public class AutoBalancingCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double val = -MathUtil.clamp(
-                pidController.calculate(
-                        drivetrainSubsystem.getPitch().getDegrees(), AutoConstants.PITCH_SET_POINT), -.6, .6);
+        double multiplier = 1;
 
         if (Math.abs(drivetrainSubsystem.getPose().getRotation().getDegrees()) >= 90.0) {
-            val = -val;
+            multiplier = -1;
         }
-        drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                ChassisSpeeds.fromFieldRelativeSpeeds(val, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+
+        if(drivetrainSubsystem.getPitch().getDegrees()<= 12){
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(0.3 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else{
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }
 
     }
 
