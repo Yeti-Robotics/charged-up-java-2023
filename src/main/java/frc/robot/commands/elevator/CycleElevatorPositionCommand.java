@@ -49,13 +49,6 @@ public class CycleElevatorPositionCommand extends CommandBase {
         if (elevatorSubsystem.getPosition() == ElevatorPositions.DOWN) {
             return;
         }
-
-        new CarriageFlipOutCommand(carriageSubsystem).schedule();
-        if (ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CONE) {
-            carriageSubsystem.coneInCubeOut();
-        } else {
-            carriageSubsystem.coneOutCubeIn();
-        }
     }
 
     @Override

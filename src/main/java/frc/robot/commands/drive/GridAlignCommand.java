@@ -68,9 +68,6 @@ public class GridAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.5)) {
-            carriageSubsystem.rollerStop();
-        }
     }
 
     @Override

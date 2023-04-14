@@ -45,7 +45,7 @@ public class ChuteAlignCommand extends CommandBase {
         this.timer = new Timer();
         this.timer.start();
 
-        xController.setTolerance(0.1);
+        xController.setTolerance(0.05);
         thetaController.setTolerance(0.008);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -67,7 +67,8 @@ public class ChuteAlignCommand extends CommandBase {
         }
 
         if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
-            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
+            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(0.0));
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
         } else {
             carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
         }
