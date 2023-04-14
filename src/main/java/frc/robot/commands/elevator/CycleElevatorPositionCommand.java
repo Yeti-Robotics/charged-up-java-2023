@@ -15,8 +15,6 @@ public class CycleElevatorPositionCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
     private final ArmSubsystem armSubsystem;
     private final CarriageSubsystem carriageSubsystem;
-    private final LEDSubsystem ledSubsystem;
-    private final Timer timer = new Timer();
 
     private ElevatorPositions position;
     private SetElevatorPositionCommand command;
@@ -25,15 +23,12 @@ public class CycleElevatorPositionCommand extends CommandBase {
         this.elevatorSubsystem = elevatorSubsystem;
         this.armSubsystem = armSubsystem;
         this.carriageSubsystem = carriageSubsystem;
-        this.ledSubsystem = ledSubsystem;
 
-        timer.start();
         addRequirements(elevatorSubsystem, carriageSubsystem);
     }
 
     @Override
     public void initialize() {
-        timer.reset();
         ElevatorPositions currentPosition = elevatorSubsystem.getPosition();
 
         if (currentPosition == ElevatorPositions.LEVEL_TWO) {
@@ -46,18 +41,14 @@ public class CycleElevatorPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (elevatorSubsystem.getPosition() == ElevatorPositions.DOWN) {
-            return;
-        }
     }
 
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(0.1);
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
-        carriageSubsystem.rollerStop();
     }
 }
