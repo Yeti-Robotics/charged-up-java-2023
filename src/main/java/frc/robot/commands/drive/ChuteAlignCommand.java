@@ -45,7 +45,7 @@ public class ChuteAlignCommand extends CommandBase {
         this.timer = new Timer();
         this.timer.start();
 
-        xController.setTolerance(0.05);
+        xController.setTolerance(0.0);
         thetaController.setTolerance(0.008);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -86,14 +86,14 @@ public class ChuteAlignCommand extends CommandBase {
         double ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
-                -3.0,
-                3.0);
+                -4.0,
+                4.0);
 
         if (!xController.atSetpoint()) {
             xSpeed = MathUtil.clamp(
                     xController.calculate(robotPose.getX()),
-                    -1.0,
-                    1.0);
+                    -2.0,
+                    2.0);
         }
 
         drivetrainSubsystem.drive(

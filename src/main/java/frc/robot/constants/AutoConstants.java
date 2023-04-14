@@ -17,7 +17,7 @@ public final class AutoConstants {
      */
     public static final double MAX_ACCEL = MAX_VELOCITY * 0.75;
     public static final PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
-    public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(2.0, 2.0);
+    public static final PathConstraints ALIGNMENT_CONSTRAINTS = new PathConstraints(3.0, 3.0);
 
     public static final double TRANSLATION_P = 3.0; //2.9, 2.15
     public static final double TRANSLATION_I = 0.0;
@@ -97,7 +97,7 @@ public final class AutoConstants {
         LEFT_DOUBLE_STATION(-CENTER_OFFSET, 1.1, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
         SINGLE_STATION(-1.65, CENTER_OFFSET, 90.0, 90),
-        LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
+        LEFT(CENTER_OFFSET, -0.55, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);
 
