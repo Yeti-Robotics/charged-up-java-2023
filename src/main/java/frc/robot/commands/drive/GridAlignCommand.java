@@ -68,8 +68,15 @@ public class GridAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.5)) {
+        if (timer.hasElapsed(2.0)) {
             carriageSubsystem.rollerStop();
+            return;
+        }
+
+        if (ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
+            carriageSubsystem.coneOutCubeIn();
+        } else {
+            carriageSubsystem.coneInCubeOut();
         }
     }
 
