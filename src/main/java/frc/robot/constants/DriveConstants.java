@@ -29,28 +29,28 @@ public class DriveConstants {
     public static final int FRONT_LEFT_AZIMUTH = 1;
     public static final int FRONT_LEFT_ENCODER = 1;
     public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
-    public static final double FRONT_LEFT_ENCODER_OFFSET = -17.578;
+    public static final double FRONT_LEFT_ENCODER_OFFSET = -36.562;
     public static final boolean FRONT_LEFT_ENCODER_REVERSED = false;
 
     public static final int FRONT_RIGHT_DRIVE = 4;
     public static final int FRONT_RIGHT_AZIMUTH = 3;
     public static final int FRONT_RIGHT_ENCODER = 2;
     public static final boolean FRONT_RIGHT_DRIVE_REVERSED = false;
-    public static final double FRONT_RIGHT_ENCODER_OFFSET = 59.854;
+    public static final double FRONT_RIGHT_ENCODER_OFFSET = 127.881;
     public static final boolean FRONT_RIGHT_ENCODER_REVERSED = false;
 
     public static final int BACK_LEFT_DRIVE = 8;
     public static final int BACK_LEFT_AZIMUTH = 7;
     public static final int BACK_LEFT_ENCODER = 4;
     public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
-    public static final double BACK_LEFT_ENCODER_OFFSET = 23.379;
+    public static final double BACK_LEFT_ENCODER_OFFSET = -350.596;
     public static final boolean BACK_LEFT_ENCODER_REVERSED = false;
 
     public static final int BACK_RIGHT_DRIVE = 6;
     public static final int BACK_RIGHT_AZIMUTH = 5;
     public static final int BACK_RIGHT_ENCODER = 3;
     public static final boolean BACK_RIGHT_DRIVE_REVERSED = false;
-    public static final double BACK_RIGHT_ENCODER_OFFSET = -24.082;
+    public static final double BACK_RIGHT_ENCODER_OFFSET = 131.836;
     public static final boolean BACK_RIGHT_ENCODER_REVERSED = false;
 
     public static final String FRONT_LEFT_MODULE_NAME = "front left";

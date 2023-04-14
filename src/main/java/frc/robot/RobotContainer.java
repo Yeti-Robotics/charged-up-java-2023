@@ -79,7 +79,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED)
+        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, 0.35)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_OUT_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
@@ -93,7 +93,7 @@ public class RobotContainer {
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(3, 0, new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new AutoBalancingCommand(drivetrainSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 

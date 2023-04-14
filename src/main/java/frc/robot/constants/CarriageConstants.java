@@ -13,7 +13,7 @@ public final class CarriageConstants {
             new SupplyCurrentLimitConfiguration(true, 50, 60, 0.2);
     public static final StatorCurrentLimitConfiguration FLIP_STATOR_CURRENT_LIMIT =
             new StatorCurrentLimitConfiguration(true, 50, 60, 0.2);
-    public static final double ROLLER_SPEED = .7;
+    public static final double ROLLER_SPEED = .85;
     public static final double FLIP_SPEED = 0.2;
     /** TODO: Find real value */
     public static final double FLIP_RATIO = 1.0 / 21.33;
