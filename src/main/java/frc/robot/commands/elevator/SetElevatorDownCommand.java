@@ -25,7 +25,7 @@ public class SetElevatorDownCommand extends SequentialCommandGroup {
                         elevatorSubsystem::stop)
                         .until(() -> elevatorSubsystem.getElevatorEncoder() < ElevatorConstants.ELEVATOR_TOLERANCE)
                         .alongWith(
-                                new WaitCommand(0.1),
+                                new WaitCommand(0.5),
                                 new ConditionalCommand(
                                         new CarriageFlipInCommand(carriageSubsystem),
                                         new InstantCommand(),

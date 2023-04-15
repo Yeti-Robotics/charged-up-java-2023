@@ -117,9 +117,13 @@ public class RobotModule {
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
         eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
         eventMap.put("coneHigh", Commands.sequence(
-                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
-                new CarriageFlipOutCommand(carriageSubsystem),
-                new WaitCommand(0.8),
+                new CarriageFlipOutCommand(carriageSubsystem)
+                        .alongWith(
+                                new WaitCommand(0.4),
+                                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP)
+                        ),
+                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.2),
+                new WaitCommand(0.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("coneMid", Commands.sequence(

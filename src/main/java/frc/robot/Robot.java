@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.MID_TWO_PICKUP_ONE.name, AutoModes.MID_TWO_PICKUP_ONE);
         autoChooser.addOption(AutoModes.MID_TWO_PIECE_BALANCE_TWO.name, AutoModes.MID_TWO_PIECE_BALANCE_TWO);
         autoChooser.addOption(AutoModes.MID_TWO_PICKUP_BALANCE_TWO.name, AutoModes.MID_TWO_PICKUP_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.HIGH_TWO_MID_TWO.name, AutoModes.HIGH_TWO_MID_TWO);
         autoChooser.addOption(AutoModes.HIGH_TWO_BALANCE.name, AutoModes.HIGH_TWO_BALANCE);
         autoChooser.addOption(AutoModes.MID_TWO_LOW_TWO.name, AutoModes.MID_TWO_LOW_TWO);
         autoChooser.addOption(AutoModes.THREE_CUBE_TWO.name, AutoModes.THREE_CUBE_TWO);

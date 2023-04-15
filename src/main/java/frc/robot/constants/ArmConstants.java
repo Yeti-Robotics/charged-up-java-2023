@@ -18,7 +18,7 @@ public final class ArmConstants {
     public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT =
             new StatorCurrentLimitConfiguration(true, 55, 65, 0.1);
 
-    public static final double ENCODER_OFFSET = -2.50;
+    public static final double ENCODER_OFFSET = -327.393;
     public static final boolean ARM_ENCODER_REVERSE = false;
 
     /*
@@ -46,9 +46,9 @@ public final class ArmConstants {
     public enum ArmPositions {
         DOWN(-19.0),
         CONE_FLIP(21.0),
-        SHOOT(70.0), //67 60
+        SHOOT(78.0), //67 60
         PORTAL(70.0),
-        UP(88.0),
+        UP(93.0),
         HANDOFF(60.0);
 
         public final double angle;
