@@ -58,7 +58,7 @@ public class ChuteAlignCommand extends CommandBase {
         xController.reset();
         thetaController.reset();
 
-        targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+        targetX = FieldConstants.chuteAprilTag.getX() + position.offset.getX();
 
         targetTheta = position.offset.getRotation();
 
