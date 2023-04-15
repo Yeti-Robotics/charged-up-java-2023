@@ -16,7 +16,6 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.Limelight;
 
 import java.util.function.DoubleSupplier;
 
@@ -27,6 +26,7 @@ public class ChuteAlignCommand extends CommandBase {
     private final PIDController thetaController;
     private final Timer timer;
 
+    private double targetX;
     private Rotation2d targetTheta;
 
     private final ALIGNMENT_POSITION position;
@@ -45,7 +45,7 @@ public class ChuteAlignCommand extends CommandBase {
         this.timer = new Timer();
         this.timer.start();
 
-        xController.setTolerance(0.0);
+        xController.setTolerance(0.1);
         thetaController.setTolerance(0.008);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -58,17 +58,25 @@ public class ChuteAlignCommand extends CommandBase {
         xController.reset();
         thetaController.reset();
 
-        targetTheta = Rotation2d.fromDegrees(0);
+        targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+
+        targetTheta = position.offset.getRotation();
 
         if(DriverStation.getAlliance() == DriverStation.Alliance.Red) {
             targetTheta = position.offset.getRotation().plus(Rotation2d.fromDegrees(180));
         }
 
-        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
+            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
+        } else {
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+        }
 
-        xController.setSetpoint(0);
+        xController.setSetpoint(targetX);
         thetaController.setSetpoint(targetTheta.getRadians());
     }
+
+
 
     @Override
     public void execute() {
@@ -82,7 +90,7 @@ public class ChuteAlignCommand extends CommandBase {
 
         if (!xController.atSetpoint()) {
             xSpeed = MathUtil.clamp(
-                    xController.calculate(Limelight.getTx()),
+                    xController.calculate(robotPose.getX()),
                     -1.0,
                     1.0);
         }
@@ -109,4 +117,3 @@ public class ChuteAlignCommand extends CommandBase {
         drivetrainSubsystem.stop();
     }
 }
-
