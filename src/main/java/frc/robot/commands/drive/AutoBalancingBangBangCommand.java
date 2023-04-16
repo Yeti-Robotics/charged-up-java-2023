@@ -12,13 +12,20 @@ import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 public class AutoBalancingBangBangCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
+    private final PIDController pidController;
     private final Timer timer;
 
     public AutoBalancingBangBangCommand(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
+        this.pidController = new PIDController(
+                AutoConstants.PITCH_P,
+                AutoConstants.PITCH_I,
+                AutoConstants.PITCH_D
+        );
 
         timer = new Timer();
         timer.start();
+        this.pidController.setTolerance(AutoConstants.PITCH_TOLERANCE);
         addRequirements(drivetrainSubsystem);
     }
 
@@ -29,35 +36,29 @@ public class AutoBalancingBangBangCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(drivetrainSubsystem.getPitch().getDegrees() <= -10) {
-            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                    ChassisSpeeds.fromFieldRelativeSpeeds(0.5, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
-        } else if(drivetrainSubsystem.getPitch().getDegrees() <= 10){
-            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.5, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
-//        } else if(drivetrainSubsystem.getPitch().getDegrees() <= -5){
-//            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-//                    ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
-//
-//    } else if(drivetrainSubsystem.getPitch().getDegrees() <= 5){
-//        drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-//                ChassisSpeeds.fromFieldRelativeSpeeds(-0.3, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        double multiplier = 1;
 
-    }
-        else if(drivetrainSubsystem.getPitch().getDegrees() <= -3){
-            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                    ChassisSpeeds.fromFieldRelativeSpeeds(0.1, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        if (Math.abs(drivetrainSubsystem.getPose().getRotation().getDegrees()) >= 90.0) {
+            multiplier = -1;
+        }
 
-        } else if(drivetrainSubsystem.getPitch().getDegrees() <= 3){
+        if (drivetrainSubsystem.getPitch().getDegrees() <= 12) {
             drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.1, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
-
-        } else{
+                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if (drivetrainSubsystem.getPitch().getDegrees() >= -12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if (drivetrainSubsystem.getPitch().getDegrees() >= 12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.2 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if (drivetrainSubsystem.getPitch().getDegrees() <= -12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(0.2 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        } else {
             drivetrainSubsystem.stop();
         }
 
-
-}
+    }
 
     @Override
     public boolean isFinished() {
@@ -70,5 +71,6 @@ public class AutoBalancingBangBangCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        drivetrainSubsystem.stop();
     }
 }
