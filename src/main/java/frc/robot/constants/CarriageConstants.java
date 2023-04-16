@@ -10,9 +10,9 @@ public final class CarriageConstants {
     public static final double CARRIAGE_VOLTAGE_COMP = 12.0;
 
     public static final SupplyCurrentLimitConfiguration FLIP_SUPPLY_CURRENT_LIMIT =
-            new SupplyCurrentLimitConfiguration(true, 50, 60, 0.2);
+            new SupplyCurrentLimitConfiguration(true, 60, 60, 0.2);
     public static final StatorCurrentLimitConfiguration FLIP_STATOR_CURRENT_LIMIT =
-            new StatorCurrentLimitConfiguration(true, 50, 60, 0.2);
+            new StatorCurrentLimitConfiguration(true, 60, 60, 0.2);
     public static final double ROLLER_SPEED = .75;
     public static final double FLIP_SPEED = 0.2;
     /** TODO: Find real value */
