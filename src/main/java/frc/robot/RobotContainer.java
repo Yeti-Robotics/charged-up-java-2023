@@ -79,7 +79,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, 0.35)
+        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, 0.45)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_OUT_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);

@@ -15,7 +15,7 @@ public class IntakeShootHighCommand extends SequentialCommandGroup {
     public IntakeShootHighCommand(IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem) {
         addCommands(
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SHOOT).withTimeout(0.3),
-                new IntakeRollInCommand(intakeSubsystem, 0.13).withTimeout(0.5),
+                new IntakeRollInCommand(intakeSubsystem, 0.15).withTimeout(0.5),
                 new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_HIGH_SPEED).withTimeout(0.3)
         );
     }

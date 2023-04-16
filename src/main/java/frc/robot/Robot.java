@@ -67,8 +67,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         autoChooser = new SendableChooser<>();
         autoChooser.setDefaultOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
-        autoChooser.addOption(AutoModes.CONE_BALANCE_ONE.name, AutoModes.CONE_BALANCE_ONE);
         autoChooser.addOption(AutoModes.CONE_MOBILITY_BALANCE_TWO.name, AutoModes.CONE_MOBILITY_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.CUBE_MOBILITY_BALANCE_TWO.name, AutoModes.CUBE_MOBILITY_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.CONE_BALANCE_ONE.name, AutoModes.CONE_BALANCE_ONE);
         autoChooser.addOption(AutoModes.CONE_BALANCE_TWO.name, AutoModes.CONE_BALANCE_TWO);
         autoChooser.addOption(AutoModes.CONE_BALANCE_THREE.name, AutoModes.CONE_BALANCE_THREE);
         autoChooser.addOption(AutoModes.MID_TWO_PIECE_BALANCE_ONE.name, AutoModes.MID_TWO_PIECE_BALANCE_ONE);
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.HIGH_TWO_MID_TWO.name, AutoModes.HIGH_TWO_MID_TWO);
         autoChooser.addOption(AutoModes.HIGH_TWO_BALANCE.name, AutoModes.HIGH_TWO_BALANCE);
         autoChooser.addOption(AutoModes.MID_TWO_LOW_TWO.name, AutoModes.MID_TWO_LOW_TWO);
+        autoChooser.addOption(AutoModes.MID_TWO_LOW_ONE.name, AutoModes.MID_TWO_LOW_ONE);
         autoChooser.addOption(AutoModes.THREE_CUBE_TWO.name, AutoModes.THREE_CUBE_TWO);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
