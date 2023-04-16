@@ -10,7 +10,7 @@ public final class OIConstants {
             0, ControllerType.CUSTOM
     );
     public static final int CONTROLLER_COUNT = CONTROLLERS.size(); //placeholder value
-    public static final double DEADBAND = 0.04;
+    public static final double DEADBAND = 0.05;
     public static final String TRANSLATION_XSUPPLIER = "translationXSupplier";
     public static final String TRANSLATION_YSUPPLIER = "translationYSupplier";
     public static final String THETA_SUPPLIER = "thetaSupplier";
