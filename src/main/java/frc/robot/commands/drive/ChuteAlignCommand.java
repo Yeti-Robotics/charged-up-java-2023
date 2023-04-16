@@ -16,7 +16,6 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
-import frc.robot.utils.Limelight;
 
 import java.util.function.DoubleSupplier;
 
@@ -27,6 +26,7 @@ public class ChuteAlignCommand extends CommandBase {
     private final PIDController thetaController;
     private final Timer timer;
 
+    private double targetX;
     private Rotation2d targetTheta;
 
     private final ALIGNMENT_POSITION position;
@@ -58,15 +58,21 @@ public class ChuteAlignCommand extends CommandBase {
         xController.reset();
         thetaController.reset();
 
-        targetTheta = Rotation2d.fromDegrees(0);
+        targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+
+        targetTheta = position.offset.getRotation();
 
         if(DriverStation.getAlliance() == DriverStation.Alliance.Red) {
             targetTheta = position.offset.getRotation().plus(Rotation2d.fromDegrees(180));
         }
 
-        carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
+            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
+        } else {
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+        }
 
-        xController.setSetpoint(0);
+        xController.setSetpoint(targetX);
         thetaController.setSetpoint(targetTheta.getRadians());
     }
 
@@ -109,4 +115,3 @@ public class ChuteAlignCommand extends CommandBase {
         drivetrainSubsystem.stop();
     }
 }
-
