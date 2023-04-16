@@ -37,7 +37,7 @@ public final class ArmConstants {
     public static final double ARM_D = 0.005;
     public static final double ARM_F = 0.0;
     public static final double GRAVITY_FEEDFORWARD = 0.05;
-    public static final double MAX_VELOCITY = 2600; //600
+    public static final double MAX_VELOCITY = 5500; //600
     public static final double MAX_ACCELERATION = MAX_VELOCITY / 1.25;
 
     // [0, 8]
