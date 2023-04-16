@@ -68,11 +68,6 @@ public class GridAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(2.0)) {
-            carriageSubsystem.rollerStop();
-            return;
-        }
-
         if (ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
             carriageSubsystem.coneOutCubeIn();
         } else {
@@ -87,7 +82,7 @@ public class GridAlignCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        autoCommand.end(interrupted);
         drivetrainSubsystem.stop();
+        carriageSubsystem.rollerStop();
     }
 }

@@ -66,12 +66,6 @@ public class ChuteAlignCommand extends CommandBase {
             targetTheta = position.offset.getRotation().plus(Rotation2d.fromDegrees(180));
         }
 
-        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
-            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
-        } else {
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
-        }
-
         xController.setSetpoint(targetX);
         thetaController.setSetpoint(targetTheta.getRadians());
     }
@@ -80,7 +74,7 @@ public class ChuteAlignCommand extends CommandBase {
     public void execute() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
         double xSpeed = 0.0;
-        double ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
+        double ySpeed = 0.0;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
                 -4.0,
@@ -91,6 +85,15 @@ public class ChuteAlignCommand extends CommandBase {
                     xController.calculate(robotPose.getX()),
                     -2.0,
                     2.0);
+        }
+
+        if(xController.getPositionError() < 1){
+            ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
+            if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
+                carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE);
+            } else {
+                carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+            }
         }
 
         drivetrainSubsystem.drive(
