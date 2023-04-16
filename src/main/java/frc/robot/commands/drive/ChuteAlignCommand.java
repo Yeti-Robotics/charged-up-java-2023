@@ -77,8 +77,8 @@ public class ChuteAlignCommand extends CommandBase {
         double ySpeed = 0.0;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
-                -4.0,
-                4.0);
+                -6.0,
+                6.0);
 
         if (!xController.atSetpoint()) {
             xSpeed = MathUtil.clamp(
@@ -87,7 +87,7 @@ public class ChuteAlignCommand extends CommandBase {
                     2.0);
         }
 
-        if(xController.getPositionError() < 1){
+        if(xController.getPositionError() < 1 && thetaController.getPositionError() < 1){
             ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
             if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
                 carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE);
