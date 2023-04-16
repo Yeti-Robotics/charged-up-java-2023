@@ -13,7 +13,7 @@ public final class CarriageConstants {
             new SupplyCurrentLimitConfiguration(true, 50, 60, 0.2);
     public static final StatorCurrentLimitConfiguration FLIP_STATOR_CURRENT_LIMIT =
             new StatorCurrentLimitConfiguration(true, 50, 60, 0.2);
-    public static final double ROLLER_SPEED = .85;
+    public static final double ROLLER_SPEED = .75;
     public static final double FLIP_SPEED = 0.2;
     /** TODO: Find real value */
     public static final double FLIP_RATIO = 1.0 / 21.33;
@@ -41,9 +41,10 @@ public final class CarriageConstants {
 
     public enum CarriagePositions {
         DOWN(2.0),
+        CUBE(115.0),
         CHUTE(112.0),
         CUBE_STATION(123.0),
-        FLIPPED(145.0);
+        FLIPPED(140.0);
 
         public final double angle;
         public final double sensorUnits;

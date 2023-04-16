@@ -46,6 +46,7 @@ public final class AutoConstants {
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_MOBILITY_BALANCE_TWO("coneMobilityBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
+        CUBE_MOBILITY_BALANCE_TWO("cubeMobilityBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS),
 
         TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne",
@@ -71,6 +72,9 @@ public final class AutoConstants {
                 new PathConstraints(3.0, 2.9),
                 DEFAULT_CONSTRAINTS),
         MID_TWO_LOW_TWO("midTwoLowTwo",
+                new PathConstraints(3.0, 2.9),
+                DEFAULT_CONSTRAINTS),
+        MID_TWO_LOW_ONE("midTwoLowOne",
                 new PathConstraints(3.0, 2.9),
                 DEFAULT_CONSTRAINTS),
         HIGH_TWO_MID_TWO("highTwoMidTwo",
