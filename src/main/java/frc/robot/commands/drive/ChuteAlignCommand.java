@@ -88,7 +88,7 @@ public class ChuteAlignCommand extends CommandBase {
         }
 
         if(xController.getPositionError() < 1 && thetaController.getPositionError() < 1){
-            ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
+            ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble(), 2) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
             if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
                 carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE);
             } else {

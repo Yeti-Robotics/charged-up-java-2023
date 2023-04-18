@@ -17,6 +17,7 @@ import frc.robot.constants.OIConstants;
 import frc.robot.utils.Limelight;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
+import org.opencv.core.Mat;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -108,12 +109,12 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
         );
     }
 
-    public static double modifyAxis(double value) {
+    public static double modifyAxis(double value, int pow) {
         if (Math.abs(value) <= OIConstants.DEADBAND) {
             return 0.0;
         }
 
-        return Math.copySign(value * value, value);
+        return Math.copySign(Math.pow(value, pow), value);
     }
 
     public void updateSwerveModulePositions() {

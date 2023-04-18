@@ -73,7 +73,8 @@ public class RobotContainer {
                         drivetrainSubsystem,
                         primaryController::getLeftY,
                         primaryController::getLeftX,
-                        primaryController::getRightX
+                        primaryController::getRightX,
+                        elevatorSubsystem::getPosition
                 ));
         configureBindings();
     }
