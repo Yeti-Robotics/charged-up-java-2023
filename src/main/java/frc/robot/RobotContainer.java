@@ -73,13 +73,14 @@ public class RobotContainer {
                         drivetrainSubsystem,
                         primaryController::getLeftY,
                         primaryController::getLeftX,
-                        primaryController::getRightX
+                        primaryController::getRightX,
+                        elevatorSubsystem::getPosition
                 ));
         configureBindings();
     }
 
     private void configureBindings() {
-        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, 0.35)
+        buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, 0.45)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_OUT_SPEED)
                 .alongWith(new ConeOutCubeInCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
@@ -114,8 +115,7 @@ public class RobotContainer {
         buttonHelper.createButton(9, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(10, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
 
-        MultiButton rightJoystickButton = buttonHelper.createButton(12);
-        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem, rightJoystickButton)
+        buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem)
                 .beforeStarting(new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem).unless(elevatorSubsystem::isDown)), RunCondition.WHEN_PRESSED);
     }
 

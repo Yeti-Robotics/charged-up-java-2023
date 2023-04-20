@@ -14,18 +14,18 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class SetElevatorDownCommand extends SequentialCommandGroup {
     public SetElevatorDownCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem, CarriageSubsystem carriageSubsystem) {
 
-        addRequirements(elevatorSubsystem, armSubsystem);
+        addRequirements(elevatorSubsystem);
         addCommands(
-                new ConditionalCommand(
-                        new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
-                        new InstantCommand(),
-                        () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.UP),
+//                new ConditionalCommand(
+//                        new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
+//                        new InstantCommand(),
+//                        () -> armSubsystem.getArmPosition() != ArmConstants.ArmPositions.UP),
                 new StartEndCommand(
                         () -> elevatorSubsystem.setPosition(ElevatorPositions.DOWN),
                         elevatorSubsystem::stop)
                         .until(() -> elevatorSubsystem.getElevatorEncoder() < ElevatorConstants.ELEVATOR_TOLERANCE)
                         .alongWith(
-                                new WaitCommand(0.1),
+                                new WaitCommand(0.5),
                                 new ConditionalCommand(
                                         new CarriageFlipInCommand(carriageSubsystem),
                                         new InstantCommand(),

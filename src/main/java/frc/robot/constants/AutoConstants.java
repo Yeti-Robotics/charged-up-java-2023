@@ -46,6 +46,7 @@ public final class AutoConstants {
         MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
         SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
         CONE_MOBILITY_BALANCE_TWO("coneMobilityBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
+        CUBE_MOBILITY_BALANCE_TWO("cubeMobilityBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
         CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS),
 
         TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne",
@@ -73,6 +74,12 @@ public final class AutoConstants {
         MID_TWO_LOW_TWO("midTwoLowTwo",
                 new PathConstraints(3.0, 2.9),
                 DEFAULT_CONSTRAINTS),
+        MID_TWO_LOW_ONE("midTwoLowOne",
+                new PathConstraints(3.0, 2.9),
+                DEFAULT_CONSTRAINTS),
+        HIGH_TWO_MID_TWO("highTwoMidTwo",
+                new PathConstraints(2.8, 2.1),
+                DEFAULT_CONSTRAINTS),
         CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
         CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE("coneOne", new PathConstraints(0, 0), new PathConstraints(0, 0)),
@@ -96,8 +103,8 @@ public final class AutoConstants {
     public enum ALIGNMENT_POSITION {
         LEFT_DOUBLE_STATION(-CENTER_OFFSET, 1.1, 0.0, 0.0),
         RIGHT_DOUBLE_STATION(-CENTER_OFFSET, -0.9, 0.0, 0.0),
-        SINGLE_STATION(-1.65, CENTER_OFFSET, 90.0, 90),
-        LEFT(CENTER_OFFSET, -0.55, 180.0, -180.0),
+        SINGLE_STATION(-1.72, CENTER_OFFSET, 90.0, 90),
+        LEFT(CENTER_OFFSET, -0.53, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
         RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);
 
