@@ -87,6 +87,9 @@ public final class AutoConstants {
         SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
         CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
         CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS),
+        MID_TWO_TAXI_ONE("midTwoTaxiOne",
+                new PathConstraints(3.0, 2.9),
+                DEFAULT_CONSTRAINTS),
         THREE_CUBE_TWO("threeCubeTwo", new PathConstraints(4.0, 2.8));
 
         public final String name;

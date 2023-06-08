@@ -4,17 +4,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.CarriageConstants.CarriagePositions;
 import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 
 public class ToggleCarriagePositionCommand extends CommandBase {
     private final CarriageSubsystem carriageSubsystem;
     private final ElevatorSubsystem elevatorSubsystem;
 
+    private final LEDSubsystem ledSubsystem;
+
     private final CarriageFlipInCommand carriageFlipInCommand;
     private final CarriageFlipOutCommand carriageFlipOutCommand;
 
-    public ToggleCarriagePositionCommand(CarriageSubsystem carriageSubsystem, ElevatorSubsystem elevatorSubsystem) {
+    public ToggleCarriagePositionCommand(CarriageSubsystem carriageSubsystem, ElevatorSubsystem elevatorSubsystem, LEDSubsystem ledSubsystem) {
         this.carriageSubsystem = carriageSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
+        this.ledSubsystem = ledSubsystem;
 
         this.carriageFlipInCommand = new CarriageFlipInCommand(carriageSubsystem);
         this.carriageFlipOutCommand = new CarriageFlipOutCommand(carriageSubsystem);
@@ -28,8 +32,13 @@ public class ToggleCarriagePositionCommand extends CommandBase {
         if (currentPosition != CarriagePositions.DOWN) {
             carriageFlipInCommand.schedule();
         } else if (elevatorSubsystem.getElevatorEncoder() < 1000) {
+            if (ledSubsystem.getPieceTarget() != LEDSubsystem.PieceTarget.CUBE){
             carriageSubsystem.setSetpoint(CarriagePositions.CHUTE);
         } else {
+                carriageSubsystem.setSetpoint(CarriagePositions.CUBE);
+            }
+        }
+            else {
             carriageFlipOutCommand.schedule();
         }
     }

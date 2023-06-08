@@ -29,7 +29,7 @@ public class DriveConstants {
     public static final int FRONT_LEFT_AZIMUTH = 1;
     public static final int FRONT_LEFT_ENCODER = 1;
     public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
-    public static final double FRONT_LEFT_ENCODER_OFFSET = -36.562;
+    public static final double FRONT_LEFT_ENCODER_OFFSET = -18.457;
     public static final boolean FRONT_LEFT_ENCODER_REVERSED = false;
 
     public static final int FRONT_RIGHT_DRIVE = 4;
