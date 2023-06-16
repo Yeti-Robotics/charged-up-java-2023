@@ -99,7 +99,10 @@ public final class AutoConstants {
         SINGLE_STATION(-1.65, CENTER_OFFSET, 90.0, 90),
         LEFT(CENTER_OFFSET, -0.55, 180.0, -180.0),
         MIDDLE(CENTER_OFFSET, 0.0, 180.0, 180.0),
-        RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0);
+        RIGHT(CENTER_OFFSET, 0.53, 180.0, 180.0),
+
+        GRID_LEFT_CONE(-CENTER_OFFSET, 0, 180, 180),
+        GRID_RIGHT_CONE(-CENTER_OFFSET, 0, 180, 180);
 
         public final Pose2d offset;
         public final Rotation2d heading;

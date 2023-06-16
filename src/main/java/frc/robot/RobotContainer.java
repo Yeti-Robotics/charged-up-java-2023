@@ -104,12 +104,8 @@ public class RobotContainer {
 
         buttonHelper.createButton(11, 0, new SwerveLockCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(1, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(6, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(2, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(7, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(3, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(8, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(1, 1, new GridAlignCommand(drivetrainSubsystem, ledSubsystem, elevatorSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.GRID_LEFT_CONE), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(6, 1, new GridAlignCommand(drivetrainSubsystem, ledSubsystem, elevatorSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.GRID_LEFT_CONE), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(4, 1, new ChuteAlignCommand(drivetrainSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftX, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(9, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(10, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
