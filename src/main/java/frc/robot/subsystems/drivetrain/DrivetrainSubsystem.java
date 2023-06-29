@@ -28,6 +28,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
     private final SwerveModulePosition[] positions;
     private final SwerveDrivePoseEstimator odometer;
     private final WPI_Pigeon2 gyro;
+    private double chuteOffset = -1.72;
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
     @Inject
@@ -130,8 +131,16 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
         odometer.update(getGyroscopeHeading(), positions);
     }
 
+    public double getChuteOffset() {
+        return -chuteOffset;
+    }
+
+    public void setChuteOffset(double offset) {
+        chuteOffset = Math.abs(offset);
+    }
     @Override
     public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty("Chute Offset", () -> getChuteOffset(), this::setChuteOffset);
         builder.addStringProperty("pose", () -> String.format("Pose (x,y): (%.2f, %.2f) Rotation(deg): %.2f", getPose().getX(), getPose().getY(), getPose().getRotation().getDegrees()), null);
     }
 }

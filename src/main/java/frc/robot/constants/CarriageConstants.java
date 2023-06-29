@@ -44,6 +44,7 @@ public final class CarriageConstants {
         CUBE(117.0),
         CHUTE(115.5),
         CUBE_STATION(123.0),
+        CONE_DOUBLE(142.0),
         FLIPPED(140.0);
 
         public final double angle;

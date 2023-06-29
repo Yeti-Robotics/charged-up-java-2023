@@ -66,7 +66,7 @@ public class DoubleStationAlignCommand extends CommandBase {
             carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE_STATION);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CUBE);
         } else {
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CONE_DOUBLE);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
         }
     }

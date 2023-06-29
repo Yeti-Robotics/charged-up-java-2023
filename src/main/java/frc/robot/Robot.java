@@ -81,6 +81,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption(AutoModes.MID_TWO_LOW_TWO.name, AutoModes.MID_TWO_LOW_TWO);
         autoChooser.addOption(AutoModes.MID_TWO_LOW_ONE.name, AutoModes.MID_TWO_LOW_ONE);
         autoChooser.addOption(AutoModes.THREE_CUBE_TWO.name, AutoModes.THREE_CUBE_TWO);
+        autoChooser.addOption(AutoModes.MID_TWO_TAXI_ONE.name, AutoModes.MID_TWO_TAXI_ONE);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 

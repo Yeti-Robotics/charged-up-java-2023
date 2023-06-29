@@ -94,14 +94,15 @@ public class RobotContainer {
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(3, 0, new AutoBalancingCommand(drivetrainSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(3, 0, new IntakeShootLowCommand(intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
+                () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(5, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
                 .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(10, 0, new ToggleCarriagePositionCommand(carriageSubsystem, elevatorSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(11, 0, new SwerveLockCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
 
