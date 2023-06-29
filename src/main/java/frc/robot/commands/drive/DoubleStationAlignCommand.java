@@ -66,7 +66,7 @@ public class DoubleStationAlignCommand extends CommandBase {
             carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE_STATION);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CUBE);
         } else {
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.FLIPPED);
+            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CONE_DOUBLE);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
         }
     }
@@ -74,7 +74,7 @@ public class DoubleStationAlignCommand extends CommandBase {
     @Override
     public void execute() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
-        double xSpeed = DrivetrainSubsystem.modifyAxis(xSupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
+        double xSpeed = DrivetrainSubsystem.modifyAxis(xSupplier.getAsDouble(), 2) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
         double ySpeed = 0.0;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),

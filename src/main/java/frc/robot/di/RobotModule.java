@@ -91,8 +91,7 @@ public class RobotModule {
         HashMap<String, Command> eventMap = new HashMap<String, Command>();
         eventMap.put("autoBalance", new AutoBalancingCommand(drivetrainSubsystem));
         eventMap.put("swerveLock", new SwerveLockCommand(drivetrainSubsystem));
-        eventMap.put("armDown", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN))
-                .withInterruptBehavior(Command.InterruptionBehavior.kCancelIncoming));
+        eventMap.put("armDown", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.DOWN));
         eventMap.put("armUp", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP));
         eventMap.put("armMid", new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.CONE_FLIP));
         eventMap.put("intakeOut", new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_SPEED));
@@ -117,9 +116,13 @@ public class RobotModule {
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
         eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
         eventMap.put("coneHigh", Commands.sequence(
-                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
-                new CarriageFlipOutCommand(carriageSubsystem),
-                new WaitCommand(0.8),
+                new CarriageFlipOutCommand(carriageSubsystem)
+                        .alongWith(
+                                new InstantCommand(() -> carriageSubsystem.coneInCubeOut()),
+                                new WaitCommand(1),
+                                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP)
+                        ),
+                new WaitCommand(0.2),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("coneMid", Commands.sequence(
@@ -127,22 +130,32 @@ public class RobotModule {
                         .alongWith(
                                 new WaitCommand(0.1),
                                 new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO)),
-                new WaitCommand(0.4),
+                new WaitCommand(0.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
         eventMap.put("cubeHigh", Commands.sequence(
-                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP),
-                new WaitCommand(1.0),
-                new CarriageFlipOutCommand(carriageSubsystem),
-                new WaitCommand(1.0),
-                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.5)
+                new CarriageFlipOutCommand(carriageSubsystem)
+                        .alongWith(
+                                new InstantCommand(() -> carriageSubsystem.coneOutCubeIn()),
+                                new WaitCommand(0.6),
+                                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP)
+                        ),
+                new WaitCommand(0.0),
+                new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.6)
         ));
         eventMap.put("shootLow", Commands.sequence(
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.CONE_FLIP).withTimeout(0.3),
-                new IntakeRollOutCommand(intakeSubsystem, 0.2).withTimeout(1.0)
+                new IntakeRollOutCommand(intakeSubsystem, 0.1).withTimeout(1.0)
         ));
-        eventMap.put("shootMid", new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
+        eventMap.put("shootMid", Commands.sequence(
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SHOOT).withTimeout(0.3),
+                new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.SHOOT_MID_SPEED).withTimeout(0.3)
+        ));
         eventMap.put("shootHigh", new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem));
+        eventMap.put("stageCube", Commands.sequence(
+                new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.SHOOT).withTimeout(0.3),
+                new IntakeRollInCommand(intakeSubsystem, 0.15).withTimeout(0.5)
+        ));
         eventMap.put("coneAutoWait", new WaitCommand(7.0));
         eventMap.put("waitHalfSecond", new WaitCommand(0.5));
         eventMap.put("handoff", new SequentialCommandGroup(new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP), new ConeHandoffCommand(armSubsystem, intakeSubsystem, elevatorSubsystem, carriageSubsystem)));

@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "coneHigh",
+          "cubeHigh",
           "elevatorDown"
         ],
         "executionBehavior": "sequential",
@@ -85,7 +85,7 @@
         "y": 3.3
       },
       "nextControl": {
-        "x": 8.6,
+        "x": 8.600000000000001,
         "y": 3.3
       },
       "holonomicAngle": 180.0,

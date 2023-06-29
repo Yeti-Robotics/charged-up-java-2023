@@ -211,6 +211,7 @@ public final class FieldConstants {
     public static List<Pose2d> allianceAprilTags = new ArrayList<Pose2d>(4);
     public static List<Pose2d> gridAprilTags = new ArrayList<>(3);
     public static Pose2d humanStationAprilTag;
+    public static Pose2d chuteAprilTag = new Pose2d(LoadingZone.singleSubstationTranslation, Rotation2d.fromDegrees(0.0));
     public static List<Pose2d> opposingAllianceAprilTags = new ArrayList<Pose2d>(4);
 
     static {
@@ -222,6 +223,7 @@ public final class FieldConstants {
     }
 
     public static void updateAprilTagTranslations() {
+
         aprilTagPoses.clear();
         allianceAprilTags.clear();
         gridAprilTags.clear();
@@ -231,14 +233,19 @@ public final class FieldConstants {
         }
 
         if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+
+            chuteAprilTag = new Pose2d(LoadingZone.singleSubstationTranslation, Rotation2d.fromDegrees(0.0));
             gridAprilTags.addAll(aprilTagPoses.subList(5, 8));
             allianceAprilTags.addAll(gridAprilTags);
             humanStationAprilTag = aprilTagPoses.get(3);
             allianceAprilTags.add(humanStationAprilTag);
 
+
             opposingAllianceAprilTags.addAll(aprilTagPoses.subList(0, 3));
             opposingAllianceAprilTags.add(aprilTagPoses.get(4));
+
         } else {
+            chuteAprilTag = new Pose2d(new Translation2d(LoadingZone.singleSubstationCenterX, 0), Rotation2d.fromDegrees(0.0));
             gridAprilTags.addAll(aprilTagPoses.subList(0, 3));
             allianceAprilTags.addAll(gridAprilTags);
             humanStationAprilTag = aprilTagPoses.get(4);

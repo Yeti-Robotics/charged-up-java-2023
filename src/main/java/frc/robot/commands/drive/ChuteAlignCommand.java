@@ -45,7 +45,7 @@ public class ChuteAlignCommand extends CommandBase {
         this.timer = new Timer();
         this.timer.start();
 
-        xController.setTolerance(0.1);
+        xController.setTolerance(0.0);
         thetaController.setTolerance(0.008);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -58,7 +58,8 @@ public class ChuteAlignCommand extends CommandBase {
         xController.reset();
         thetaController.reset();
 
-        targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+            targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+//        targetX = FieldConstants.humanStationAprilTag.getX() + drivetrainSubsystem.getChuteOffset();
 
         targetTheta = position.offset.getRotation();
 
@@ -66,33 +67,34 @@ public class ChuteAlignCommand extends CommandBase {
             targetTheta = position.offset.getRotation().plus(Rotation2d.fromDegrees(180));
         }
 
-        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE) {
-            targetTheta = targetTheta.plus(Rotation2d.fromDegrees(180.0));
-        } else {
-            carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
-        }
-
         xController.setSetpoint(targetX);
         thetaController.setSetpoint(targetTheta.getRadians());
-        }
-
-
+    }
 
     @Override
     public void execute() {
         Pose2d robotPose = drivetrainSubsystem.getPose();
         double xSpeed = 0.0;
-        double ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble()) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
+        double ySpeed = 0.0;
         double thetaSpeed = MathUtil.clamp(
                 thetaController.calculate(robotPose.getRotation().getRadians()),
-                -3.0,
-                3.0);
+                -6.0,
+                6.0);
 
         if (!xController.atSetpoint()) {
             xSpeed = MathUtil.clamp(
                     xController.calculate(robotPose.getX()),
-                    -1.0,
-                    1.0);
+                    -2.0,
+                    2.0);
+        }
+
+        if(xController.getPositionError() < 1 && thetaController.getPositionError() < 1){
+            ySpeed = DrivetrainSubsystem.modifyAxis(ySupplier.getAsDouble(), 2) * AutoConstants.ALIGNMENT_CONSTRAINTS.maxVelocity;
+            if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
+                carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE);
+            } else {
+                carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CHUTE);
+            }
         }
 
         drivetrainSubsystem.drive(
@@ -117,4 +119,3 @@ public class ChuteAlignCommand extends CommandBase {
         drivetrainSubsystem.stop();
     }
 }
-
