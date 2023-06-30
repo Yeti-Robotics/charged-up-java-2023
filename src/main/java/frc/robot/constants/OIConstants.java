@@ -7,7 +7,8 @@ public final class OIConstants {
         Map of controllers using the port number as the key to the ControllerType
      */
     public static final Map<Integer, ControllerType> CONTROLLERS = Map.of(
-            0, ControllerType.CUSTOM
+            0, ControllerType.XBOX,
+            1, ControllerType.XBOX
     );
     public static final int CONTROLLER_COUNT = CONTROLLERS.size(); //placeholder value
     public static final double DEADBAND = 0.05;
