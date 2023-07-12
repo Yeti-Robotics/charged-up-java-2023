@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
@@ -32,6 +29,7 @@ import frc.robot.utils.controllerUtils.*;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 
 public class RobotContainer {
     public final ElevatorSubsystem elevatorSubsystem;
@@ -75,12 +73,15 @@ public class RobotContainer {
                         primaryController::getRightX,
                         elevatorSubsystem::getPosition
                 ));
-        configureBindings();
+        configureControllerOneBindings();
+        configureControllerTwo();
     }
 
-    private void configureBindings() {
+    private void configureControllerOneBindings() {
         //Set up branch to add xbox commands
         buttonHelper.setController(0);
+        buttonHelper.createButton(8, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
+                .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createAxisButton(XboxController.Axis.kRightTrigger.value, 0, new IntakeRollInCommand(intakeSubsystem, 0.45)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD, 0.25);
         buttonHelper.createAxisButton(XboxController.Axis.kLeftTrigger.value, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_OUT_SPEED)
@@ -90,37 +91,41 @@ public class RobotContainer {
 
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem)
                 .beforeStarting(new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem).unless(elevatorSubsystem::isDown)), RunCondition.WHEN_PRESSED);
+    }
+
+    private void configureControllerTwo() {
 
         buttonHelper.setController(1);
-        buttonHelper.createAxisButton(XboxController.Axis.kLeftTrigger.value , 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
-                () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED, 0.25);
+        buttonHelper.createButton(7, 0, new IntakeShootMidCommand(intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
+                () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createAxisButton(XboxController.Axis.kRightTrigger.value , 0, new IntakeShootHighCommand(
+        buttonHelper.createButton(8 , 0, new IntakeShootHighCommand(
                 intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
-                () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED, 0.25);
+                () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
+
 
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(XboxController.Button.kLeftBumper.value, 0, new IntakeShootLowCommand(intakeSubsystem, armSubsystem, elevatorSubsystem).unless(
                 () -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 0,new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kX.value, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(8, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
-        buttonHelper.createButton(XboxController.Button.kStart.value, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
+        buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
                 .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
 
         buttonHelper.createButton(XboxController.Button.kA.value, 0, new ToggleCarriagePositionCommand(carriageSubsystem, elevatorSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 
 
-        buttonHelper.createPOVButton(0, POVDirections.RIGHT,1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createPOVButton(0, POVDirections.LEFT,1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
         buttonHelper.createPOVButton(0,POVDirections.UP, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
         buttonHelper.createPOVButton(0,POVDirections.DOWN, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
-        buttonHelper.createPOVButton(0, POVDirections.LEFT,1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
+        buttonHelper.createPOVButton(0, POVDirections.RIGHT,1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.LEFT), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kA.value, 1, new ChuteAlignCommand(drivetrainSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftX, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kLeftBumper.value, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
+
+
     }
 
 

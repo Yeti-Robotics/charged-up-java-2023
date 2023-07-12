@@ -37,7 +37,7 @@ public class ControllerContainer {
 
         @Override
         public double getLeftY() {
-            return -super.getRawAxis(0);
+            return super.getRawAxis(0);
         }
 
         @Override
@@ -68,7 +68,7 @@ public class ControllerContainer {
 
         @Override
         public double getLeftX() {
-            return super.getRawAxis(XboxController.Axis.kLeftX.value);
+            return -super.getRawAxis(XboxController.Axis.kLeftX.value);
         }
 
         @Override
