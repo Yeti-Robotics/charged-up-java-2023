@@ -80,7 +80,7 @@ public class RobotContainer {
     private void configureControllerOneBindings() {
         //Set up branch to add xbox commands
         buttonHelper.setController(0);
-        buttonHelper.createButton(8, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
+        buttonHelper.createButton(XboxController.Button.kStart.value, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
                 .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(XboxController.Button.kLeftBumper.value, 0, new ConeInCubeOutCommand(carriageSubsystem), RunCondition.WHILE_HELD);
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 0, new ConeOutCubeInCommand(carriageSubsystem), RunCondition.WHILE_HELD);
@@ -94,10 +94,10 @@ public class RobotContainer {
         buttonHelper.setController(1);
 
 
-        buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(8, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 0,new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
-        buttonHelper.createButton(XboxController.Button.kX.value, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
+        buttonHelper.createButton(7, 0, new PieceLEDCommand(ledSubsystem, elevatorSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(10, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0))
                 .alongWith(new PoseWithVisionCommand(drivetrainSubsystem)), RunCondition.WHILE_HELD);
