@@ -20,9 +20,9 @@ public class ConeHandoffCommand extends SequentialCommandGroup {
             ElevatorSubsystem elevatorSubsystem,
             CarriageSubsystem carriageSubsystem) {
         addCommands(
-                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.DOWN),
+                new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.DOWN),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.UP),
-                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF)
+                new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.CONE_HANDOFF)
                         .alongWith(new WaitCommand(0.5)),
                 new SetArmPositionCommand(armSubsystem, elevatorSubsystem, ArmConstants.ArmPositions.HANDOFF)
                         .alongWith(new WaitCommand(1.0)),

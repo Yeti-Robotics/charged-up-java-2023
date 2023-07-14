@@ -13,15 +13,13 @@ import frc.robot.subsystems.LEDSubsystem;
 
 public class CycleElevatorPositionCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
-    private final ArmSubsystem armSubsystem;
     private final CarriageSubsystem carriageSubsystem;
 
     private ElevatorPositions position;
     private SetElevatorPositionCommand command;
 
-    public CycleElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem, CarriageSubsystem carriageSubsystem, LEDSubsystem ledSubsystem) {
+    public CycleElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, CarriageSubsystem carriageSubsystem, LEDSubsystem ledSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
-        this.armSubsystem = armSubsystem;
         this.carriageSubsystem = carriageSubsystem;
 
         addRequirements(elevatorSubsystem, carriageSubsystem);
@@ -36,7 +34,7 @@ public class CycleElevatorPositionCommand extends CommandBase {
         } else {
             position = ElevatorPositions.LEVEL_TWO;
         }
-        new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, position).schedule();
+        new SetElevatorPositionCommand(elevatorSubsystem, position).schedule();
     }
 
     @Override

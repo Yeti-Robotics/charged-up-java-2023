@@ -12,7 +12,7 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class SetElevatorDownCommand extends SequentialCommandGroup {
-    public SetElevatorDownCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem, CarriageSubsystem carriageSubsystem) {
+    public SetElevatorDownCommand(ElevatorSubsystem elevatorSubsystem, CarriageSubsystem carriageSubsystem) {
 
         addRequirements(elevatorSubsystem);
         addCommands(

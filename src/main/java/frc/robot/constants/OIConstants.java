@@ -11,7 +11,7 @@ public final class OIConstants {
             1, ControllerType.XBOX
     );
     public static final int CONTROLLER_COUNT = CONTROLLERS.size(); //placeholder value
-    public static final double DEADBAND = 0.1;
+    public static final double DEADBAND = 0.15;
     public static final String TRANSLATION_XSUPPLIER = "translationXSupplier";
     public static final String TRANSLATION_YSUPPLIER = "translationYSupplier";
     public static final String THETA_SUPPLIER = "thetaSupplier";

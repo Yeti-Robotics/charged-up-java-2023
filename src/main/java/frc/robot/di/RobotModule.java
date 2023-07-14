@@ -107,12 +107,12 @@ public class RobotModule {
         }, elevatorSubsystem));
         eventMap.put("elevatorStop", Commands.runOnce(elevatorSubsystem::stop, elevatorSubsystem));
         eventMap.put("elevatorDown", Commands.sequence(
-                new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem),
+                new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem),
                 new WaitCommand(1.0),
                 new InstantCommand(elevatorSubsystem::stop, elevatorSubsystem)
         ));
-        eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
-        eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP));
+        eventMap.put("elevatorMid", new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO));
+        eventMap.put("elevatorHigh", new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.UP));
         eventMap.put("carriageOut", new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.50));
         eventMap.put("flipCarriageOut", new CarriageFlipOutCommand(carriageSubsystem));
         eventMap.put("coneHigh", Commands.sequence(
@@ -120,7 +120,7 @@ public class RobotModule {
                         .alongWith(
                                 new InstantCommand(() -> carriageSubsystem.coneInCubeOut()),
                                 new WaitCommand(1),
-                                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP)
+                                new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.UP)
                         ),
                 new WaitCommand(0.2),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
@@ -129,7 +129,7 @@ public class RobotModule {
                 new CarriageFlipOutCommand(carriageSubsystem)
                         .alongWith(
                                 new WaitCommand(0.1),
-                                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO)),
+                                new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.LEVEL_TWO)),
                 new WaitCommand(0.3),
                 new ConeOutCubeInCommand(carriageSubsystem).withTimeout(0.2)
         ));
@@ -138,7 +138,7 @@ public class RobotModule {
                         .alongWith(
                                 new InstantCommand(() -> carriageSubsystem.coneOutCubeIn()),
                                 new WaitCommand(0.6),
-                                new SetElevatorPositionCommand(elevatorSubsystem, armSubsystem, ElevatorConstants.ElevatorPositions.UP)
+                                new SetElevatorPositionCommand(elevatorSubsystem, ElevatorConstants.ElevatorPositions.UP)
                         ),
                 new WaitCommand(0.0),
                 new ConeInCubeOutCommand(carriageSubsystem).withTimeout(0.6)

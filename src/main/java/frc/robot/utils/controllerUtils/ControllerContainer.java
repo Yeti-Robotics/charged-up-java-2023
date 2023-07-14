@@ -78,7 +78,7 @@ public class ControllerContainer {
 
         @Override
         public double getRightX() {
-            return super.getRawAxis(XboxController.Axis.kRightX.value);
+            return -super.getRawAxis(XboxController.Axis.kRightX.value);
         }
     }
 }

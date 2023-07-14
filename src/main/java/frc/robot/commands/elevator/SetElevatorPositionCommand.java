@@ -8,12 +8,10 @@ import frc.robot.subsystems.ElevatorSubsystem;
 
 public class SetElevatorPositionCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
-    private final ArmSubsystem armSubsystem;
     private final ElevatorPositions position;
 
-    public SetElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, ArmSubsystem armSubsystem, ElevatorPositions position) {
+    public SetElevatorPositionCommand(ElevatorSubsystem elevatorSubsystem, ElevatorPositions position) {
         this.elevatorSubsystem = elevatorSubsystem;
-        this.armSubsystem = armSubsystem;
         this.position = position;
 
         addRequirements(elevatorSubsystem);
