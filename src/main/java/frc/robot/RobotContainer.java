@@ -11,17 +11,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.PoseWithVisionCommand;
-import frc.robot.commands.arm.DriverArmPositionCommand;
 import frc.robot.commands.carriage.ConeInCubeOutCommand;
 import frc.robot.commands.carriage.ConeOutCubeInCommand;
 import frc.robot.commands.carriage.ToggleCarriagePositionCommand;
 import frc.robot.commands.drive.*;
 import frc.robot.commands.elevator.CycleElevatorPositionCommand;
 import frc.robot.commands.elevator.SetElevatorDownCommand;
-import frc.robot.commands.intake.*;
 import frc.robot.commands.led.PieceLEDCommand;
 import frc.robot.constants.AutoConstants;
-import frc.robot.constants.IntakeConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
@@ -29,7 +26,6 @@ import frc.robot.utils.controllerUtils.*;
 import frc.robot.utils.controllerUtils.MultiButton.RunCondition;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 
 public class RobotContainer {
     public final ElevatorSubsystem elevatorSubsystem;
@@ -73,25 +69,27 @@ public class RobotContainer {
                         primaryController::getRightX,
                         elevatorSubsystem::getPosition
                 ));
-        configureControllerOneBindings();
+        configureControllerOne();
         configureControllerTwo();
     }
 
-    private void configureControllerOneBindings() {
+    private void configureControllerOne() {
         //Set up branch to add xbox commands
         buttonHelper.setController(0);
 
+        buttonHelper.createButton(XboxController.Button.kStart.value, 0, new PoseWithVisionCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
 
+        buttonHelper.createButton(XboxController.Button.kRightBumper.value, 0, new ConeInCubeOutCommand(carriageSubsystem), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(XboxController.Button.kLeftBumper.value, 0, new ConeOutCubeInCommand(carriageSubsystem), RunCondition.WHILE_HELD);
 
-        buttonHelper.createButton(XboxController.Button.kX.value, 0, new SwerveLockCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
+        buttonHelper.createButton(XboxController.Button.kA.value, 0, new SwerveLockCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
 
+        buttonHelper.createButton(XboxController.Button.kX.value, 0, new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
     }
 
     private void configureControllerTwo() {
-
         buttonHelper.setController(1);
 
-        buttonHelper.createButton(2, 0, new SwerveLockCommand(drivetrainSubsystem), RunCondition.WHILE_HELD);
         buttonHelper.createButton(1, 0, new SetElevatorDownCommand(elevatorSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
 
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 0,new CycleElevatorPositionCommand(elevatorSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
@@ -105,7 +103,6 @@ public class RobotContainer {
         buttonHelper.createButton(7, 0, new ConeInCubeOutCommand(carriageSubsystem), RunCondition.WHILE_HELD);
         buttonHelper.createButton(8, 0, new ConeOutCubeInCommand(carriageSubsystem), RunCondition.WHILE_HELD);
 
-
         buttonHelper.createPOVButton(0, POVDirections.LEFT,1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.RIGHT), RunCondition.WHEN_PRESSED);
         buttonHelper.createPOVButton(0,POVDirections.UP, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
         buttonHelper.createPOVButton(0,POVDirections.DOWN, 1, new GridAlignCommand(drivetrainSubsystem, carriageSubsystem, ledSubsystem, autoBuilder, AutoConstants.ALIGNMENT_POSITION.MIDDLE), RunCondition.WHEN_PRESSED);
@@ -113,8 +110,6 @@ public class RobotContainer {
         buttonHelper.createButton(XboxController.Button.kA.value, 1, new ChuteAlignCommand(drivetrainSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftX, AutoConstants.ALIGNMENT_POSITION.SINGLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kLeftBumper.value, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(XboxController.Button.kRightBumper.value, 1, new DoubleStationAlignCommand(drivetrainSubsystem, elevatorSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.RIGHT_DOUBLE_STATION), RunCondition.WHEN_PRESSED);
-
-
     }
 
 
