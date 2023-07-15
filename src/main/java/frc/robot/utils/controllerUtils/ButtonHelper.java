@@ -133,9 +133,11 @@ public class ButtonHelper {
             Command command,
             MultiButton.RunCondition runCondition) {
 
+        // Captures controller that is used at the time of the button's creation
+        Controller activeController = controller;
 
         return createButton(
-                () -> controller.getRawButton(buttonPort),
+                () -> activeController.getRawButton(buttonPort),
                 getButtonID(buttonPort),
                 layer,
                 command,
@@ -172,11 +174,15 @@ public class ButtonHelper {
             Command command,
             MultiButton.RunCondition runCondition,
             double threshold) {
+
+        // Captures controller that is used at the time of the button's creation
+        Controller activeController = controller;
+
         BooleanSupplier axisSupplier = () -> {
             if (threshold < 0.0) {
-                return controller.getRawAxis(axisPort) < threshold;
+                return activeController.getRawAxis(axisPort) < threshold;
             }
-            return controller.getRawAxis(axisPort) > threshold;
+            return activeController.getRawAxis(axisPort) > threshold;
         };
 
         return createButton(
@@ -198,11 +204,15 @@ public class ButtonHelper {
     public MultiButton createAxisButton(
             int axisPort,
             double threshold) {
+
+        // Captures controller that is used at the time of the button's creation
+        Controller activeController = controller;
+
         BooleanSupplier axisSupplier = () -> {
             if (threshold < 0.0) {
-                return controller.getRawAxis(axisPort) < threshold;
+                return activeController.getRawAxis(axisPort) < threshold;
             }
-            return controller.getRawAxis(axisPort) > threshold;
+            return activeController.getRawAxis(axisPort) > threshold;
         };
 
         return createButton(
@@ -226,7 +236,11 @@ public class ButtonHelper {
             int layer,
             Command command,
             MultiButton.RunCondition runCondition) {
-        BooleanSupplier povSupplier = () -> controller.getPOV(povPort) == direction.value;
+
+        // Captures controller that is used at the time of the button's creation
+        Controller activeController = controller;
+
+        BooleanSupplier povSupplier = () -> activeController.getPOV(povPort) == direction.value;
 
         return createButton(
                 povSupplier,
@@ -247,7 +261,11 @@ public class ButtonHelper {
     public MultiButton createPOVButton(
             int povPort,
             POVDirections direction) {
-        BooleanSupplier povSupplier = () -> controller.getPOV(povPort) == direction.value;
+
+        // Captures controller that is used at the time of the button's creation
+        Controller activeController = controller;
+
+        BooleanSupplier povSupplier = () -> activeController.getPOV(povPort) == direction.value;
 
         return createButton(
                 povSupplier,
