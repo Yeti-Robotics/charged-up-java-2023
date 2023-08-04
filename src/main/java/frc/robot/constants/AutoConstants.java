@@ -43,44 +43,8 @@ public final class AutoConstants {
 
     public enum AutoModes {
         TESTING("testing", DEFAULT_CONSTRAINTS),
-        MIDDLE_BALANCE("middleBalance", DEFAULT_CONSTRAINTS),
-        SHOOT_BALANCE_TWO("shootBalanceTwo", DEFAULT_CONSTRAINTS),
-        CONE_MOBILITY_BALANCE_TWO("coneMobilityBalanceTwo", DEFAULT_CONSTRAINTS, new PathConstraints(2.0, 1.0), DEFAULT_CONSTRAINTS),
-        CONE_BALANCE_TWO("coneBalanceTwo", DEFAULT_CONSTRAINTS),
 
-        TWO_PIECE_BALANCE_ONE("twoPieceBalanceOne",
-                new PathConstraints(0.9, 0.5),
-                DEFAULT_CONSTRAINTS,
-                DEFAULT_CONSTRAINTS,
-                ALIGNMENT_CONSTRAINTS,
-                new PathConstraints(0.75, 0.4),
-                DEFAULT_CONSTRAINTS),
-        MID_TWO_PIECE_BALANCE_ONE("midTwoPieceBalanceOne",
-                new PathConstraints(1.5, 1.5),
-                DEFAULT_CONSTRAINTS),
-        MID_TWO_PICKUP_ONE("midTwoPickupOne",
-                new PathConstraints(1.5, 1.5),
-                DEFAULT_CONSTRAINTS),
-        MID_TWO_PIECE_BALANCE_TWO("midTwoPieceBalanceTwo",
-                new PathConstraints(2.0, 1.7),
-                DEFAULT_CONSTRAINTS),
-        MID_TWO_PICKUP_BALANCE_TWO("midTwoPickupBalanceTwo",
-                new PathConstraints(3.0, 2.9),
-                DEFAULT_CONSTRAINTS),
-        HIGH_TWO_BALANCE("highTwoBalance",
-                new PathConstraints(3.0, 2.9),
-                DEFAULT_CONSTRAINTS),
-        MID_TWO_LOW_TWO("midTwoLowTwo",
-                new PathConstraints(3.0, 2.9),
-                DEFAULT_CONSTRAINTS),
-        CONE_BALANCE_ONE("coneBalanceOne", DEFAULT_CONSTRAINTS),
-        CONE_BALANCE_THREE("coneBalanceThree", DEFAULT_CONSTRAINTS),
-        CONE_ONE("coneOne", new PathConstraints(0, 0), new PathConstraints(0, 0)),
-        CONE_THREE("coneThree", DEFAULT_CONSTRAINTS),
-        SHOOT_BALANCE_THREE("shootBalanceThree", DEFAULT_CONSTRAINTS),
-        CONE_ONE_WAIT("coneOneWait", DEFAULT_CONSTRAINTS),
-        CONE_THREE_WAIT("coneThreeWait", DEFAULT_CONSTRAINTS),
-        THREE_CUBE_TWO("threeCubeTwo", new PathConstraints(4.0, 2.8));
+        COOPSKAR("coopskar", DEFAULT_CONSTRAINTS);
 
         public final String name;
         public final PathConstraints initConstraint;
