@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         autoChooser = new SendableChooser<>();
         autoChooser.setDefaultOption(AutoModes.COOPSKAR.name, AutoModes.COOPSKAR);
+        autoChooser.setDefaultOption(AutoModes.COOPSKAR2.name, AutoModes.COOPSKAR2);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
 

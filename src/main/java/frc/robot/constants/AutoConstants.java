@@ -44,7 +44,8 @@ public final class AutoConstants {
     public enum AutoModes {
         TESTING("testing", DEFAULT_CONSTRAINTS),
 
-        COOPSKAR("coopskar", DEFAULT_CONSTRAINTS);
+        COOPSKAR("coopskar", DEFAULT_CONSTRAINTS),
+        COOPSKAR2("coopskar2", DEFAULT_CONSTRAINTS);
 
         public final String name;
         public final PathConstraints initConstraint;
