@@ -39,7 +39,7 @@ public class FieldOrientedDrive extends CommandBase {
                 DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
         double ySpeed = DrivetrainSubsystem.modifyAxis(translationYSupplier.getAsDouble(), 2) *
                 DriveConstants.MAX_VELOCITY_METERS_PER_SECOND;
-        double thetaSpeed = DrivetrainSubsystem.modifyAxis(rotationSupplier.getAsDouble(), 3) *
+        double thetaSpeed = DrivetrainSubsystem.modifyAxis(rotationSupplier.getAsDouble(), 4) *
                 DriveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 //        if (elevatorPositionSupplier.get() != ElevatorConstants.ElevatorPositions.DOWN)
 //            thetaSpeed = DrivetrainSubsystem.modifyAxis(rotationSupplier.getAsDouble(), 3) *

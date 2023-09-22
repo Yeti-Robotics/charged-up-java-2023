@@ -13,6 +13,7 @@ import frc.robot.subsystems.CarriageSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.Limelight;
 
 import java.util.function.DoubleSupplier;
 
@@ -62,10 +63,10 @@ public class DoubleStationAlignCommand extends CommandBase {
 
         yController.setSetpoint(targetY);
         thetaController.setSetpoint(targetTheta.getRadians());
-        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE){
+        if(ledSubsystem.getPieceTarget() == LEDSubsystem.PieceTarget.CUBE && (Limelight.getID() == 4 || Limelight.getID() == 5)){
             carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CUBE_STATION);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CUBE);
-        } else {
+        } else if (Limelight.getID() == 4 || Limelight.getID() == 5){
             carriageSubsystem.setSetpoint(CarriageConstants.CarriagePositions.CONE_DOUBLE);
             elevatorSubsystem.setPosition(ElevatorConstants.ElevatorPositions.DOUBLE_STATION_CONE);
         }
