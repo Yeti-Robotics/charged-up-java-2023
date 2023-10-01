@@ -10,12 +10,12 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
 
-public class AutoBalancingCommand extends CommandBase {
+public class AutoBalancingBangBangCommand extends CommandBase {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final PIDController pidController;
     private final Timer timer;
 
-    public AutoBalancingCommand(DrivetrainSubsystem drivetrainSubsystem) {
+    public AutoBalancingBangBangCommand(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pidController = new PIDController(
                 AutoConstants.PITCH_P,
@@ -36,15 +36,27 @@ public class AutoBalancingCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double val = -MathUtil.clamp(
-                pidController.calculate(
-                        drivetrainSubsystem.getPitch().getDegrees(), AutoConstants.PITCH_SET_POINT), -.6, .6);
+        double multiplier = 1;
 
         if (Math.abs(drivetrainSubsystem.getPose().getRotation().getDegrees()) >= 90.0) {
-            val = -val;
+            multiplier = -1;
         }
-        drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-                ChassisSpeeds.fromFieldRelativeSpeeds(val, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+
+        if (drivetrainSubsystem.getPitch().getDegrees() <= 12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if (drivetrainSubsystem.getPitch().getDegrees() >= -12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(0.6 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if (drivetrainSubsystem.getPitch().getDegrees() >= 12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(-0.2 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        }else if (drivetrainSubsystem.getPitch().getDegrees() <= -12) {
+            drivetrainSubsystem.drive(DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(0.2 * multiplier, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
+        } else {
+            drivetrainSubsystem.stop();
+        }
 
     }
 
@@ -59,5 +71,6 @@ public class AutoBalancingCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        drivetrainSubsystem.stop();
     }
 }

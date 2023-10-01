@@ -19,7 +19,7 @@ public final class ElevatorConstants {
      * Multiply encoder value; divide output
      */
     public static final double ELEVATOR_GEAR_RATIO = 1.0 / 7.75;
-    public static final double SPROCKET_DIAMETER = 1.344;
+    public static final double SPROCKET_DIAMETER = 1.114;
     public static final double SPROCKET_CIRCUMFERENCE = SPROCKET_DIAMETER * Math.PI;
     public static final double ELEVATOR_DISTANCE_PER_PULSE = SPROCKET_CIRCUMFERENCE /
             (TalonFXConstants.COUNTS_PER_REV / ELEVATOR_GEAR_RATIO);
@@ -28,7 +28,7 @@ public final class ElevatorConstants {
      * Number of elevator stages excluding the stationary stage
      */
     public static final int STAGES = 2;
-    public static final double STAGE_EXTENSION = 18.5;
+    public static final double STAGE_EXTENSION = 18.0;
     public static final double MAX_EXTENSION = STAGE_EXTENSION * STAGES;
 
     public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT = new SupplyCurrentLimitConfiguration(
@@ -36,16 +36,16 @@ public final class ElevatorConstants {
     public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT = new StatorCurrentLimitConfiguration(
             true, 40, 50, 0.1);
 
-    public static final double ELEVATOR_P = 0.08;
-    public static final double ELEVATOR_I = 0.007;
-    public static final double ELEVATOR_D = 0.02;
+    public static final double ELEVATOR_P = 0.07;
+    public static final double ELEVATOR_I = 0.00;
+    public static final double ELEVATOR_D = 0.03;
     public static final double ELEVATOR_F = 0.00;
-    public static final double GRAVITY_FEEDFORWARD = 0.09; //experimental value
+    public static final double GRAVITY_FEEDFORWARD = 0.05; //experimental value
 
-    public static final double MAX_VELOCITY = 6.0 / ELEVATOR_DISTANCE_PER_PULSE;
+    public static final double MAX_VELOCITY = 14 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double MAX_ACCEL = MAX_VELOCITY / 1.25;
 
-    public static final double ELEVATOR_TOLERANCE = 0.10 / ELEVATOR_DISTANCE_PER_PULSE;
+    public static final double ELEVATOR_TOLERANCE = 0.5 / ELEVATOR_DISTANCE_PER_PULSE;
 
     public static final double ELEVATOR_REVERSE_SOFT_LIMIT = 0 / ELEVATOR_DISTANCE_PER_PULSE;
     public static final double ELEVATOR_FORWARD_SOFT_LIMIT = STAGE_EXTENSION / ELEVATOR_DISTANCE_PER_PULSE;
@@ -54,9 +54,11 @@ public final class ElevatorConstants {
 
     public enum ElevatorPositions {
         DOWN(0),
-        CONE_HANDOFF(7.5),
-        LEVEL_TWO(15.5),
-        UP(MAX_EXTENSION - 1.0);
+        CONE_HANDOFF(4.5),
+        LEVEL_TWO(13.5),
+        DOUBLE_STATION_CONE(MAX_EXTENSION - 4.5),
+        DOUBLE_STATION_CUBE(19.0),
+        UP(MAX_EXTENSION);
 
         public final double distance;
         public final double sensorUnits;

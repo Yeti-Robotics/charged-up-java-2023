@@ -11,6 +11,8 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import dagger.Lazy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -18,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.drive.PIDAlignCommand;
 import frc.robot.constants.ArmConstants;
 import frc.robot.constants.AutoConstants.AutoModes;
 import frc.robot.constants.ElevatorConstants;
@@ -38,6 +39,7 @@ import java.util.List;
  * project.
  */
 public class Robot extends TimedRobot {
+    private static SendableChooser<AutoModes> autoChooser;
     @Inject
     RobotContainer robotContainer;
     @Inject
@@ -45,12 +47,12 @@ public class Robot extends TimedRobot {
     @Inject
     Lazy<RESTHandler> restHandler;
     private Command autonomousCommand;
-
-    private static SendableChooser<AutoModes> autoChooser;
     private AutoModes previousSelectedAuto;
     private DriverStation.Alliance previousAlliance = DriverStation.Alliance.Blue;
 
     public Robot() {
+        FieldConstants.aprilTagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
+        FieldConstants.updateAprilTagTranslations();
         RobotComponent robotComponent = DaggerRobotComponent.builder().build();
         robotComponent.inject(this);
         robotContainer.setRobotComponent(robotComponent);
@@ -63,37 +65,41 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        CameraServer.startAutomaticCapture();
-
         autoChooser = new SendableChooser<>();
-        autoChooser.setDefaultOption(AutoModes.TESTING.name, AutoModes.TESTING);
-        autoChooser.addOption(AutoModes.MIDDLE_BALANCE.name, AutoModes.MIDDLE_BALANCE);
-        autoChooser.addOption(AutoModes.SHOOT_BALANCE_TWO.name, AutoModes.SHOOT_BALANCE_TWO);
+        autoChooser.setDefaultOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
+        autoChooser.addOption(AutoModes.CONE_MOBILITY_BALANCE_TWO.name, AutoModes.CONE_MOBILITY_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.CUBE_MOBILITY_BALANCE_TWO.name, AutoModes.CUBE_MOBILITY_BALANCE_TWO);
         autoChooser.addOption(AutoModes.CONE_BALANCE_ONE.name, AutoModes.CONE_BALANCE_ONE);
         autoChooser.addOption(AutoModes.CONE_BALANCE_TWO.name, AutoModes.CONE_BALANCE_TWO);
         autoChooser.addOption(AutoModes.CONE_BALANCE_THREE.name, AutoModes.CONE_BALANCE_THREE);
-        autoChooser.addOption(AutoModes.TWO_PIECE_BALANCE_ONE.name, AutoModes.TWO_PIECE_BALANCE_ONE);
-        autoChooser.addOption(AutoModes.TWO_PIECE_BALANCE_TWO.name, AutoModes.TWO_PIECE_BALANCE_TWO);
-        autoChooser.addOption(AutoModes.TWO_PIECE_ONE.name, AutoModes.TWO_PIECE_ONE);
-        autoChooser.addOption(AutoModes.TWO_PIECE_TWO.name, AutoModes.TWO_PIECE_TWO);
-        autoChooser.addOption(AutoModes.CONE_ONE.name, AutoModes.CONE_ONE);
-        autoChooser.addOption(AutoModes.CONE_THREE.name, AutoModes.CONE_THREE);
-        autoChooser.addOption(AutoModes.SHOOT_BALANCE_THREE.name, AutoModes.SHOOT_BALANCE_THREE);
-        autoChooser.addOption(AutoModes.CONE_ONE_WAIT.name, AutoModes.CONE_ONE_WAIT);
-        autoChooser.addOption(AutoModes.CONE_THREE_WAIT.name, AutoModes.CONE_THREE_WAIT);
+        autoChooser.addOption(AutoModes.MID_TWO_PIECE_BALANCE_ONE.name, AutoModes.MID_TWO_PIECE_BALANCE_ONE);
+        autoChooser.addOption(AutoModes.MID_TWO_PICKUP_ONE.name, AutoModes.MID_TWO_PICKUP_ONE);
+        autoChooser.addOption(AutoModes.MID_TWO_PIECE_BALANCE_TWO.name, AutoModes.MID_TWO_PIECE_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.MID_TWO_PICKUP_BALANCE_TWO.name, AutoModes.MID_TWO_PICKUP_BALANCE_TWO);
+        autoChooser.addOption(AutoModes.HIGH_TWO_MID_TWO.name, AutoModes.HIGH_TWO_MID_TWO);
+        autoChooser.addOption(AutoModes.HIGH_TWO_BALANCE.name, AutoModes.HIGH_TWO_BALANCE);
+        autoChooser.addOption(AutoModes.MID_TWO_LOW_TWO.name, AutoModes.MID_TWO_LOW_TWO);
+        autoChooser.addOption(AutoModes.MID_TWO_LOW_ONE.name, AutoModes.MID_TWO_LOW_ONE);
+        autoChooser.addOption(AutoModes.THREE_CUBE_TWO.name, AutoModes.THREE_CUBE_TWO);
+        autoChooser.addOption(AutoModes.MID_TWO_TAXI_ONE.name, AutoModes.MID_TWO_TAXI_ONE);
         SmartDashboard.putData("Auto Chooser", autoChooser);
         previousSelectedAuto = autoChooser.getSelected();
+
+        List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
+                previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
+        autonomousCommand = autoBuilder.fullAuto(trajectory);
+        //genius-dash-controls (used to be <<<<<<< turned to comment to fix conflicts)
+        SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
+        SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
+        SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
 
         SmartDashboard.putData(robotContainer.drivetrainSubsystem);
         SmartDashboard.putData(robotContainer.armSubsystem);
         SmartDashboard.putData(robotContainer.carriageSubsystem);
         SmartDashboard.putData(robotContainer.elevatorSubsystem);
-        List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-                previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
-        autonomousCommand = autoBuilder.fullAuto(trajectory);
-        SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
-        SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
-        SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
+
+        robotContainer.ledSubsystem.setYetiBlue();
+        //development (used to be <<<<<<< turned to comment to fix conflicts)
     }
 
 
@@ -153,6 +159,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
         }
+        robotContainer.ledSubsystem.setConeYellow();
     }
 
 

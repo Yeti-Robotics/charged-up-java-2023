@@ -29,6 +29,7 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
 
         this.rollerMotor = rollerMotor;
         this.flipMotor = flipMotor;
+        zeroFlip();
     }
 
     @Override
@@ -65,6 +66,9 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
         flipMotor.set(ControlMode.MotionMagic, carriagePosition.sensorUnits, DemandType.ArbitraryFeedForward, FLIP_FEED_FORWARD);
     }
 
+    public boolean atSetpoint() {
+        return Math.abs(carriagePosition.angle - getAngle()) <= CarriageConstants.FLIP_TOLERANCE;
+    }
     //Check if correct method used
     public void flipOut() {
         flipMotor.set(TalonFXControlMode.PercentOutput, CarriageConstants.FLIP_SPEED);
@@ -85,7 +89,7 @@ public class CarriageSubsystem extends SubsystemBase implements Sendable {
     }
 
     public void zeroFlip() {
-        flipMotor.setSelectedSensorPosition(0.0);
+        flipMotor.setSelectedSensorPosition(2 / CarriageConstants.COUNTS_TO_DEGREES);
     }
     @Override
     public void initSendable(SendableBuilder builder) {

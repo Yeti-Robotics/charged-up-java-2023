@@ -7,15 +7,19 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
+import frc.robot.constants.OIConstants;
+import frc.robot.utils.GeometryUtils;
 import frc.robot.utils.Limelight;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
+import org.opencv.core.Mat;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,6 +30,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
     private final SwerveModulePosition[] positions;
     private final SwerveDrivePoseEstimator odometer;
     private final WPI_Pigeon2 gyro;
+    private double chuteOffset = -1.72;
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
 
     @Inject
@@ -89,6 +94,21 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
         backLeftModule.setDesiredState(desiredStates[2]);
         backRightModule.setDesiredState(desiredStates[3]);
     }
+    private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) { //Jimmy's 5727 2nd order swerve kinematics implementation <3
+        final double LOOP_TIME_S = 0.02;
+        Pose2d futureRobotPose =
+            new Pose2d(
+                originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
+                originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
+                Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
+        Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
+        ChassisSpeeds updatedSpeeds =
+            new ChassisSpeeds(
+                twistForPose.dx / LOOP_TIME_S,
+                twistForPose.dy / LOOP_TIME_S,
+                twistForPose.dtheta / LOOP_TIME_S);
+        return updatedSpeeds;
+    }
 
     public ChassisSpeeds getChassisSpeeds() {
         chassisSpeeds = DriveConstants.DRIVE_KINEMATICS.toChassisSpeeds(
@@ -97,7 +117,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
                 backLeftModule.getState(),
                 backRightModule.getState()
         );
-
+        chassisSpeeds = correctForDynamics(chassisSpeeds);
         return chassisSpeeds;
     }
 
@@ -105,6 +125,14 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
         drive(
                 DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds())
         );
+    }
+
+    public static double modifyAxis(double value, int pow) {
+        if (Math.abs(value) <= OIConstants.DEADBAND) {
+            return 0.0;
+        }
+
+        return Math.copySign(Math.pow(value, pow), value);
     }
 
     public void updateSwerveModulePositions() {
@@ -120,8 +148,16 @@ public class DrivetrainSubsystem extends SubsystemBase implements Sendable {
         odometer.update(getGyroscopeHeading(), positions);
     }
 
+    public double getChuteOffset() {
+        return -chuteOffset;
+    }
+
+    public void setChuteOffset(double offset) {
+        chuteOffset = Math.abs(offset);
+    }
     @Override
     public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty("Chute Offset", () -> getChuteOffset(), this::setChuteOffset);
         builder.addStringProperty("pose", () -> String.format("Pose (x,y): (%.2f, %.2f) Rotation(deg): %.2f", getPose().getX(), getPose().getY(), getPose().getRotation().getDegrees()), null);
     }
 }

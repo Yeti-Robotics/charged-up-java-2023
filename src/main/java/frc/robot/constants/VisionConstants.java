@@ -10,6 +10,16 @@ public final class VisionConstants {
 
     public static final double CENTER_LIMIT = 0.3;
 
+    public enum Pipeline {
+        DEFAULT(0),
+        CHUTE(1);
+
+        public final int value;
+        Pipeline(int value) {
+            this.value = value;
+        }
+    }
+
 //        public static final String VISION_PID_X = "pid controller x";
 //        public static final String VISION_PID_Y = "pid controller x";
 //        public static final String VISION_PID_ = "pid controller x";
