@@ -6,10 +6,16 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
@@ -77,6 +83,7 @@ public class RobotContainer {
                         elevatorSubsystem::getPosition
                 ));
         configureBindings();
+        SmartDashboard.putData(buttonHelper);
     }
 
     private void configureBindings() {
@@ -91,6 +98,7 @@ public class RobotContainer {
         buttonHelper.createButton(9, 0, new IntakeShootHighCommand(intakeSubsystem, armSubsystem, elevatorSubsystem)
                 .unless(() -> !elevatorSubsystem.isDown()), RunCondition.WHEN_PRESSED);
 
+        buttonHelper.createButton(5, 0, new StartEndCommand(() -> buttonHelper.setAllLayers(1), () -> buttonHelper.setAllLayers(0)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(2, 0, new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem), RunCondition.WHEN_PRESSED);
         buttonHelper.createButton(7, 0, new CycleElevatorPositionCommand(elevatorSubsystem, armSubsystem, carriageSubsystem, ledSubsystem), RunCondition.WHEN_PRESSED);
 

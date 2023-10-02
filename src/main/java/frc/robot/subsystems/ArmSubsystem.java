@@ -41,8 +41,7 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     }
 
     @Override
-    public void periodic() {
-    }
+    public void periodic() {}
 
     public void setPosition(ArmPositions position) {
         if (isBrakeEngaged) {

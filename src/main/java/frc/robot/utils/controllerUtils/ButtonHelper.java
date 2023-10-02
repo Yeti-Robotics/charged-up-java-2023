@@ -1,6 +1,13 @@
 package frc.robot.utils.controllerUtils;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.wpi.first.networktables.NTSendable;
+import edu.wpi.first.networktables.NTSendableBuilder;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import javax.inject.Inject;
@@ -11,10 +18,11 @@ import java.util.function.BooleanSupplier;
  * Creates, stores, and manages buttons.
  * All buttons created by ButtonHelper are MultiButtons
  */
-public class ButtonHelper {
+public class ButtonHelper implements NTSendable {
     private static final int maxAxis = 32;
     private static final int maxPOV = 16;
     private final Controller[] controllers;
+
     /**
      * Map of controllers and their associated button mappings
      */
@@ -29,6 +37,7 @@ public class ButtonHelper {
         }
 
         controller = controllers[0];
+        SendableRegistry.add(this, "ButtonHelper");
     }
 
     /**
@@ -91,7 +100,9 @@ public class ButtonHelper {
                 buttonID,
                 layer,
                 command,
-                runCondition);
+                runCondition,
+                // Pass this in so that it can be updated in NT when the button is updated
+                this);
 
         buttonMaps.get(controller).put(buttonID, multiButton);
         return multiButton;
@@ -112,7 +123,8 @@ public class ButtonHelper {
 
         MultiButton multiButton = new MultiButton(
                 supplier,
-                buttonID);
+                buttonID,
+                this);
 
         buttonMaps.get(controller).put(buttonID, multiButton);
         return multiButton;
@@ -354,5 +366,34 @@ public class ButtonHelper {
         BUTTON,
         AXIS,
         POV
+    }
+
+    /** Returns -1 if it failed */
+    public int getControllerNumber() {
+        int controllerNumber = -1;
+        for (int i = 0; i < controllers.length; i++) {
+            if (controllers[i] == this.controller) controllerNumber = i;
+        }
+        return controllerNumber;
+    }
+
+    @Override
+    public void initSendable(NTSendableBuilder builder) {
+        // Used to turn the MultiButton into JSON
+        final ObjectMapper serializer = new ObjectMapper();
+
+        HashMap<Byte, MultiButton> buttons = buttonMaps.get(controller);
+
+        // Allows genius dash to identify the buttonHelper topic
+        builder.addBooleanProperty("buttonHelper", () -> true, null);
+        buttons.forEach((buttonNumber, button) -> {
+            String id = buttonNumber.toString() + "-";
+            builder.addIntegerProperty(
+                    id + "layer",
+                    button::getButtonLayer,
+                    null
+            );
+            builder.addStringProperty(id + "command", () -> button.getCommand() != null ? button.getCommand().getName() : "No Command", null);
+        });
     }
 }

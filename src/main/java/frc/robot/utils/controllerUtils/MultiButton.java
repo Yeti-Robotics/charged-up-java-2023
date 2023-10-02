@@ -1,5 +1,8 @@
 package frc.robot.utils.controllerUtils;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -15,25 +18,30 @@ public class MultiButton {
     private final BooleanSupplier trigger;
     private final byte buttonID;
     private BiConsumer<Boolean, Boolean>[] buttonActions;
-    private boolean pressed;
+    private boolean pressed = false;
     private boolean pressedLast = false;
     private int layerCount;
     private int buttonLayer = 0;
+    private final ButtonHelper parent;
+    private final Command command;
 
     @SuppressWarnings("unchecked")
-    public MultiButton(BooleanSupplier trigger, byte buttonID, int layer, Command command, RunCondition runCondition) {
+    public MultiButton(BooleanSupplier trigger, byte buttonID, int layer, Command command, RunCondition runCondition, ButtonHelper parent) {
         this.trigger = trigger;
         this.buttonID = buttonID;
         this.layerCount = layer + 1;
+        this.parent = parent;
+        this.command = command;
         buttonActions = new BiConsumer[layerCount];
 
         CommandScheduler.getInstance().getDefaultButtonLoop().bind(this::updateButton);
 
         addLayer(layer, command, runCondition);
+        updateNetworkTables();
     }
 
-    public MultiButton(BooleanSupplier trigger, byte buttonID) {
-        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED);
+    public MultiButton(BooleanSupplier trigger, byte buttonID, ButtonHelper parent) {
+        this(trigger, buttonID, 0, new InstantCommand(() -> {}), RunCondition.WHEN_PRESSED, parent);
     }
 
     public static void syncLayers(int layer) {
@@ -79,23 +87,33 @@ public class MultiButton {
     public void setButtonLayer(int layer) {
         isLayersSynced = false;
         buttonLayer = layer % layerCount;
+        updateNetworkTables();
     }
 
     public void setAllLayers() {
         buttonLayer = syncLayer % layerCount;
+        updateNetworkTables();
     }
 
     public byte getButtonID() {
         return buttonID;
     }
 
+    @Override
+    public String toString() {
+        return ButtonHelper.buttonIDToString(buttonID);
+    }
+
     public boolean isPressed() {
         return pressed;
     }
 
-    @Override
-    public String toString() {
-        return ButtonHelper.buttonIDToString(buttonID);
+    public Command getCommand() {
+        return command;
+    }
+
+    private void updateNetworkTables() {
+        SendableRegistry.update(parent);
     }
 
     public enum RunCondition {

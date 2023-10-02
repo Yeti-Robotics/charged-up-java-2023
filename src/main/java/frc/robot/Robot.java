@@ -89,12 +89,17 @@ public class Robot extends TimedRobot {
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
 
+        SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
+        SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
+        SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
+
         SmartDashboard.putData(robotContainer.drivetrainSubsystem);
         SmartDashboard.putData(robotContainer.armSubsystem);
         SmartDashboard.putData(robotContainer.carriageSubsystem);
         SmartDashboard.putData(robotContainer.elevatorSubsystem);
 
         robotContainer.ledSubsystem.setYetiBlue();
+
     }
 
 
