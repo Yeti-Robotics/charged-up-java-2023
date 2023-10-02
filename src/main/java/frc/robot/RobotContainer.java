@@ -6,7 +6,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-//genius-dash-controls (used to be <<<<<<< turned to comment to fix conflicts)
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-//development (used to be <<<<<<< turned to comment to fix conflicts)
+
 import frc.robot.commands.ConeHandoffCommand;
 import frc.robot.commands.PoseWithVisionCommand;
 import frc.robot.commands.arm.DriverArmPositionCommand;
