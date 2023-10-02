@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
         List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
                 previousSelectedAuto.name, previousSelectedAuto.initConstraint, previousSelectedAuto.pathConstraints);
         autonomousCommand = autoBuilder.fullAuto(trajectory);
-        //genius-dash-controls (used to be <<<<<<< turned to comment to fix conflicts)
+
         SmartDashboard.putString("Elevator Position", ElevatorConstants.ElevatorPositions.values().toString());
         SmartDashboard.putString("Arm Position", ArmConstants.ArmPositions.values().toString());
         SmartDashboard.putNumber("Button Mode", robotContainer.buttonHelper.getAllLayers());
@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(robotContainer.elevatorSubsystem);
 
         robotContainer.ledSubsystem.setYetiBlue();
-        //development (used to be <<<<<<< turned to comment to fix conflicts)
+
     }
 
 
