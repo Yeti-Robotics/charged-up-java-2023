@@ -57,10 +57,15 @@ public class ChuteAlignCommand extends CommandBase {
         timer.reset();
         xController.reset();
         thetaController.reset();
-
+            targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
+//        targetX = FieldConstants.humanStationAprilTag.getX() + drivetrainSubsystem.getChuteOffset();
             targetX = FieldConstants.humanStationAprilTag.getX() + position.offset.getX();
 //        targetX = FieldConstants.humanStationAprilTag.getX() + drivetrainSubsystem.getChuteOffset();
 
+
+        if(drivetrainSubsystem.getPose().getRotation().getDegrees() > 90) {
+            targetTheta = Rotation2d.fromDegrees(0);
+        }
         targetTheta = position.offset.getRotation();
 
         if(DriverStation.getAlliance() == DriverStation.Alliance.Red) {
@@ -73,7 +78,23 @@ public class ChuteAlignCommand extends CommandBase {
 
     @Override
     public void execute() {
+        // Basically we check which side of the field we are on and depending on
+        // that we have to turn a different way to be facing towards the target
         Pose2d robotPose = drivetrainSubsystem.getPose();
+        double robotCurrTheta = robotPose.getRotation().getDegrees();
+        double currentXPosition = robotPose.getX();
+        double fieldWidthFeet = 120;  // Placeholder value
+
+        // Determine the robots current side of the field
+        if(currentXPosition > fieldWidthFeet/2) {
+            String currentSideOfField = "RIGHT";
+            targetTheta =  Rotation2d.fromDegrees(-45);
+        }
+        else {
+            String currentSideOfField = "LEFT";
+            targetTheta = Rotation2d.fromDegrees(45);
+        }
+
         double xSpeed = 0.0;
         double ySpeed = 0.0;
         double thetaSpeed = MathUtil.clamp(

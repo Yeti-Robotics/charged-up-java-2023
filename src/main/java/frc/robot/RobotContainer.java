@@ -6,6 +6,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -26,6 +27,8 @@ import frc.robot.constants.IntakeConstants;
 import frc.robot.di.RobotComponent;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
+import frc.robot.utils.MoveAndShootController;
+import frc.robot.commands.drive.ChuteAlignCommand;
 import frc.robot.utils.controllerUtils.ButtonHelper;
 import frc.robot.utils.controllerUtils.Controller;
 import frc.robot.utils.controllerUtils.ControllerContainer;
@@ -80,6 +83,8 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
+        buttonHelper.createButton(1, 0, new MoveAndShootController(), RunCondition.WHILE_HELD);
+        /*
         buttonHelper.createButton(1, 0, new IntakeRollInCommand(intakeSubsystem, 0.45)
                 .alongWith(new ConeInCubeOutCommand(carriageSubsystem)), RunCondition.WHILE_HELD);
         buttonHelper.createButton(6, 0, new IntakeRollOutCommand(intakeSubsystem, IntakeConstants.INTAKE_OUT_SPEED)
@@ -118,16 +123,20 @@ public class RobotContainer {
 
         buttonHelper.createButton(12, 0, new DriverArmPositionCommand(armSubsystem, elevatorSubsystem)
                 .beforeStarting(new SetElevatorDownCommand(elevatorSubsystem, armSubsystem, carriageSubsystem).unless(elevatorSubsystem::isDown)), RunCondition.WHEN_PRESSED);
+    */
     }
-
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
+
+    // IDFK how to run this shit apparently "It runs whenever you run auto" - Aarush Amehta
     public Command getAutonomousCommand() {
-        return new InstantCommand();
+        return new ChuteAlignCommand(
+                drivetrainSubsystem, ledSubsystem, carriageSubsystem, primaryController::getLeftY, AutoConstants.ALIGNMENT_POSITION.LEFT_DOUBLE_STATION
+        );
     }
 
     public RobotComponent getRobotComponent() {

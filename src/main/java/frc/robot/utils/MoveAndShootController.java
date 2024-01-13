@@ -5,10 +5,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.DrivetrainSubsystem;
 
-public class MoveAndShootController {
-    private final DrivetrainSubsystem drivetrainSubsystem;
+public class MoveAndShootController extends CommandBase {
+    public DrivetrainSubsystem drivetrainSubsystem;
     private boolean isControllerEnabled = false;
     private Pose2d robotPose;
 
@@ -18,7 +19,7 @@ public class MoveAndShootController {
     private Translation2d robotToTargetVector;
     private Translation2d movementVector;
 
-    public MoveAndShootController(DrivetrainSubsystem drivetrainSubsystem) {
+    public MoveAndShootController() {
         this.drivetrainSubsystem = drivetrainSubsystem;
     }
 
